@@ -1,6 +1,6 @@
 const TwoColSection = ({ heading, callToAction }) => {
   return (
-    <section className="my-40 flex flex-row items-start w-full max-w-windowed">
+    <section className="my-40 px-12 flex flex-row items-start w-full max-w-windowed gap-10">
       <h2 className="mb-3 w-1/3 leading-tight text-6xl font-bold text-primary-dark dark:text-primary-light">
         {heading || "Possible level two heading"}
       </h2>

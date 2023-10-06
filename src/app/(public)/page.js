@@ -5,6 +5,8 @@ import InfluencerSection from "@/components/InfluencerSection";
 import SplitThirdSection from "@/components/SplitThirdSection";
 import ThreeColSection from "@/components/ThreeColSection";
 import TwoColSection from "@/components/TwoColSection";
+import CallToActionSection from "@/components/CallToActionSection";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "My Pop Off",
@@ -24,6 +26,8 @@ export default function Home() {
       <SplitThirdSection />
       <ThreeColSection />
       <TwoColSection />
+      <CallToActionSection />
+      <Footer />
     </main>
   );
 }

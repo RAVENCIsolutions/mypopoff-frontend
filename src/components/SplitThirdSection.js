@@ -6,7 +6,7 @@ const SplitThirdSection = ({
   lefTtoRight,
 }) => {
   return (
-    <section className="mt-80 mb-40 flex flex-row items-center w-full max-w-windowed">
+    <section className="mt-80 mb-40 px-14 flex flex-row items-center w-full max-w-windowed gap-14">
       <article className="w-1/3">
         <h2 className="mb-3 leading-tight text-6xl font-bold text-primary-dark dark:text-primary-light">
           {heading || "Possible level two heading"}
@@ -20,7 +20,7 @@ const SplitThirdSection = ({
       </article>
 
       <article className="flex flex-grow justify-end">
-        <img className="" src={image || "https://placehold.co/700x600"} />
+        <img className="" src={image || "https://placehold.co/650x600"} />
       </article>
     </section>
   );

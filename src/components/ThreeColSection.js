@@ -1,6 +1,6 @@
 const ThreeColSection = ({ heading, firstImage, secondImage, thirdImage }) => {
   return (
-    <section className="my-40 flex flex-col w-full max-w-windowed">
+    <section className="my-40 px-14 flex flex-col w-full max-w-windowed">
       <h2 className="mb-12 leading-tight text-6xl font-bold text-primary-dark dark:text-primary-light">
         {heading || "First level two heading"}
       </h2>
