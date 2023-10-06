@@ -17,13 +17,13 @@ const DarkModeToggle = () => {
 
   return (
     <Flex gap="2">
-      <FiMoon size={20} color={theme === "dark" ? "#f7f5f3" : "#a4a4a4"} />
+      <FiMoon size={20} color={"#f7f5f3"} />
       <Switch
         color="gray"
         defaultChecked={theme !== "dark"}
         onCheckedChange={() => setTheme(theme === "dark" ? "light" : "dark")}
       />
-      <FiSun size={20} color={theme === "dark" ? "#6d6d6d" : "#202224"} />
+      <FiSun size={20} color={"#202224"} />
       {/*<button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>*/}
       {/*  {theme === "dark" ? (*/}
       {/*    <div className="flex items-center justify-center gap-2">*/}
