@@ -19,8 +19,6 @@ class DarkModeStore {
         "(prefers-color-scheme: dark)"
       ).matches;
       this.darkMode = prefersDarkMode ? "dark" : "";
-
-      console.log("no, here");
     }
 
     this.updateDarkMode();
