@@ -23,6 +23,7 @@ module.exports = {
       width: {
         windowed: "1200px",
         squeezed: "1000px",
+        thirty: "31%",
       },
       maxWidth: {
         windowed: "1200px",

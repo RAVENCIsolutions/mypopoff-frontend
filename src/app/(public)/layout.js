@@ -1,6 +1,6 @@
 "use client";
 
-import "./globals.css";
+import "./globals.scss";
 import "@radix-ui/themes/styles.css";
 import { darkModeContext } from "@/stores/DarkModeStore";
 import { observer } from "mobx-react";

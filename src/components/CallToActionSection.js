@@ -1,13 +1,13 @@
 const CallToActionSection = ({ heading, subheading, callToAction }) => {
   return (
-    <section className="mt-40 p-52 flex flex-col justify-center items-center w-full bg-secondary-light dark:bg-secondary-dark">
-      <h2 className="mb-4 text-5xl font-bold text-primary-light dark:text-primary-dark">
+    <section className="mt-14 md:mt-40 p-10 md:p-32 lg:p-52 flex flex-col justify-center items-center w-full bg-secondary-light dark:bg-secondary-dark text-center">
+      <h2 className="cta mb-4 font-bold text-primary-light dark:text-primary-dark">
         {heading || "Ready to flaunt your pop off?"}
       </h2>
-      <h3 className="mb-12 text-2xl text-primary-dark dark:text-primary-light">
+      <h3 className="mb-12 text-primary-dark dark:text-primary-light">
         {subheading || "Join thousands of other influencers"}
       </h3>
-      <button className="mt-12 px-16 py-5 bg-action hover:bg-action/90 rounded-full text-white dark:text-primary-dark text-2xl font-medium duration-300 transition-all">
+      <button className="mt-6 md:mt-10 lg:mt-20 px-8 md:px-10 lg:px-12 py-3 md:py-4T lg:py-6 bg-action hover:bg-action/90 rounded-full text-white dark:text-primary-dark text-lg md:text-xl lg:text-2xl font-medium duration-300 transition-all">
         {callToAction || "Get started for free"}
       </button>
     </section>

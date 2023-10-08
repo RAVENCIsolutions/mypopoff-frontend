@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+  @apply text-4xl;
+
+  @media screen and (min-width: 768px) {
+    @apply text-5xl;
+  }
+
+  @media screen and (min-width: 1024px) {
+    @apply text-7xl;
+  }
+}
+
+h2 {
+  @apply text-3xl;
+
+  @media screen and (min-width: 768px) {
+    @apply text-4xl;
+  }
+
+  @media screen and (min-width: 1024px) {
+    @apply text-6xl;
+    &.cta {
+      @apply text-5xl;
+    }
+  }
+}
+
+h3 {
+  @apply text-xl;
+
+  @media screen and (min-width: 768px) {
+    @apply text-2xl;
+  }
+
+  @media screen and (min-width: 1024px) {
+    @apply text-3xl;
+  }
+}
+
+h4 {
+  @apply text-lg;
+
+  @media screen and (min-width: 768px) {
+    @apply text-xl;
+  }
+
+  @media screen and (min-width: 1024px) {
+    @apply text-2xl;
+  }
+}
+
+p {
+  @apply text-lg;
+
+  @media screen and (min-width: 768px) {
+    @apply text-2xl;
+  }
+
+  @media screen and (min-width: 1024px) {
+    @apply text-3xl;
+  }
+}
