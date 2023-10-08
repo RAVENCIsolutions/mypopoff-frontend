@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -16,7 +17,8 @@ module.exports = {
         "secondary-dark": "#a4a4a4",
       },
       fontFamily: {
-        sans: ["agenda"],
+        sans: ["agenda", "sans-serif"],
+        body: ["agenda", "sans-serif"],
       },
       width: {
         windowed: "1200px",

@@ -1,24 +1,25 @@
+"use client";
+
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
+import { darkModeContext } from "@/stores/DarkModeStore";
+import { observer } from "mobx-react";
 
-import Providers from "@/providers/Providers";
-
-export const metadata = {
-  links: [
-    { rel: "icon", href: "/favicon.ico" },
-    { rel: "stylesheet", href: "https://use.typekit.net/oya4ufz.css" },
-  ],
-};
-
-export default function RootLayout({ children }) {
+const RootLayout = observer(({ children }) => {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-primary-light dark:bg-primary-dark">
-        <Theme>
-          <Providers>{children}</Providers>
-        </Theme>
+      <head>
+        <link rel="stylesheet" href="https://use.typekit.net/oya4ufz.css" />
+      </head>
+      <body
+        className={
+          darkModeContext.darkMode + " bg-primary-light dark:bg-primary-dark"
+        }
+      >
+        {children}
       </body>
     </html>
   );
-}
+});
+
+export default RootLayout;

@@ -13,11 +13,12 @@ const InfluencerSection = ({ data }) => {
     const scrollElement = scrollRef.current;
     let intervalId = null;
 
-    console.log(scrollRef.current);
-
     const scrollContent = () => {
       requestAnimationFrame(() => {
-        scrollElement.scrollLeft = scrollElement.scrollLeft + 0.75;
+        scrollElement.scrollTo({
+          left: scrollElement.scrollLeft + 1,
+          behavior: "auto",
+        });
 
         if (scrollElement.scrollLeft >= scrollElement.scrollWidth / 2) {
           scrollElement.scrollLeft = 0;

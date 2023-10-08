@@ -1,29 +1,36 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
+import { useState } from "react";
 import { FiMoon, FiSun } from "react-icons/fi";
-import { Flex, Switch } from "@radix-ui/themes";
+import Switch from "@mui/material/Switch";
+import { darkModeContext } from "@/stores/DarkModeStore";
+import { observer } from "mobx-react";
 
-const DarkModeToggle = () => {
-  const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+const DarkModeToggle = observer(() => {
+  const [checked, setChecked] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
+  const handleToggle = () => {
+    darkModeContext.toggleDarkMode();
+    setChecked(!checked);
+  };
 
   return (
-    <Flex gap="2">
-      <FiMoon size={20} />
-      <Switch
-        color="gray"
-        defaultChecked={theme !== "dark"}
-        onCheckedChange={() => setTheme(theme === "dark" ? "light" : "dark")}
+    <article className="flex flex-row items-center gap-2">
+      <FiMoon
+        size={20}
+        onClick={() => handleToggle()}
+        className="text-primary-dark dark:text-primary-light"
       />
-      <FiSun size={20} />
+      <Switch
+        color="warning"
+        checked={darkModeContext.darkMode !== "dark"}
+        onChange={() => handleToggle()}
+      />
+      <FiSun
+        size={20}
+        onClick={() => handleToggle()}
+        className="text-primary-dark dark:text-primary-light"
+      />
       {/*<button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>*/}
       {/*  {theme === "dark" ? (*/}
       {/*    <div className="flex items-center justify-center gap-2">*/}
@@ -37,8 +44,8 @@ const DarkModeToggle = () => {
       {/*    </div>*/}
       {/*  )}*/}
       {/*</button>*/}
-    </Flex>
+    </article>
   );
-};
+});
 
 export default DarkModeToggle;
