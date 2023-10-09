@@ -14,10 +14,6 @@ const DarkModeToggle = () => {
 
     const currentTheme = getCookie("theme");
     updateTheme(currentTheme);
-
-    return () => {
-      console.log("unmounting");
-    };
   }, []);
 
   const updateTheme = (value) => {
