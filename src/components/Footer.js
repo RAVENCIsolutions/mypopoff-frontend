@@ -1,6 +1,6 @@
 "use client";
 
-import DarkModeToggle from "@/utils/DarkModeToggle";
+import DarkModeToggle from "@/components/DarkModeToggle";
 import Link from "next/link";
 
 const Footer = () => {
