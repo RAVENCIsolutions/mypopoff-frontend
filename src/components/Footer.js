@@ -1,5 +1,3 @@
-"use client";
-
 import DarkModeToggle from "@/components/DarkModeToggle";
 import Link from "next/link";
 

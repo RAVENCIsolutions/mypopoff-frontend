@@ -7,16 +7,18 @@ import { getCookie } from "@/utils/utilities";
 
 const DarkModeToggle = () => {
   const [checked, setChecked] = useState(false);
-  const [theme, setTheme] = useState(getCookie("theme"));
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
+    if (typeof document === "undefined") return;
+
     const currentTheme = getCookie("theme");
-    setTheme(currentTheme);
-  }, []);
+    updateTheme(currentTheme);
 
-  useEffect(() => {
-    updateTheme(theme);
-  }, [theme]);
+    return () => {
+      console.log("unmounting");
+    };
+  }, []);
 
   const updateTheme = (value) => {
     const root = document.getElementsByTagName("html")[0];
@@ -32,8 +34,8 @@ const DarkModeToggle = () => {
     const root = document.getElementsByTagName("html")[0];
     root.classList.toggle("dark");
 
-    if (root.classList.contains("dark")) setTheme("dark");
-    else setTheme("light");
+    if (root.classList.contains("dark")) updateTheme("dark");
+    else updateTheme("light");
   };
 
   return (
