@@ -1,4 +1,5 @@
 import "./globals.scss";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const RootLayout = ({ children }) => {
   return (
@@ -6,9 +7,11 @@ const RootLayout = ({ children }) => {
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/oya4ufz.css" />
       </head>
-      <body className={"bg-primary-light dark:bg-primary-dark"}>
-        {children}
-      </body>
+      <ClerkProvider>
+        <body className={"bg-primary-light dark:bg-primary-dark"}>
+          {children}
+        </body>
+      </ClerkProvider>
     </html>
   );
 };
