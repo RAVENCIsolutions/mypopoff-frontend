@@ -7,11 +7,11 @@ const RootLayout = ({ children }) => {
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/oya4ufz.css" />
       </head>
-      <ClerkProvider>
-        <body className={"bg-primary-light dark:bg-primary-dark"}>
-          {children}
-        </body>
-      </ClerkProvider>
+      {/*<ClerkProvider>*/}
+      <body className={"bg-primary-light dark:bg-primary-dark"}>
+        {children}
+      </body>
+      {/*</ClerkProvider>*/}
     </html>
   );
 };
