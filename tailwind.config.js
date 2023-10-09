@@ -19,6 +19,7 @@ module.exports = {
       fontFamily: {
         sans: ["agenda", "sans-serif"],
         body: ["agenda", "sans-serif"],
+        display: ["bely-display", "sans-serif"],
       },
       width: {
         windowed: "1200px",
