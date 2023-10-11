@@ -1,4 +1,4 @@
-const TwoColSection = ({ heading, callToAction }) => {
+const SplitHalfSection = ({ heading, callToAction }) => {
   return (
     <section className="my-14 md:my-40 px-6 md:px-12 flex flex-col md:flex-row items-start w-full max-w-windowed gap-2 md:gap-10">
       <h2 className="mb-3 w-full md:w-1/3 leading-tight font-bold text-primary-dark dark:text-primary-light">
@@ -19,4 +19,4 @@ const TwoColSection = ({ heading, callToAction }) => {
   );
 };
 
-export default TwoColSection;
+export default SplitHalfSection;

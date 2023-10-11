@@ -1,6 +1,6 @@
 const HeroSection = ({ title, subtitle, callToAction }) => {
   return (
-    <section className="py-36 px-4 flex flex-col items-center justify-center bg-primary-light dark:bg-primary-dark text-center">
+    <section className="py-24 md:py-36 px-4 flex flex-col items-center justify-center bg-primary-light dark:bg-primary-dark text-center">
       <article className="mx-auto max-w-lg lg:max-w-squeezed">
         <h1 className="font-bold text-primary-dark dark:text-primary-light font-sans">
           {title}

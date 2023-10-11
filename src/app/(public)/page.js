@@ -3,7 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import InfluencerSection from "@/components/InfluencerSection";
 import SplitThirdSection from "@/components/SplitThirdSection";
 import ThreeColSection from "@/components/ThreeColSection";
-import TwoColSection from "@/components/TwoColSection";
+import SplitHalfSection from "@/components/SplitHalfSection";
 import CallToActionSection from "@/components/CallToActionSection";
 import Footer from "@/components/Footer";
 
@@ -24,7 +24,7 @@ export default function Home() {
       <InfluencerSection />
       <SplitThirdSection />
       <ThreeColSection />
-      <TwoColSection />
+      <SplitHalfSection />
       <CallToActionSection />
       <Footer />
     </main>

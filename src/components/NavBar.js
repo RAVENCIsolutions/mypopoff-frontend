@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CgCloseR, CgMenuBoxed } from "react-icons/cg";
+import Link from "next/link";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,7 +25,7 @@ const NavBar = () => {
       <div
         className={
           "absolute md:relative pl-6 pr-20 md:p-0 -top-10 md:top-0 right-0 flex flex-col md:flex-row items-start" +
-          " md:items-center justify-start md:justify-between gap-6 md:gap-0 bg-secondary-dark" +
+          " md:items-center justify-start md:justify-between gap-8 md:gap-0 bg-secondary-dark" +
           " dark:bg-secondary-light md:bg-transparent h-screen md:h-auto w-max md:w-full text-primary-dark dark:text-primary-light text-xl md:text-base transition-all duration-300 z-50 " +
           (menuOpen
             ? "translate-x-0"
@@ -43,12 +44,15 @@ const NavBar = () => {
           <li>Explore</li>
         </ul>
 
-        <ul className="mb-10 md:mb-0 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-2 text-primary-dark dark:text-primary-light">
+        <ul className="mb-10 md:mb-0 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-2 text-primary-dark dark:text-primary-light">
           <li>Login</li>
           <li>
-            <button className="py-2 px-4 bg-action rounded-full font-medium text-primary-light dark:text-primary-dark">
+            <Link
+              className="py-2 px-4 bg-action rounded-full font-medium text-primary-light dark:text-primary-dark"
+              href="/auth/register"
+            >
               Free Account
-            </button>
+            </Link>
           </li>
         </ul>
       </div>
