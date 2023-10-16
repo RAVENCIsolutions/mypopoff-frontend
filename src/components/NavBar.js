@@ -26,13 +26,15 @@ const NavBar = () => {
         className={
           "absolute md:relative pl-6 pr-20 md:p-0 -top-10 md:top-0 right-0 flex flex-col md:flex-row items-start" +
           " md:items-center justify-start md:justify-between gap-8 md:gap-0 bg-secondary-dark" +
-          " dark:bg-secondary-light md:bg-transparent h-screen md:h-auto w-max md:w-full text-primary-dark dark:text-primary-light text-xl md:text-base transition-all duration-300 z-50 " +
+          " dark:bg-secondary-light md:bg-transparent md:dark:bg-transparent h-screen md:h-auto w-max md:w-full" +
+          " text-primary-dark" +
+          " dark:text-primary-light text-xl md:text-base transition-all duration-300 z-50 " +
           (menuOpen
             ? "translate-x-0"
             : "translate-x-full" + " md:translate-x-0")
         }
       >
-        <div className="cursor-pointer absolute -left-12 top-7 text-primary-dark dark:text-primary-light z-50">
+        <div className="block md:hidden cursor-pointer absolute -left-12 top-7 text-primary-dark dark:text-primary-light z-50">
           {menuOpen ? (
             <CgCloseR size={26} onClick={() => setMenuOpen(false)} />
           ) : (
@@ -44,8 +46,15 @@ const NavBar = () => {
           <li>Explore</li>
         </ul>
 
-        <ul className="mb-10 md:mb-0 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-2 text-primary-dark dark:text-primary-light">
-          <li>Login</li>
+        <ul className="mb-10 md:mb-0 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-4 text-primary-dark dark:text-primary-light">
+          <li>
+            <Link
+              href="auth/login"
+              className="font-normal hover:font-bold transition-all duration-300"
+            >
+              Login
+            </Link>
+          </li>
           <li>
             <Link
               className="py-2 px-4 bg-action rounded-full font-medium text-primary-light dark:text-primary-dark"
@@ -57,9 +66,9 @@ const NavBar = () => {
         </ul>
       </div>
 
-      <div className="md:absolute flex flex-row items-center justify-between top-1/2 left-5 md:left-1/2 -translate-y-1/2 md:-translate-x-1/2 w-full md:w-auto z-40">
+      <div className="md:absolute flex flex-row items-center justify-between top-1/2 left-5 md:left-1/2 -translate-y-1/2 md:-translate-x-1/2 w-full md:w-auto z-50">
         <p className="text-lg text-primary-dark dark:text-primary-light font-bold font-display">
-          My Pop Off
+          <Link href="/">My Pop Off</Link>
         </p>
       </div>
     </nav>

@@ -15,6 +15,10 @@ module.exports = {
         "primary-dark": "#202224",
         "secondary-light": "#6d6d6d",
         "secondary-dark": "#a4a4a4",
+        "dashboard-primary-light": "#EAE7E4",
+        "dashboard-secondary-light": "#D5D0CA",
+        "dashboard-primary-dark": "#383532",
+        "dashboard-secondary-dark": "#2A2826",
       },
       fontFamily: {
         sans: ["agenda", "sans-serif"],

@@ -7,8 +7,22 @@ export const metadata = {
 
 export default function Register() {
   return (
-    <section className="flex items-center justify-center h-screen min-h-fit">
-      <SignIn />
+    <section className="flex items-center justify-center ">
+      <SignIn
+        signUpUrl="/auth/register"
+        appearance={{
+          elements: {
+            formFieldLabel: "font-sans text-sm font-light",
+            formFieldInput:
+              "font-sans text-base font-medium outline-active focus:shadow-lg transition-all duration-300",
+            socialButtonsBlockButtonText: "font-sans text-sm font-medium",
+            footerActionLink:
+              "text-action hover:text-action/70 transition-all duration-300",
+            formButtonPrimary:
+              "bg-action hover:bg-action/70 focus:shadow-none transition-all duration-300",
+          },
+        }}
+      />
     </section>
   );
 }
