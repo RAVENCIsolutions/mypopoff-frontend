@@ -26,6 +26,7 @@ module.exports = {
         display: ["bely-display", "sans-serif"],
       },
       width: {
+        auth: "400px",
         windowed: "1200px",
         squeezed: "1000px",
         thirty: "31%",
@@ -33,6 +34,9 @@ module.exports = {
       maxWidth: {
         windowed: "1200px",
         squeezed: "1000px",
+      },
+      minHeight: {
+        auth: "342px",
       },
     },
   },

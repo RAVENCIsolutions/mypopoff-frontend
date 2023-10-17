@@ -5,9 +5,27 @@ import { FiMoon, FiSun } from "react-icons/fi";
 import Switch from "@mui/material/Switch";
 import { getCookie } from "@/utils/utilities";
 
-const DarkModeToggle = () => {
+const DarkModeToggle = ({ size = "l" }) => {
   const [checked, setChecked] = useState(false);
   const [theme, setTheme] = useState("dark");
+
+  const sizing = {
+    s: {
+      iconSize: 16,
+      switchSize: "small",
+      gap: "gap-0",
+    },
+    m: {
+      iconSize: 18,
+      switchSize: "",
+      gap: "gap-0",
+    },
+    l: {
+      iconSize: 20,
+      switchSize: "",
+      gap: "gap-1",
+    },
+  };
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -35,19 +53,20 @@ const DarkModeToggle = () => {
   };
 
   return (
-    <article className="flex flex-row items-center gap-2">
+    <article className={"flex flex-row items-center " + sizing[size].gap}>
       <FiMoon
-        size={20}
+        size={sizing[size].iconSize}
         onClick={() => toggleTheme()}
         className="text-primary-dark dark:text-primary-light"
       />
       <Switch
         color="warning"
         checked={checked}
+        size={sizing[size].switchSize}
         onChange={() => toggleTheme()}
       />
       <FiSun
-        size={20}
+        size={sizing[size].iconSize}
         onClick={() => toggleTheme()}
         className="text-primary-dark dark:text-primary-light"
       />
