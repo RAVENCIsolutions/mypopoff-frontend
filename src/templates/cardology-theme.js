@@ -53,11 +53,11 @@ const CardologyTheme = () => {
     {
       title: "Socials",
       content: (
-        <>
+        <div className="flex justify-center items-center gap-4 w-full h-full">
           <BiLogoFacebookCircle size={30} className="text-stone-900" />
           <BiLogoInstagramAlt size={30} className="text-stone-900" />
           <BiLogoTwitch size={30} className="text-stone-900" />
-        </>
+        </div>
       ),
     },
   ];
@@ -74,7 +74,7 @@ const CardologyTheme = () => {
             }`}
           >
             <div
-              className="inline-flex items-center justify-center w-9 h-full bg-stone-700 shadow-xl shadow-black/80 border-2 border-stone-500 [writing-mode:vertical-lr] rotate-180 uppercase tracking-wider text-white"
+              className="cursor-pointer inline-flex items-center justify-center w-9 h-full bg-stone-700 hover:bg-stone-600 rounded-l-2xl shadow-xl shadow-black/80 border-2 border-stone-500 [writing-mode:vertical-lr] rotate-180 uppercase tracking-wider text-white transition-all duration-300"
               onClick={() => {
                 if (currentCard === index) {
                   setCurrentCard(index === 0 ? 0 : index - 1);

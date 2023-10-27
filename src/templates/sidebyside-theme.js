@@ -6,7 +6,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
-const ThemeName = () => {
+const SideBySideTheme = () => {
   const sampleLinks = [
     { url: "/", title: "Book a Free Consultation" },
     { url: "/", title: "My Website" },
@@ -15,9 +15,9 @@ const ThemeName = () => {
   ];
 
   return (
-    <main className="px-2 sm:px-10 py-10 flex flex-col items-center justify-center h-screen min-h-fit bg-stone-100">
+    <main className="p-4 md:p-10 flex items-center justify-center h-screen min-h-fit bg-neutral-200">
       {/* Image */}
-      <section className="mb-8">
+      <section className="w-full h-full bg-white">
         <img
           className="mb-3 w-32 h-32 rounded-full shadow-lg shadow-black/40 bg-dashboard-primary-dark object-cover object-top"
           src="https://pixabay.com/get/gf4571bd937925f3f2842f350bd24e271e8d7754da107790077aa0a33e95574e7c74036aeae9b3bcda9301912b9f7ce9c_640.jpg"
@@ -57,4 +57,4 @@ const ThemeName = () => {
   );
 };
 
-export default ThemeName;
+export default SideBySideTheme;

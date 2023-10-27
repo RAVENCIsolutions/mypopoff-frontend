@@ -9,12 +9,14 @@ import CardologyTheme from "@/templates/cardology-theme";
 
 import "../(public)/globals.scss";
 import VelvetographyTheme from "@/templates/velvetography-theme";
+import SideBySideTheme from "@/templates/sidebyside-theme";
 
 export default function TemplateTest({ theme = "flatMode" }) {
   const themes = {
     cardology: { name: "Cardology", component: <CardologyTheme /> },
     flatMode: { name: "Flat Mode", component: <FlatModeTheme /> },
     neoBrutalism: { name: "Neobrutalism", component: <NeoBrutalismTheme /> },
+    sideBySide: { name: "Side-by-Side", component: <SideBySideTheme /> },
     velvetography: { name: "Velvetography", component: <VelvetographyTheme /> },
     zenSpace: { name: "Zen Space", component: <ZenSpaceTheme /> },
   };

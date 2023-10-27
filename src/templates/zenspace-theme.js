@@ -7,8 +7,11 @@ import {
 } from "react-icons/bi";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 
 const ZenSpaceTheme = () => {
+  const [isHovering, setIsHovering] = useState(null);
+
   const sampleLinks = [
     { url: "/", title: "Book a Retreat" },
     { url: "/", title: "My Website" },
@@ -17,32 +20,41 @@ const ZenSpaceTheme = () => {
   ];
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen min-h-fit bg-stone-100 font-amatic font-normal">
+    <main className="p-3 flex flex-col items-center justify-center h-screen min-h-fit bg-stone-100 font-amatic font-normal">
       {/* Image */}
       <section className="mb-20">
-        <h1 className="text-4xl text-center">
+        <h1 className="text-4xl md:text-6xl text-center">
           Hi, I'm <span className="text-rose-600">username</span>
         </h1>
       </section>
 
       {/* Links */}
-      <section className="mb-10 w-40">
-        <ul className="mx-auto flex flex-col gap-8 w-full max-w-xs">
+      <section className="mb-10 w-full">
+        <ul className="mx-auto flex flex-col items-center gap-8 w-full">
           {sampleLinks.map((link, index) => (
             <Link
               key={index}
               className="cursor-pointer transition-all duration-300"
               href={link.url}
             >
-              <li className="flex items-center gap-2 text-lg hover:text-rose-600 hover:font-bold transition-all duration-500">
-                <BiCircle size={16} className="text-stone-800" /> {link.title}
+              <li
+                className="flex items-center gap-2 text-xl md:text-3xl font-bold hover:text-rose-600 transition-all duration-500"
+                onMouseEnter={() => setIsHovering(index)}
+                onMouseLeave={() => setIsHovering(null)}
+              >
+                {isHovering === index ? (
+                  <BiSolidCircle className="text-xs md:text-base text-rose-600 transition-all duration-1000" />
+                ) : (
+                  <BiCircle className="text-xs md:text-base text-stone-800" />
+                )}{" "}
+                {link.title}
               </li>
             </Link>
           ))}
         </ul>
       </section>
 
-      <footer className="absolute bottom-3 text-sm text-stone-500">
+      <footer className="absolute bottom-3 text-lg text-stone-500">
         Copyright © {new Date().getFullYear()}. My Pop Off
       </footer>
     </main>
