@@ -1,10 +1,8 @@
 import "../(public)/globals.scss";
 import { ClerkProvider } from "@clerk/nextjs";
 import DashboardNavigation from "@/components/DashboardNavigation";
-import DarkModeToggle from "@/components/DarkModeToggle";
-import { CgCoffee } from "react-icons/cg";
 
-export default function RootLayout({ children }) {
+export default function MeLayout({ children }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>

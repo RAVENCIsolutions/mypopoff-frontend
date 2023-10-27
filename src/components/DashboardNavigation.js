@@ -56,8 +56,9 @@ const DashboardNavigation = () => {
           <Link href="/">My Pop Off</Link>
         </p>
         <ul className="flex flex-col gap-8">
-          {topLinks.map((link) => (
+          {topLinks.map((link, index) => (
             <Link
+              key={index}
               href={link.route}
               className={
                 "flex gap-3 items-center hover:text-action hover:font-bold transition-all duration-300" +
@@ -72,8 +73,9 @@ const DashboardNavigation = () => {
       <section>
         <ul className="flex flex-col gap-8">
           <DarkModeToggle size={"s"} />
-          {bottomLinks.map((link) => (
+          {bottomLinks.map((link, index) => (
             <Link
+              key={index}
               href={link.route}
               className="flex gap-3 items-center hover:text-action hover:font-bold transition-all duration-300"
             >

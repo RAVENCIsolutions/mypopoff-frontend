@@ -8,7 +8,7 @@ import CallToActionSection from "@/components/CallToActionSection";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "My Pop Off - Search, Browse, Create",
+  title: "The link in bio tool with a bang | My Pop Off",
   description: "Search, browse and create your Pop off landing page for free!",
 };
 

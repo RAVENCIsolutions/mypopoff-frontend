@@ -2,9 +2,11 @@
 
 module.exports = {
   content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/templates/*.{js,ts,jsx,tsx,mdx}",
   ],
   darkMode: "class",
   theme: {
@@ -24,6 +26,16 @@ module.exports = {
         sans: ["agenda", "sans-serif"],
         body: ["agenda", "sans-serif"],
         display: ["bely-display", "sans-serif"],
+        abril: ["abril", "sans-serif"],
+        alegreya: ["alegreya-sans", "sans-serif"],
+        amatic: ["amatic-sc", "sans-serif"],
+        anton: ["anton", "sans-serif"],
+        bebasNeue: ["bebas-neue", "sans-serif"],
+        bodoni: ["bodoni-urw", "serif"],
+        calluna: ["calluna", "serif"],
+        newSpirit: ["new-spirit", "serif"],
+        proximaNova: ["proxima-nova-condensed", "sans-serif"],
+        vistaSlab: ["vista-slab", "serif"],
       },
       width: {
         auth: "400px",
@@ -37,6 +49,9 @@ module.exports = {
       },
       minHeight: {
         auth: "342px",
+      },
+      boxShadow: {
+        neobrutalism: "4px 6px 0 black",
       },
     },
   },

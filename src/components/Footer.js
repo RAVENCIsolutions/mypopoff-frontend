@@ -28,6 +28,7 @@ const Footer = () => {
             size={18}
             className="text-secondary-dark dark:text-secondary-light hover:text-action hover:dark:text-action transition-all duration-200"
           />
+          My Pop Off
         </p>
         <ul className="pb-6 sm:pb-0 flex flex-row justify-between sm:justify-end gap-0 sm:gap-10 w-full font-medium text-secondary-dark dark:text-secondary-light">
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">

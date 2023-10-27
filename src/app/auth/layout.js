@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CgCoffee } from "react-icons/cg";
 import { Skeleton } from "@mui/material";
 
-const RootLayout = ({ children }) => {
+export default function AuthLayout({ children }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
@@ -74,12 +74,11 @@ const RootLayout = ({ children }) => {
                 size={20}
                 className="text-secondary-light hover:text-action transition-all duration-200"
               />
+              My Pop Off
             </footer>
           </main>
         </body>
       </ClerkProvider>
     </html>
   );
-};
-
-export default RootLayout;
+}

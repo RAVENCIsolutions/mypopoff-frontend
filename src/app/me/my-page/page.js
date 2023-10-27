@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "My Landing Page",
+  title: "My Landing Page | My Pop Off",
   description:
     "Create and manage your own Pop Off with our easy to use dashboard.",
 };
