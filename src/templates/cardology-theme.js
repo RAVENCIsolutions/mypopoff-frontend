@@ -72,7 +72,7 @@ const CardologyTheme = () => {
       <section className="flex flex-col md:flex-row items-center justify-center w-full h-full md:h-96 rounded-2xl">
         {cards.map((card, index) => (
           <article
-            className={`relative h-full bg-white transition-all duration-1000 shadow-xl shadow-black/10 overflow-hidden h-full ${
+            className={`relative bg-white transition-all duration-1000 shadow-xl shadow-black/10 overflow-hidden h-full ${
               currentCard === index
                 ? "w-full md:w-[36rem]"
                 : "w-full md:w-8 h-8 md:h-full"
