@@ -15,42 +15,48 @@ const SideBySideTheme = () => {
   ];
 
   return (
-    <main className="p-4 md:p-10 flex items-center justify-center h-screen min-h-fit bg-neutral-200">
+    <main className="pt-0 sm:pt-6 md:pt-16 pb-20 md:pb-16 px-0 sm:px-6 md:px-16 flex items-center justify-center w-full h-screen bg-neutral-200 font-barlowCondensed text-stone-800">
       {/* Image */}
-      <section className="w-full h-full bg-white">
-        <img
-          className="mb-3 w-32 h-32 rounded-full shadow-lg shadow-black/40 bg-dashboard-primary-dark object-cover object-top"
-          src="https://pixabay.com/get/gf4571bd937925f3f2842f350bd24e271e8d7754da107790077aa0a33e95574e7c74036aeae9b3bcda9301912b9f7ce9c_640.jpg"
-          alt="Influencer Username"
-        />
-        <p className="font-medium text-lg text-center tracking-wide text-rose-600">
-          username
-        </p>
-      </section>
+      <article className="flex flex-col-reverse md:flex-row w-full h-full bg-white">
+        {/* Links */}
+        <section className="p-6 pb-10 lg:pb-10 md:p-10 block md:flex flex-col justify-center w-full md:w-1/2 h-1/2 md:h-full overflow-y-auto">
+          <h1 className="mb-2 font-bold text-4xl uppercase tracking-wide">
+            Username
+          </h1>
+          <h2 className="mb-12 font-light text-xl uppercase">Free Traveler</h2>
+          <p className="mb-12 text-xl max-w-xs">
+            This is a small block of text about the user who owns this
+            particular profile.
+          </p>
+          <ul className="flex flex-col gap-4 items-stretch justify-start w-fit text-left md:text-center tracking-wide">
+            {sampleLinks.map((link, index) => (
+              <Link
+                key={index}
+                className="cursor-pointer py-2 px-6 hover:bg-stone-800 border-2 border-stone-800 uppercase hover:text-stone-50 transition-all duration-300"
+                href={link.url}
+              >
+                <li>{link.title}</li>
+              </Link>
+            ))}
+          </ul>
+        </section>
 
-      {/* Links */}
-      <section className="mb-10 w-full">
-        <ul className="mx-auto flex flex-col gap-4 items-center text-center w-full font-sans tracking-wide">
-          {sampleLinks.map((link, index) => (
-            <Link
-              key={index}
-              className="cursor-pointer py-2 px-5 w-full max-w-xs bg-rose-600 rounded-full text-stone-100 hover:shadow-md hover:shadow-black/30 hover:scale-105 transition-all duration-300"
-              href={link.url}
-            >
-              <li>{link.title}</li>
-            </Link>
-          ))}
-        </ul>
-      </section>
+        <section className="w-full md:w-1/2 h-1/2 md:h-full">
+          <img
+            className="w-full h-full object-cover object-center object-center"
+            src="/images/templates/sideBySide_main.jpg"
+            alt="Influencer Username"
+          />
+        </section>
+      </article>
 
-      {/* Social Media */}
-      <section className="flex flex-row gap-4">
-        <BiLogoFacebookCircle size={30} className="text-stone-900" />
-        <BiLogoInstagramAlt size={30} className="text-stone-900" />
-        <BiLogoTwitch size={30} className="text-stone-900" />
-      </section>
-
-      <footer className="absolute bottom-3 text-sm text-stone-500">
+      <footer className="px-4 md:px-16 absolute bottom-3 flex flex-col md:flex-row items-center justify-between gap-1 md:gap-0 w-full text-base text-neutral-500">
+        {/* Social Media */}
+        <section className="flex flex-row gap-4">
+          <BiLogoFacebookCircle size={24} className="text-neutral-500" />
+          <BiLogoInstagramAlt size={24} className="text-neutral-500" />
+          <BiLogoTwitch size={24} className="text-neutral-500" />
+        </section>
         Copyright © {new Date().getFullYear()}. My Pop Off
       </footer>
     </main>

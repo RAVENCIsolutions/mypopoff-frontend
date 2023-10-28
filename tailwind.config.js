@@ -30,6 +30,7 @@ module.exports = {
         alegreya: ["AlegreyaSans", "sans-serif"],
         amatic: ["AmaticSC", "sans-serif"],
         anton: ["Anton", "sans-serif"],
+        barlowCondensed: ["BarlowCondensed", "sans-serif"],
         bebasNeue: ["bebas-neue", "sans-serif"],
         bodoni: ["bodoni-urw", "serif"],
         calluna: ["calluna", "serif"],

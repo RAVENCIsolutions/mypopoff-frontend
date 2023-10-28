@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import ThemeName from "@/templates/ThemeName";
 import ZenSpaceTheme from "@/templates/zenspace-theme";
 import FlatModeTheme from "@/templates/flatmode-theme";
 import NeoBrutalismTheme from "@/templates/neobrutalism-theme";
@@ -24,7 +23,7 @@ export default function TemplateTest({ theme = "flatMode" }) {
   const [currentTheme, setCurrentTheme] = useState(theme);
 
   return (
-    <div>
+    <section>
       {themes[currentTheme]?.component || "Theme not found"}
       <div className="fixed top-3 left-3">
         <select
@@ -38,6 +37,6 @@ export default function TemplateTest({ theme = "flatMode" }) {
           ))}
         </select>
       </div>
-    </div>
+    </section>
   );
 }

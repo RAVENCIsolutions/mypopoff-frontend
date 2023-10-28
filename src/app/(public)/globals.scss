@@ -84,6 +84,20 @@
   font-style: normal;
 }
 
+/* Barlow Condensed variants */
+@font-face {
+  font-family: 'BarlowCondensed';
+  src: url('/fonts/BarlowCondensed-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'BarlowCondensed';
+  src: url('/fonts/BarlowCondensed-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
 h1 {
   @apply text-4xl;
 
