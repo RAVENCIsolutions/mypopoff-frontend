@@ -9,13 +9,19 @@ import CardologyTheme from "@/templates/cardology-theme";
 import "../(public)/globals.scss";
 import VelvetographyTheme from "@/templates/velvetography-theme";
 import SideBySideTheme from "@/templates/sidebyside-theme";
+import TakeMyAwayTheme from "@/templates/takemeaway-theme";
+import BombastikTheme from "@/templates/bombastik-theme";
+import LapisAzuliTheme from "@/templates/lapisazuli-theme";
 
 export default function TemplateTest({ theme = "flatMode" }) {
   const themes = {
+    bombastik: { name: "Bombastik", component: <BombastikTheme /> },
     cardology: { name: "Cardology", component: <CardologyTheme /> },
     flatMode: { name: "Flat Mode", component: <FlatModeTheme /> },
+    lapisAzuli: { name: "Lapis Azuli", component: <LapisAzuliTheme /> },
     neoBrutalism: { name: "Neobrutalism", component: <NeoBrutalismTheme /> },
     sideBySide: { name: "Side-by-Side", component: <SideBySideTheme /> },
+    takeMeAway: { name: "Take Me Away", component: <TakeMyAwayTheme /> },
     velvetography: { name: "Velvetography", component: <VelvetographyTheme /> },
     zenSpace: { name: "Zen Space", component: <ZenSpaceTheme /> },
   };
