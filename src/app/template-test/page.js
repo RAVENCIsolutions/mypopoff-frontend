@@ -12,6 +12,7 @@ import SideBySideTheme from "@/templates/sidebyside-theme";
 import TakeMyAwayTheme from "@/templates/takemeaway-theme";
 import BombastikTheme from "@/templates/bombastik-theme";
 import LapisAzuliTheme from "@/templates/lapisazuli-theme";
+import ModernNewsprintTheme from "@/templates/modernnewsprint-theme";
 
 export default function TemplateTest({ theme = "flatMode" }) {
   const themes = {
@@ -19,6 +20,10 @@ export default function TemplateTest({ theme = "flatMode" }) {
     cardology: { name: "Cardology", component: <CardologyTheme /> },
     flatMode: { name: "Flat Mode", component: <FlatModeTheme /> },
     lapisAzuli: { name: "Lapis Azuli", component: <LapisAzuliTheme /> },
+    modernNewsprint: {
+      name: "Modern Newsprint",
+      component: <ModernNewsprintTheme />,
+    },
     neoBrutalism: { name: "Neobrutalism", component: <NeoBrutalismTheme /> },
     sideBySide: { name: "Side-by-Side", component: <SideBySideTheme /> },
     takeMeAway: { name: "Take Me Away", component: <TakeMyAwayTheme /> },
