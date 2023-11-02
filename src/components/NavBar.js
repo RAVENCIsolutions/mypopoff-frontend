@@ -49,7 +49,7 @@ const NavBar = () => {
         <ul className="mb-10 md:mb-0 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-4 text-primary-dark dark:text-primary-light">
           <li>
             <Link
-              href="auth/login"
+              href="/login"
               className="font-normal hover:font-bold transition-all duration-300"
             >
               Login
@@ -58,7 +58,7 @@ const NavBar = () => {
           <li>
             <Link
               className="py-2 px-4 bg-action rounded-full font-medium text-primary-light dark:text-primary-dark"
-              href="/auth/register"
+              href="/register"
             >
               Free Account
             </Link>

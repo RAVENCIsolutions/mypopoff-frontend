@@ -14,7 +14,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-start bg-primary-light dark:bg-primary-dark overflow-hidden">
+    <main className="flex flex-col items-center justify-start overflow-hidden">
       <NavBar />
       <HeroSection
         title="The world's most creative influencers in one place"

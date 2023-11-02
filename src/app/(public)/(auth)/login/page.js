@@ -7,9 +7,9 @@ export const metadata = {
 
 export default function Register() {
   return (
-    <section className="flex items-center justify-center ">
+    <section className="flex items-center justify-center">
       <SignIn
-        signUpUrl="/auth/register"
+        signUpUrl="/register"
         appearance={{
           elements: {
             formFieldLabel: "font-sans text-sm font-light",
