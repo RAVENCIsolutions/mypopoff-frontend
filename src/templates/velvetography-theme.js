@@ -26,7 +26,7 @@ const VelvetographyTheme = () => {
       </section>
 
       {/* Links */}
-      <section className="p-10 pb-24 relative flex flex-col items-center justify-center w-full border-2 h-fit md:h-full overflow-y-auto">
+      <section className="size={15} pb-24 relative flex flex-col items-center justify-center w-full border-2 h-fit md:h-full overflow-y-auto">
         <article className="mb-8">
           <h1 className="font-proximaNova font-black text-5xl text-center text-stone-900">
             Username

@@ -98,6 +98,30 @@
   font-style: normal;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 9px;
+  transition: all 0.3s ease;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  //background: rgba(241, 241, 241, 0.5);
+  @apply bg-neutral-100/50;
+  @apply shadow-xl;
+  @apply shadow-black/20;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-action/80;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-action;
+}
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
 }

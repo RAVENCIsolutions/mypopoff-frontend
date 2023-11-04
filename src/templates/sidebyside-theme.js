@@ -19,7 +19,7 @@ const SideBySideTheme = () => {
       {/* Image */}
       <article className="flex flex-col-reverse md:flex-row w-full h-full bg-white">
         {/* Links */}
-        <section className="p-6 pb-10 lg:pb-10 md:p-10 block md:flex flex-col justify-center w-full md:w-1/2 h-1/2 md:h-full overflow-y-auto">
+        <section className="p-6 pb-10 lg:pb-10 md:p-6 block md:flex flex-col justify-center w-full md:w-1/2 h-1/2 md:h-full overflow-y-auto">
           <h1 className="mb-2 font-bold text-4xl uppercase tracking-wide">
             Username
           </h1>

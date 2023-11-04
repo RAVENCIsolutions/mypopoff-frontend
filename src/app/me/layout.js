@@ -11,11 +11,11 @@ export default function MeLayout({ children }) {
       <ClerkProvider
         publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
       >
-        <body className="p-4 sm:p-6 flex flex-col sm:flex-row items-stretch w-full h-screen min-h-fit bg-primary-light dark:bg-primary-dark">
+        <body className="p-0 sm:p-6 flex flex-col sm:flex-row items-stretch w-full h-screen min-h-fit bg-primary-light dark:bg-primary-dark">
           <DashboardNavigation />
 
           <section className="ml-0 sm:ml-6 flex flex-col w-full h-full">
-            <main className="w-full h-full bg-dashboard-primary-light dark:bg-dashboard-primary-dark rounded-3xl shadow-xl shadow-black/40 overflow-hidden">
+            <main className="w-full h-full bg-dashboard-primary-light dark:bg-dashboard-primary-dark rounded-none sm:rounded-3xl shadow-xl shadow-black/40 sm:overflow-hidden">
               {children}
             </main>
           </section>

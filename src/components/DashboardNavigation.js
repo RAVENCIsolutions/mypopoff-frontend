@@ -50,11 +50,11 @@ const DashboardNavigation = () => {
   ];
 
   return (
-    <nav className="pb-6 flex flex-col w-full sm:w-1/6 min-w-max text-primary-dark dark:text-primary-light font-light font-base">
+    <nav className="p-4 sm:p-0 pb-6 flex flex-col w-full sm:w-1/6 min-w-max text-primary-dark dark:text-primary-light font-light font-base">
       <p className="pb-6 sm:pb-12 text-base sm:text-lg text-action dark:text-action font-bold font-display">
         <Link href="/">My Pop Off</Link>
       </p>
-      <div className="flex flex-row sm:flex-col justify-around sm:justify-between h-auto sm:h-full">
+      <div className="flex flex-row sm:flex-col sm:justify-between h-auto sm:h-full">
         <section className="w-1/2 sm:w-auto">
           <ul className="flex flex-row sm:flex-col justify-around sm:justify-start sm:gap-8">
             {topLinks.map((link, index) => (
@@ -62,7 +62,7 @@ const DashboardNavigation = () => {
                 key={index}
                 href={link.route}
                 className={
-                  "flex flex-col sm:flex-row gap-2 sm:gap-3 items-center hover:text-action hover:font-bold" +
+                  "flex flex-col sm:flex-row gap-2 sm:gap-3 items-center hover:text-action" +
                   " transition-all duration-300" +
                   (pathname === link.route ? " active" : "")
                 }
@@ -84,7 +84,7 @@ const DashboardNavigation = () => {
               <Link
                 key={index}
                 href={link.route}
-                className="flex gap-3 items-center hover:text-action hover:font-bold transition-all duration-300"
+                className="flex gap-3 items-center hover:text-action transition-all duration-300"
               >
                 {link.icon}{" "}
                 <span className="text-sm sm:text-base hidden sm:block">
