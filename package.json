@@ -13,7 +13,7 @@
     "@clerk/themes": "^1.7.7",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.12",
+    "@mui/material": "^5.14.16",
     "@radix-ui/themes": "^2.0.0",
     "axios": "^1.6.0",
     "mobx": "^6.10.2",

@@ -9,10 +9,8 @@ import {
   FaTrashAlt,
 } from "react-icons/fa";
 import { BsCardHeading, BsLink45Deg } from "react-icons/bs";
-import { HiOutlineTrash } from "react-icons/hi";
 import Switch from "@mui/material/Switch";
 import { alpha, styled } from "@mui/material";
-import { amber, grey, orange } from "@mui/material/colors";
 
 const LinkBlock = ({ index, title, url }) => {
   const [makePublic, setMakePublic] = useState(true);
