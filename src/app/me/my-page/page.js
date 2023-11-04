@@ -10,7 +10,7 @@ export const metadata = {
 export default function MyPage() {
   const sampleLinks = [
     { id: "link-0", title: "Home", url: "/" },
-    { id: "link-1", title: "About", url: "/about" },
+    { id: "link-1", title: "About", url: "/" },
     { id: "link-2", title: "Contact", url: "/contact" },
     // more links with unique ids
   ];

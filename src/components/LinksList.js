@@ -8,7 +8,7 @@ import { BsArrowDownSquare, BsArrowUpSquare } from "react-icons/bs";
 const LinksList = () => {
   const initialLinks = [
     { id: "link-0", title: "Home", url: "/" },
-    { id: "link-1", title: "About", url: "/about" },
+    { id: "link-1", title: "About", url: "/" },
     { id: "link-2", title: "Contact", url: "/contact" },
     {
       id: "link-3",
