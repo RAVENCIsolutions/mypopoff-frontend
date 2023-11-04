@@ -30,7 +30,7 @@ const OnBoardingMain = () => {
     setActivePage(onBoardingPages[0].component);
   }, []);
 
-  return <main>'hello'</main>;
+  return <main>{activePage}</main>;
 };
 
 export default OnBoardingMain;
