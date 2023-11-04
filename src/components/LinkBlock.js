@@ -4,15 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import {
   FaExternalLinkAlt,
   FaPencilAlt,
-  FaShareAlt,
   FaTimesCircle,
   FaTrashAlt,
 } from "react-icons/fa";
 import { BsCardHeading, BsLink45Deg } from "react-icons/bs";
-import { HiOutlineTrash } from "react-icons/hi";
 import Switch from "@mui/material/Switch";
-import { alpha, styled } from "@mui/material";
-import { amber, grey, orange } from "@mui/material/colors";
 
 const LinkBlock = ({ index, title, url }) => {
   const [makePublic, setMakePublic] = useState(true);
@@ -42,18 +38,6 @@ const LinkBlock = ({ index, title, url }) => {
       }, 25);
     }
   };
-
-  const PinkSwitch = styled(Switch)(({ theme }) => ({
-    "& .MuiSwitch-switchBase.Mui-checked": {
-      color: "#c68a4e",
-      "&:hover": {
-        backgroundColor: alpha("#c68a4e", theme.palette.action.hoverOpacity),
-      },
-    },
-    "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-      backgroundColor: "black",
-    },
-  }));
 
   useEffect(() => {
     if (editTitle) {
@@ -153,7 +137,7 @@ const LinkBlock = ({ index, title, url }) => {
 
             <article className="flex items-center">
               <p className="text-sm">Make Public?</p>
-              <PinkSwitch
+              <Switch
                 color="warning"
                 checked={makePublic}
                 size={"small"}
