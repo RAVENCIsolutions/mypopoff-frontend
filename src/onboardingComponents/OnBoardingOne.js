@@ -101,7 +101,7 @@ const OnBoardingOne = ({ title = "" }) => {
         <article className="relative w-full md:w-3/5">
           <div className="relative flex flex-row items-center justify-center gap-0">
             <article className="absolute aspect-[1/2] w-1/3 bg-contain bg-[url('/images/onboarding/mobile-frame.png')] bg-no-repeat bg-center z-50"></article>
-            <article className="-mr-20 aspect-[1/2] w-1/3 scale-[0.7] opacity-70">
+            <article className="-mr-10 md:-mr-16 lg:-mr-20 aspect-[1/2] w-1/3 scale-[0.7] opacity-70">
               <img
                 src={layouts[activeLayout].images[0] || ""}
                 className="object-contain"
@@ -113,7 +113,7 @@ const OnBoardingOne = ({ title = "" }) => {
                 className="object-contain"
               />
             </article>
-            <article className="-ml-20 flex aspect-[1/2] w-1/3 scale-[0.7] opacity-70">
+            <article className="-ml-10 md:-ml-16 lg:-ml-20 flex aspect-[1/2] w-1/3 scale-[0.7] opacity-70">
               <img
                 src={layouts[activeLayout].images[2] || ""}
                 className="object-contain"
