@@ -15,7 +15,7 @@ export default function OnBoardingLayout({ children }) {
           </p>
         </nav>
 
-        <OnBoardingMain />
+        <>{children}</>
       </body>
     </html>
   );

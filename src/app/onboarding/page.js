@@ -1,5 +1,7 @@
-const OnBoardingOne = () => {
-  return <div></div>;
+import OnBoardingMain from "@/onboardingComponents/OnBoardingMain";
+
+const OnBoardingPage = () => {
+  return <OnBoardingMain />;
 };
 
-export default OnBoardingOne;
+export default OnBoardingPage;
