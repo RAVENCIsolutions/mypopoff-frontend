@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* AbrilFatface-Regular */
+@font-face {
+  font-family: 'AbrilFatface';
+  src: url('/fonts/AbrilFatface-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* AlegreyaSans variants */
+@font-face {
+  font-family: 'AlegreyaSans';
+  src: url('/fonts/AlegreyaSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'AlegreyaSans';
+  src: url('/fonts/AlegreyaSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'AlegreyaSans';
+  src: url('/fonts/AlegreyaSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Amatic SC variants */
+@font-face {
+  font-family: 'AmaticSC';
+  src: url('/fonts/AmaticSC-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'AmaticSC';
+  src: url('/fonts/AmaticSC-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Anton variants */
+@font-face {
+  font-family: 'Anton';
+  src: url('/fonts/Anton-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* DMSans variants */
+@font-face {
+  font-family: 'DMSans';
+  src: url('/fonts/DMSans-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'DMSans';
+  src: url('/fonts/DMSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'DMSans';
+  src: url('/fonts/DMSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'DMSans';
+  src: url('/fonts/DMSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'DMSans';
+  src: url('/fonts/DMSans-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Barlow Condensed variants */
+@font-face {
+  font-family: 'BarlowCondensed';
+  src: url('/fonts/BarlowCondensed-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'BarlowCondensed';
+  src: url('/fonts/BarlowCondensed-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 9px;
+  transition: all 0.3s ease;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  //background: rgba(241, 241, 241, 0.5);
+  @apply bg-neutral-100/50;
+  @apply shadow-xl;
+  @apply shadow-black/20;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-action/80;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-action;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* for Internet Explorer and Edge */
+  scrollbar-width: none; /* for Firefox */
+}
+
+h1 {
+  @apply text-4xl;
+
+  @media screen and (min-width: 768px) {
+    @apply text-5xl;
+  }
+
+  @media screen and (min-width: 1024px) {
+    @apply text-7xl;
+  }
+}
+
+h2 {
+  @apply text-3xl;
+
+  @media screen and (min-width: 768px) {
+    @apply text-4xl;
+  }
+
+  @media screen and (min-width: 1024px) {
+    @apply text-6xl;
+    &.cta {
+      @apply text-5xl;
+    }
+  }
+}
+
+h3 {
+  @apply text-xl;
+
+  @media screen and (min-width: 768px) {
+    @apply text-2xl;
+  }
+
+  @media screen and (min-width: 1024px) {
+    @apply text-3xl;
+  }
+}
+
+h4 {
+  @apply text-lg;
+
+  @media screen and (min-width: 768px) {
+    @apply text-xl;
+  }
+
+  @media screen and (min-width: 1024px) {
+    @apply text-2xl;
+  }
+}
+
+p {
+  @apply text-lg;
+
+  @media screen and (min-width: 768px) {
+    @apply text-2xl;
+  }
+
+  @media screen and (min-width: 1024px) {
+    @apply text-3xl;
+  }
+}
