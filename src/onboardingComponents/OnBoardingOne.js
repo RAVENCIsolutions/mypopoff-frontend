@@ -24,9 +24,9 @@ const OnBoardingOne = ({ title = "" }) => {
     {
       layoutImage: "/images/onboarding/layout-03.png",
       images: [
-        "/images/onboarding/layout02_i.png",
-        "/images/onboarding/layout02_ii.png",
-        "/images/onboarding/layout02_iii.png",
+        "/images/onboarding/layout03_i.png",
+        "/images/onboarding/layout03_ii.png",
+        "/images/onboarding/layout03_iii.png",
       ],
     },
     {
