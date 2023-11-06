@@ -7,7 +7,7 @@ const OnBoardingMain = () => {
   const onBoardingTitle = [
     {
       id: "page-one",
-      title: "Choose Layout",
+      title: "Step 1: Choose Layout",
     },
     { id: "page-two", title: "Choose Buttons" },
     { id: "page-three", title: "Choose Colours" },

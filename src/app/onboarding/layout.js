@@ -8,13 +8,12 @@ export default function OnBoardingLayout({ children }) {
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/oya4ufz.css" />
       </head>
-      <body className="p-6 w-full min-h-fit bg-primary-light">
+      <body className="px-3 sm:px-5 py-7 md:p-6 w-full min-h-fit bg-primary-light">
         <nav className="mb-6 flex flex-col w-full text-primary-dark font-light">
           <p className="text-base sm:text-lg text-action dark:text-action font-bold font-display">
             <Link href="/">My Pop Off</Link>
           </p>
         </nav>
-
         <>{children}</>
       </body>
     </html>

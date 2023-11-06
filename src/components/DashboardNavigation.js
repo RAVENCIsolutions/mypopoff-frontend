@@ -50,7 +50,7 @@ const DashboardNavigation = () => {
   ];
 
   return (
-    <nav className="p-4 sm:p-0 pb-6 flex flex-col w-full sm:w-1/6 min-w-max text-primary-dark dark:text-primary-light font-light font-base">
+    <nav className="p-4 py-5 sm:p-0 pb-6 flex flex-col w-full sm:w-1/6 min-w-max text-primary-dark dark:text-primary-light font-light font-base">
       <p className="pb-6 sm:pb-12 text-base sm:text-lg text-action dark:text-action font-bold font-display">
         <Link href="/">My Pop Off</Link>
       </p>
