@@ -86,6 +86,15 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout09_iii.png",
       ],
     },
+    {
+      layoutTitle: "",
+      layoutImage: "/images/onboarding/layout-10.png",
+      images: [
+        "/images/onboarding/layout10_i.png",
+        "/images/onboarding/layout10_ii.png",
+        "/images/onboarding/layout10_iii.png",
+      ],
+    },
   ];
 
   return (
