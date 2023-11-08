@@ -11,6 +11,16 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      screens: {
+        // sm	640px
+        // md	768px
+        // lg	1024px
+        // xl	1280px
+        // 2xl	1536px
+        xs: "480px",
+        "2xs": "360px",
+        "3xs": "260px",
+      },
       colors: {
         action: "#c68a4e",
         "primary-light": "#f7f5f3",
