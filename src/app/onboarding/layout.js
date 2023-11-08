@@ -2,6 +2,11 @@ import "../(public)/globals.scss";
 import Link from "next/link";
 import OnBoardingMain from "@/onboardingComponents/OnBoardingMain";
 
+export const metadata = {
+  title: "Congratulations! | My Pop Off",
+  description: "Onboarding will help you build your Pop Off landing page!",
+};
+
 export default function OnBoardingLayout({ children }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
