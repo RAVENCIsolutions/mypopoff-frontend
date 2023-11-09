@@ -6,7 +6,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
-const FlatModeTheme = () => {
+const Layout01 = () => {
   const sampleLinks = [
     { url: "/", title: "Book a Free Consultation" },
     { url: "/", title: "My Website" },
@@ -57,4 +57,4 @@ const FlatModeTheme = () => {
   );
 };
 
-export default FlatModeTheme;
+export default Layout01;

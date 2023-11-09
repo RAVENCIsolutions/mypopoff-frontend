@@ -6,7 +6,7 @@ import {
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const ModernNewsprintTheme = () => {
+const Layout06 = () => {
   const scrollRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(true);
   const [scrollingForwards, setScrollingForwards] = useState(true);
@@ -133,4 +133,4 @@ const ModernNewsprintTheme = () => {
   );
 };
 
-export default ModernNewsprintTheme;
+export default Layout06;

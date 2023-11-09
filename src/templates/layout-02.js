@@ -6,7 +6,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
-const VelvetographyTheme = () => {
+const Layout02 = () => {
   const sampleLinks = [
     { url: "/", title: "Book a Free Consultation" },
     { url: "/", title: "My Website" },
@@ -63,4 +63,4 @@ const VelvetographyTheme = () => {
   );
 };
 
-export default VelvetographyTheme;
+export default Layout02;

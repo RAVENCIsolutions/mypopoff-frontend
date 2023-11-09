@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 
-const CardologyTheme = () => {
+const Layout05 = () => {
   const sampleLinks = [
     { url: "/", title: "Book a Free Consultation" },
     { url: "/", title: "My Website" },
@@ -111,4 +111,4 @@ const CardologyTheme = () => {
   );
 };
 
-export default CardologyTheme;
+export default Layout05;

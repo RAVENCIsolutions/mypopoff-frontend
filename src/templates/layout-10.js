@@ -8,7 +8,7 @@ import Image from "next/image";
 
 import "../app/(public)/globals.scss";
 
-const NeoBrutalismTheme = () => {
+const Layout10 = () => {
   const sampleLinks = [
     { url: "/", title: "Book a Free Consultation" },
     { url: "/", title: "My Website" },
@@ -60,4 +60,4 @@ const NeoBrutalismTheme = () => {
   );
 };
 
-export default NeoBrutalismTheme;
+export default Layout10;

@@ -6,7 +6,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
-const BombastikTheme = () => {
+const Layout07 = () => {
   const sampleLinks = [
     { url: "/", title: "Book a Free Consultation" },
     { url: "/", title: "My Website" },
@@ -53,4 +53,4 @@ const BombastikTheme = () => {
   );
 };
 
-export default BombastikTheme;
+export default Layout07;
