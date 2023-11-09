@@ -99,10 +99,10 @@ const OnBoardingOne = ({ title = "" }) => {
 
   return (
     <>
-      <section className="relative pb-4 md:pt-6 flex flex-col md:flex-row justify-stretch gap-12 md:gap-4">
-        <article className="md:pt-3 relative flex items-center w-full max-w-none md:max-w-lg">
+      <section className="relative pb-4 md:pt-6 flex flex-col md:flex-row justify-between gap-2">
+        <article className="md:pt-3 relative flex items-center w-full md:w-[45%] max-w-none md:max-w-md">
           <h3 className="hidden md:block absolute top-0 font-bold text-base md:text-lg italic opacity-50">
-            Options:
+            Options
           </h3>
           <article className="md:mt-5 p-3 md:p-5 rounded-none md:rounded-3xl w-full bg-white shadow-lg shadow-dashboard-primary-dark/20 border-2">
             <div className="grid grid-cols-1 3xs:grid-cols-2 2xs:grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 md:grid-cols-5 gap-4 md:gap-4">
@@ -132,9 +132,9 @@ const OnBoardingOne = ({ title = "" }) => {
           </article>
         </article>
 
-        <article className="hidden md:block pt-3 relative w-full">
-          <h3 className="absolute top-0 font-bold text-lg italic opacity-50">
-            Examples:
+        <article className="hidden md:block pt-3 relative md:w-[55%] lg:w-[50%]">
+          <h3 className="absolute top-0 left-10 self-end font-bold text-lg italic opacity-50">
+            Examples
           </h3>
           <div className="-ml-5 md:ml-0 mt-5 relative flex flex-row items-center justify-center">
             <article className="absolute aspect-[1/2] w-[40%] bg-contain bg-[url('/images/onboarding/mobile-frame.png')] bg-no-repeat bg-center z-50"></article>
