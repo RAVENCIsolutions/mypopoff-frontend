@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import OnBoardingOne from "@/onboardingComponents/OnBoardingOne";
 import { FaAngleLeft, FaAngleRight, FaArrowRight } from "react-icons/fa";
 import OnBoardingTwo from "@/onboardingComponents/OnBoardingTwo";
+import OnBoardingThree from "@/onboardingComponents/OnBoardingThree";
 
 const OnBoardingMain = () => {
   const [currentChoice, setCurrentChoice] = useState({});
@@ -27,7 +28,7 @@ const OnBoardingMain = () => {
       id: "page-two",
       component: <OnBoardingTwo />,
     },
-    { id: "page-three", component: "" },
+    { id: "page-three", component: <OnBoardingThree /> },
     { id: "page-four", component: "" },
   ];
 

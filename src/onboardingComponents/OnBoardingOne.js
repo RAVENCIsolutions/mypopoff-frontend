@@ -98,7 +98,7 @@ const OnBoardingOne = () => {
     },
     {
       layoutID: "layout-07",
-      layoutTitle: "Traditional 🎩",
+      layoutTitle: "Bombastic 🎩",
       layoutImage: "/images/onboarding/layout-07.png",
       images: [
         "/images/onboarding/layout07_i.png",
@@ -162,7 +162,6 @@ const OnBoardingOne = () => {
 
   useEffect(() => {
     let prevChoice;
-    let selectedColours = {};
 
     const storedSelectedLayout = localStorage.getItem("selectedLayout");
 
@@ -181,7 +180,6 @@ const OnBoardingOne = () => {
           )
         : 0
     );
-    console.log(prevChoice);
   }, []);
 
   return (
