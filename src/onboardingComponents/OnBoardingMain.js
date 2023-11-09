@@ -109,7 +109,7 @@ const OnBoardingMain = () => {
   }, []);
 
   return (
-    <main className="relative flex-grow flex flex-col items-between justify-between gap-4 md:gap-2 min-h-min overflow-hidden">
+    <main className="pb-6 relative flex-grow flex flex-col items-between justify-between gap-4 md:gap-2 min-h-min">
       <section className="mt-2 md:mt-4 mb-2 md:my-0 max-w-xs sm:max-w-sm md:max-w-none">
         <h1 className="text-lg sm:text-xl font-sans">
           🎈 Congratulations 🎉🎉 on your new account! Let's get you set up.
