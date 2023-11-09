@@ -6,6 +6,8 @@ import { FaAngleLeft, FaAngleRight, FaArrowRight } from "react-icons/fa";
 import OnBoardingTwo from "@/onboardingComponents/OnBoardingTwo";
 
 const OnBoardingMain = () => {
+  const [currentChoice, setCurrentChoice] = useState({});
+
   const onBoardingTitle = [
     {
       id: "page-one",
@@ -46,6 +48,44 @@ const OnBoardingMain = () => {
       pageContainer.current.style.opacity = "1";
     }, 600);
   };
+
+  let prevChoice;
+  const selectedLayout = {
+    layoutStyle: "layout-01",
+    buttonType: "button-01", // You need to define how to get this information
+    colours: {
+      background: "bg-action",
+      midground: "bg-white",
+      mainText: "text-action",
+      subText: "text-primary-dark",
+      buttonOutline: "border-transparent",
+      buttonMain: "bg-action",
+      buttonHover: "bg-action/80",
+      buttonText: "text-primary-light",
+      buttonHoverText: "text-primary-light",
+    },
+    images: "",
+  };
+
+  useEffect(() => {
+    const storedSelectedLayout = localStorage.getItem("selectedLayout");
+
+    if (storedSelectedLayout) {
+      try {
+        prevChoice = JSON.parse(storedSelectedLayout);
+        setCurrentChoice(storedSelectedLayout);
+      } catch (err) {
+        console.log(`Error: ${err}`);
+      }
+    } else {
+      localStorage.setItem("selectedLayout", JSON.stringify(selectedLayout));
+      setCurrentChoice(selectedLayout);
+    }
+
+    return () => {
+      // localStorage.setItem("selectedLayout", "");
+    };
+  }, []);
 
   const nextPage = () => {
     pageContainer.current.style.left = "-200px";

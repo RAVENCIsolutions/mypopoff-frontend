@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const OnBoardingOne = ({ title = "" }) => {
+const OnBoardingOne = () => {
   const [activeLayout, setActiveLayout] = useState(0);
 
   const layouts = [
     {
+      layoutID: "layout-01",
       layoutTitle: "The Classic",
       layoutImage: "/images/onboarding/layout-01.png",
       images: [
@@ -13,8 +14,14 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout01_ii.png",
         "/images/onboarding/layout01_i.png",
       ],
+      colours: {
+        background: "bg-white",
+        mainText: "text-primary-dark",
+        subText: "text-primary-dark",
+      },
     },
     {
+      layoutID: "layout-02",
       layoutTitle: "For the 'Gram 📷",
       layoutImage: "/images/onboarding/layout-02.png",
       images: [
@@ -22,8 +29,14 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout02_ii.png",
         "/images/onboarding/layout02_iii.png",
       ],
+      colours: {
+        background: "bg-white",
+        mainText: "text-primary-dark",
+        subText: "text-primary-dark",
+      },
     },
     {
+      layoutID: "layout-03",
       layoutTitle: "The Poster 🖼️",
       layoutImage: "/images/onboarding/layout-03.png",
       images: [
@@ -31,8 +44,14 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout03_ii.png",
         "/images/onboarding/layout03_iii.png",
       ],
+      colours: {
+        background: "bg-primary-dark",
+        mainText: "text-primary-light",
+        subText: "text-primary-light",
+      },
     },
     {
+      layoutID: "layout-04",
       layoutTitle: "Office Attire 👔",
       layoutImage: "/images/onboarding/layout-04.png",
       images: [
@@ -40,8 +59,14 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout04_ii.png",
         "/images/onboarding/layout04_iii.png",
       ],
+      colours: {
+        background: "bg-primary-dark",
+        mainText: "text-primary-light",
+        subText: "text-primary-light",
+      },
     },
     {
+      layoutID: "layout-05",
       layoutTitle: "Cardology 🃏",
       layoutImage: "/images/onboarding/layout-05.png",
       images: [
@@ -49,8 +74,14 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout05_ii.png",
         "/images/onboarding/layout05_iii.png",
       ],
+      colours: {
+        background: "bg-white",
+        mainText: "text-primary-dark",
+        subText: "text-primary-dark",
+      },
     },
     {
+      layoutID: "layout-06",
       layoutTitle: "The Gallery 🗽",
       layoutImage: "/images/onboarding/layout-06.png",
       images: [
@@ -58,8 +89,15 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout06_ii.png",
         "/images/onboarding/layout06_iii.png",
       ],
+      colours: {
+        background: "bg-action",
+        midground: "bg-white",
+        mainText: "text-primary-dark",
+        subText: "text-primary-dark",
+      },
     },
     {
+      layoutID: "layout-07",
       layoutTitle: "Traditional 🎩",
       layoutImage: "/images/onboarding/layout-07.png",
       images: [
@@ -67,8 +105,14 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout07_ii.png",
         "/images/onboarding/layout07_iii.png",
       ],
+      colours: {
+        background: "bg-white",
+        mainText: "text-primary-dark",
+        subText: "text-primary-dark",
+      },
     },
     {
+      layoutID: "layout-08",
       layoutTitle: "Bannerific 🪧",
       layoutImage: "/images/onboarding/layout-08.png",
       images: [
@@ -76,8 +120,14 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout08_ii.png",
         "/images/onboarding/layout08_iii.png",
       ],
+      colours: {
+        background: "bg-primary-dark",
+        mainText: "text-action",
+        subText: "text-primary-light",
+      },
     },
     {
+      layoutID: "layout-09",
       layoutTitle: "Business Card 🪪",
       layoutImage: "/images/onboarding/layout-09.png",
       images: [
@@ -85,8 +135,15 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout09_ii.png",
         "/images/onboarding/layout09_iii.png",
       ],
+      colours: {
+        background: "bg-white",
+        midground: "bg-white",
+        mainText: "text-primary-dark",
+        subText: "text-primary-dark",
+      },
     },
     {
+      layoutID: "layout-10",
       layoutTitle: "Neobrutalism 🎇",
       layoutImage: "/images/onboarding/layout-10.png",
       images: [
@@ -94,8 +151,38 @@ const OnBoardingOne = ({ title = "" }) => {
         "/images/onboarding/layout10_ii.png",
         "/images/onboarding/layout10_iii.png",
       ],
+      colours: {
+        background: "bg-action",
+        midground: "bg-white",
+        mainText: "text-action",
+        subText: "text-primary-dark",
+      },
     },
   ];
+
+  useEffect(() => {
+    let prevChoice;
+    let selectedColours = {};
+
+    const storedSelectedLayout = localStorage.getItem("selectedLayout");
+
+    if (storedSelectedLayout) {
+      try {
+        prevChoice = JSON.parse(storedSelectedLayout);
+      } catch (err) {
+        console.log(`Error: ${err}`);
+      }
+    }
+
+    setActiveLayout(
+      prevChoice
+        ? layouts.findIndex(
+            (layout) => layout.layoutID === prevChoice.layoutStyle
+          )
+        : 0
+    );
+    console.log(prevChoice);
+  }, []);
 
   return (
     <>
@@ -114,7 +201,25 @@ const OnBoardingOne = ({ title = "" }) => {
                       ? "border-[2px] border-action opacity-100 shadow-lg shadow-black/30"
                       : "border-[1px] border-primary-dark opacity-30 hover:opacity-100"
                   }`}
-                  onClick={() => setActiveLayout(index)}
+                  onClick={() => {
+                    const prevChoice = JSON.parse(
+                      localStorage.getItem("selectedLayout")
+                    );
+
+                    prevChoice.layoutStyle = layout.layoutID;
+
+                    prevChoice.colours = {
+                      ...prevChoice.colours,
+                      ...layout.colours,
+                    };
+
+                    localStorage.setItem(
+                      "selectedLayout",
+                      JSON.stringify(prevChoice)
+                    );
+
+                    setActiveLayout(index);
+                  }}
                 >
                   <img
                     className="object-cover w-full h-full"
