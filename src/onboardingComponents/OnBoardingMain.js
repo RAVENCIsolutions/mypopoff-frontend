@@ -5,8 +5,17 @@ import OnBoardingOne from "@/onboardingComponents/OnBoardingOne";
 import { FaAngleLeft, FaAngleRight, FaArrowRight } from "react-icons/fa";
 import OnBoardingTwo from "@/onboardingComponents/OnBoardingTwo";
 import OnBoardingThree from "@/onboardingComponents/OnBoardingThree";
+import { observer } from "mobx-react";
+import onBoardingStore from "@/stores/OnBoardingStore";
 
-const OnBoardingMain = () => {
+const OnBoardingMain = observer(() => {
+  // MobX Notes:
+  // onBoardingStore.onBoardingTemplate is the default template
+  // onBoardingStore.onBoardingCurrent is the current state
+  // onBoardingStore.updateOnBoardingCurrent updates the current state
+  // onBoardingStore.validateOnBoardingCurrent validates the current state
+  // onBoardingStore.finishOnBoarding completes the onBoarding process
+
   const [currentChoice, setCurrentChoice] = useState({});
 
   const onBoardingTitle = [
@@ -52,11 +61,11 @@ const OnBoardingMain = () => {
 
   let prevChoice;
   const selectedLayout = {
-    layoutStyle: "layout-01",
-    buttonType: "button-01", // You need to define how to get this information
+    pageLayout: "layout-01",
+    buttonStyle: "button-01", // You need to define how to get this information
     colours: {
       background: "bg-action",
-      midground: "bg-white",
+      middleGround: "bg-white",
       mainText: "text-action",
       subText: "text-primary-dark",
       buttonOutline: "border-transparent",
@@ -153,6 +162,6 @@ const OnBoardingMain = () => {
       </article>
     </main>
   );
-};
+});
 
 export default OnBoardingMain;

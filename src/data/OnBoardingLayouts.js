@@ -85,7 +85,7 @@ export const onBoardingLayouts = [
     ],
     colours: {
       background: "bg-action",
-      midground: "bg-white",
+      middleGround: "bg-white",
       mainText: "text-primary-dark",
       subText: "text-primary-dark",
     },
@@ -131,7 +131,7 @@ export const onBoardingLayouts = [
     ],
     colours: {
       background: "bg-white",
-      midground: "bg-white",
+      middleGround: "bg-white",
       mainText: "text-primary-dark",
       subText: "text-primary-dark",
     },
@@ -147,7 +147,7 @@ export const onBoardingLayouts = [
     ],
     colours: {
       background: "bg-action",
-      midground: "bg-white",
+      middleGround: "bg-white",
       mainText: "text-action",
       subText: "text-primary-dark",
     },

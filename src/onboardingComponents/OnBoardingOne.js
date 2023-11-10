@@ -25,7 +25,7 @@ const OnBoardingOne = () => {
     setActiveLayout(
       prevChoice
         ? onBoardingLayouts.findIndex(
-            (layout) => layout.layoutID === prevChoice.layoutStyle
+            (layout) => layout.layoutID === prevChoice.pageLayout
           )
         : 0
     );
@@ -55,7 +55,7 @@ const OnBoardingOne = () => {
                       localStorage.getItem("selectedLayout")
                     );
 
-                    prevChoice.layoutStyle = layout.layoutID;
+                    prevChoice.pageLayout = layout.layoutID;
 
                     prevChoice.colours = {
                       ...prevChoice.colours,

@@ -31,7 +31,7 @@ const OnBoardingTwo = () => {
 
     setActiveLayout(
       onBoardingButtons.findIndex(
-        (layout) => layout.layoutID === prevChoice.buttonType
+        (layout) => layout.layoutID === prevChoice.buttonStyle
       ) || 0
     );
     setChosenColours(selectedColours);
@@ -59,7 +59,7 @@ const OnBoardingTwo = () => {
                       localStorage.getItem("selectedLayout")
                     );
 
-                    prevChoice.buttonType = layout.layoutID;
+                    prevChoice.buttonStyle = layout.layoutID;
 
                     prevChoice.colours = {
                       ...prevChoice.colours,
