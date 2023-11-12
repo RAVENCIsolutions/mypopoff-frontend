@@ -1,4 +1,6 @@
 import { makeAutoObservable } from "mobx";
+import { onBoardingLayouts } from "@/data/OnBoardingLayouts";
+import { onBoardingButtons } from "@/data/OnBoardingButtons";
 
 class OnBoardingStore {
   // lsOnBoardingItem = "current-onBoarding";
@@ -6,11 +8,13 @@ class OnBoardingStore {
   onBoardingTemplate = {
     pageLayout: "layout-01",
     buttonStyle: "button-01", // You need to define how to get this information
-    colours: {
+    layoutColours: {
       background: "bg-action",
       middleGround: "bg-white",
       mainText: "text-action",
       subText: "text-primary-dark",
+    },
+    buttonColours: {
       buttonOutline: "border-transparent",
       buttonMain: "bg-action",
       buttonHover: "bg-action/80",
@@ -40,16 +44,34 @@ class OnBoardingStore {
     makeAutoObservable(this);
   }
 
-  updateOnBoardingCurrent = (data, page) => {
-    this.onBoardingCurrent = { ...this.onBoardingCurrent, ...data };
+  updateLayout = (id) => {
+    this.onBoardingCurrent.pageLayout = onBoardingLayouts[id].layoutID;
+  };
 
-    // localStorage.setItem(
-    //   this.lsOnBoardingItem,
-    //   JSON.stringify({
-    //     onBoardingCurrent: this.onBoardingCurrent,
-    //     currentPage: page,
-    //   })
-    // );
+  updateButtonStyle = (id) => {
+    this.onBoardingCurrent.buttonStyle = onBoardingButtons[id].layoutID;
+  };
+
+  updateLayoutColour = (element, colour) => {
+    this.onBoardingCurrent.layoutColours[element] = colour;
+  };
+
+  updateButtonColour = (element, colour) => {
+    this.onBoardingCurrent.buttonColours[element] = colour;
+  };
+
+  resetLayoutColours = (id) => {
+    this.onBoardingCurrent.layoutColours = {};
+    this.onBoardingCurrent.layoutColours = {
+      ...onBoardingLayouts[id].colours,
+    };
+  };
+
+  resetButtonStyleColours = (id) => {
+    this.onBoardingCurrent.buttonColours = {};
+    this.onBoardingCurrent.buttonColours = {
+      ...onBoardingButtons[id].colours,
+    };
   };
 
   validateOnBoardingCurrent = () => {

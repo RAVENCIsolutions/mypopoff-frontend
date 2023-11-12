@@ -1,23 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import OnBoardingOne from "@/onboardingComponents/OnBoardingOne";
+import { observer } from "mobx-react";
 import { FaAngleLeft, FaAngleRight, FaArrowRight } from "react-icons/fa";
+
+import OnBoardingOne from "@/onboardingComponents/OnBoardingOne";
 import OnBoardingTwo from "@/onboardingComponents/OnBoardingTwo";
 import OnBoardingThree from "@/onboardingComponents/OnBoardingThree";
-import { observer } from "mobx-react";
-import onBoardingStore from "@/stores/OnBoardingStore";
+import OnBoardingFour from "@/onboardingComponents/OnBoardingFour";
 
 const OnBoardingMain = observer(() => {
-  // MobX Notes:
-  // onBoardingStore.onBoardingTemplate is the default template
-  // onBoardingStore.onBoardingCurrent is the current state
-  // onBoardingStore.updateOnBoardingCurrent updates the current state
-  // onBoardingStore.validateOnBoardingCurrent validates the current state
-  // onBoardingStore.finishOnBoarding completes the onBoarding process
-
-  const [currentChoice, setCurrentChoice] = useState({});
-
   const onBoardingTitle = [
     {
       id: "page-one",
@@ -31,14 +23,15 @@ const OnBoardingMain = observer(() => {
   const onBoardingPages = [
     {
       id: "page-one",
-      component: <OnBoardingOne />,
+      // component: <OnBoardingOne />,
+      component: <OnBoardingFour />,
     },
     {
       id: "page-two",
       component: <OnBoardingTwo />,
     },
     { id: "page-three", component: <OnBoardingThree /> },
-    { id: "page-four", component: "" },
+    { id: "page-four", component: <OnBoardingFour /> },
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -58,44 +51,6 @@ const OnBoardingMain = observer(() => {
       pageContainer.current.style.opacity = "1";
     }, 600);
   };
-
-  let prevChoice;
-  const selectedLayout = {
-    pageLayout: "layout-01",
-    buttonStyle: "button-01", // You need to define how to get this information
-    colours: {
-      background: "bg-action",
-      middleGround: "bg-white",
-      mainText: "text-action",
-      subText: "text-primary-dark",
-      buttonOutline: "border-transparent",
-      buttonMain: "bg-action",
-      buttonHover: "bg-action/80",
-      buttonText: "text-primary-light",
-      buttonHoverText: "text-primary-light",
-    },
-    images: "",
-  };
-
-  useEffect(() => {
-    const storedSelectedLayout = localStorage.getItem("selectedLayout");
-
-    if (storedSelectedLayout) {
-      try {
-        prevChoice = JSON.parse(storedSelectedLayout);
-        setCurrentChoice(storedSelectedLayout);
-      } catch (err) {
-        console.log(`Error: ${err}`);
-      }
-    } else {
-      localStorage.setItem("selectedLayout", JSON.stringify(selectedLayout));
-      setCurrentChoice(selectedLayout);
-    }
-
-    return () => {
-      // localStorage.setItem("selectedLayout", "");
-    };
-  }, []);
 
   const nextPage = () => {
     pageContainer.current.style.left = "-200px";
@@ -130,7 +85,7 @@ const OnBoardingMain = observer(() => {
 
       <section
         ref={pageContainer}
-        className="relative left-0 transition-all duration-500"
+        className="relative flex-grow left-0 transition-all duration-500"
       >
         {onBoardingPages[activeIndex].component}{" "}
       </section>

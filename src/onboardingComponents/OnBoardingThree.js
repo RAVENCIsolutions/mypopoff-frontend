@@ -1,89 +1,76 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import { TwitterPicker } from "react-color";
 import ColourPickerBlock from "@/components/ColourPickerBlock";
+import { observer } from "mobx-react";
+import onBoardingStore from "@/stores/OnBoardingStore";
+import { onBoardingButtons } from "@/data/OnBoardingButtons";
 
-const OnBoardingThree = () => {
-  const [chosenColours, setChosenColours] = useState({});
+const OnBoardingThree = observer(() => {
+  const [loading, setLoading] = useState(false);
+  const [activeLayout, setActiveLayout] = useState(0);
 
-  const inputLabels = {
-    background: "Background",
-    middleGround: "Card",
-    mainText: "Special Text",
-    subText: "Body Text",
-    buttonOutline: "Outline",
-    buttonMain: "Button Background",
-    buttonHover: "Button Background on Hover",
-    buttonText: "Text",
-    buttonHoverText: "Text on Hover",
+  const activeColours = {
+    ...onBoardingStore.onBoardingCurrent.layoutColours,
+    ...onBoardingStore.onBoardingCurrent.buttonColours,
   };
 
-  let prevChoice;
-  let selectedColours = {};
-
   useEffect(() => {
-    const storedSelectedLayout = localStorage.getItem("selectedLayout");
+    setLoading(true);
 
-    if (storedSelectedLayout) {
-      try {
-        prevChoice = JSON.parse(storedSelectedLayout);
-        selectedColours = prevChoice.colours;
-      } catch (err) {
-        console.log(`Error: ${err}`);
-      }
-    }
-
-    console.log(selectedColours);
-    setChosenColours(selectedColours);
+    setLoading(false);
   }, []);
 
   return (
     <>
-      <section className="relative pb-4 md:pt-6 flex flex-col md:flex-row gap-2">
-        <article className="md:pt-3 md:pr-8 relative flex items-center justify-center w-full md:w-[60%] border-r-2">
+      <section className="relative mb-10 md:pt-6 flex flex-col md:flex-row items-stretch justify-between">
+        <section className="md:pt-3 md:pr-6 relative flex items-center w-1/2 border-r-2">
           <h3 className="hidden md:block absolute top-0 font-bold text-base md:text-lg italic opacity-50">
-            Options:
+            Options
           </h3>
-          <article className="md:mt-5 p-3 md:p-5 rounded-none md:rounded-3xl w-full bg-white shadow-lg shadow-dashboard-primary-dark/20 border-2 max-w-none md:max-w-md">
-            <div className="grid grid-cols-1 xs:grid-cols-2 gap-8">
-              {Object.keys(chosenColours).map((key, index) => {
+          <article className="mt-10 p-3 md:p-5 rounded-none md:rounded-3xl w-full bg-white shadow-lg shadow-dashboard-primary-dark/10">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-6">
+              {Object.keys(activeColours).map((key, index) => {
                 return (
                   <article key={key} className="w-4/5">
-                    <ColourPickerBlock label={inputLabels[key]} />
+                    <ColourPickerBlock
+                      label={onBoardingStore.colourLabels[key]}
+                    />
                   </article>
                 );
               })}
             </div>
-            <h4 className="font-light text-sm">
-              Layout Selected: <span className="font-bold">#ffffff</span>
-            </h4>
           </article>
-        </article>
+        </section>
 
-        <article className="hidden md:block pt-3 relative md:w-[40%]">
-          <h3 className="absolute top-0 left-10 self-end font-bold text-lg italic opacity-50">
+        <section className="hidden md:block relative pt-3 pl-6 w-1/2 min-h-[500px]">
+          <h3 className="absolute top-0 left-6 self-center font-bold text-lg italic opacity-50">
             Examples
           </h3>
-          <div className="-ml-5 md:ml-0 mt-5 relative flex items-start justify-center h-full">
-            <article className="flex flex-col items-center justify-center aspect-[1/2] w-[60%] lg:w-[45%] bg-dashboard-secondary-light/30 rounded-[2rem] overflow-hidden">
-              <div className="flex flex-col items-center justify-center gap-4 w-full h-full bg-action/40">
-                {[1, 2, 3].map((item, index) => (
-                  <button className="p-1 bg-action w-4/5">Button Text</button>
-                ))}
-              </div>
-
-              <img
-                src={"/images/onboarding/mobile-frame.png"}
-                className="absolute pointer-events-none aspect-[1/2] w-[60%] lg:w-[45%] z-50"
-              />
-            </article>
+          <div className="mt-5 relative flex flex-row items-center justify-center h-full">
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <>
+                <article className="p-1 relative flex flex-col items-center justify-center h-full aspect-[370/750]">
+                  <img
+                    src="/images/onboarding/mobile-frame.png"
+                    className="pointer-events-none absolute w-full h-full object-contain z-50"
+                  />
+                  <div className="flex flex-col items-center justify-center gap-4 w-full h-full bg-action/40 rounded-3xl overflow-hidden">
+                    {onBoardingStore.onBoardingCurrent.pageLayout}
+                    {onBoardingStore.onBoardingCurrent.buttonStyle}
+                  </div>
+                </article>
+              </>
+            )}
           </div>
-        </article>
+        </section>
       </section>
     </>
   );
-};
+});
 
 export default OnBoardingThree;
