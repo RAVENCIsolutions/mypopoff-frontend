@@ -61,6 +61,11 @@ const POInput = styled.input`
   color: #c68a4e;
   font-size: 1.1rem;
   font-weight: 600;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    text-align: center;
+  }
 `;
 
 const POLabel = styled.label`
@@ -83,6 +88,11 @@ const POLabel = styled.label`
     top: 0;
     left: 0;
     font-size: 0.85rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    text-align: center;
   }
 `;
 

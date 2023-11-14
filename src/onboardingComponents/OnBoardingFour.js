@@ -25,8 +25,9 @@ import {
   PiSword,
 } from "react-icons/pi";
 import { IoFitnessOutline } from "react-icons/io5";
-import CategoryChip from "@/components/CategoryChip";
+import PopOffChip from "@/components/PopOffChip";
 import styled from "@emotion/styled";
+import PopOffChipInput from "@/components/PopOffChipInput";
 
 const OnBoardingFour = observer(() => {
   const [loading, setLoading] = useState(false);
@@ -43,7 +44,6 @@ const OnBoardingFour = observer(() => {
   const avatarOverlay = useRef(null);
 
   const handleChange = (event) => {
-    console.log(event);
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
@@ -58,14 +58,16 @@ const OnBoardingFour = observer(() => {
     {
       name: "Business and Corporate",
       icon: (index) => (
-        <PiBriefcase color={selectedCategory === index ? "white" : "#202224"} />
+        <PiBriefcase
+          color={selectedCategory === index ? "#f7f5f3" : "#202224"}
+        />
       ),
     },
     {
       name: "Creative",
       icon: (index) => (
         <PiPaintBrushHousehold
-          color={selectedCategory === index ? "white" : "#202224"}
+          color={selectedCategory === index ? "#f7f5f3" : "#202224"}
         />
       ),
     },
@@ -82,40 +84,42 @@ const OnBoardingFour = observer(() => {
     {
       name: "Entertainment",
       icon: (index) => (
-        <PiMaskHappy color={selectedCategory === index ? "white" : "#202224"} />
+        <PiMaskHappy
+          color={selectedCategory === index ? "#f7f5f3" : "#202224"}
+        />
       ),
     },
     {
       name: "Gaming",
       icon: (index) => (
-        <PiSword color={selectedCategory === index ? "white" : "#202224"} />
+        <PiSword color={selectedCategory === index ? "#f7f5f3" : "#202224"} />
       ),
     },
     {
       name: "Health and Fitness",
       icon: (index) => (
-        <PiBarbell color={selectedCategory === index ? "white" : "#202224"} />
+        <PiBarbell color={selectedCategory === index ? "#f7f5f3" : "#202224"} />
       ),
     },
     {
       name: "News and Media",
       icon: (index) => (
         <PiNewspaperClipping
-          color={selectedCategory === index ? "white" : "#202224"}
+          color={selectedCategory === index ? "#f7f5f3" : "#202224"}
         />
       ),
     },
     {
       name: "Technology",
       icon: (index) => (
-        <PiDevices color={selectedCategory === index ? "white" : "#202224"} />
+        <PiDevices color={selectedCategory === index ? "#f7f5f3" : "#202224"} />
       ),
     },
     {
       name: "Travel",
       icon: (index) => (
         <PiAirplaneTilt
-          color={selectedCategory === index ? "white" : "#202224"}
+          color={selectedCategory === index ? "#f7f5f3" : "#202224"}
         />
       ),
     },
@@ -130,7 +134,7 @@ const OnBoardingFour = observer(() => {
   return (
     <>
       <section className="relative mt-5 mb-10 self-start flex flex-col md:flex-row items-stretch justify-between">
-        <article className="pt-10 px-5 pb-10 flex flex-col items-center gap-8 rounded-none md:rounded-3xl w-full bg-white shadow-lg shadow-dashboard-primary-dark/10">
+        <article className="pt-10 px-5 pb-10 flex flex-col items-center gap-10 rounded-none md:rounded-3xl w-full bg-white shadow-lg shadow-dashboard-primary-dark/10">
           <div className="relative flex flex-col items-center gap-2 h-32 w-32 rounded-full shadow-xl shadow-primary-dark/10 overflow-hidden">
             <img src="/images/avatar-placeholder.jpg" className="" />
 
@@ -157,10 +161,11 @@ const OnBoardingFour = observer(() => {
             </button>
           </div>
 
-          <div className="flex items-center gap-0">
-            <h4 className="mt-2.5 text-2xl font-bold">mypopoff.com/</h4>
+          <div className="flex flex-col md:flex-row items-center gap-0">
+            <h4 className="mt-2.5 text-lg md:text-2xl font-bold">
+              mypopoff.com/
+            </h4>
             <PopOffInput
-              className=" transition-all duration-300"
               name="username"
               label="Your PopOff username"
               value={formData.username}
@@ -169,35 +174,33 @@ const OnBoardingFour = observer(() => {
           </div>
 
           <article className="flex flex-col items-center gap-3 w-full max-w-md">
-            <h4 className="mt-2 text-base font-bold">
+            <h4 className="mt-2 text-base font-bold text-center md:text-left">
               Which category best suits your PopOff?
             </h4>
             <div className="flex flex-row justify-center flex-wrap gap-2">
               {categories.map((category, index) => (
-                <Chip
+                <PopOffChip
                   key={index}
                   label={category.name}
                   icon={category.icon(index)}
+                  selected={selectedCategory === index}
                   onClick={() => handleSelectCategory(index)}
-                  className={`pl-1 shadow-primary-dark/10 transition-all duration-300 ${
-                    selectedCategory === index
-                      ? "bg-action text-white shadow-none"
-                      : "text-primary-dark shadow-lg"
-                  }`}
                 />
               ))}
             </div>
           </article>
 
           <article className="flex flex-col items-center gap-3 w-full max-w-md">
-            <h4 className="mt-2 text-base font-bold">
+            <h4 className="mt-2 text-base font-bold text-center md:text-left">
               Make your PopOff easier to find by adding some tags:
             </h4>
-            <div className="flex flex-row justify-center flex-wrap gap-2"></div>
+            <div className="flex flex-row justify-center flex-wrap gap-2">
+              <PopOffChipInput />
+            </div>
           </article>
 
           <article className="flex flex-col items-center gap-3 w-full max-w-xs">
-            <h4 className="mt-2 text-base font-bold">
+            <h4 className="mt-2 text-base font-bold text-center md:text-left">
               Share a summary about your PopOff:
             </h4>
             <TextField
