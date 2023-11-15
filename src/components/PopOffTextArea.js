@@ -10,29 +10,24 @@ const POWrapper = styled.div`
   position: relative;
   display: inline-block;
 
-  min-width: 12rem;
+  min-width: 16rem;
 
   &:before {
     pointer-events: none;
     content: "";
-
     position: absolute;
-
     left: 0;
     right: 0;
-    bottom: -1px;
-
-    width: 99%;
+    bottom: 0;
+    width: 100%;
     height: 1px;
-
     background-color: rgba(0, 0, 0, 0.5);
-
     z-index: 1;
 
     transition: height 0.1s ease;
   }
 
-  &:hover::before {
+  &:hover:not(.when-focused)::before {
     height: 2px;
     background-color: rgb(32, 34, 36, 1);
   }
@@ -40,16 +35,13 @@ const POWrapper = styled.div`
   &.when-focused::after {
     pointer-events: none;
     content: "";
-
     position: absolute;
-
     left: 50%;
-    bottom: -1px;
-
+    bottom: 0;
     width: 0;
     height: 3px;
 
-    background-color: ${(props) => props.shade || "rgb(198, 138, 78)"};
+    background-color: rgb(198, 138, 78);
     transform: translateX(-50%);
 
     z-index: 2;
@@ -63,7 +55,7 @@ const POWrapper = styled.div`
   }
 `;
 
-const POInput = styled.input`
+const POTextArea = styled.textarea`
   padding: 3px 0 4px;
 
   width: 100%;
@@ -73,6 +65,8 @@ const POInput = styled.input`
   font-size: 1.1rem;
   font-weight: 600;
 
+  resize: none;
+
   @media (max-width: 768px) {
     font-size: 1rem;
     text-align: center;
@@ -80,7 +74,7 @@ const POInput = styled.input`
 `;
 
 const POLabel = styled.label`
-  top: 38%;
+  top: 15%;
 
   width: 100%;
 
@@ -107,7 +101,7 @@ const POLabel = styled.label`
   }
 `;
 
-const PopOffInput = (props) => {
+const PopOffTextArea = (props) => {
   const [focused, setFocused] = useState(false);
 
   const ref = useRef(null);
@@ -137,7 +131,7 @@ const PopOffInput = (props) => {
   return (
     <POBase className="relative">
       <POLabel
-        htmlFor=":poi:"
+        htmlFor=":pota:"
         className={`absolute z-50 ${
           focused || props.value.length > 0
             ? "is-focused"
@@ -149,13 +143,12 @@ const PopOffInput = (props) => {
       <POWrapper
         ref={ref}
         className={`when-focused ${focused ? "is-focused" : ""}`}
-        shade={props.shade}
       >
-        <POInput
-          id=":poi:"
+        <POTextArea
+          id=":pota:"
+          rows={4}
           onFocus={handleOnFocus}
           onBlur={handleOnBlur}
-          {...props.inputProps}
           {...props}
         />
       </POWrapper>
@@ -163,4 +156,4 @@ const PopOffInput = (props) => {
   );
 };
 
-export default PopOffInput;
+export default PopOffTextArea;

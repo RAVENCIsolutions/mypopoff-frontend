@@ -6,12 +6,14 @@ import { observer } from "mobx-react";
 import onBoardingStore from "@/stores/OnBoardingStore";
 import { onBoardingLayouts } from "@/data/OnBoardingLayouts";
 
-const OnBoardingOne = observer(() => {
+const OnBoardingOne = observer((props) => {
   const [activeLayout, setActiveLayout] = useState(0);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
+
+    props.setGreenLight(true);
 
     const currentToIndex = onBoardingLayouts.findIndex(
       (layout) =>
@@ -27,7 +29,7 @@ const OnBoardingOne = observer(() => {
   return (
     <>
       <section className="relative mb-10 md:pt-6 flex flex-col md:flex-row items-stretch justify-between">
-        <section className="md:pt-3 md:pr-6 relative flex items-center w-1/2 border-r-2">
+        <section className="md:pt-3 md:pr-6 relative flex items-center w-full md:w-1/2 md:border-r-2">
           <h3 className="hidden md:block absolute top-0 font-bold text-base md:text-lg italic opacity-50">
             Options
           </h3>

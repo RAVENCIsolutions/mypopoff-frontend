@@ -17,7 +17,7 @@ const PopOffChipInput = (props) => {
   const totalChips = 3;
 
   const handleChange = (event) => {
-    chips.length < totalChips && setValue(event.target.value);
+    setValue(event.target.value);
   };
 
   const handleInput = (event) => {
@@ -33,7 +33,7 @@ const PopOffChipInput = (props) => {
             element.toLowerCase() === event.target.value.toLowerCase()
         )
       )
-        setChips([...chips, value]);
+        setChips([...chips, value.trim()]);
       setValue("");
       event.preventDefault();
     }
@@ -70,14 +70,16 @@ const PopOffChipInput = (props) => {
           onKeyDown={handleInput}
         />
         <p
-          className={`flex items-center gap-1 text-xs font-bold uppercase ${
+          className={`flex items-center gap-1 text-xs font-bold text-center uppercase ${
             chips.length < totalChips
               ? "text-primary-dark/40"
               : "text-[#49A432]"
           }`}
         >
           {chips.length >= totalChips && <PiCheck />}
-          Min. {totalChips} Tags. {chips.length} added so far
+          At least {totalChips} Tags recommended
+          <br />
+          {chips.length} added so far
         </p>
       </div>
     </POWrapper>

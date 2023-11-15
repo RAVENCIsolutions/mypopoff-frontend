@@ -1,47 +1,48 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Chip, CircularProgress, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import PopOffInput from "@/components/PopOffInput";
-import { TwitterPicker } from "react-color";
-import ColourPickerBlock from "@/components/ColourPickerBlock";
 import { observer } from "mobx-react";
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
-import Uploady from "@rpldy/uploady";
-import UploadButton from "@rpldy/upload-button";
-import { TiPencil } from "react-icons/ti";
+
 import {
   PiAirplaneTilt,
   PiBarbell,
   PiBriefcase,
   PiDevices,
   PiGraduationCap,
+  PiGuitar,
+  PiHandHeart,
   PiMaskHappy,
   PiNewspaperClipping,
-  PiPaintBrushBroad,
   PiPaintBrushHousehold,
   PiPencilLineLight,
+  PiPlusSquare,
+  PiShoppingCart,
   PiSword,
 } from "react-icons/pi";
-import { IoFitnessOutline } from "react-icons/io5";
-import PopOffChip from "@/components/PopOffChip";
-import styled from "@emotion/styled";
-import PopOffChipInput from "@/components/PopOffChipInput";
 
-const OnBoardingFour = observer(() => {
+import PopOffChip from "@/components/PopOffChip";
+import PopOffChipInput from "@/components/PopOffChipInput";
+import PopOffTextArea from "@/components/PopOffTextArea";
+
+const OnBoardingFour = observer((props) => {
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedAvatar, setSelectedAvatar] = useState(null);
+  const [otherCategoryValue, setOtherCategoryValue] = useState("");
 
   const [formData, setFormData] = useState({
     username: "",
-    profile: "",
-    categories: {},
+    avatar: "",
+    category: "",
+    otherCategory: "",
     tags: [],
     bio: "",
   });
 
   const avatarOverlay = useRef(null);
+  const avatarFileRef = useRef(null);
 
   const handleChange = (event) => {
     setFormData({
@@ -52,6 +53,23 @@ const OnBoardingFour = observer(() => {
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
+    setFormData({
+      ...formData,
+      category: categories[category],
+    });
+
+    setFormData({
+      ...formData,
+      otherCategory: category < categories.length - 1 ? "" : otherCategoryValue,
+    });
+  };
+
+  const handleAvatarSelect = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      setSelectedAvatar(file);
+    }
   };
 
   const categories = [
@@ -67,6 +85,14 @@ const OnBoardingFour = observer(() => {
       name: "Creative",
       icon: (index) => (
         <PiPaintBrushHousehold
+          color={selectedCategory === index ? "#f7f5f3" : "#202224"}
+        />
+      ),
+    },
+    {
+      name: "eCommmerce and Retail",
+      icon: (index) => (
+        <PiShoppingCart
           color={selectedCategory === index ? "#f7f5f3" : "#202224"}
         />
       ),
@@ -102,9 +128,23 @@ const OnBoardingFour = observer(() => {
       ),
     },
     {
+      name: "Music",
+      icon: (index) => (
+        <PiGuitar color={selectedCategory === index ? "#f7f5f3" : "#202224"} />
+      ),
+    },
+    {
       name: "News and Media",
       icon: (index) => (
         <PiNewspaperClipping
+          color={selectedCategory === index ? "#f7f5f3" : "#202224"}
+        />
+      ),
+    },
+    {
+      name: "Non-profit",
+      icon: (index) => (
+        <PiHandHeart
           color={selectedCategory === index ? "#f7f5f3" : "#202224"}
         />
       ),
@@ -123,13 +163,37 @@ const OnBoardingFour = observer(() => {
         />
       ),
     },
+    {
+      name: "Other..",
+      icon: (index) => (
+        <PiPlusSquare
+          color={selectedCategory === index ? "#f7f5f3" : "#202224"}
+        />
+      ),
+    },
   ];
 
   useEffect(() => {
     setLoading(true);
 
+    props.setFeedback([
+      { id: 0, subject: "username", text: "Test", severity: "success" },
+      { id: 1, subject: "something else", text: "Test", severity: "info" },
+      { id: 2, subject: "category", text: "Testing", severity: "warning" },
+      {
+        id: 3,
+        subject: "other",
+        text: "Testing C relative flex flex-col items-center gap-2 h-32 w-32 rounded-full shadow-xl shadow-primary-dark/10 overflow-hidden",
+        severity: "error",
+      },
+    ]);
+
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    props.setGreenLight();
+  });
 
   return (
     <>
@@ -147,6 +211,7 @@ const OnBoardingFour = observer(() => {
 
             <button
               className="avatar absolute top-2.5 right-2.5 p-2 hover:p-2.5 bg-white rounded-full shadow-md hover:shadow-xl shadow-primary-dark/10 hover:shadow-primary-dark/20 transition-all duration-300 z-20"
+              onClick={() => avatarFileRef.current.click()}
               onMouseOver={() => {
                 avatarOverlay.current.style.opacity = "0.2";
               }}
@@ -161,6 +226,14 @@ const OnBoardingFour = observer(() => {
             </button>
           </div>
 
+          <input
+            type="file"
+            ref={avatarFileRef}
+            className="hidden"
+            accept="image/*"
+            onChange={handleAvatarSelect}
+          />
+
           <div className="flex flex-col md:flex-row items-center gap-0">
             <h4 className="mt-2.5 text-lg md:text-2xl font-bold">
               mypopoff.com/
@@ -173,11 +246,11 @@ const OnBoardingFour = observer(() => {
             />
           </div>
 
-          <article className="flex flex-col items-center gap-3 w-full max-w-md">
+          <article className="flex flex-col items-center gap-3 w-full max-w-xl">
             <h4 className="mt-2 text-base font-bold text-center md:text-left">
               Which category best suits your PopOff?
             </h4>
-            <div className="flex flex-row justify-center flex-wrap gap-2">
+            <div className="flex flex-row items-start justify-center flex-wrap gap-2">
               {categories.map((category, index) => (
                 <PopOffChip
                   key={index}
@@ -188,6 +261,17 @@ const OnBoardingFour = observer(() => {
                 />
               ))}
             </div>
+            {selectedCategory === categories.length - 1 && (
+              <PopOffInput
+                name="otherCategory"
+                label="Other Category"
+                value={formData.otherCategory}
+                onChange={(event) => {
+                  handleChange(event);
+                  setOtherCategoryValue(event.target.value);
+                }}
+              />
+            )}
           </article>
 
           <article className="flex flex-col items-center gap-3 w-full max-w-md">
@@ -203,15 +287,11 @@ const OnBoardingFour = observer(() => {
             <h4 className="mt-2 text-base font-bold text-center md:text-left">
               Share a summary about your PopOff:
             </h4>
-            <TextField
-              id="standard-multiline-static"
-              label="Your bio..."
-              helperText=""
-              multiline
-              fullWidth
-              rows={4}
-              variant="standard"
-              inputProps={{ className: "text-sm placeholder:text-sm" }}
+            <PopOffTextArea
+              name="bio"
+              label="Your Bio.."
+              value={formData.bio}
+              onChange={handleChange}
             />
           </article>
         </article>

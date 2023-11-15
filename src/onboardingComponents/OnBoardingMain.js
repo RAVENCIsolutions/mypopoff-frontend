@@ -8,8 +8,18 @@ import OnBoardingOne from "@/onboardingComponents/OnBoardingOne";
 import OnBoardingTwo from "@/onboardingComponents/OnBoardingTwo";
 import OnBoardingThree from "@/onboardingComponents/OnBoardingThree";
 import OnBoardingFour from "@/onboardingComponents/OnBoardingFour";
+import { Alert, Box, Snackbar } from "@mui/material";
+import PopOffSnackbarBlock from "@/components/PopOffSnackbarBlock";
 
 const OnBoardingMain = observer(() => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [greenLight, setGreenLight] = useState(false);
+  const [feedback, setFeedback] = useState([]);
+  const [showFeedback, setShowFeedback] = useState(false);
+
+  const pageContainer = useRef(null);
+  const snackbar = useRef(null);
+
   const onBoardingTitle = [
     {
       id: "page-one",
@@ -23,48 +33,94 @@ const OnBoardingMain = observer(() => {
   const onBoardingPages = [
     {
       id: "page-one",
-      // component: <OnBoardingOne />,
-      component: <OnBoardingFour />,
+      component: (
+        <OnBoardingOne
+          setGreenLight={setGreenLight}
+          setFeedback={setFeedback}
+        />
+      ),
     },
     {
       id: "page-two",
-      component: <OnBoardingTwo />,
+      component: (
+        <OnBoardingTwo
+          setGreenLight={setGreenLight}
+          setFeedback={setFeedback}
+        />
+      ),
     },
-    { id: "page-three", component: <OnBoardingThree /> },
-    { id: "page-four", component: <OnBoardingFour /> },
+    {
+      id: "page-three",
+      component: (
+        <OnBoardingThree
+          setGreenLight={setGreenLight}
+          setFeedback={setFeedback}
+        />
+      ),
+    },
+    {
+      id: "page-four",
+      component: (
+        <OnBoardingFour
+          setGreenLight={setGreenLight}
+          setFeedback={setFeedback}
+        />
+      ),
+    },
   ];
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const pageContainer = useRef(null);
+  const handleShowFeedback = () => {
+    setShowFeedback(true);
+  };
+
+  const handleHideFeedback = () => {
+    setShowFeedback(false);
+  };
 
   const prevPage = () => {
-    pageContainer.current.style.left = "200px";
-    pageContainer.current.style.opacity = "0";
+    if (greenLight) {
+      setFeedback([]);
+      setGreenLight(false);
+      handleHideFeedback();
 
-    setTimeout(() => {
-      setActiveIndex(activeIndex - 1);
-      pageContainer.current.style.left = "-400px";
-    }, 400);
+      pageContainer.current.style.left = "200px";
+      pageContainer.current.style.opacity = "0";
 
-    setTimeout(() => {
-      pageContainer.current.style.left = "0px";
-      pageContainer.current.style.opacity = "1";
-    }, 600);
+      setTimeout(() => {
+        setActiveIndex(activeIndex - 1);
+        pageContainer.current.style.left = "-400px";
+      }, 400);
+
+      setTimeout(() => {
+        pageContainer.current.style.left = "0px";
+        pageContainer.current.style.opacity = "1";
+      }, 600);
+    } else {
+      handleShowFeedback();
+    }
   };
 
   const nextPage = () => {
-    pageContainer.current.style.left = "-200px";
-    pageContainer.current.style.opacity = "0";
+    if (greenLight) {
+      setFeedback([]);
+      setGreenLight(false);
+      handleHideFeedback();
 
-    setTimeout(() => {
-      setActiveIndex(activeIndex + 1);
-      pageContainer.current.style.left = "400px";
-    }, 400);
+      pageContainer.current.style.left = "-200px";
+      pageContainer.current.style.opacity = "0";
 
-    setTimeout(() => {
-      pageContainer.current.style.left = "0px";
-      pageContainer.current.style.opacity = "1";
-    }, 600);
+      setTimeout(() => {
+        setActiveIndex(activeIndex + 1);
+        pageContainer.current.style.left = "400px";
+      }, 400);
+
+      setTimeout(() => {
+        pageContainer.current.style.left = "0px";
+        pageContainer.current.style.opacity = "1";
+      }, 600);
+    } else {
+      handleShowFeedback();
+    }
   };
 
   useEffect(() => {
@@ -74,6 +130,12 @@ const OnBoardingMain = observer(() => {
 
   return (
     <main className="pb-6 relative flex-grow flex flex-col items-between justify-between gap-4 md:gap-2 min-h-min">
+      <PopOffSnackbarBlock
+        value={feedback}
+        changeValue={setFeedback}
+        show={showFeedback}
+      />
+
       <section className="mt-2 md:mt-4 mb-2 md:my-0 max-w-xs sm:max-w-sm md:max-w-none">
         <h1 className="text-lg sm:text-xl font-sans">
           🎈 Congratulations 🎉🎉 on your new account! Let's get you set up.

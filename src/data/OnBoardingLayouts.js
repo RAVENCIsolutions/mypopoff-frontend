@@ -9,9 +9,9 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout01_i.png",
     ],
     colours: {
-      background: "bg-white",
-      mainText: "text-primary-dark",
-      subText: "text-primary-dark",
+      background: "#ffffff",
+      mainText: "#202224",
+      subText: "#202224",
     },
   },
   {
@@ -24,9 +24,9 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout02_iii.png",
     ],
     colours: {
-      background: "bg-white",
-      mainText: "text-primary-dark",
-      subText: "text-primary-dark",
+      background: "#ffffff",
+      mainText: "#202224",
+      subText: "#202224",
     },
   },
   {
@@ -39,9 +39,9 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout03_iii.png",
     ],
     colours: {
-      background: "bg-primary-dark",
-      mainText: "text-primary-light",
-      subText: "text-primary-light",
+      background: "#202224",
+      mainText: "#f7f5f3",
+      subText: "#f7f5f3",
     },
   },
   {
@@ -54,9 +54,9 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout04_iii.png",
     ],
     colours: {
-      background: "bg-primary-dark",
-      mainText: "text-primary-light",
-      subText: "text-primary-light",
+      background: "#202224",
+      mainText: "#f7f5f3",
+      subText: "#f7f5f3",
     },
   },
   {
@@ -69,9 +69,9 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout05_iii.png",
     ],
     colours: {
-      background: "bg-white",
-      mainText: "text-primary-dark",
-      subText: "text-primary-dark",
+      background: "#ffffff",
+      mainText: "#202224",
+      subText: "#202224",
     },
   },
   {
@@ -84,10 +84,10 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout06_iii.png",
     ],
     colours: {
-      background: "bg-action",
-      middleGround: "bg-white",
-      mainText: "text-primary-dark",
-      subText: "text-primary-dark",
+      background: "#c68a4e",
+      middleGround: "#ffffff",
+      mainText: "#202224",
+      subText: "#202224",
     },
   },
   {
@@ -100,9 +100,9 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout07_iii.png",
     ],
     colours: {
-      background: "bg-white",
-      mainText: "text-primary-dark",
-      subText: "text-primary-dark",
+      background: "#ffffff",
+      mainText: "#202224",
+      subText: "#202224",
     },
   },
   {
@@ -115,9 +115,9 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout08_iii.png",
     ],
     colours: {
-      background: "bg-primary-dark",
-      mainText: "text-action",
-      subText: "text-primary-light",
+      background: "#202224",
+      mainText: "#c68a4e",
+      subText: "#f7f5f3",
     },
   },
   {
@@ -130,10 +130,10 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout09_iii.png",
     ],
     colours: {
-      background: "bg-white",
-      middleGround: "bg-white",
-      mainText: "text-primary-dark",
-      subText: "text-primary-dark",
+      background: "#ffffff",
+      middleGround: "#ffffff",
+      mainText: "#202224",
+      subText: "#202224",
     },
   },
   {
@@ -146,10 +146,10 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout10_iii.png",
     ],
     colours: {
-      background: "bg-action",
-      middleGround: "bg-white",
-      mainText: "text-action",
-      subText: "text-primary-dark",
+      background: "#c68a4e",
+      middleGround: "#ffffff",
+      mainText: "#c68a4e",
+      subText: "#202224",
     },
   },
 ];
