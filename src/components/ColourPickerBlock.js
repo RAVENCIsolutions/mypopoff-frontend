@@ -1,17 +1,20 @@
-import { TextField } from "@mui/material";
 import { useRef, useState } from "react";
-import { Block, Colorful, Compact, Sketch } from "@uiw/react-color";
-import { set } from "mobx";
-import useOutsideClick from "@/utils/useOutsideClick";
-import PopOffInput from "@/components/PopOffInput";
+import Compact from "@uiw/react-color-compact";
+import { observer } from "mobx-react";
 
-const ColourPickerBlock = ({ label, colorThrough = "#ffffff" }) => {
+import PopOffInput from "@/components/PopOffInput";
+import useOutsideClick from "@/utils/useOutsideClick";
+import onBoardingStore from "@/stores/OnBoardingStore";
+
+const ColourPickerBlock = observer(({ label, colorKey }) => {
   const [showPicker, setShowPicker] = useState(false);
-  const [colorChosen, setColorChosen] = useState(colorThrough);
+
+  const color = onBoardingStore.onBoardingCurrent.palette[colorKey];
+
   const ref = useRef(null);
 
   const handleChange = (color) => {
-    setColorChosen(color.hex);
+    onBoardingStore.updateColour(colorKey, color.hex);
   };
 
   useOutsideClick(ref, () => setShowPicker(false));
@@ -25,17 +28,22 @@ const ColourPickerBlock = ({ label, colorThrough = "#ffffff" }) => {
       <section className="flex items-center gap-4">
         <div
           className="block w-10 h-10 border-[1px] border-secondary-dark rounded-lg"
-          style={{ backgroundColor: colorChosen }}
+          style={{ backgroundColor: color }}
           onClick={() => setShowPicker(true)}
         ></div>
         <div>
-          <PopOffInput label={label} value={colorChosen} shade={colorChosen} />
+          <PopOffInput
+            label={label}
+            value={color}
+            shade={color}
+            onChange={(e) => e.preventDefault()}
+          />
         </div>
       </section>
       {showPicker && (
         <div className="mt-2">
           <Compact
-            color={colorChosen}
+            color={color}
             onChange={handleChange}
             style={{
               boxShadow:
@@ -46,6 +54,6 @@ const ColourPickerBlock = ({ label, colorThrough = "#ffffff" }) => {
       )}
     </article>
   );
-};
+});
 
 export default ColourPickerBlock;

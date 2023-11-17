@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import ColourPickerBlock from "@/components/ColourPickerBlock";
 import { observer } from "mobx-react";
+
 import onBoardingStore from "@/stores/OnBoardingStore";
+
 import Layout01 from "@/templates/layout-01";
 import Layout02 from "@/templates/layout-02";
 import Layout03 from "@/templates/layout-03";
@@ -18,29 +20,26 @@ import Layout10 from "@/templates/layout-10";
 
 const OnBoardingThree = observer((props) => {
   const [loading, setLoading] = useState(false);
-  const [activeLayout, setActiveLayout] = useState(0);
-
-  const activeColours = {
-    ...onBoardingStore.onBoardingCurrent.layoutColours,
-    ...onBoardingStore.onBoardingCurrent.buttonColours,
-  };
 
   const layoutIndex = {
-    "layout-01": <Layout01 />,
-    "layout-02": <Layout02 />,
-    "layout-03": <Layout03 />,
-    "layout-04": <Layout04 />,
-    "layout-05": <Layout05 />,
-    "layout-06": <Layout06 />,
-    "layout-07": <Layout07 />,
-    "layout-08": <Layout08 />,
-    "layout-09": <Layout09 />,
-    "layout-10": <Layout10 />,
+    "layout-01": <Layout01 previewWindow={true} />,
+    "layout-02": <Layout02 previewWindow={true} />,
+    "layout-03": <Layout03 previewWindow={true} />,
+    "layout-04": <Layout04 previewWindow={true} />,
+    "layout-05": <Layout05 previewWindow={true} />,
+    "layout-06": <Layout06 previewWindow={true} />,
+    "layout-07": <Layout07 previewWindow={true} />,
+    "layout-08": <Layout08 previewWindow={true} />,
+    "layout-09": <Layout09 previewWindow={true} />,
+    "layout-10": <Layout10 previewWindow={true} />,
   };
 
   useEffect(() => {
     setLoading(true);
+
     props.setGreenLight(true);
+    onBoardingStore.resetColours();
+
     setLoading(false);
   }, []);
 
@@ -53,35 +52,37 @@ const OnBoardingThree = observer((props) => {
           </h3>
           <article className="mt-10 p-3 md:p-5 rounded-none md:rounded-3xl w-full bg-white shadow-lg shadow-dashboard-primary-dark/10">
             <div className="flex flex-col items-start gap-6">
-              {Object.keys(activeColours).map((key, index) => (
-                <article key={key}>
+              {Object.keys(onBoardingStore.onBoardingCurrent.palette).map(
+                (key, index) => (
                   <ColourPickerBlock
+                    key={key}
                     label={onBoardingStore.colourLabels[key]}
-                    colorThrough={activeColours[key]}
+                    colorKey={key}
                   />
-                </article>
-              ))}
+                )
+              )}
             </div>
           </article>
         </section>
 
         <section className="hidden md:block relative pt-3 pl-6 w-1/2">
           <h3 className="absolute top-0 left-6 self-center font-bold text-lg italic opacity-50">
-            Examples
+            Preview
           </h3>
           <div className="mt-5 relative h-full w-full">
             {loading ? (
               <CircularProgress />
             ) : (
               <>
-                <article className="p-1 relative w-full h-full">
-                  {/*<img*/}
-                  {/*  src="/images/onboarding/mobile-frame.png"*/}
-                  {/*  className="pointer-events-none absolute w-full h-full object-contain z-50"*/}
-                  {/*/>*/}
+                <article className="mx-auto relative h-[600px] w-[300px] ">
+                  <img
+                    src="/images/onboarding/mobile-frame.png"
+                    className="pointer-events-none absolute w-full h-full object-contain z-50"
+                  />
 
-                  {layoutIndex[onBoardingStore.onBoardingCurrent.pageLayout]}
-
+                  <section className="w-full h-full rounded-[50px] overflow-x-hidden overflow-y-auto">
+                    {layoutIndex[onBoardingStore.onBoardingCurrent.pageLayout]}
+                  </section>
                   {/*{onBoardingStore.onBoardingCurrent.buttonStyle}*/}
                 </article>
               </>

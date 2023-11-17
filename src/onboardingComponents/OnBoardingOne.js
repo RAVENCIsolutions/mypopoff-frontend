@@ -20,7 +20,7 @@ const OnBoardingOne = observer((props) => {
         layout.layoutID === onBoardingStore.onBoardingCurrent.pageLayout
     );
 
-    onBoardingStore.resetLayoutColours(currentToIndex);
+    onBoardingStore.resetColours();
     setActiveLayout(currentToIndex);
 
     setLoading(false);

@@ -9,7 +9,7 @@ export const onBoardingLayouts = [
       "/images/onboarding/layout01_i.png",
     ],
     colours: {
-      background: "#ffffff",
+      background: "#f5f5f4",
       mainText: "#202224",
       subText: "#202224",
     },

@@ -14,18 +14,16 @@ class OnBoardingStore {
   onBoardingTemplate = {
     pageLayout: "layout-01",
     buttonStyle: "button-01", // You need to define how to get this information
-    layoutColours: {
-      background: "bg-action",
-      middleGround: "bg-white",
-      mainText: "text-action",
-      subText: "text-primary-dark",
-    },
-    buttonColours: {
-      buttonOutline: "border-transparent",
-      buttonMain: "bg-action",
-      buttonHover: "bg-action/80",
-      buttonText: "text-primary-light",
-      buttonHoverText: "text-primary-light",
+    palette: {
+      background: "#c68a4e",
+      middleGround: "#ffffff",
+      mainText: "#c68a4e",
+      subText: "#202224",
+      buttonOutline: "transparent",
+      buttonMain: "#c68a4e",
+      buttonHover: "#c68a4e",
+      buttonText: "#f7f5f3",
+      buttonHoverText: "#f7f5f3",
     },
     images: {
       background: "",
@@ -40,7 +38,7 @@ class OnBoardingStore {
     buttonOutline: "Outline",
     buttonMain: "Button Background",
     buttonHover: "Button Background on Hover",
-    buttonText: "Text",
+    buttonText: "Button Text",
     buttonHoverText: "Text on Hover",
   };
 
@@ -62,25 +60,25 @@ class OnBoardingStore {
     this.onBoardingCurrent.buttonStyle = onBoardingButtons[id].layoutID;
   };
 
-  updateLayoutColour = (element, colour) => {
-    this.onBoardingCurrent.layoutColours[element] = colour;
+  updateColour = (key, colour) => {
+    this.onBoardingCurrent.palette[key] = colour;
   };
 
-  updateButtonColour = (element, colour) => {
-    this.onBoardingCurrent.buttonColours[element] = colour;
-  };
+  resetColours = () => {
+    const layoutIndex = onBoardingLayouts.findIndex(
+      (layout) =>
+        layout.layoutID === onBoardingStore.onBoardingCurrent.pageLayout
+    );
 
-  resetLayoutColours = (id) => {
-    this.onBoardingCurrent.layoutColours = {};
-    this.onBoardingCurrent.layoutColours = {
-      ...onBoardingLayouts[id].colours,
-    };
-  };
+    const buttonIndex = onBoardingButtons.findIndex(
+      (button) =>
+        button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+    );
 
-  resetButtonStyleColours = (id) => {
-    this.onBoardingCurrent.buttonColours = {};
-    this.onBoardingCurrent.buttonColours = {
-      ...onBoardingButtons[id].colours,
+    this.onBoardingCurrent.palette = {};
+    this.onBoardingCurrent.palette = {
+      ...onBoardingLayouts[layoutIndex].colours,
+      ...onBoardingButtons[buttonIndex].colours,
     };
   };
 

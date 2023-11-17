@@ -4,56 +4,96 @@ import {
   BiLogoTwitch,
 } from "react-icons/bi";
 import Link from "next/link";
+import styled from "@emotion/styled";
+import { useEffect } from "react";
+import { observer } from "mobx-react";
+import onBoardingStore from "@/stores/OnBoardingStore";
 
-const Layout01 = () => {
+const ResponsiveMain = styled.main``;
+
+const Layout01 = observer(({ previewWindow = false }) => {
   const sampleLinks = [
-    { url: "/", title: "Book a Free Consultation" },
-    { url: "/", title: "My Website" },
-    { url: "/", title: "My Portfolio" },
-    { url: "/", title: "Email Me" },
+    { url: "", title: "Book a Free Consultation" },
+    { url: "", title: "My Website" },
+    { url: "", title: "My Portfolio" },
+    { url: "", title: "Email Me" },
   ];
 
+  const { palette } = onBoardingStore.onBoardingCurrent;
+
   return (
-    <main className="px-2 sm:px-10 py-10 flex flex-col items-center justify-center h-screen min-h-fit bg-stone-100">
+    <main
+      className={`${
+        previewWindow ? "px-2 py-4" : "px-2 sm:px-10 py-2"
+      } flex flex-col items-center justify-between`}
+      style={{
+        minHeight: previewWindow ? "100%" : "100vh",
+        backgroundColor: palette.background,
+      }}
+    >
       {/* Image */}
-      <section className="mb-8">
-        <img
-          className="mb-3 w-32 h-32 rounded-full shadow-lg shadow-black/40 bg-dashboard-primary-dark object-cover object-center"
-          src="https://img.freepik.com/free-photo/portrait-woman-with-blue-eyes_188544-7646.jpg"
-          alt="Influencer Username"
-        />
-        <p className="font-medium text-lg text-center tracking-wide text-rose-600">
-          username
-        </p>
-      </section>
+      <article
+        className={`flex-grow flex flex-col items-center justify-center ${
+          previewWindow ? "max-w-[80%]" : "max-w-lg"
+        }`}
+      >
+        <section
+          className={`${
+            previewWindow ? "mb-4" : "mb-8"
+          } flex flex-col items-center`}
+        >
+          <img
+            className="mb-3 w-32 h-32 rounded-full shadow-lg shadow-black/40 bg-dashboard-primary-dark object-cover object-center"
+            src="https://img.freepik.com/free-photo/portrait-woman-with-blue-eyes_188544-7646.jpg"
+            alt="Influencer Username"
+          />
+          <p
+            className={`font-bold text-xl text-center tracking-wide uppercase`}
+            style={{ color: palette.mainText }}
+          >
+            username
+          </p>
+          <p className="text-base text-center">
+            A small quick bio about me and what I do.
+          </p>
+        </section>
 
-      {/* Links */}
-      <section className="mb-10 w-full">
-        <ul className="mx-auto flex flex-col gap-4 items-center text-center w-full font-sans tracking-wide">
-          {sampleLinks.map((link, index) => (
-            <Link
-              key={index}
-              className="cursor-pointer py-2 px-5 w-full max-w-xs bg-rose-600 rounded-full text-stone-100 hover:shadow-md hover:shadow-black/30 hover:scale-105 transition-all duration-300"
-              href={link.url}
-            >
-              <li>{link.title}</li>
-            </Link>
-          ))}
-        </ul>
-      </section>
+        {/* Links */}
+        <section className={`${previewWindow ? "mb-4" : "mb-10"} w-full`}>
+          <ul
+            className={`mx-auto flex flex-col ${
+              previewWindow ? "gap-2" : "gap-4"
+            } items-center text-center w-full font-sans tracking-wide`}
+          >
+            {sampleLinks.map((link, index) => (
+              <Link
+                key={index}
+                className="cursor-pointer py-2 px-5 w-full max-w-xs rounded-full hover:shadow-md hover:shadow-black/30 hover:scale-105 transition-all duration-300"
+                style={{
+                  color: palette.buttonText,
+                  backgroundColor: palette.buttonMain,
+                }}
+                href={link.url}
+              >
+                <li>{link.title}</li>
+              </Link>
+            ))}
+          </ul>
+        </section>
 
-      {/* Social Media */}
-      <section className="flex flex-row gap-4">
-        <BiLogoFacebookCircle size={30} className="text-stone-900" />
-        <BiLogoInstagramAlt size={30} className="text-stone-900" />
-        <BiLogoTwitch size={30} className="text-stone-900" />
-      </section>
+        {/* Social Media */}
+        <section className="flex flex-row gap-4">
+          <BiLogoFacebookCircle size={30} style={{ color: palette.subText }} />
+          <BiLogoInstagramAlt size={30} style={{ color: palette.subText }} />
+          <BiLogoTwitch size={30} style={{ color: palette.subText }} />
+        </section>
+      </article>
 
-      <footer className="absolute bottom-3 text-sm text-stone-500">
+      <footer className="relative text-sm text-stone-500">
         Copyright © {new Date().getFullYear()}. My Pop Off
       </footer>
     </main>
   );
-};
+});
 
 export default Layout01;
