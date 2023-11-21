@@ -3,10 +3,11 @@ import {
   BiLogoInstagramAlt,
   BiLogoTwitch,
 } from "react-icons/bi";
-import Link from "next/link";
-import Image from "next/image";
+import { observer } from "mobx-react";
+import { onBoardingButtons } from "@/data/OnBoardingButtons";
+import onBoardingStore from "@/stores/OnBoardingStore";
 
-const Layout04 = () => {
+const Layout04 = observer(({ previewWindow = false }) => {
   const sampleLinks = [
     { url: "/", title: "Book a Free Consultation" },
     { url: "/", title: "My Website" },
@@ -14,41 +15,73 @@ const Layout04 = () => {
     { url: "/", title: "Email Me" },
   ];
 
+  const { palette } = onBoardingStore.onBoardingCurrent;
+
+  const currentButtonStyleIndex = onBoardingButtons.findIndex(
+    (button) =>
+      button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+  );
+
+  const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
+
   return (
-    <main className="relative py-6 flex flex-col items-between min-h-fit h-screen bg-neutral-800 text-orange-600">
+    <main
+      className={`relative ${
+        previewWindow ? "pt-12 pb-4 min-h-full" : "py-6 min-h-screen"
+      } flex flex-col justify-between h-fit`}
+      style={{ backgroundColor: palette.background, color: palette.mainText }}
+    >
       <section className="mx-auto px-4 flex flex-col justify-center items-center text-center">
-        <h1 className="mb-4 font-newSpirit font-bold text-3xl md:text-6xl text-center">
+        <h1
+          className={`mb-4 font-newSpirit font-bold ${
+            previewWindow ? "text-3xl" : "text-3xl md:text-6xl"
+          } text-center`}
+        >
           username
         </h1>
-        <p className="text-base md:text-xl max-w-xs font-calluna font-light text-white text-center">
+        <p
+          className={`${
+            previewWindow ? "text-base" : "text-base md:text-xl"
+          } max-w-xs font-calluna font-light text-center`}
+          style={{ color: palette.subText }}
+        >
           This is a small block of text about the user who owns this particular
           profile.
         </p>
       </section>
-
-      <ul className="mx-auto px-4 flex flex-col items-stretch justify-center gap-8 w-max max-w-full h-full font-calluna font-semibold md:text-3xl">
-        {sampleLinks.map((link, index) => (
-          <Link
-            key={index}
-            className="group cursor-pointer py-2 px-10 bg-orange-600 text-primary-dark text-center transition-all duration-300"
-            href={link.url}
-          >
-            <li className="textlg md:text-2xl font-normal">{link.title}</li>
-          </Link>
-        ))}
+      <ul
+        className={`mx-auto px-4 flex flex-col items-stretch justify-center w-max max-w-full h-full font-calluna font-semibold ${
+          previewWindow ? "gap-3" : "gap-8 md:text-3xl"
+        }`}
+      >
+        {sampleLinks.map((link, index) => {
+          if (currentButtonStyle && currentButtonStyle.block) {
+            return currentButtonStyle.block(
+              link.title,
+              onBoardingStore.onBoardingCurrent.palette,
+              index
+            );
+          }
+        })}
       </ul>
 
-      <footer className="mx-auto px-4 md:px-16 bottom-3 flex flex-col items-center justify-between gap-1 md:gap-3 w-max text-sm md:text-base text-neutral-500">
+      <footer
+        className={`mx-auto ${
+          previewWindow
+            ? "px-4 gap-1 text-sm"
+            : "px-4 md:px-16 gap-1 md:gap-3 text-sm md:text-base"
+        } bottom-3 flex flex-col items-center justify-between w-max text-neutral-500`}
+      >
         {/* Social Media */}
         <section className="flex flex-row gap-4">
-          <BiLogoFacebookCircle size={24} className="text-neutral-500" />
-          <BiLogoInstagramAlt size={24} className="text-neutral-500" />
-          <BiLogoTwitch size={24} className="text-neutral-500" />
+          <BiLogoFacebookCircle size={24} style={{ color: palette.subText }} />
+          <BiLogoInstagramAlt size={24} style={{ color: palette.subText }} />
+          <BiLogoTwitch size={24} style={{ color: palette.subText }} />
         </section>
         Copyright © {new Date().getFullYear()}. My Pop Off
       </footer>
     </main>
   );
-};
+});
 
 export default Layout04;

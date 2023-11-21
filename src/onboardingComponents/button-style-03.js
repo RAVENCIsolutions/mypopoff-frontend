@@ -6,17 +6,18 @@ const ButtonStyle03 = (props) => {
   const { label, palette } = props;
 
   return (
-    <button className="group relative m-2 px-5 w-4/6 min-w-max h-8 hover:scale-105 transition-all duration-100">
+    <button className="group relative px-5 py-1 mx-2 min-w-max hover:scale-105 transition-all duration-100">
       <div
-        className={`absolute left-0 top-0 w-full h-full group-hover:opacity-80 -skew-x-[20deg]`}
+        className={`absolute left-0 top-0 w-full h-full group-hover:opacity-80 -skew-x-[20deg] transition-all duration-100`}
         style={{
           backgroundColor: palette.buttonMain,
         }}
       ></div>
       <p
-        className={`absolute left-0 top-0 flex items-center justify-center w-full h-full text-base`}
+        className={`relative left-0 top-0 flex items-center justify-center w-full h-full text-base transition-all duration-100 z-10`}
         style={{
           color: palette.buttonText,
+          whiteSpace: "none",
         }}
       >
         {label}

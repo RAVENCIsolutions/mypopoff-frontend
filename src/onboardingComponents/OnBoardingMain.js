@@ -34,11 +34,7 @@ const OnBoardingMain = observer(() => {
     {
       id: "page-one",
       component: (
-        // <OnBoardingOne
-        //   setGreenLight={setGreenLight}
-        //   setFeedback={setFeedback}
-        // />
-        <OnBoardingThree
+        <OnBoardingOne
           setGreenLight={setGreenLight}
           setFeedback={setFeedback}
         />

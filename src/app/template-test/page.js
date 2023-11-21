@@ -20,7 +20,10 @@ import Layout09 from "@/templates/layout-09";
 export default function TemplateTest({ theme = "layout01" }) {
   const themes = {
     layout01: { name: "The Classic", component: <Layout01 /> },
-    layout02: { name: "For the 'Gram", component: <Layout02 /> },
+    layout02: {
+      name: "For the 'Gram",
+      component: <Layout02 previewWindow={false} />,
+    },
     layout03: { name: "The Poster", component: <Layout03 /> },
     layout04: { name: "Office Attire", component: <Layout04 /> },
     layout05: { name: "Cardology", component: <Layout05 /> },

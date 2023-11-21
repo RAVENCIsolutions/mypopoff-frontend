@@ -45,7 +45,7 @@ const OnBoardingOne = observer((props) => {
                   }`}
                   onClick={() => {
                     onBoardingStore.updateLayout(index);
-                    onBoardingStore.resetLayoutColours(index);
+                    onBoardingStore.resetColours();
                     setActiveLayout(index);
                   }}
                 >

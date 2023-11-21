@@ -7,7 +7,7 @@ const ButtonStyle07 = (props) => {
 
   return (
     <button
-      className={`p-1 m-2 px-5 min-w-max border-2 transition-all duration-300`}
+      className={`p-1 px-5 mx-2 min-w-max border-2 transition-all duration-300`}
       style={{
         borderColor: palette.buttonOutline,
         backgroundColor: hover ? palette.buttonHover : "transparent",

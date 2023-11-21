@@ -7,7 +7,7 @@ const ButtonStyle05 = (props) => {
 
   return (
     <button
-      className={`group relative p-2 pl-6 hover:pl-9 w-full flex border-t-2 last-of-type:border-b-2 transition-all duration-500 z-10`}
+      className={`group relative p-2 pl-6 hover:pl-9 -mb-2 w-full flex border-t-2 last-of-type:border-b-2 transition-all duration-500 z-10`}
       style={{
         borderColor: palette.buttonOutline,
         color: hover ? palette.buttonHoverText : palette.buttonText,

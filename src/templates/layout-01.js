@@ -5,9 +5,10 @@ import {
 } from "react-icons/bi";
 import Link from "next/link";
 import styled from "@emotion/styled";
-import { useEffect } from "react";
 import { observer } from "mobx-react";
+
 import onBoardingStore from "@/stores/OnBoardingStore";
+import { onBoardingButtons } from "@/data/OnBoardingButtons";
 
 const ResponsiveMain = styled.main``;
 
@@ -20,6 +21,13 @@ const Layout01 = observer(({ previewWindow = false }) => {
   ];
 
   const { palette } = onBoardingStore.onBoardingCurrent;
+
+  const currentButtonStyleIndex = onBoardingButtons.findIndex(
+    (button) =>
+      button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+  );
+
+  const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
 
   return (
     <main
@@ -61,23 +69,19 @@ const Layout01 = observer(({ previewWindow = false }) => {
         {/* Links */}
         <section className={`${previewWindow ? "mb-4" : "mb-10"} w-full`}>
           <ul
-            className={`mx-auto flex flex-col ${
+            className={`mx-auto flex flex-col items-stretch ${
               previewWindow ? "gap-2" : "gap-4"
             } items-center text-center w-full font-sans tracking-wide`}
           >
-            {sampleLinks.map((link, index) => (
-              <Link
-                key={index}
-                className="cursor-pointer py-2 px-5 w-full max-w-xs rounded-full hover:shadow-md hover:shadow-black/30 hover:scale-105 transition-all duration-300"
-                style={{
-                  color: palette.buttonText,
-                  backgroundColor: palette.buttonMain,
-                }}
-                href={link.url}
-              >
-                <li>{link.title}</li>
-              </Link>
-            ))}
+            {sampleLinks.map((link, index) => {
+              if (currentButtonStyle && currentButtonStyle.block) {
+                return currentButtonStyle.block(
+                  link.title,
+                  onBoardingStore.onBoardingCurrent.palette,
+                  index
+                );
+              }
+            })}
           </ul>
         </section>
 

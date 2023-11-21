@@ -39,7 +39,7 @@ class OnBoardingStore {
     buttonMain: "Button Background",
     buttonHover: "Button Background on Hover",
     buttonText: "Button Text",
-    buttonHoverText: "Text on Hover",
+    buttonHoverText: "Button Text on Hover",
   };
 
   onBoardingCurrent = { ...this.onBoardingTemplate };

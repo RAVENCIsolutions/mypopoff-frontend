@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { observer } from "mobx-react";
+import styled from "@emotion/styled";
 import { CircularProgress } from "@mui/material";
 import ColourPickerBlock from "@/components/ColourPickerBlock";
-import { observer } from "mobx-react";
 
 import onBoardingStore from "@/stores/OnBoardingStore";
 
@@ -20,6 +21,8 @@ import Layout10 from "@/templates/layout-10";
 
 const OnBoardingThree = observer((props) => {
   const [loading, setLoading] = useState(false);
+
+  const PreviewWindow = styled.div``;
 
   const layoutIndex = {
     "layout-01": <Layout01 previewWindow={true} />,
@@ -73,19 +76,26 @@ const OnBoardingThree = observer((props) => {
             {loading ? (
               <CircularProgress />
             ) : (
-              <>
-                <article className="mx-auto relative h-[600px] w-[300px] ">
+              // Preview Window
+              <PreviewWindow>
+                <article className="pointer-events-none absolute left-[50%] -translate-x-2/4 h-[600px] w-[300px] z-50">
                   <img
                     src="/images/onboarding/mobile-frame.png"
                     className="pointer-events-none absolute w-full h-full object-contain z-50"
                   />
+                </article>
 
-                  <section className="w-full h-full rounded-[50px] overflow-x-hidden overflow-y-auto">
+                <article
+                  className={
+                    "mx-auto relative h-[600px] w-[300px] rounded-[40px] overflow-hidden"
+                  }
+                >
+                  <section className="w-full h-full overflow-x-hidden overflow-y-auto">
                     {layoutIndex[onBoardingStore.onBoardingCurrent.pageLayout]}
                   </section>
                   {/*{onBoardingStore.onBoardingCurrent.buttonStyle}*/}
                 </article>
-              </>
+              </PreviewWindow>
             )}
           </div>
         </section>

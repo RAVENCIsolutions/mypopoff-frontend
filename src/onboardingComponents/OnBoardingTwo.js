@@ -9,7 +9,7 @@ const OnBoardingTwo = (props) => {
   const [activeLayout, setActiveLayout] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const activeColours = onBoardingStore.onBoardingCurrent.buttonColours;
+  const activeColours = onBoardingStore.onBoardingCurrent.palette;
 
   const buttonNames = [
     "Make a Booking",
@@ -27,7 +27,7 @@ const OnBoardingTwo = (props) => {
         layout.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
     );
 
-    onBoardingStore.resetButtonStyleColours(currentToIndex);
+    onBoardingStore.resetColours();
     setActiveLayout(currentToIndex);
 
     setLoading(false);
@@ -52,7 +52,7 @@ const OnBoardingTwo = (props) => {
                   }`}
                   onClick={() => {
                     onBoardingStore.updateButtonStyle(index);
-                    onBoardingStore.resetButtonStyleColours(index);
+                    onBoardingStore.resetColours();
                     setActiveLayout(index);
                   }}
                 >
@@ -81,7 +81,7 @@ const OnBoardingTwo = (props) => {
               <CircularProgress />
             ) : (
               <>
-                <article className="relative flex flex-col items-center justify-center h-full aspect-[370/750] max-w-[45%]">
+                <article className="relative flex flex-col items-center gap-2 justify-center h-full aspect-[370/750] max-w-[45%]">
                   <img
                     src="/images/onboarding/mobile-frame.png"
                     className="pointer-events-none absolute w-full h-full object-contain z-50"

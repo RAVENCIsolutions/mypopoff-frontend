@@ -98,13 +98,13 @@
   font-style: normal;
 }
 
-/* width */
+/* ScrollBar */
 ::-webkit-scrollbar {
   width: 9px;
   transition: all 0.3s ease;
 }
 
-/* Track */
+/* ScrollBar Track */
 ::-webkit-scrollbar-track {
   //background: rgba(241, 241, 241, 0.5);
   @apply bg-neutral-100/50;
@@ -112,12 +112,12 @@
   @apply shadow-black/20;
 }
 
-/* Handle */
+/* ScrollBar Handle */
 ::-webkit-scrollbar-thumb {
   @apply bg-action/80;
 }
 
-/* Handle on hover */
+/* ScrollBar Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-action;
 }
@@ -131,6 +131,7 @@
   scrollbar-width: none; /* for Firefox */
 }
 
+/* Headings */
 h1 {
   @apply text-4xl;
 
