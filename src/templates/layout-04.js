@@ -50,7 +50,9 @@ const Layout04 = observer(({ previewWindow = false }) => {
         </p>
       </section>
       <ul
-        className={`mx-auto px-4 flex flex-col items-stretch justify-center w-max max-w-full h-full font-calluna font-semibold ${
+        className={`mx-auto px-4 flex flex-col items-stretch ${
+          currentButtonStyle.listStyles
+        } w-max max-w-full h-full font-calluna font-semibold ${
           previewWindow ? "gap-3" : "gap-8 md:text-3xl"
         }`}
       >

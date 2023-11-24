@@ -81,7 +81,7 @@ const OnBoardingTwo = (props) => {
               <CircularProgress />
             ) : (
               <>
-                <article className="relative flex flex-col items-center gap-2 justify-center h-full aspect-[370/750] max-w-[45%]">
+                <article className="px-6 relative flex flex-col items-center gap-2 justify-center h-full aspect-[370/750] max-w-[45%]">
                   <img
                     src="/images/onboarding/mobile-frame.png"
                     className="pointer-events-none absolute w-full h-full object-contain z-50"

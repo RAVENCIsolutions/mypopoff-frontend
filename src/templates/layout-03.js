@@ -60,7 +60,9 @@ const Layout03 = observer(({ previewWindow = false }) => {
 
         {/* Links */}
         <ul
-          className={`flex flex-col items-stretch w-fit font-sans ${
+          className={`flex flex-col ${
+            currentButtonStyle.listStyles
+          } w-fit font-sans ${
             previewWindow
               ? "mb-2 gap-2 text-base"
               : "mb-6 gap-6 text-base md:text-xl"

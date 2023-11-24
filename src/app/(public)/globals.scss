@@ -104,6 +104,10 @@
   transition: all 0.3s ease;
 }
 
+.preview-window::-webkit-scrollbar {
+  width: 0px;
+}
+
 /* ScrollBar Track */
 ::-webkit-scrollbar-track {
   //background: rgba(241, 241, 241, 0.5);

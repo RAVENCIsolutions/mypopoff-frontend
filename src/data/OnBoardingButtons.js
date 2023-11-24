@@ -14,7 +14,7 @@ export const onBoardingButtons = [
     layoutID: "button-01",
     layoutTitle: "Solid Rounded",
     layoutImage: "/images/onboarding/button-01.png",
-    listStyles: "justify-center",
+    listStyles: "items-stretch justify-center",
     colours: {
       buttonMain: "#c68a4e",
       buttonText: "#f7f5f3",
@@ -27,7 +27,7 @@ export const onBoardingButtons = [
     layoutID: "button-02",
     layoutTitle: "Solid Squared",
     layoutImage: "/images/onboarding/button-02.png",
-    listStyles: "justify-center",
+    listStyles: "items-stretch justify-center",
     colours: {
       buttonOutline: "border-transparent",
       buttonMain: "#c68a4e",
@@ -41,7 +41,7 @@ export const onBoardingButtons = [
     layoutID: "button-03",
     layoutTitle: "Solid Slanted",
     layoutImage: "/images/onboarding/button-03.png",
-    listStyles: "justify-center",
+    listStyles: "items-stretch justify-center",
     colours: {
       buttonMain: "#c68a4e",
       buttonText: "#f7f5f3",
@@ -54,7 +54,7 @@ export const onBoardingButtons = [
     layoutID: "button-04",
     layoutTitle: "Neobrutalist",
     layoutImage: "/images/onboarding/button-04.png",
-    listStyles: "justify-center",
+    listStyles: "-ml-[3px] justify-center items-stretch",
     colours: {
       buttonMain: "#c68a4e",
       buttonText: "#000",
@@ -135,7 +135,7 @@ export const onBoardingButtons = [
     layoutID: "button-09",
     layoutTitle: "Elegant List",
     layoutImage: "/images/onboarding/button-09.png",
-    listStyles: "justify-center",
+    listStyles: "items-start",
     colours: {
       buttonOutline: "#c68a4e",
       buttonHover: "#c68a4e",
@@ -149,7 +149,7 @@ export const onBoardingButtons = [
     layoutID: "button-10",
     layoutTitle: "Underlined",
     layoutImage: "/images/onboarding/button-10.png",
-    listStyles: "justify-center",
+    listStyles: "justify-start",
     colours: {
       buttonMain: "#c68a4e",
       buttonText: "#c68a4e",

@@ -7,7 +7,7 @@ const ButtonStyle09 = (props) => {
 
   return (
     <button
-      className={`group p-0.5 ml-6 hover:ml-8 inline-flex self-start items-center gap-2 transition-all duration-[0.35s]`}
+      className={`group p-0.5 ml-0 hover:ml-4 inline-flex self-start items-center gap-2 transition-all duration-[0.35s]`}
       style={{
         color: palette.buttonText,
       }}

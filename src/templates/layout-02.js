@@ -69,7 +69,9 @@ const Layout02 = observer(({ previewWindow = false }) => {
             particular profile.
           </p>
           <ul
-            className={`mx-auto flex flex-col items-stretch font-bold text-center ${
+            className={`mx-auto flex flex-col ${
+              currentButtonStyle.listStyles
+            } font-bold text-center ${
               previewWindow ? "gap-2" : "gap-4 w-fit md:w-72"
             }`}
           >

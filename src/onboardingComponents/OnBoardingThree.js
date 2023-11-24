@@ -90,7 +90,7 @@ const OnBoardingThree = observer((props) => {
                     "mx-auto relative h-[600px] w-[300px] rounded-[40px] overflow-hidden"
                   }
                 >
-                  <section className="w-full h-full overflow-x-hidden overflow-y-auto">
+                  <section className="preview-window w-full h-full overflow-x-hidden overflow-y-auto">
                     {layoutIndex[onBoardingStore.onBoardingCurrent.pageLayout]}
                   </section>
                   {/*{onBoardingStore.onBoardingCurrent.buttonStyle}*/}

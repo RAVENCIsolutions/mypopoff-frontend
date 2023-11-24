@@ -41,14 +41,12 @@ const Layout01 = observer(({ previewWindow = false }) => {
     >
       {/* Image */}
       <article
-        className={`flex-grow flex flex-col items-center justify-center ${
-          previewWindow ? "max-w-[80%]" : "max-w-lg"
-        }`}
+        className={`flex-grow flex flex-col items-center justify-center w-full max-w-lg`}
       >
         <section
           className={`${
             previewWindow ? "mb-4" : "mb-8"
-          } flex flex-col items-center`}
+          } flex flex-col items-center max-w-[80%]`}
         >
           <img
             className="mb-3 w-32 h-32 rounded-full shadow-lg shadow-black/40 bg-dashboard-primary-dark object-cover object-center"
@@ -71,7 +69,9 @@ const Layout01 = observer(({ previewWindow = false }) => {
           <ul
             className={`mx-auto flex flex-col items-stretch ${
               previewWindow ? "gap-2" : "gap-4"
-            } items-center text-center w-full font-sans tracking-wide`}
+            } ${
+              currentButtonStyle.listStyles
+            } text-center w-full font-sans tracking-wide`}
           >
             {sampleLinks.map((link, index) => {
               if (currentButtonStyle && currentButtonStyle.block) {
