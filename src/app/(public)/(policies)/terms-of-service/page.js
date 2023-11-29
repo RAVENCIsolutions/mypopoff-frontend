@@ -7,9 +7,9 @@ export default function TermsAndConditions() {
     <main className="mx-auto flex flex-col items-start justify-start overflow-hidden w-full max-w-windowed">
       <NavBar />
 
-      <section className="px-5 lg:px-14">
+      <section className="px-5 lg:px-14 text-primary-dark dark:text-primary-light/80">
         <h1 className="mb-8 leading-tight font-bold text-primary-dark dark:text-primary-light text-center md:text-left text-xl md:text-4xl">
-          <strong>My Pop Off</strong> Terms of Service
+          Terms of Service
         </h1>
         <p className="text-base md:text-lg mb-4">
           These Terms of Service govern your use of the website located at{" "}

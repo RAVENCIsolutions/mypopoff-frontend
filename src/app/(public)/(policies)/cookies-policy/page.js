@@ -7,9 +7,9 @@ export default function CookiesPolicy() {
     <main className="mx-auto flex flex-col items-start justify-start overflow-hidden w-full max-w-windowed">
       <NavBar />
 
-      <section className="px-5 lg:px-14">
+      <section className="px-5 lg:px-14 text-primary-dark dark:text-primary-light/80">
         <h1 className="mb-8 leading-tight font-bold text-primary-dark dark:text-primary-light text-center md:text-left text-xl md:text-4xl">
-          <strong>My Pop Off</strong> Cookie Policy
+          Cookie Policy
         </h1>
         <p className="text-base md:text-lg mb-4">
           Effective Date: <strong>29 November 2023</strong>
