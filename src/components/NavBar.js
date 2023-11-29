@@ -14,7 +14,7 @@ const NavBar = () => {
   }, [menuOpen]);
 
   return (
-    <nav className="relative my-10 px-5 lg:px-14 flex items-center w-full max-w-windowed">
+    <nav className="relative my-10 mx-auto px-5 lg:px-14 flex items-center w-full max-w-windowed">
       {/*<DarkModeToggle />*/}
       {menuOpen ? (
         <div
@@ -27,9 +27,8 @@ const NavBar = () => {
           "absolute lg:relative pl-6 sm:pr-20 lg:p-0 -top-10 lg:top-0 right-0 flex flex-col lg:flex-row items-start" +
           " lg:items-center justify-start lg:justify-between gap-8 lg:gap-0 bg-secondary-dark" +
           " dark:bg-secondary-light lg:bg-transparent lg:dark:bg-transparent h-screen lg:h-auto w-full sm:w-max" +
-          " lg:w-full" +
-          " max-w-full text-primary-dark" +
-          " dark:text-primary-light text-xl lg:text-base transition-all duration-300 z-50 " +
+          " lg:w-full max-w-full text-primary-dark dark:text-primary-light text-xl lg:text-base transition-all" +
+          " duration-300 z-50 lg:z-0 " +
           (menuOpen
             ? "translate-x-0"
             : "translate-x-full" + " lg:translate-x-0")
@@ -71,8 +70,8 @@ const NavBar = () => {
         </ul>
       </div>
 
-      <div className="lg:absolute flex flex-row items-center justify-between top-1/2 left-5 lg:left-1/2 -translate-y-1/2 lg:-translate-x-1/2 w-full lg:w-auto z-20">
-        <p className="text-lg text-primary-dark dark:text-primary-light font-bold font-display z-20">
+      <div className="lg:absolute flex flex-row items-center justify-between left-5 lg:left-1/2 lg:-translate-x-1/2 w-full lg:w-auto">
+        <p className="text-lg text-primary-dark dark:text-primary-light font-bold font-display lg:z-50">
           <Link href="/">My Pop Off</Link>
         </p>
       </div>
