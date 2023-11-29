@@ -18,13 +18,22 @@ export default function Home() {
       <NavBar />
       <HeroSection
         title="The world's most creative influencers in one place"
-        subtitle="sample subtitle"
+        subtitle="Discover. Connect. Be Inspired."
         callToAction="Find awesome content"
       />
       <InfluencerSection />
-      <SplitThirdSection />
-      <ThreeColSection />
-      <SplitHalfSection />
+      <SplitThirdSection
+        heading={"Make a landing page that Pops!"}
+        subHeading={"Do it your way"}
+        image={"/images/a-landing-page-that-pops.png"}
+      />
+      <ThreeColSection
+        heading={"Triple the Charm with My Pop Off"}
+        firstImage={""}
+        secondImage={""}
+        thirdImage={""}
+      />
+      {/*<SplitHalfSection />*/}
       <CallToActionSection />
       <Footer />
     </main>

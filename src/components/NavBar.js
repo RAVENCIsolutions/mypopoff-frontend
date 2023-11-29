@@ -72,7 +72,7 @@ const NavBar = () => {
       </div>
 
       <div className="lg:absolute flex flex-row items-center justify-between top-1/2 left-5 lg:left-1/2 -translate-y-1/2 lg:-translate-x-1/2 w-full lg:w-auto z-20">
-        <p className="text-lg text-primary-dark dark:text-primary-light font-bold font-display">
+        <p className="text-lg text-primary-dark dark:text-primary-light font-bold font-display z-20">
           <Link href="/">My Pop Off</Link>
         </p>
       </div>

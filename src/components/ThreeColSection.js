@@ -1,7 +1,15 @@
-const ThreeColSection = ({ heading, firstImage, secondImage, thirdImage }) => {
+import Link from "next/link";
+
+const ThreeColSection = ({
+  heading,
+  firstImage,
+  secondImage,
+  thirdImage,
+  callToAction,
+}) => {
   return (
     <section className="relative my-14 md:my-40 px-5 md:px-14 flex flex-col w-full max-w-windowed overflow-hidden">
-      <h2 className="mb-12 leading-tight font-bold text-primary-dark dark:text-primary-light">
+      <h2 className="mb-6 md:mb-12 leading-tight font-bold text-primary-dark dark:text-primary-light">
         {heading || "First level two heading"}
       </h2>
 
@@ -11,11 +19,11 @@ const ThreeColSection = ({ heading, firstImage, secondImage, thirdImage }) => {
           className="w-full sm:w-thirty rounded-3xl"
         />
         <img
-          src={firstImage || "https://placehold.co/300x200"}
+          src={secondImage || "https://placehold.co/300x200"}
           className="w-full sm:w-thirty rounded-3xl"
         />
         <img
-          src={firstImage || "https://placehold.co/300x200"}
+          src={thirdImage || "https://placehold.co/300x200"}
           className="w-full sm:w-thirty rounded-3xl"
         />
       </article>
