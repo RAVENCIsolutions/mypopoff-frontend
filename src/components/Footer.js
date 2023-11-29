@@ -4,7 +4,7 @@ import { CgCoffee } from "react-icons/cg";
 
 const Footer = () => {
   return (
-    <footer className="mt-4 mx-auto px-6 sm:px-14 w-full max-w-windowed">
+    <footer className="mt-4 mx-auto px-5 lg:px-14 w-full max-w-windowed">
       <section className="flex flex-col-reverse sm:flex-row justify-between items-center">
         <ul className="py-4 sm:py-8 flex flex-row justify-between sm:justify-start gap-0 sm:gap-10 w-full font-medium text-secondary-dark dark:text-secondary-light">
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
@@ -32,13 +32,13 @@ const Footer = () => {
         </p>
         <ul className="pb-6 sm:pb-0 flex flex-row justify-between sm:justify-end gap-0 sm:gap-10 w-full font-medium text-secondary-dark dark:text-secondary-light">
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
-            <Link href="/terms">Terms</Link>
+            <Link href="/privacy-policy">Privacy</Link>
           </li>
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
-            <Link href="/privacy">Privacy</Link>
+            <Link href="/terms-of-service">Terms</Link>
           </li>
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
-            <Link href="/cookies">Cookies</Link>
+            <Link href="/cookies-policy">Cookies</Link>
           </li>
         </ul>
       </section>
