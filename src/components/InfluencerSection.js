@@ -8,28 +8,43 @@ const InfluencerSection = ({ data }) => {
   // - name of influencer
   // - category of influencer's work
   const scrollRef = useRef(null);
+  let intervalId = useRef(null);
+
+  const scrollContent = () => {
+    requestAnimationFrame(() => {
+      const scrollElement = scrollRef.current;
+
+      scrollElement.scrollTo({
+        left: scrollElement.scrollLeft + 1,
+        behavior: "auto",
+      });
+
+      if (scrollElement.scrollLeft >= scrollElement.scrollWidth / 2) {
+        scrollElement.scrollLeft = 0;
+      }
+    });
+  };
+
+  const startScrolling = () => {
+    intervalId.current = setInterval(scrollContent, 16);
+  };
+
+  const stopScrolling = () => {
+    clearInterval(intervalId.current);
+  };
 
   useEffect(() => {
+    startScrolling();
+
     const scrollElement = scrollRef.current;
-    let intervalId = null;
 
-    const scrollContent = () => {
-      requestAnimationFrame(() => {
-        scrollElement.scrollTo({
-          left: scrollElement.scrollLeft + 1,
-          behavior: "auto",
-        });
-
-        if (scrollElement.scrollLeft >= scrollElement.scrollWidth / 2) {
-          scrollElement.scrollLeft = 0;
-        }
-      });
-    };
-
-    intervalId = setInterval(scrollContent, 16);
+    scrollElement.addEventListener("mouseenter", stopScrolling);
+    scrollElement.addEventListener("mouseleave", startScrolling);
 
     return () => {
-      clearInterval(intervalId);
+      stopScrolling();
+      scrollElement.removeEventListener("mouseenter", stopScrolling);
+      scrollElement.removeEventListener("mouseleave", startScrolling);
     };
   }, []);
 
