@@ -10,9 +10,9 @@ const Footer = () => {
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
             <a>Explore</a>
           </li>
-          <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
-            Blog
-          </li>
+          {/*<li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">*/}
+          {/*  Blog*/}
+          {/*</li>*/}
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
             Support
           </li>
