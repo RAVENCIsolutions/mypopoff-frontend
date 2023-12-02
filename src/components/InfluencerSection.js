@@ -3,17 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 
 const InfluencerSection = ({ data }) => {
-  // Data is expected to hold
-  // - photo from influencer
-  // - name of influencer
-  // - category of influencer's work
   const scrollRef = useRef(null);
   let intervalId = useRef(null);
 
   const scrollContent = () => {
-    requestAnimationFrame(() => {
-      const scrollElement = scrollRef.current;
+    const scrollElement = scrollRef.current;
+    if (!scrollElement) return;
 
+    requestAnimationFrame(() => {
       scrollElement.scrollTo({
         left: scrollElement.scrollLeft + 1,
         behavior: "auto",
