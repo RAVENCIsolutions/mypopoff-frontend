@@ -17,7 +17,7 @@
     "@radix-ui/themes": "^2.0.0",
     "@rpldy/upload-button": "^1.6.1",
     "@rpldy/uploady": "^1.6.1",
-    "@supabase/supabase-js": "^2.38.4",
+    "@supabase/supabase-js": "^2.39.0",
     "@uiw/react-color": "^2.0.2",
     "@uiw/react-color-compact": "^2.0.2",
     "axios": "^1.6.0",
