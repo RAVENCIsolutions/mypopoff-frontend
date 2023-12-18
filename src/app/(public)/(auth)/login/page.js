@@ -9,7 +9,7 @@ export default function Register() {
   return (
     <section className="flex items-center justify-center">
       <SignIn
-        signUpUrl="/register"
+        signUpUrl="/auth/register"
         appearance={{
           elements: {
             formFieldLabel: "font-sans text-sm font-light",

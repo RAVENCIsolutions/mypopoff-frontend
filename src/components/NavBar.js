@@ -64,7 +64,7 @@ const NavBar = () => {
           <SignedOut>
             <li>
               <Link
-                href="/login"
+                href="/auth/login"
                 className="font-normal hover:font-bold transition-all duration-300"
               >
                 Login
@@ -73,7 +73,7 @@ const NavBar = () => {
             <li>
               <Link
                 className="py-2 px-4 bg-action rounded-full font-medium text-primary-light dark:text-primary-dark"
-                href="/register"
+                href="/auth/register"
               >
                 Free Account
               </Link>

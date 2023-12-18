@@ -1,11 +1,8 @@
 import "@/app/(public)/globals.scss";
 import { auth, ClerkProvider } from "@clerk/nextjs";
 import DashboardNavigation from "@/components/DashboardNavigation";
-import { fetchUserData } from "@/utility/supbaseActions";
 
 export default function MeLayout({ children }) {
-  fetchUserData(auth().userId).then((data) => console.log(data));
-
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}

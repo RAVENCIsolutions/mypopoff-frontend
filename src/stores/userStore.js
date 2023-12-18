@@ -20,9 +20,11 @@ class UserStore {
 
     if (error) {
       console.error(`Error creating user record: ${error.message}`);
-    } else {
-      this.setUser(data[0]);
+      return { error };
     }
+
+    this.setUser(data[0]);
+    return { data: data[0] };
   }
 
   async fetchUser(clerkUserId) {
@@ -38,9 +40,10 @@ class UserStore {
 
     if (data) {
       this.setUser(data);
+      return { data };
     } else {
       // No user record found, create a new user
-      await this.createUser(clerkUserId);
+      return await this.createUser(clerkUserId);
     }
   }
 }

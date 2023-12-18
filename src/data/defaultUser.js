@@ -1,4 +1,6 @@
 const defaultUser = {
+  clerkUserId: null,
+
   bio: "",
   tagline: "",
 
