@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { CgCloseR, CgMenuBoxed } from "react-icons/cg";
 import Link from "next/link";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { BiSolidUser, BiSolidUserCircle } from "react-icons/bi";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -51,22 +53,32 @@ const NavBar = () => {
         </ul>
 
         <ul className="mb-10 lg:mb-0 flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-4 text-primary-dark dark:text-primary-light">
-          <li>
-            <Link
-              href="/login"
-              className="font-normal hover:font-bold transition-all duration-300"
-            >
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="py-2 px-4 bg-action rounded-full font-medium text-primary-light dark:text-primary-dark"
-              href="/register"
-            >
-              Free Account
-            </Link>
-          </li>
+          <SignedIn>
+            <li>
+              <Link href={"/me/dashboard"}>
+                <BiSolidUserCircle className={`text-action`} size={32} />
+              </Link>
+            </li>
+          </SignedIn>
+
+          <SignedOut>
+            <li>
+              <Link
+                href="/login"
+                className="font-normal hover:font-bold transition-all duration-300"
+              >
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="py-2 px-4 bg-action rounded-full font-medium text-primary-light dark:text-primary-dark"
+                href="/register"
+              >
+                Free Account
+              </Link>
+            </li>
+          </SignedOut>
         </ul>
       </div>
 

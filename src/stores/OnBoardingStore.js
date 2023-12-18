@@ -13,7 +13,7 @@ class OnBoardingStore {
 
   onBoardingTemplate = {
     pageLayout: "layout-01",
-    buttonStyle: "button-01", // You need to define how to get this information
+    buttonStyle: "button-01",
     palette: {
       background: "#c68a4e",
       middleGround: "#ffffff",
@@ -67,12 +67,12 @@ class OnBoardingStore {
   resetColours = () => {
     const layoutIndex = onBoardingLayouts.findIndex(
       (layout) =>
-        layout.layoutID === onBoardingStore.onBoardingCurrent.pageLayout
+        layout.layoutID === onBoardingStore.onBoardingCurrent.pageLayout,
     );
 
     const buttonIndex = onBoardingButtons.findIndex(
       (button) =>
-        button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+        button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle,
     );
 
     this.onBoardingCurrent.palette = {};

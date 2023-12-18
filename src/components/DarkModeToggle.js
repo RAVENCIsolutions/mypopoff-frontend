@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { FiMoon, FiSun } from "react-icons/fi";
 import Switch from "@mui/material/Switch";
-import { getCookie } from "@/utils/utilities";
+import { getCookie } from "@/utility/utilities";
 
 const DarkModeToggle = ({ size = "l", className = "" }) => {
   const [checked, setChecked] = useState(false);

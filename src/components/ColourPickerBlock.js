@@ -3,7 +3,7 @@ import Compact from "@uiw/react-color-compact";
 import { observer } from "mobx-react";
 
 import PopOffInput from "@/components/PopOffInput";
-import useOutsideClick from "@/utils/useOutsideClick";
+import useOutsideClick from "@/utility/useOutsideClick";
 import onBoardingStore from "@/stores/OnBoardingStore";
 
 const ColourPickerBlock = observer(({ label, colorKey }) => {
