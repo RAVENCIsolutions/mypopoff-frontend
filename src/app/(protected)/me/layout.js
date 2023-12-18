@@ -1,4 +1,4 @@
-import "../(public)/globals.scss";
+import "@/app/(public)/globals.scss";
 import { ClerkProvider } from "@clerk/nextjs";
 import DashboardNavigation from "@/components/DashboardNavigation";
 

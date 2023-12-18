@@ -1,4 +1,4 @@
-import "../(public)/globals.scss";
+import "@/app/(public)/globals.scss";
 import Link from "next/link";
 import OnBoardingMain from "@/onboardingComponents/OnBoardingMain";
 

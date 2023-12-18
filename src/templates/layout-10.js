@@ -6,7 +6,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
-import "../app/(public)/globals.scss";
+import "../app/globals.scss";
 import onBoardingStore from "@/stores/OnBoardingStore";
 import { onBoardingButtons } from "@/data/OnBoardingButtons";
 import { observer } from "mobx-react";
@@ -23,7 +23,7 @@ const Layout10 = observer(({ previewWindow = false }) => {
 
   const currentButtonStyleIndex = onBoardingButtons.findIndex(
     (button) =>
-      button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+      button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle,
   );
 
   const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
@@ -69,7 +69,7 @@ const Layout10 = observer(({ previewWindow = false }) => {
                 return currentButtonStyle.block(
                   link.title,
                   onBoardingStore.onBoardingCurrent.palette,
-                  index
+                  index,
                 );
               }
             })}

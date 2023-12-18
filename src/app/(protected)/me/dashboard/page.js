@@ -1,3 +1,5 @@
+import { auth } from "@clerk/nextjs";
+
 export const metadata = {
   title: "Dashboard | My Pop Off",
   description:
@@ -5,6 +7,8 @@ export const metadata = {
 };
 
 export default function Dashboard() {
+  console.log(auth().userId);
+
   return (
     <main className="w-full h-full rounded-lg">
       <div className="flex flex-row w-full h-full text-primary-dark dark:text-primary-light">

@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { SignOutButton } from "@clerk/nextjs";
+import { auth, SignOutButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import { CgLogOff, CgPerformance, CgUser, CgWebsite } from "react-icons/cg";
 import { RiPaletteLine } from "react-icons/ri";
 import { ImCog } from "react-icons/im";
 
-import "../app/me/dashboard.scss";
+import "@/app/(protected)/me/dashboard.scss";
 
 const DashboardNavigation = () => {
   const pathname = usePathname();

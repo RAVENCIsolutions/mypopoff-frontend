@@ -6,7 +6,7 @@ import Layout01 from "@/templates/layout-01";
 import Layout10 from "@/templates/layout-10";
 import Layout05 from "@/templates/layout-05";
 
-import "../(public)/globals.scss";
+import "@/app/(public)/globals.scss";
 import Layout02 from "@/templates/layout-02";
 import SideBySideTheme from "@/templates/sidebyside-theme";
 import Layout03 from "@/templates/layout-03";
