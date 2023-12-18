@@ -8,7 +8,7 @@ import { CgLogOff, CgPerformance, CgUser, CgWebsite } from "react-icons/cg";
 import { RiPaletteLine } from "react-icons/ri";
 import { ImCog } from "react-icons/im";
 
-import "@/app/(protected)/me/dashboard.scss";
+import "@/app/me/dashboard.scss";
 
 const DashboardNavigation = () => {
   const pathname = usePathname();
