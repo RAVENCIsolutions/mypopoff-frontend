@@ -6,7 +6,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
-import "../app/globals.scss";
+import "@/app/(public)/globals.scss";
 import onBoardingStore from "@/stores/OnBoardingStore";
 import { onBoardingButtons } from "@/data/OnBoardingButtons";
 import { observer } from "mobx-react";
