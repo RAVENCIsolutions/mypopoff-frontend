@@ -5,7 +5,7 @@ import { FiMoon, FiSun } from "react-icons/fi";
 import Switch from "@mui/material/Switch";
 import { getCookie } from "@/utils/utilities";
 
-const DarkModeToggle = ({ size = "l" }) => {
+const DarkModeToggle = ({ size = "l", className = "" }) => {
   const [checked, setChecked] = useState(false);
   const [theme, setTheme] = useState("dark");
 
@@ -17,12 +17,12 @@ const DarkModeToggle = ({ size = "l" }) => {
     },
     m: {
       iconSize: 18,
-      switchSize: "",
+      switchSize: "large",
       gap: "gap-0",
     },
     l: {
       iconSize: 20,
-      switchSize: "",
+      switchSize: "large",
       gap: "gap-1",
     },
   };
@@ -40,7 +40,7 @@ const DarkModeToggle = ({ size = "l" }) => {
       ? root.classList.add("dark")
       : root.classList.remove("dark");
 
-    document.cookie = `theme=${value}`;
+    document.cookie = `theme=${value}; path=/`;
     setChecked(value !== "dark");
   };
 
@@ -53,7 +53,9 @@ const DarkModeToggle = ({ size = "l" }) => {
   };
 
   return (
-    <article className={"flex flex-row items-center " + sizing[size].gap}>
+    <article
+      className={"flex flex-row items-center " + sizing[size].gap + className}
+    >
       <FiMoon
         size={sizing[size].iconSize}
         onClick={() => toggleTheme()}
@@ -70,19 +72,6 @@ const DarkModeToggle = ({ size = "l" }) => {
         onClick={() => toggleTheme()}
         className="text-primary-dark dark:text-primary-light"
       />
-      {/*<button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>*/}
-      {/*  {theme === "dark" ? (*/}
-      {/*    <div className="flex items-center justify-center gap-2">*/}
-      {/*      <FiSun size={20} />*/}
-      {/*      <p>Switch to Light Mode</p>*/}
-      {/*    </div>*/}
-      {/*  ) : (*/}
-      {/*    <div className="flex items-center justify-center gap-2">*/}
-      {/*      <FiMoon size={20} />*/}
-      {/*      <p>Switch to Dark Mode</p>*/}
-      {/*    </div>*/}
-      {/*  )}*/}
-      {/*</button>*/}
     </article>
   );
 };

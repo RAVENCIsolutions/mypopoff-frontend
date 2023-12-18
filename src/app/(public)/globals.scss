@@ -84,6 +84,58 @@
   font-style: normal;
 }
 
+/* Barlow Condensed variants */
+@font-face {
+  font-family: 'BarlowCondensed';
+  src: url('/fonts/BarlowCondensed-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'BarlowCondensed';
+  src: url('/fonts/BarlowCondensed-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* ScrollBar */
+::-webkit-scrollbar {
+  width: 9px;
+  transition: all 0.3s ease;
+}
+
+.preview-window::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* ScrollBar Track */
+::-webkit-scrollbar-track {
+  //background: rgba(241, 241, 241, 0.5);
+  @apply bg-neutral-100/50;
+  @apply shadow-xl;
+  @apply shadow-black/20;
+}
+
+/* ScrollBar Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-action/80;
+}
+
+/* ScrollBar Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-action;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* for Internet Explorer and Edge */
+  scrollbar-width: none; /* for Firefox */
+}
+
+/* Headings */
 h1 {
   @apply text-4xl;
 

@@ -14,27 +14,31 @@ const NavBar = () => {
   }, [menuOpen]);
 
   return (
-    <nav className="relative my-10 px-5 md:px-14 flex items-center w-full max-w-windowed">
+    <nav className="relative my-10 mx-auto px-5 lg:px-14 flex items-center w-full max-w-windowed">
       {/*<DarkModeToggle />*/}
       {menuOpen ? (
         <div
-          className="block md:hidden absolute -top-10 left-0 w-screen h-screen bg-primary-light/50 dark:bg-primary-dark/50 z-20"
+          className="block lg:hidden absolute -top-10 left-0 w-screen h-screen bg-primary-light/50 dark:bg-primary-dark/50 z-20"
           onClick={() => setMenuOpen(false)}
         />
       ) : null}
       <div
         className={
-          "absolute md:relative pl-6 pr-20 md:p-0 -top-10 md:top-0 right-0 flex flex-col md:flex-row items-start" +
-          " md:items-center justify-start md:justify-between gap-8 md:gap-0 bg-secondary-dark" +
-          " dark:bg-secondary-light md:bg-transparent md:dark:bg-transparent h-screen md:h-auto w-max md:w-full" +
-          " text-primary-dark" +
-          " dark:text-primary-light text-xl md:text-base transition-all duration-300 z-50 " +
+          "absolute lg:relative pl-6 sm:pr-20 lg:p-0 -top-10 lg:top-0 right-0 flex flex-col lg:flex-row items-start" +
+          " lg:items-center justify-start lg:justify-between gap-8 lg:gap-0 bg-secondary-dark" +
+          " dark:bg-secondary-light lg:bg-transparent lg:dark:bg-transparent h-screen lg:h-auto w-full sm:w-max" +
+          " lg:w-full max-w-full text-primary-dark dark:text-primary-light text-xl lg:text-base transition-all" +
+          " duration-300 z-50 lg:z-0 " +
           (menuOpen
             ? "translate-x-0"
-            : "translate-x-full" + " md:translate-x-0")
+            : "translate-x-full" + " lg:translate-x-0")
         }
       >
-        <div className="block md:hidden cursor-pointer absolute -left-12 top-7 text-primary-dark dark:text-primary-light z-50">
+        <div
+          className={`block lg:hidden cursor-pointer absolute ${
+            menuOpen ? "left-5 sm:-left-12" : "-left-12"
+          } top-7 text-primary-dark dark:text-primary-light z-50 transition-all duration-300`}
+        >
           {menuOpen ? (
             <CgCloseR size={26} onClick={() => setMenuOpen(false)} />
           ) : (
@@ -42,14 +46,14 @@ const NavBar = () => {
           )}
         </div>
 
-        <ul className="mt-20 md:mt-0">
+        <ul className="mt-20 lg:mt-0">
           <li>Explore</li>
         </ul>
 
-        <ul className="mb-10 md:mb-0 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-4 text-primary-dark dark:text-primary-light">
+        <ul className="mb-10 lg:mb-0 flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-4 text-primary-dark dark:text-primary-light">
           <li>
             <Link
-              href="auth/login"
+              href="/login"
               className="font-normal hover:font-bold transition-all duration-300"
             >
               Login
@@ -58,7 +62,7 @@ const NavBar = () => {
           <li>
             <Link
               className="py-2 px-4 bg-action rounded-full font-medium text-primary-light dark:text-primary-dark"
-              href="/auth/register"
+              href="/register"
             >
               Free Account
             </Link>
@@ -66,8 +70,8 @@ const NavBar = () => {
         </ul>
       </div>
 
-      <div className="md:absolute flex flex-row items-center justify-between top-1/2 left-5 md:left-1/2 -translate-y-1/2 md:-translate-x-1/2 w-full md:w-auto z-50">
-        <p className="text-lg text-primary-dark dark:text-primary-light font-bold font-display">
+      <div className="lg:absolute flex flex-row items-center justify-between left-5 lg:left-1/2 lg:-translate-x-1/2 w-full lg:w-auto">
+        <p className="text-lg text-primary-dark dark:text-primary-light font-bold font-display lg:z-50">
           <Link href="/">My Pop Off</Link>
         </p>
       </div>

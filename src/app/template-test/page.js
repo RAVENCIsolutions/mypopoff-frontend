@@ -1,30 +1,49 @@
 "use client";
 
 import { useState } from "react";
-import ThemeName from "@/templates/ThemeName";
 import ZenSpaceTheme from "@/templates/zenspace-theme";
-import FlatModeTheme from "@/templates/flatmode-theme";
-import NeoBrutalismTheme from "@/templates/neobrutalism-theme";
-import CardologyTheme from "@/templates/cardology-theme";
+import Layout01 from "@/templates/layout-01";
+import Layout10 from "@/templates/layout-10";
+import Layout05 from "@/templates/layout-05";
 
-import "../(public)/globals.scss";
-import VelvetographyTheme from "@/templates/velvetography-theme";
+import "@/app/(public)/globals.scss";
+import Layout02 from "@/templates/layout-02";
 import SideBySideTheme from "@/templates/sidebyside-theme";
+import Layout03 from "@/templates/layout-03";
+import Layout07 from "@/templates/layout-07";
+import LapisAzuliTheme from "@/templates/lapisazuli-theme";
+import Layout06 from "@/templates/layout-06";
+import Layout04 from "@/templates/layout-04";
+import Layout08 from "@/templates/layout-08";
+import Layout09 from "@/templates/layout-09";
 
-export default function TemplateTest({ theme = "flatMode" }) {
+export default function TemplateTest({ theme = "layout01" }) {
   const themes = {
-    cardology: { name: "Cardology", component: <CardologyTheme /> },
-    flatMode: { name: "Flat Mode", component: <FlatModeTheme /> },
-    neoBrutalism: { name: "Neobrutalism", component: <NeoBrutalismTheme /> },
-    sideBySide: { name: "Side-by-Side", component: <SideBySideTheme /> },
-    velvetography: { name: "Velvetography", component: <VelvetographyTheme /> },
-    zenSpace: { name: "Zen Space", component: <ZenSpaceTheme /> },
+    layout01: { name: "The Classic", component: <Layout01 /> },
+    layout02: {
+      name: "For the 'Gram",
+      component: <Layout02 previewWindow={false} />,
+    },
+    layout03: { name: "The Poster", component: <Layout03 /> },
+    layout04: { name: "Office Attire", component: <Layout04 /> },
+    layout05: { name: "Cardology", component: <Layout05 /> },
+    layout06: {
+      name: "The Gallery",
+      component: <Layout06 />,
+    },
+    layout07: { name: "Bombastik", component: <Layout07 /> },
+    layout08: { name: "Bannerific", component: <Layout08 /> },
+    layout09: { name: "Business Card", component: <Layout09 /> },
+    layout10: { name: "Neobrutalism", component: <Layout10 /> },
+    // sideBySide: { name: "Side-by-Side", component: <SideBySideTheme /> },
+    // zenSpace: { name: "Zen Space", component: <ZenSpaceTheme /> },
+    // lapisAzuli: { name: "Lapis Azuli", component: <LapisAzuliTheme /> },
   };
 
   const [currentTheme, setCurrentTheme] = useState(theme);
 
   return (
-    <div>
+    <section>
       {themes[currentTheme]?.component || "Theme not found"}
       <div className="fixed top-3 left-3">
         <select
@@ -38,6 +57,6 @@ export default function TemplateTest({ theme = "flatMode" }) {
           ))}
         </select>
       </div>
-    </div>
+    </section>
   );
 }
