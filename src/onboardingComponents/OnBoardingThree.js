@@ -62,7 +62,7 @@ const OnBoardingThree = observer((props) => {
                     label={onBoardingStore.colourLabels[key]}
                     colorKey={key}
                   />
-                )
+                ),
               )}
             </div>
           </article>
@@ -82,6 +82,7 @@ const OnBoardingThree = observer((props) => {
                   <img
                     src="/images/onboarding/mobile-frame.png"
                     className="pointer-events-none absolute w-full h-full object-contain z-50"
+                    alt={"Mobile frame"}
                   />
                 </article>
 

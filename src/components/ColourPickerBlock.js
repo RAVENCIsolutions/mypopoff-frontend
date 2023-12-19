@@ -14,6 +14,7 @@ const ColourPickerBlock = observer(({ label, colorKey }) => {
   const ref = useRef(null);
 
   const handleChange = (color) => {
+    console.log(colorKey);
     onBoardingStore.updateColour(colorKey, color.hex);
   };
 

@@ -11,6 +11,8 @@ export const metadata = {
 export default function Register() {
   return (
     <SignUp
+      signInUrl={"/auth/register"}
+      afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}
       appearance={{
         elements: {
           formFieldLabel: "font-sans text-sm font-light",

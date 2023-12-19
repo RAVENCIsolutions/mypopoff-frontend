@@ -5,11 +5,9 @@ import { onBoardingButtons } from "@/data/OnBoardingButtons";
 class OnBoardingStore {
   username = "";
   avatar = "";
-  categoryIndex = 0;
   category = "";
-  otherCategory = "";
   tags = [];
-  bio = "";
+  bio = "A small quick bio about me and what I do.";
 
   onBoardingTemplate = {
     pageLayout: "layout-01",

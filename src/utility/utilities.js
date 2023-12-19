@@ -30,14 +30,14 @@ const getCookie = (name) => {
 const getPageTitle = async (url) => {
   try {
     const response = await fetch(
-      `https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&cx=${process.env.NEXT_PUBLIC_GOOGLE_CX}&q=${url}`
+      `https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&cx=${process.env.NEXT_PUBLIC_GOOGLE_CX}&q=${url}`,
     );
 
     const data = await response.json();
 
     if (data.items && data.items.length > 0) {
       const matchLink = data.items.find(
-        (item) => normaliseUrl(item.link) === normaliseUrl(url)
+        (item) => normaliseUrl(item.link) === normaliseUrl(url),
       );
       return matchLink
         ? decodeHtmlEntities(stripHtmlTags(matchLink.title))
@@ -61,4 +61,19 @@ const hexToRGB = (hex) => {
     : null;
 };
 
-export { getCookie, getPageTitle, hexToRGB };
+const getContrastLuminance = (hex) => {
+  // Remove preceding # if present
+  hex = hex.replace("#", "");
+
+  // Convert hex to RGB Values
+  const red = parseInt(hex.substring(0, 2), 16);
+  const green = parseInt(hex.substring(2, 4), 16);
+  const blue = parseInt(hex.substring(4, 6), 16);
+
+  // Calculate YIQ (Luminance)
+  const yiq = (red * 299 + green * 587 + blue * 114) / 1000;
+
+  return yiq >= 128 ? "black" : "white";
+};
+
+export { getCookie, getPageTitle, hexToRGB, getContrastLuminance };

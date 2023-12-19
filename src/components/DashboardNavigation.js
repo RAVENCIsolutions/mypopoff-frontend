@@ -95,8 +95,12 @@ const DashboardNavigation = () => {
 
             <SignOutButton>
               <div className="cursor-pointer flex gap-3 items-center hover:text-action hover:font-bold transition-all duration-300">
-                <CgLogOff size={20} />{" "}
-                <span className="hidden sm:block">Logout</span>
+                <SignOutButton>
+                  <>
+                    <CgLogOff size={20} />{" "}
+                    <span className="hidden sm:block">Logout</span>
+                  </>
+                </SignOutButton>
               </div>
             </SignOutButton>
           </ul>
