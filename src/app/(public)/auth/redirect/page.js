@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import userStore from "@/stores/userStore";
+import userStore from "@/stores/UserStore";
 
 export default function AuthRedirect() {
   const { user, isSignedIn, isLoaded } = useUser();

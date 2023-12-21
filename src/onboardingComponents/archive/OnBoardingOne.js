@@ -16,8 +16,7 @@ const OnBoardingOne = observer((props) => {
     props.setGreenLight(true);
 
     const currentToIndex = onBoardingLayouts.findIndex(
-      (layout) =>
-        layout.layoutID === onBoardingStore.onBoardingCurrent.pageLayout
+      (layout) => layout.id === onBoardingStore.onBoardingCurrent.pageLayout,
     );
 
     onBoardingStore.resetColours();
@@ -51,7 +50,7 @@ const OnBoardingOne = observer((props) => {
                 >
                   <img
                     className="object-cover w-full h-full"
-                    src={layout.layoutImage}
+                    src={layout.selector}
                   />
                 </article>
               ))}
@@ -59,7 +58,7 @@ const OnBoardingOne = observer((props) => {
             <h4 className="mt-6 font-light text-sm">
               Layout Selected:{" "}
               <span className="font-bold">
-                {onBoardingLayouts[activeLayout].layoutTitle}
+                {onBoardingLayouts[activeLayout].title}
               </span>
             </h4>
           </article>
@@ -77,19 +76,19 @@ const OnBoardingOne = observer((props) => {
                 <article className="absolute h-full aspect-[370/750] max-w-[45%] left-1/2 -translate-x-1/2 bg-contain bg-[url('/images/onboarding/mobile-frame.png')] bg-no-repeat bg-center z-50"></article>
                 <article className="relative h-full aspect-[370/750] max-w-[30%] opacity-60">
                   <img
-                    src={onBoardingLayouts[activeLayout].images[0] || ""}
+                    src={onBoardingLayouts[activeLayout].examples[0] || ""}
                     className="w-full h-full object-contain object-center"
                   />
                 </article>
                 <article className="absolute h-full aspect-[370/750] max-w-[45%] left-1/2 -translate-x-1/2 z-20">
                   <img
-                    src={onBoardingLayouts[activeLayout].images[1] || ""}
+                    src={onBoardingLayouts[activeLayout].examples[1] || ""}
                     className="w-full h-full object-contain object-center"
                   />
                 </article>
                 <article className="relative h-full aspect-[370/750] max-w-[30%] opacity-60">
                   <img
-                    src={onBoardingLayouts[activeLayout].images[2] || ""}
+                    src={onBoardingLayouts[activeLayout].examples[2] || ""}
                     className="w-full h-full object-contain object-center"
                   />
                 </article>

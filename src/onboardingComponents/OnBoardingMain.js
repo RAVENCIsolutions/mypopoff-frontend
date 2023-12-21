@@ -18,7 +18,7 @@ import onBoardingStore from "@/stores/OnBoardingStore";
 import { onBoardingLayouts } from "@/data/OnBoardingLayouts";
 
 const OnBoardingMain = observer(() => {
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(2);
 
   const pageContainer = useRef(null);
   const snackbar = useRef(null);

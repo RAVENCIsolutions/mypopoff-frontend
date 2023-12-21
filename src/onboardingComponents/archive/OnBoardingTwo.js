@@ -23,8 +23,7 @@ const OnBoardingTwo = (props) => {
     props.setGreenLight(true);
 
     const currentToIndex = onBoardingButtons.findIndex(
-      (layout) =>
-        layout.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+      (layout) => layout.id === onBoardingStore.onBoardingCurrent.buttonStyle,
     );
 
     onBoardingStore.resetColours();
@@ -58,7 +57,7 @@ const OnBoardingTwo = (props) => {
                 >
                   <img
                     className="object-cover w-full h-full"
-                    src={layout.layoutImage}
+                    src={layout.selector}
                   />
                 </article>
               ))}
@@ -66,7 +65,7 @@ const OnBoardingTwo = (props) => {
             <h4 className="mt-6 font-light text-sm">
               Layout Selected:{" "}
               <span className="font-bold">
-                {onBoardingButtons[activeLayout].layoutTitle}
+                {onBoardingButtons[activeLayout].title}
               </span>
             </h4>
           </article>
@@ -87,11 +86,11 @@ const OnBoardingTwo = (props) => {
                     className="pointer-events-none absolute w-full h-full object-contain z-50"
                   />
                   {buttonNames.map((item, index) =>
-                    onBoardingButtons[activeLayout].block(
+                    onBoardingButtons[activeLayout].component(
                       item,
                       activeColours,
-                      index
-                    )
+                      index,
+                    ),
                   )}
                 </article>
               </>

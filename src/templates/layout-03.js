@@ -20,8 +20,7 @@ const Layout03 = observer(({ previewWindow = false }) => {
   const { palette } = onBoardingStore.onBoardingCurrent;
 
   const currentButtonStyleIndex = onBoardingButtons.findIndex(
-    (button) =>
-      button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+    (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
   );
 
   const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
@@ -61,7 +60,7 @@ const Layout03 = observer(({ previewWindow = false }) => {
         {/* Links */}
         <ul
           className={`flex flex-col ${
-            currentButtonStyle.listStyles
+            currentButtonStyle.uniqueClasses
           } w-fit font-sans ${
             previewWindow
               ? "mb-2 gap-2 text-base"
@@ -69,11 +68,11 @@ const Layout03 = observer(({ previewWindow = false }) => {
           }`}
         >
           {sampleLinks.map((link, index) => {
-            if (currentButtonStyle && currentButtonStyle.block) {
-              return currentButtonStyle.block(
+            if (currentButtonStyle && currentButtonStyle.component) {
+              return currentButtonStyle.component(
                 link.title,
                 onBoardingStore.onBoardingCurrent.palette,
-                index
+                index,
               );
             }
           })}

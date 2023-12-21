@@ -24,8 +24,7 @@ const Layout01 = observer(({ previewWindow = false }) => {
   const { palette } = onBoardingStore.onBoardingCurrent;
 
   const currentButtonStyleIndex = onBoardingButtons.findIndex(
-    (button) =>
-      button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle,
+    (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
   );
 
   const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
@@ -71,12 +70,12 @@ const Layout01 = observer(({ previewWindow = false }) => {
             className={`mx-auto flex flex-col ${
               previewWindow ? "gap-2" : "gap-4"
             } ${
-              currentButtonStyle.listStyles
+              currentButtonStyle.uniqueClasses
             } text-center max-w-max font-sans tracking-wide`}
           >
             {sampleLinks.map((link, index) => {
-              if (currentButtonStyle && currentButtonStyle.block) {
-                return currentButtonStyle.block(
+              if (currentButtonStyle && currentButtonStyle.component) {
+                return currentButtonStyle.component(
                   link.title,
                   onBoardingStore.onBoardingCurrent.palette,
                   index,
