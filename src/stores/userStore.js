@@ -68,6 +68,20 @@ class UserStore {
       return await this.createUser(clerkUserId);
     }
   }
+
+  async updateUser(clerkUserId, newData) {
+    const { data, error } = await supabase
+      .from(process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE)
+      .update(newData)
+      .eq("clerk_user_id", clerkUserId)
+      .select();
+
+    if (error) {
+      console.error(`Error updating user record: ${error.message}`);
+    }
+
+    return data;
+  }
 }
 
 const userStore = new UserStore();
