@@ -1,6 +1,4 @@
 import { SignUp } from "@clerk/nextjs";
-import NavBar from "@/components/NavBar";
-import Link from "next/link";
 
 export const metadata = {
   title: "Start your free Pop Off journey!",

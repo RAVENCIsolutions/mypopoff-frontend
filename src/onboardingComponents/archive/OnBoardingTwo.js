@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
+import onBoardingStore from "@/stores/OnboardingStore";
+import { OnboardingButtons } from "@/data/OnboardingButtons";
 import { CircularProgress } from "@mui/material";
 
 const OnBoardingTwo = (props) => {
@@ -22,7 +22,7 @@ const OnBoardingTwo = (props) => {
 
     props.setGreenLight(true);
 
-    const currentToIndex = onBoardingButtons.findIndex(
+    const currentToIndex = OnboardingButtons.findIndex(
       (layout) => layout.id === onBoardingStore.onBoardingCurrent.buttonStyle,
     );
 
@@ -41,7 +41,7 @@ const OnBoardingTwo = (props) => {
           </h3>
           <article className="mt-10 p-3 md:p-5 rounded-none md:rounded-3xl w-full bg-white shadow-lg shadow-dashboard-primary-dark/10">
             <div className="grid grid-cols-1 3xs:grid-cols-2 2xs:grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 md:grid-cols-5 gap-4 md:gap-4">
-              {onBoardingButtons.map((layout, index) => (
+              {OnboardingButtons.map((layout, index) => (
                 <article
                   key={`image-${index}`}
                   className={`cursor-pointer bg-white rounded-lg overflow-hidden transition-all duration-300 ${
@@ -65,7 +65,7 @@ const OnBoardingTwo = (props) => {
             <h4 className="mt-6 font-light text-sm">
               Layout Selected:{" "}
               <span className="font-bold">
-                {onBoardingButtons[activeLayout].title}
+                {OnboardingButtons[activeLayout].title}
               </span>
             </h4>
           </article>
@@ -86,7 +86,7 @@ const OnBoardingTwo = (props) => {
                     className="pointer-events-none absolute w-full h-full object-contain z-50"
                   />
                   {buttonNames.map((item, index) =>
-                    onBoardingButtons[activeLayout].component(
+                    OnboardingButtons[activeLayout].component(
                       item,
                       activeColours,
                       index,

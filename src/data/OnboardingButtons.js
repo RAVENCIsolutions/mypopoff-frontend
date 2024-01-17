@@ -9,7 +9,7 @@ import ButtonStyle09 from "@/onboardingComponents/button-style-09";
 import ButtonStyle08 from "@/onboardingComponents/button-style-08";
 import ButtonStyle07 from "@/onboardingComponents/button-style-07";
 
-export const onBoardingButtons = [
+export const OnboardingButtons = [
   {
     id: "button-01",
     title: "Solid Rounded",

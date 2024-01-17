@@ -7,8 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 import "@/app/(public)/globals.scss";
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
+import onBoardingStore from "@/stores/OnboardingStore";
+import { OnboardingButtons } from "@/data/OnboardingButtons";
 import { observer } from "mobx-react";
 
 const Layout10 = observer(({ previewWindow = false }) => {
@@ -21,11 +21,11 @@ const Layout10 = observer(({ previewWindow = false }) => {
 
   const { palette } = onBoardingStore.onBoardingCurrent;
 
-  const currentButtonStyleIndex = onBoardingButtons.findIndex(
+  const currentButtonStyleIndex = OnboardingButtons.findIndex(
     (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
   );
 
-  const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
+  const currentButtonStyle = OnboardingButtons[currentButtonStyleIndex];
 
   return (
     <main

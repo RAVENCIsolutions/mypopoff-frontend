@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 
 import { observer } from "mobx-react";
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingLayouts } from "@/data/OnBoardingLayouts";
+import onBoardingStore from "@/stores/OnboardingStore";
+import { OnboardingLayouts } from "@/data/OnboardingLayouts";
 
 const OnBoardingOne = observer((props) => {
   const [activeLayout, setActiveLayout] = useState(0);
@@ -15,7 +15,7 @@ const OnBoardingOne = observer((props) => {
 
     props.setGreenLight(true);
 
-    const currentToIndex = onBoardingLayouts.findIndex(
+    const currentToIndex = OnboardingLayouts.findIndex(
       (layout) => layout.id === onBoardingStore.onBoardingCurrent.pageLayout,
     );
 
@@ -34,7 +34,7 @@ const OnBoardingOne = observer((props) => {
           </h3>
           <article className="mt-10 p-3 md:p-5 rounded-none md:rounded-3xl w-full bg-white shadow-lg shadow-dashboard-primary-dark/10">
             <div className="grid grid-cols-1 3xs:grid-cols-2 2xs:grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 md:grid-cols-5 gap-4 md:gap-4">
-              {onBoardingLayouts.map((layout, index) => (
+              {OnboardingLayouts.map((layout, index) => (
                 <article
                   key={`image-${index}`}
                   className={`cursor-pointer bg-white rounded-lg overflow-hidden transition-all duration-300 ${
@@ -58,7 +58,7 @@ const OnBoardingOne = observer((props) => {
             <h4 className="mt-6 font-light text-sm">
               Layout Selected:{" "}
               <span className="font-bold">
-                {onBoardingLayouts[activeLayout].title}
+                {OnboardingLayouts[activeLayout].title}
               </span>
             </h4>
           </article>
@@ -76,19 +76,19 @@ const OnBoardingOne = observer((props) => {
                 <article className="absolute h-full aspect-[370/750] max-w-[45%] left-1/2 -translate-x-1/2 bg-contain bg-[url('/images/onboarding/mobile-frame.png')] bg-no-repeat bg-center z-50"></article>
                 <article className="relative h-full aspect-[370/750] max-w-[30%] opacity-60">
                   <img
-                    src={onBoardingLayouts[activeLayout].examples[0] || ""}
+                    src={OnboardingLayouts[activeLayout].examples[0] || ""}
                     className="w-full h-full object-contain object-center"
                   />
                 </article>
                 <article className="absolute h-full aspect-[370/750] max-w-[45%] left-1/2 -translate-x-1/2 z-20">
                   <img
-                    src={onBoardingLayouts[activeLayout].examples[1] || ""}
+                    src={OnboardingLayouts[activeLayout].examples[1] || ""}
                     className="w-full h-full object-contain object-center"
                   />
                 </article>
                 <article className="relative h-full aspect-[370/750] max-w-[30%] opacity-60">
                   <img
-                    src={onBoardingLayouts[activeLayout].examples[2] || ""}
+                    src={OnboardingLayouts[activeLayout].examples[2] || ""}
                     className="w-full h-full object-contain object-center"
                   />
                 </article>

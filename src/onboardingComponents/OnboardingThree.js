@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react";
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingLayouts } from "@/data/OnBoardingLayouts";
+import onBoardingStore from "@/stores/OnboardingStore";
+import { OnboardingLayouts } from "@/data/OnboardingLayouts";
 
-const OnBoardingThree = observer((props) => {
+const OnboardingThree = observer((props) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleLayoutSelect = (index) => {
@@ -14,8 +14,8 @@ const OnBoardingThree = observer((props) => {
   };
 
   useEffect(() => {
-    const activeLayoutIndex = onBoardingLayouts.findIndex(
-      (item) => item.id === onBoardingStore.onBoardingCurrent.pageLayout,
+    const activeLayoutIndex = OnboardingLayouts.findIndex(
+      (item) => item.id === onBoardingStore.userData.page_layout,
     );
 
     setActiveIndex(activeLayoutIndex);
@@ -33,7 +33,7 @@ const OnBoardingThree = observer((props) => {
               activeIndex === index
                 ? "shadow-lg shadow-black/20"
                 : "hover:shadow-lg shadow-black/20"
-            } aspect-[12/23] transition-all duration-300`}
+            } aspect-[12/23] transition-all duration-150`}
             onClick={() => handleLayoutSelect(index)}
           >
             <div
@@ -45,8 +45,8 @@ const OnBoardingThree = observer((props) => {
             ></div>
             <img
               className={`p-2 h-full rounded-2xl aspect-[12/23]`}
-              src={layout.layoutImage}
-              alt={layout.layoutTitle}
+              src={layout.selector}
+              alt={layout.title}
             />
           </article>
         ))}
@@ -54,4 +54,4 @@ const OnBoardingThree = observer((props) => {
   );
 });
 
-export default OnBoardingThree;
+export default OnboardingThree;

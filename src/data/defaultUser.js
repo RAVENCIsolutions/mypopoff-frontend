@@ -9,8 +9,6 @@ const defaultUser = {
 
   onboarding_completed: false,
 
-  links: [],
-
   page_layout: "layout-01",
   button_style: "button-01",
 

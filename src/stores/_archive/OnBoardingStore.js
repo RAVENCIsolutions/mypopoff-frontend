@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import { onBoardingLayouts } from "@/data/OnBoardingLayouts";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
+import { OnboardingLayouts } from "@/data/OnboardingLayouts";
+import { OnboardingButtons } from "@/data/OnboardingButtons";
 
 class OnBoardingStore {
   username = "";
@@ -51,11 +51,11 @@ class OnBoardingStore {
   };
 
   updateLayout = (id) => {
-    this.onBoardingCurrent.pageLayout = onBoardingLayouts[id].id;
+    this.onBoardingCurrent.pageLayout = OnboardingLayouts[id].id;
   };
 
   updateButtonStyle = (id) => {
-    this.onBoardingCurrent.buttonStyle = onBoardingButtons[id].id;
+    this.onBoardingCurrent.buttonStyle = OnboardingButtons[id].id;
   };
 
   updateColour = (key, colour) => {
@@ -63,18 +63,18 @@ class OnBoardingStore {
   };
 
   resetColours = () => {
-    const layoutIndex = onBoardingLayouts.findIndex(
+    const layoutIndex = OnboardingLayouts.findIndex(
       (layout) => layout.id === onBoardingStore.onBoardingCurrent.pageLayout,
     );
 
-    const buttonIndex = onBoardingButtons.findIndex(
+    const buttonIndex = OnboardingButtons.findIndex(
       (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
     );
 
     this.onBoardingCurrent.palette = {};
     this.onBoardingCurrent.palette = {
-      ...onBoardingLayouts[layoutIndex].colours,
-      ...onBoardingButtons[buttonIndex].colours,
+      ...OnboardingLayouts[layoutIndex].colours,
+      ...OnboardingButtons[buttonIndex].colours,
     };
   };
 

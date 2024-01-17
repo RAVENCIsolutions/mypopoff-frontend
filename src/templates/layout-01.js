@@ -7,8 +7,8 @@ import Link from "next/link";
 import styled from "@emotion/styled";
 import { observer } from "mobx-react";
 
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
+import onBoardingStore from "@/stores/OnboardingStore";
+import { OnboardingButtons } from "@/data/OnboardingButtons";
 import { getContrastLuminance } from "@/utility/utilities";
 
 const ResponsiveMain = styled.main``;
@@ -23,11 +23,11 @@ const Layout01 = observer(({ previewWindow = false }) => {
 
   const { palette } = onBoardingStore.onBoardingCurrent;
 
-  const currentButtonStyleIndex = onBoardingButtons.findIndex(
+  const currentButtonStyleIndex = OnboardingButtons.findIndex(
     (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
   );
 
-  const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
+  const currentButtonStyle = OnboardingButtons[currentButtonStyleIndex];
 
   return (
     <main
@@ -77,7 +77,7 @@ const Layout01 = observer(({ previewWindow = false }) => {
               if (currentButtonStyle && currentButtonStyle.component) {
                 return currentButtonStyle.component(
                   link.title,
-                  onBoardingStore.onBoardingCurrent.palette,
+                  onBoardingStore.userData.palette,
                   index,
                 );
               }

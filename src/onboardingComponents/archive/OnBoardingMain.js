@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import { FaAngleLeft, FaAngleRight, FaArrowRight } from "react-icons/fa";
 
-import OnBoardingOne from "@/onboardingComponents/OnBoardingOne";
-import OnBoardingTwo from "@/onboardingComponents/OnBoardingTwo";
-import OnBoardingThree from "@/onboardingComponents/OnBoardingThree";
+import OnboardingOne from "@/onboardingComponents/OnboardingOne";
+import OnboardingTwo from "@/onboardingComponents/OnboardingTwo";
+import OnboardingThree from "@/onboardingComponents/OnboardingThree";
 import OnBoardingFour from "@/onboardingComponents/OnBoardingFour";
 import { Alert, Box, Snackbar } from "@mui/material";
 import PopOffSnackbarBlock from "@/components/PopOffSnackbarBlock";
@@ -34,7 +34,7 @@ const OnBoardingMain = observer(() => {
     {
       id: "page-one",
       component: (
-        <OnBoardingOne
+        <OnboardingOne
           setGreenLight={setGreenLight}
           setFeedback={setFeedback}
         />
@@ -43,7 +43,7 @@ const OnBoardingMain = observer(() => {
     {
       id: "page-two",
       component: (
-        <OnBoardingTwo
+        <OnboardingTwo
           setGreenLight={setGreenLight}
           setFeedback={setFeedback}
         />
@@ -52,7 +52,7 @@ const OnBoardingMain = observer(() => {
     {
       id: "page-three",
       component: (
-        <OnBoardingThree
+        <OnboardingThree
           setGreenLight={setGreenLight}
           setFeedback={setFeedback}
         />

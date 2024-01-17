@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 
 import { observer } from "mobx-react";
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingLayouts } from "@/data/OnBoardingLayouts";
+import onBoardingStore from "@/stores/OnboardingStore";
+import { OnboardingLayouts } from "@/data/OnboardingLayouts";
 
-const OnBoardingOne = observer((props) => {
+const OnboardingOne = observer((props) => {
   const [activeLayout, setActiveLayout] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -25,4 +25,4 @@ const OnBoardingOne = observer((props) => {
   );
 });
 
-export default OnBoardingOne;
+export default OnboardingOne;

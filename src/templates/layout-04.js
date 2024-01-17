@@ -4,8 +4,8 @@ import {
   BiLogoTwitch,
 } from "react-icons/bi";
 import { observer } from "mobx-react";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
-import onBoardingStore from "@/stores/OnBoardingStore";
+import { OnboardingButtons } from "@/data/OnboardingButtons";
+import onBoardingStore from "@/stores/OnboardingStore";
 
 const Layout04 = observer(({ previewWindow = false }) => {
   const sampleLinks = [
@@ -17,11 +17,11 @@ const Layout04 = observer(({ previewWindow = false }) => {
 
   const { palette } = onBoardingStore.onBoardingCurrent;
 
-  const currentButtonStyleIndex = onBoardingButtons.findIndex(
+  const currentButtonStyleIndex = OnboardingButtons.findIndex(
     (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
   );
 
-  const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
+  const currentButtonStyle = OnboardingButtons[currentButtonStyleIndex];
 
   return (
     <main

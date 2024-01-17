@@ -1,4 +1,4 @@
-import "./globals.scss";
+import "./(public)/globals.scss";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import Footer from "@/components/Footer";

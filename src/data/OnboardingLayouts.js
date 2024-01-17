@@ -1,12 +1,12 @@
-export const onBoardingLayouts = [
+export const OnboardingLayouts = [
   {
     id: "layout-01",
     title: "The Classic",
-    selector: "/examples/onboarding/layout-01.png",
+    selector: "/images/onboarding/layout-01.png",
     examples: [
-      "/examples/onboarding/layout01_iii.png",
-      "/examples/onboarding/layout01_ii.png",
-      "/examples/onboarding/layout01_i.png",
+      "/images/onboarding/layout01_iii.png",
+      "/images/onboarding/layout01_ii.png",
+      "/images/onboarding/layout01_i.png",
     ],
     colours: {
       background: "#f5f5f4",
@@ -18,11 +18,11 @@ export const onBoardingLayouts = [
   {
     id: "layout-02",
     title: "For the 'Gram 📷",
-    selector: "/examples/onboarding/layout-02.png",
+    selector: "/images/onboarding/layout-02.png",
     examples: [
-      "/examples/onboarding/layout02_i.png",
-      "/examples/onboarding/layout02_ii.png",
-      "/examples/onboarding/layout02_iii.png",
+      "/images/onboarding/layout02_i.png",
+      "/images/onboarding/layout02_ii.png",
+      "/images/onboarding/layout02_iii.png",
     ],
     colours: {
       background: "#ffffff",
@@ -34,11 +34,11 @@ export const onBoardingLayouts = [
   {
     id: "layout-03",
     title: "The Poster 🖼️",
-    selector: "/examples/onboarding/layout-03.png",
+    selector: "/images/onboarding/layout-03.png",
     examples: [
-      "/examples/onboarding/layout03_i.png",
-      "/examples/onboarding/layout03_ii.png",
-      "/examples/onboarding/layout03_iii.png",
+      "/images/onboarding/layout03_i.png",
+      "/images/onboarding/layout03_ii.png",
+      "/images/onboarding/layout03_iii.png",
     ],
     colours: {
       background: "#202224",
@@ -50,11 +50,11 @@ export const onBoardingLayouts = [
   {
     id: "layout-04",
     title: "Office Attire 👔",
-    selector: "/examples/onboarding/layout-04.png",
+    selector: "/images/onboarding/layout-04.png",
     examples: [
-      "/examples/onboarding/layout04_i.png",
-      "/examples/onboarding/layout04_ii.png",
-      "/examples/onboarding/layout04_iii.png",
+      "/images/onboarding/layout04_i.png",
+      "/images/onboarding/layout04_ii.png",
+      "/images/onboarding/layout04_iii.png",
     ],
     colours: {
       background: "#202224",
@@ -66,11 +66,11 @@ export const onBoardingLayouts = [
   {
     id: "layout-05",
     title: "Cardology 🃏",
-    selector: "/examples/onboarding/layout-05.png",
+    selector: "/images/onboarding/layout-05.png",
     examples: [
-      "/examples/onboarding/layout05_i.png",
-      "/examples/onboarding/layout05_ii.png",
-      "/examples/onboarding/layout05_iii.png",
+      "/images/onboarding/layout05_i.png",
+      "/images/onboarding/layout05_ii.png",
+      "/images/onboarding/layout05_iii.png",
     ],
     colours: {
       background: "#ffffff",
@@ -82,11 +82,11 @@ export const onBoardingLayouts = [
   {
     id: "layout-06",
     title: "The Gallery 🗽",
-    selector: "/examples/onboarding/layout-06.png",
+    selector: "/images/onboarding/layout-06.png",
     examples: [
-      "/examples/onboarding/layout06_i.png",
-      "/examples/onboarding/layout06_ii.png",
-      "/examples/onboarding/layout06_iii.png",
+      "/images/onboarding/layout06_i.png",
+      "/images/onboarding/layout06_ii.png",
+      "/images/onboarding/layout06_iii.png",
     ],
     colours: {
       background: "#c68a4e",
@@ -99,11 +99,11 @@ export const onBoardingLayouts = [
   {
     id: "layout-07",
     title: "Bombastic 🎩",
-    selector: "/examples/onboarding/layout-07.png",
+    selector: "/images/onboarding/layout-07.png",
     examples: [
-      "/examples/onboarding/layout07_i.png",
-      "/examples/onboarding/layout07_ii.png",
-      "/examples/onboarding/layout07_iii.png",
+      "/images/onboarding/layout07_i.png",
+      "/images/onboarding/layout07_ii.png",
+      "/images/onboarding/layout07_iii.png",
     ],
     colours: {
       background: "#ffffff",
@@ -115,11 +115,11 @@ export const onBoardingLayouts = [
   {
     id: "layout-08",
     title: "Bannerific 🪧",
-    selector: "/examples/onboarding/layout-08.png",
+    selector: "/images/onboarding/layout-08.png",
     examples: [
-      "/examples/onboarding/layout08_i.png",
-      "/examples/onboarding/layout08_ii.png",
-      "/examples/onboarding/layout08_iii.png",
+      "/images/onboarding/layout08_i.png",
+      "/images/onboarding/layout08_ii.png",
+      "/images/onboarding/layout08_iii.png",
     ],
     colours: {
       background: "#202224",
@@ -131,11 +131,11 @@ export const onBoardingLayouts = [
   {
     id: "layout-09",
     title: "Business Card 🪪",
-    selector: "/examples/onboarding/layout-09.png",
+    selector: "/images/onboarding/layout-09.png",
     examples: [
-      "/examples/onboarding/layout09_i.png",
-      "/examples/onboarding/layout09_ii.png",
-      "/examples/onboarding/layout09_iii.png",
+      "/images/onboarding/layout09_i.png",
+      "/images/onboarding/layout09_ii.png",
+      "/images/onboarding/layout09_iii.png",
     ],
     colours: {
       background: "#ffffff",
@@ -148,11 +148,11 @@ export const onBoardingLayouts = [
   {
     id: "layout-10",
     title: "Neobrutalism 🎇",
-    selector: "/examples/onboarding/layout-10.png",
+    selector: "/images/onboarding/layout-10.png",
     examples: [
-      "/examples/onboarding/layout10_i.png",
-      "/examples/onboarding/layout10_ii.png",
-      "/examples/onboarding/layout10_iii.png",
+      "/images/onboarding/layout10_i.png",
+      "/images/onboarding/layout10_ii.png",
+      "/images/onboarding/layout10_iii.png",
     ],
     colours: {
       background: "#c68a4e",

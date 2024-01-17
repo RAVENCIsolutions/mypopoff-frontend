@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { observe } from "mobx";
 import { observer } from "mobx-react";
-import onBoardingStore from "@/stores/OnBoardingStore";
+import onBoardingStore from "@/stores/OnboardingStore";
 
 const ButtonStyle03 = observer((props) => {
   const [hover, setHover] = useState(false);

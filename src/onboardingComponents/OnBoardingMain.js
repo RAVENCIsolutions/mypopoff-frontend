@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import { FaAngleLeft, FaAngleRight, FaArrowRight } from "react-icons/fa";
 
-import OnBoardingOne from "@/onboardingComponents/OnBoardingOne";
-import OnBoardingTwo from "@/onboardingComponents/OnBoardingTwo";
-import OnBoardingThree from "@/onboardingComponents/OnBoardingThree";
+import OnboardingOne from "@/onboardingComponents/OnboardingOne";
+import OnboardingTwo from "@/onboardingComponents/OnboardingTwo";
+import OnboardingThree from "@/onboardingComponents/OnboardingThree";
 import OnBoardingFour from "@/onboardingComponents/OnBoardingFour";
 import { Alert, Box, Snackbar } from "@mui/material";
 import PopOffSnackbarBlock from "@/components/PopOffSnackbarBlock";
@@ -14,11 +14,11 @@ import SkipButton from "@/onboardingComponents/SkipButton";
 import NextButton from "@/onboardingComponents/NextButton";
 import OnboardingSteps from "@/onboardingComponents/OnboardingSteps";
 import PrevButton from "@/onboardingComponents/PrevButton";
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingLayouts } from "@/data/OnBoardingLayouts";
+import onBoardingStore from "@/stores/OnboardingStore";
+import { OnboardingLayouts } from "@/data/OnboardingLayouts";
 
 const OnBoardingMain = observer(() => {
-  const [activeIndex, setActiveIndex] = useState(2);
+  const [activeIndex, setActiveIndex] = useState(1);
 
   const pageContainer = useRef(null);
   const snackbar = useRef(null);
@@ -38,19 +38,19 @@ const OnBoardingMain = observer(() => {
       id: "page-one",
       index: `01`,
       title: `Congrats!`,
-      component: <OnBoardingOne />,
+      component: <OnboardingOne />,
     },
     {
       id: "page-two",
       index: `02`,
       title: `Info`,
-      component: <OnBoardingTwo pageLayouts={onBoardingLayouts} />,
+      component: <OnboardingTwo pageLayouts={OnboardingLayouts} />,
     },
     {
       id: "page-three",
       index: `03`,
       title: `Page Style`,
-      component: <OnBoardingThree pageLayouts={onBoardingLayouts} />,
+      component: <OnboardingThree pageLayouts={OnboardingLayouts} />,
     },
     {
       id: "page-four",
