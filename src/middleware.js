@@ -10,6 +10,7 @@ export default authMiddleware({
     "privacy-policy",
     "/terms-of-service",
     "/cookies-policy",
+    "/colour-wheel-test",
   ],
 });
 
