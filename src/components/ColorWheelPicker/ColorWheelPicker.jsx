@@ -279,7 +279,7 @@ const ColorWheelPicker = () => {
             <article
               key={`palette-change-${index}`}
               className={`${
-                window.innerWidth < 400 ? "none" : "flex"
+                window.innerWidth < 350 ? "hidden" : "flex"
               } cursor-pointer pointer-events-auto absolute justify-center items-center w-12 rounded-full aspect-square transition-all duration-700 ${
                 index === paletteSelection
                   ? "opacity-100"
@@ -312,7 +312,7 @@ const ColorWheelPicker = () => {
             className={`pointer-events-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
             style={{
               width:
-                window.innerWidth < 400
+                window.innerWidth < 350
                   ? innerWheelSize * 0.7
                   : innerWheelSize * 0.55,
             }}
