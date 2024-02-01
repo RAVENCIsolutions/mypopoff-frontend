@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import { redirect } from "next/navigation";
-
-export default async function Me({ params }) {
-  // redirect("/me/dashboard");
-}
-=======
 "use client";
 
 import { useEffect } from "react";
@@ -62,4 +55,3 @@ const Me = observer(() => {
 });
 
 export default Me;
->>>>>>> supabase

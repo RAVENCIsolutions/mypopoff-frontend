@@ -7,13 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 import "@/app/(public)/globals.scss";
-<<<<<<< HEAD
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
-=======
 import onBoardingStore from "@/stores/OnboardingStore";
 import { OnboardingButtons } from "@/data/OnboardingButtons";
->>>>>>> supabase
 import { observer } from "mobx-react";
 
 const Layout10 = observer(({ previewWindow = false }) => {
