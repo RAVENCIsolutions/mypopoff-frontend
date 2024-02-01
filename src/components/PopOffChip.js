@@ -14,9 +14,9 @@ const PopOffChip = (props) => {
         ${
           props.selected
             ? props.selected +
-              " bg-action border-action shadow-none text-primary-light"
+              " mt-2 mb-0 ml-0 mr-2 bg-action border-action shadow-none text-primary-light"
             : props.background +
-              " border-primary-dark/70 hover:bg-primary-dark/10 shadow-lg shadow-primary-dark/10 text-primary-dark/70"
+              " my-1 mx-1 border-primary-dark/70 hover:bg-primary-dark/10 shadow-lg shadow-primary-dark/10 text-primary-dark/70"
         }`}
       {...props}
     >

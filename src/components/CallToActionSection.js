@@ -9,7 +9,7 @@ const CallToActionSection = ({ heading, subheading, callToAction }) => {
       <h3 className="mb-12 text-primary-dark dark:text-primary-light">
         {subheading || "Join thousands of other influencers"}
       </h3>
-      <Link href="/register">
+      <Link href="/auth/register">
         <button className="mt-6 md:mt-10 lg:mt-20 px-8 md:px-10 lg:px-12 py-3 md:py-4T lg:py-6 bg-action hover:bg-action/90 rounded-full text-white dark:text-primary-dark text-lg md:text-xl lg:text-2xl font-medium duration-300 transition-all">
           {callToAction || "Get started for free"}
         </button>

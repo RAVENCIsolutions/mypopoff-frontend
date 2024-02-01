@@ -1,26 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { useEffect, useState } from "react";
 import LinkBlock from "@/components/LinkBlock";
 import { BsArrowDownSquare, BsArrowUpSquare } from "react-icons/bs";
+import { observer } from "mobx-react";
+import userStore from "@/stores/UserStore";
 
-const LinksList = () => {
-  const initialLinks = [
-    { id: "link-0", title: "Home", url: "/" },
-    { id: "link-1", title: "About", url: "/about" },
-    { id: "link-2", title: "Contact", url: "/contact" },
-    {
-      id: "link-3",
-      title: "this is a really long title to see how it looks",
-      url: "/contact",
-    },
-    { id: "link-4", title: "Contact", url: "/contact" },
-    { id: "link-5", title: "Contact", url: "/contact" },
-    // more links with unique ids
-  ];
-
-  const [sampleLinks, setSampleLinks] = useState(initialLinks);
+const LinksList = observer(({ setProcessing }) => {
+  const userLinks = userStore.userData.links;
 
   // Function to reorder list
   const reorder = (list, startIndex, endIndex) => {
@@ -30,27 +17,32 @@ const LinksList = () => {
     return result;
   };
 
-  const moveUp = (index) => {
-    const newOrder = reorder(sampleLinks, index, index - 1);
+  const moveUp = async (index) => {
+    setProcessing(true);
+
+    const newOrder = reorder(userLinks, index, index - 1);
     if (index === 0) return;
-    setSampleLinks(newOrder);
+
+    await userStore.resetLinkList(newOrder).then(() => setProcessing(false));
   };
 
-  const moveDown = (index) => {
-    if (index === sampleLinks.length - 1) return;
-    const newOrder = reorder(sampleLinks, index, index + 1);
+  const moveDown = async (index) => {
+    setProcessing(true);
 
-    setSampleLinks(newOrder);
+    if (index === userLinks.length - 1) return;
+    const newOrder = reorder(userLinks, index, index + 1);
+
+    await userStore.resetLinkList(newOrder).then(() => setProcessing(false));
   };
 
   return (
-    <>
-      {sampleLinks.map((link, index) => (
+    <div className={`flex flex-col gap-4`}>
+      {userLinks.map((link, index) => (
         <article
           className="relative flex flex-row items-center justify-start"
           key={link.id}
         >
-          <section className="mr-2 lg:mr-2 py-4 flex flex-col gap-10">
+          <section className="mr-2 py-4 flex flex-col gap-10">
             <button
               className={`${
                 index === 0 ? "opacity-0" : "opacity-100"
@@ -67,9 +59,9 @@ const LinksList = () => {
             {/*<p className="text-2xl text-center">{index}</p>*/}
             <button
               className={`${
-                index === sampleLinks.length - 1 ? "opacity-0" : "opacity-100"
+                index === userLinks.length - 1 ? "opacity-0" : "opacity-100"
               } hover:shadow-xl shadow-black/50 transition-all duration-300`}
-              disabled={index === sampleLinks.length - 1}
+              disabled={index === userLinks.length - 1}
               onClick={() => moveDown(index)}
               title="Move Link Down"
             >
@@ -79,11 +71,16 @@ const LinksList = () => {
               />
             </button>
           </section>
-          <LinkBlock index={index} title={link.title} url={link.url} />
+          <LinkBlock
+            id={link.id}
+            title={link.title}
+            url={link.url}
+            isPublic={link.public}
+          />
         </article>
       ))}
-    </>
+    </div>
   );
-};
+});
 
 export default LinksList;

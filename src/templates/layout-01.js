@@ -3,12 +3,12 @@ import {
   BiLogoInstagramAlt,
   BiLogoTwitch,
 } from "react-icons/bi";
-import Link from "next/link";
 import styled from "@emotion/styled";
 import { observer } from "mobx-react";
 
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
+import onBoardingStore from "@/stores/OnboardingStore";
+import { OnboardingButtons } from "@/data/OnboardingButtons";
+import { getContrastLuminance } from "@/utility/utilities";
 
 const ResponsiveMain = styled.main``;
 
@@ -22,12 +22,11 @@ const Layout01 = observer(({ previewWindow = false }) => {
 
   const { palette } = onBoardingStore.onBoardingCurrent;
 
-  const currentButtonStyleIndex = onBoardingButtons.findIndex(
-    (button) =>
-      button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+  const currentButtonStyleIndex = OnboardingButtons.findIndex(
+    (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
   );
 
-  const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
+  const currentButtonStyle = OnboardingButtons[currentButtonStyleIndex];
 
   return (
     <main
@@ -67,18 +66,18 @@ const Layout01 = observer(({ previewWindow = false }) => {
         {/* Links */}
         <section className={`${previewWindow ? "mb-4" : "mb-10"} w-full`}>
           <ul
-            className={`mx-auto flex flex-col items-stretch ${
+            className={`mx-auto flex flex-col ${
               previewWindow ? "gap-2" : "gap-4"
             } ${
-              currentButtonStyle.listStyles
-            } text-center w-full font-sans tracking-wide`}
+              currentButtonStyle.uniqueClasses
+            } text-center max-w-max font-sans tracking-wide`}
           >
             {sampleLinks.map((link, index) => {
-              if (currentButtonStyle && currentButtonStyle.block) {
-                return currentButtonStyle.block(
+              if (currentButtonStyle && currentButtonStyle.component) {
+                return currentButtonStyle.component(
                   link.title,
-                  onBoardingStore.onBoardingCurrent.palette,
-                  index
+                  onBoardingStore.userData.palette,
+                  index,
                 );
               }
             })}
@@ -93,7 +92,10 @@ const Layout01 = observer(({ previewWindow = false }) => {
         </section>
       </article>
 
-      <footer className="relative text-sm text-stone-500">
+      <footer
+        className={`relative text-sm opacity-50`}
+        style={{ color: getContrastLuminance(palette.background) }}
+      >
         Copyright © {new Date().getFullYear()}. My Pop Off
       </footer>
     </main>

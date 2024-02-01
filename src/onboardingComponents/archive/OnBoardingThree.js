@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import { CircularProgress } from "@mui/material";
-import ColourPickerBlock from "@/components/ColourPickerBlock";
 
-import onBoardingStore from "@/stores/OnBoardingStore";
+import onBoardingStore from "@/stores/OnboardingStore";
+import ColourPickerBlock from "@/components/ColourPickerBlock";
 
 import Layout01 from "@/templates/layout-01";
 import Layout02 from "@/templates/layout-02";
@@ -18,6 +18,7 @@ import Layout07 from "@/templates/layout-07";
 import Layout08 from "@/templates/layout-08";
 import Layout09 from "@/templates/layout-09";
 import Layout10 from "@/templates/layout-10";
+import { colourLabels } from "@/data/CustomisationData";
 
 const OnBoardingThree = observer((props) => {
   const [loading, setLoading] = useState(false);
@@ -55,14 +56,14 @@ const OnBoardingThree = observer((props) => {
           </h3>
           <article className="mt-10 p-3 md:p-5 rounded-none md:rounded-3xl w-full bg-white shadow-lg shadow-dashboard-primary-dark/10">
             <div className="flex flex-col items-start gap-6">
-              {Object.keys(onBoardingStore.onBoardingCurrent.palette).map(
+              {Object.keys(onBoardingStore.userData.palette).map(
                 (key, index) => (
                   <ColourPickerBlock
                     key={key}
-                    label={onBoardingStore.colourLabels[key]}
+                    label={colourLabels[key]}
                     colorKey={key}
                   />
-                )
+                ),
               )}
             </div>
           </article>
@@ -82,6 +83,7 @@ const OnBoardingThree = observer((props) => {
                   <img
                     src="/images/onboarding/mobile-frame.png"
                     className="pointer-events-none absolute w-full h-full object-contain z-50"
+                    alt={"Mobile frame"}
                   />
                 </article>
 
@@ -91,7 +93,7 @@ const OnBoardingThree = observer((props) => {
                   }
                 >
                   <section className="preview-window w-full h-full overflow-x-hidden overflow-y-auto">
-                    {layoutIndex[onBoardingStore.onBoardingCurrent.pageLayout]}
+                    {layoutIndex[onBoardingStore.userData.page_layout]}
                   </section>
                   {/*{onBoardingStore.onBoardingCurrent.buttonStyle}*/}
                 </article>

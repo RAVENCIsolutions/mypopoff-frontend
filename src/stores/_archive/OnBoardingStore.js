@@ -1,19 +1,17 @@
 import { makeAutoObservable } from "mobx";
-import { onBoardingLayouts } from "@/data/OnBoardingLayouts";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
+import { OnboardingLayouts } from "@/data/OnboardingLayouts";
+import { OnboardingButtons } from "@/data/OnboardingButtons";
 
 class OnBoardingStore {
   username = "";
   avatar = "";
-  categoryIndex = 0;
   category = "";
-  otherCategory = "";
   tags = [];
-  bio = "";
+  bio = "A small quick bio about me and what I do.";
 
   onBoardingTemplate = {
     pageLayout: "layout-01",
-    buttonStyle: "button-01", // You need to define how to get this information
+    buttonStyle: "button-01",
     palette: {
       background: "#c68a4e",
       middleGround: "#ffffff",
@@ -53,11 +51,11 @@ class OnBoardingStore {
   };
 
   updateLayout = (id) => {
-    this.onBoardingCurrent.pageLayout = onBoardingLayouts[id].layoutID;
+    this.onBoardingCurrent.pageLayout = OnboardingLayouts[id].id;
   };
 
   updateButtonStyle = (id) => {
-    this.onBoardingCurrent.buttonStyle = onBoardingButtons[id].layoutID;
+    this.onBoardingCurrent.buttonStyle = OnboardingButtons[id].id;
   };
 
   updateColour = (key, colour) => {
@@ -65,20 +63,18 @@ class OnBoardingStore {
   };
 
   resetColours = () => {
-    const layoutIndex = onBoardingLayouts.findIndex(
-      (layout) =>
-        layout.layoutID === onBoardingStore.onBoardingCurrent.pageLayout
+    const layoutIndex = OnboardingLayouts.findIndex(
+      (layout) => layout.id === onBoardingStore.onBoardingCurrent.pageLayout,
     );
 
-    const buttonIndex = onBoardingButtons.findIndex(
-      (button) =>
-        button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+    const buttonIndex = OnboardingButtons.findIndex(
+      (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
     );
 
     this.onBoardingCurrent.palette = {};
     this.onBoardingCurrent.palette = {
-      ...onBoardingLayouts[layoutIndex].colours,
-      ...onBoardingButtons[buttonIndex].colours,
+      ...OnboardingLayouts[layoutIndex].colours,
+      ...OnboardingButtons[buttonIndex].colours,
     };
   };
 

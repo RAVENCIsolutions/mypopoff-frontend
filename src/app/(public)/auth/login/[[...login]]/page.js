@@ -9,7 +9,8 @@ export default function Register() {
   return (
     <section className="flex items-center justify-center">
       <SignIn
-        signUpUrl="/register"
+        signUpUrl="/auth/register"
+        afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
         appearance={{
           elements: {
             formFieldLabel: "font-sans text-sm font-light",

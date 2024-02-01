@@ -3,11 +3,9 @@ import {
   BiLogoInstagramAlt,
   BiLogoTwitch,
 } from "react-icons/bi";
-import Link from "next/link";
-import Image from "next/image";
 import { observer } from "mobx-react";
-import onBoardingStore from "@/stores/OnBoardingStore";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
+import onBoardingStore from "@/stores/OnboardingStore";
+import { OnboardingButtons } from "@/data/OnboardingButtons";
 
 const Layout03 = observer(({ previewWindow = false }) => {
   const sampleLinks = [
@@ -19,12 +17,11 @@ const Layout03 = observer(({ previewWindow = false }) => {
 
   const { palette } = onBoardingStore.onBoardingCurrent;
 
-  const currentButtonStyleIndex = onBoardingButtons.findIndex(
-    (button) =>
-      button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+  const currentButtonStyleIndex = OnboardingButtons.findIndex(
+    (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
   );
 
-  const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
+  const currentButtonStyle = OnboardingButtons[currentButtonStyleIndex];
 
   return (
     <main
@@ -61,7 +58,7 @@ const Layout03 = observer(({ previewWindow = false }) => {
         {/* Links */}
         <ul
           className={`flex flex-col ${
-            currentButtonStyle.listStyles
+            currentButtonStyle.uniqueClasses
           } w-fit font-sans ${
             previewWindow
               ? "mb-2 gap-2 text-base"
@@ -69,11 +66,11 @@ const Layout03 = observer(({ previewWindow = false }) => {
           }`}
         >
           {sampleLinks.map((link, index) => {
-            if (currentButtonStyle && currentButtonStyle.block) {
-              return currentButtonStyle.block(
+            if (currentButtonStyle && currentButtonStyle.component) {
+              return currentButtonStyle.component(
                 link.title,
                 onBoardingStore.onBoardingCurrent.palette,
-                index
+                index,
               );
             }
           })}

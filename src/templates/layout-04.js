@@ -4,8 +4,8 @@ import {
   BiLogoTwitch,
 } from "react-icons/bi";
 import { observer } from "mobx-react";
-import { onBoardingButtons } from "@/data/OnBoardingButtons";
-import onBoardingStore from "@/stores/OnBoardingStore";
+import { OnboardingButtons } from "@/data/OnboardingButtons";
+import onBoardingStore from "@/stores/OnboardingStore";
 
 const Layout04 = observer(({ previewWindow = false }) => {
   const sampleLinks = [
@@ -17,12 +17,11 @@ const Layout04 = observer(({ previewWindow = false }) => {
 
   const { palette } = onBoardingStore.onBoardingCurrent;
 
-  const currentButtonStyleIndex = onBoardingButtons.findIndex(
-    (button) =>
-      button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle
+  const currentButtonStyleIndex = OnboardingButtons.findIndex(
+    (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
   );
 
-  const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
+  const currentButtonStyle = OnboardingButtons[currentButtonStyleIndex];
 
   return (
     <main
@@ -51,17 +50,17 @@ const Layout04 = observer(({ previewWindow = false }) => {
       </section>
       <ul
         className={`mx-auto px-4 flex flex-col items-stretch ${
-          currentButtonStyle.listStyles
+          currentButtonStyle.uniqueClasses
         } w-max max-w-full h-full font-calluna font-semibold ${
           previewWindow ? "gap-3" : "gap-8 md:text-3xl"
         }`}
       >
         {sampleLinks.map((link, index) => {
-          if (currentButtonStyle && currentButtonStyle.block) {
-            return currentButtonStyle.block(
+          if (currentButtonStyle && currentButtonStyle.component) {
+            return currentButtonStyle.component(
               link.title,
               onBoardingStore.onBoardingCurrent.palette,
-              index
+              index,
             );
           }
         })}

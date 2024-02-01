@@ -1,16 +1,13 @@
 import "./globals.scss";
 import { ClerkProvider } from "@clerk/nextjs";
-import Footer from "@/components/Footer";
+import { Providers } from "@/providers/Providers";
 
 const RootLayout = ({ children }) => {
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-      signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL}
-      afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
-      afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
     >
-      <html lang="en" className="dark" suppressHydrationWarning>
+      <html lang="en" suppressHydrationWarning>
         <head>
           <link rel="stylesheet" href="https://use.typekit.net/oya4ufz.css" />
           <link
@@ -33,8 +30,8 @@ const RootLayout = ({ children }) => {
           <link rel="manifest" href="/site.webmanifest" />
         </head>
 
-        <body className={"bg-primary-light dark:bg-primary-dark"}>
-          {children}
+        <body className={`bg-primary-light dark:bg-primary-dark`}>
+          <Providers>{children}</Providers>
         </body>
       </html>
     </ClerkProvider>

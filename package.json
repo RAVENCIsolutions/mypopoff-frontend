@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest",
+    "text:watch": "jest --watch"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.25.3",
@@ -17,7 +19,7 @@
     "@radix-ui/themes": "^2.0.0",
     "@rpldy/upload-button": "^1.6.1",
     "@rpldy/uploady": "^1.6.1",
-    "@supabase/supabase-js": "^2.38.4",
+    "@supabase/supabase-js": "^2.39.0",
     "@uiw/react-color": "^2.0.2",
     "@uiw/react-color-compact": "^2.0.2",
     "axios": "^1.6.0",
@@ -33,7 +35,11 @@
     "styled-jsx": "^5.1.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
     "autoprefixer": "latest",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "postcss": "latest",
     "tailwindcss": "latest"
   }

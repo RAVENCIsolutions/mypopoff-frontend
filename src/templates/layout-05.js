@@ -4,7 +4,6 @@ import {
   BiLogoTwitch,
 } from "react-icons/bi";
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 
 const Layout05 = () => {

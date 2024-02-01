@@ -7,8 +7,13 @@ import Link from "next/link";
 import Image from "next/image";
 
 import "@/app/(public)/globals.scss";
+<<<<<<< HEAD
 import onBoardingStore from "@/stores/OnBoardingStore";
 import { onBoardingButtons } from "@/data/OnBoardingButtons";
+=======
+import onBoardingStore from "@/stores/OnboardingStore";
+import { OnboardingButtons } from "@/data/OnboardingButtons";
+>>>>>>> supabase
 import { observer } from "mobx-react";
 
 const Layout10 = observer(({ previewWindow = false }) => {
@@ -21,12 +26,11 @@ const Layout10 = observer(({ previewWindow = false }) => {
 
   const { palette } = onBoardingStore.onBoardingCurrent;
 
-  const currentButtonStyleIndex = onBoardingButtons.findIndex(
-    (button) =>
-      button.layoutID === onBoardingStore.onBoardingCurrent.buttonStyle,
+  const currentButtonStyleIndex = OnboardingButtons.findIndex(
+    (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
   );
 
-  const currentButtonStyle = onBoardingButtons[currentButtonStyleIndex];
+  const currentButtonStyle = OnboardingButtons[currentButtonStyleIndex];
 
   return (
     <main
@@ -61,12 +65,12 @@ const Layout10 = observer(({ previewWindow = false }) => {
             className={`${
               previewWindow ? "gap-2" : "gap-8"
             } mx-auto flex flex-col text-center w-full font-sans ${
-              currentButtonStyle.listStyles
+              currentButtonStyle.uniqueClasses
             }`}
           >
             {sampleLinks.map((link, index) => {
-              if (currentButtonStyle && currentButtonStyle.block) {
-                return currentButtonStyle.block(
+              if (currentButtonStyle && currentButtonStyle.component) {
+                return currentButtonStyle.component(
                   link.title,
                   onBoardingStore.onBoardingCurrent.palette,
                   index,
