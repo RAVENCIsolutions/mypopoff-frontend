@@ -32,7 +32,7 @@ const ColorWheelPicker = () => {
         <input
           type="text"
           value={color}
-          className={`p-1.5 w-[60%] tracking-wider text-center shadow-xl shadow-black/10 rounded-lg border-none outline-none font-semibold text-lg text-black/70`}
+          className={`p-1.5 w-[60%] bg-white tracking-wider text-center shadow-xl shadow-black/10 rounded-lg border-none outline-none font-semibold text-lg text-black/70`}
           onChange={(e) => setColor(e.target.value)}
         />
       </div>
