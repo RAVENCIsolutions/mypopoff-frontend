@@ -21,7 +21,7 @@ const ColorWheelPicker = () => {
   const [paletteSelection, setHashSelection] = useState(0);
   const [paletteLabel, setPaletteLabel] = useState("Standard");
 
-  const wheelSize = 300;
+  const wheelSize = Math.min(300, window.innerWidth * 0.85);
 
   const [translateIcons, setTranslateIcons] = useState((wheelSize * 0.73) / 2);
   const [rotateIcons, setRotateIcons] = useState(0);
@@ -267,7 +267,9 @@ const ColorWheelPicker = () => {
 
         {/* Preset Palette Buttons */}
         <section
-          className={`pointer-events-none relative flex items-center transition-all duration-500`}
+          className={`${
+            window.innerWidth < 400 ? "none" : "flex"
+          } pointer-events-none relative items-center transition-all duration-500`}
           style={{
             width: wheelSize * 0.73,
             height: wheelSize * 0.73,
