@@ -8,7 +8,7 @@ import { observer } from "mobx-react";
 
 import onBoardingStore from "@/stores/OnboardingStore";
 import { OnboardingButtons } from "@/data/OnboardingButtons";
-import { getContrastLuminance } from "@/utility/utilities";
+import { getContrastLuminance } from "@/utility/generalUtils";
 
 const ResponsiveMain = styled.main``;
 
