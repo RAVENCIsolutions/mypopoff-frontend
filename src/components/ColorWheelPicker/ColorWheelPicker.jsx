@@ -308,7 +308,7 @@ const ColorWheelPicker = () => {
 
           <div
             className={`pointer-events-auto absolute top-1/2 left-1/2 ${
-              window.innerWidth < 400 ? "w-[70%]" : "w-[55%]"
+              window.innerWidth < 400 ? "w-[55%]" : "w-[70%]"
             } -translate-x-1/2 -translate-y-1/2`}
           >
             <input
