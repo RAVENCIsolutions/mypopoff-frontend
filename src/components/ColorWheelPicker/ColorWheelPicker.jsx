@@ -21,9 +21,9 @@ const ColorWheelPicker = () => {
   const [paletteSelection, setHashSelection] = useState(0);
   const [paletteLabel, setPaletteLabel] = useState("Standard");
 
-  const wheelSize = 350;
+  const wheelSize = 300;
 
-  const [translateIcons, setTranslateIcons] = useState((wheelSize * 0.7) / 2);
+  const [translateIcons, setTranslateIcons] = useState((wheelSize * 0.73) / 2);
   const [rotateIcons, setRotateIcons] = useState(0);
   const [elementsOpacity, setElementsOpacity] = useState("0");
 
@@ -233,7 +233,7 @@ const ColorWheelPicker = () => {
       startingColour.push(newChar);
     }
 
-    setTranslateIcons((wheelSize * 0.7) / 2);
+    setTranslateIcons((wheelSize * 0.73) / 2);
 
     setRotateIcons(360 / palettes.length);
     setTranslateIcons(0);
@@ -256,9 +256,11 @@ const ColorWheelPicker = () => {
       >
         {/* Current Palette Label */}
         <section
-          className={`absolute top-1/2 -translate-y-12 transition-all duration-500`}
+          className={`absolute top-1/2 -translate-y-10 transition-all duration-500`}
         >
-          <p className={`font-semibold text-sm tracking-wider uppercase`}>
+          <p
+            className={`font-semibold text-sm tracking-wider text-dashboard-primary-dark/80 italic`}
+          >
             {paletteLabel}
           </p>
         </section>
@@ -267,8 +269,8 @@ const ColorWheelPicker = () => {
         <section
           className={`pointer-events-none relative flex items-center transition-all duration-500`}
           style={{
-            width: wheelSize * 0.7,
-            height: wheelSize * 0.7,
+            width: wheelSize * 0.73,
+            height: wheelSize * 0.73,
           }}
         >
           {palettes.map((palette, index) => (
@@ -277,10 +279,10 @@ const ColorWheelPicker = () => {
               className={`cursor-pointer pointer-events-auto absolute flex justify-center items-center w-12 rounded-full aspect-square transition-all duration-700 ${
                 index === paletteSelection
                   ? "opacity-100"
-                  : "opacity-60 hover:opacity-100"
+                  : "opacity-30 hover:opacity-100"
               }`}
               style={{
-                transformOrigin: `${(wheelSize * 0.7) / 2}px`,
+                transformOrigin: `${(wheelSize * 0.73) / 2}px`,
                 transform: `rotate(${
                   rotateIcons * index
                 }deg) translateX(${translateIcons}px)`,
@@ -296,19 +298,19 @@ const ColorWheelPicker = () => {
                 }}
               >
                 {palette.component(
-                  index === paletteSelection ? "#c68a4e" : "#141414",
+                  index === paletteSelection ? "#141414" : "#141414",
                 )}
               </div>
             </article>
           ))}
 
           <div
-            className={`absolute top-1/2 left-1/2 w-[54%] -translate-x-1/2 -translate-y-1/2`}
+            className={`absolute top-1/2 left-1/2 w-[55%] -translate-x-1/2 -translate-y-1/2`}
           >
             <input
               type="text"
               value={color.toUpperCase()}
-              className={`p-1.5 pl-6 w-full bg-white shadow-xl shadow-black/15 rounded-lg border-2 outline-none font-semibold text-xl text-black/70 tracking-widest text-right transition-all duration-700`}
+              className={`p-0.5 pr-2 pl-6 w-full bg-white shadow-xl shadow-black/15 rounded-lg border-2 outline-none font-semibold text-lg text-black/70 tracking-widest text-right transition-all duration-700`}
               style={{ borderColor: "#" + color.toUpperCase() }}
               onChange={(e) => {
                 handleColorChange(e.target.value);
