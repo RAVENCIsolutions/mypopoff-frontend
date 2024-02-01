@@ -267,9 +267,7 @@ const ColorWheelPicker = () => {
 
         {/* Preset Palette Buttons */}
         <section
-          className={`${
-            window.innerWidth < 400 ? "none" : "flex"
-          } pointer-events-none relative items-center transition-all duration-500`}
+          className={`pointer-events-none relative flex items-center transition-all duration-500`}
           style={{
             width: wheelSize * 0.73,
             height: wheelSize * 0.73,
@@ -278,7 +276,9 @@ const ColorWheelPicker = () => {
           {palettes.map((palette, index) => (
             <article
               key={`palette-change-${index}`}
-              className={`cursor-pointer pointer-events-auto absolute flex justify-center items-center w-12 rounded-full aspect-square transition-all duration-700 ${
+              className={`${
+                window.innerWidth < 400 ? "none" : "flex"
+              } cursor-pointer pointer-events-auto absolute justify-center items-center w-12 rounded-full aspect-square transition-all duration-700 ${
                 index === paletteSelection
                   ? "opacity-100"
                   : "opacity-30 hover:opacity-100"
@@ -307,7 +307,9 @@ const ColorWheelPicker = () => {
           ))}
 
           <div
-            className={`pointer-events-auto absolute top-1/2 left-1/2 w-[55%] -translate-x-1/2 -translate-y-1/2`}
+            className={`pointer-events-auto absolute top-1/2 left-1/2 ${
+              window.innerWidth < 400 ? "w-[70%]" : "w-[55%]"
+            } -translate-x-1/2 -translate-y-1/2`}
           >
             <input
               type="text"
