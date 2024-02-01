@@ -22,8 +22,9 @@ const ColorWheelPicker = () => {
   const [paletteLabel, setPaletteLabel] = useState("Standard");
 
   const wheelSize = Math.min(300, window.innerWidth * 0.85);
+  const innerWheelSize = wheelSize * 0.73;
 
-  const [translateIcons, setTranslateIcons] = useState((wheelSize * 0.73) / 2);
+  const [translateIcons, setTranslateIcons] = useState(innerWheelSize / 2);
   const [rotateIcons, setRotateIcons] = useState(0);
   const [elementsOpacity, setElementsOpacity] = useState("0");
 
@@ -206,6 +207,7 @@ const ColorWheelPicker = () => {
   ];
 
   useEffect(() => {
+    console.log(window.innerWidth);
     setWheelPalette(defaultColours);
 
     let startingColour = [];
@@ -233,7 +235,7 @@ const ColorWheelPicker = () => {
       startingColour.push(newChar);
     }
 
-    setTranslateIcons((wheelSize * 0.73) / 2);
+    setTranslateIcons(innerWheelSize / 2);
 
     setRotateIcons(360 / palettes.length);
     setTranslateIcons(0);
@@ -269,8 +271,8 @@ const ColorWheelPicker = () => {
         <section
           className={`pointer-events-none relative flex items-center transition-all duration-500`}
           style={{
-            width: wheelSize * 0.73,
-            height: wheelSize * 0.73,
+            width: innerWheelSize,
+            height: innerWheelSize,
           }}
         >
           {palettes.map((palette, index) => (
@@ -284,7 +286,7 @@ const ColorWheelPicker = () => {
                   : "opacity-30 hover:opacity-100"
               }`}
               style={{
-                transformOrigin: `${(wheelSize * 0.73) / 2}px`,
+                transformOrigin: `${innerWheelSize / 2}px`,
                 transform: `rotate(${
                   rotateIcons * index
                 }deg) translateX(${translateIcons}px)`,
@@ -310,7 +312,9 @@ const ColorWheelPicker = () => {
             className={`pointer-events-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
             style={{
               width:
-                window.innerWidth < 400 ? wheelSize * 0.7 : wheelSize * 0.55,
+                window.innerWidth < 400
+                  ? innerWheelSize * 0.7
+                  : innerWheelSize * 0.55,
             }}
           >
             <input
