@@ -1,13 +1,17 @@
 const defaultUser = {
   clerk_user_id: null,
 
+  username: "",
+
   bio: "",
   tagline: "",
 
   category: "",
   tags: [],
 
-  onboarding_completed: false,
+  links: [],
+
+  onboarding_complete: false,
 
   page_layout: "layout-01",
   button_style: "button-01",

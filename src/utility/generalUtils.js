@@ -76,4 +76,22 @@ const getContrastLuminance = (hex) => {
   return yiq >= 128 ? "black" : "white";
 };
 
-export { getCookie, getPageTitle, hexToRGB, getContrastLuminance };
+const generateId = (numberOfChars, listOfIds = []) => {
+  let results = "";
+
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+
+  do {
+    for (let i = 0; i < numberOfChars; i++) {
+      results += characters.charAt(
+        Math.floor(Math.random() * charactersLength),
+      );
+    }
+  } while (listOfIds.includes(results));
+
+  return results;
+};
+
+export { getCookie, getPageTitle, hexToRGB, getContrastLuminance, generateId };

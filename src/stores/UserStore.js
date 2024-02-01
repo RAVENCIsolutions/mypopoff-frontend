@@ -1,87 +1,82 @@
+import { makeAutoObservable, toJS } from "mobx";
 import { defaultUser } from "@/data/defaultUser";
-import { makeAutoObservable } from "mobx";
-import supabase from "@/config/Supbase";
+
+import { createUser, fetchUser, updateUser } from "@/utility/dbUtils";
+import { saveToLocalStorage } from "@/utility/localStorageUtils";
 
 class UserStore {
+  // initialise user data
   userData = defaultUser;
 
   constructor() {
     makeAutoObservable(this);
-    this.loadUserFromLocalStorage();
   }
 
-  setUser(data) {
-    this.userData = { ...defaultUser, ...data };
-    this.saveUserToLocalStorage(data);
-  }
+  setUser = (id) => {
+    this.userData.clerk_user_id = id;
+  };
 
-  loadUserFromLocalStorage() {
-    const userData = localStorage.getItem("userData");
+  setUserData = (userData) => {
+    this.userData = userData;
+    saveToLocalStorage("userData", userData);
+  };
+
+  loadUserData = async (id) => {
+    const userData = await fetchUser(id);
+
     if (userData) {
-      this.userData = JSON.parse(userData);
-    }
-  }
-
-  saveUserToLocalStorage(userData) {
-    localStorage.setItem("userData", JSON.stringify(userData));
-  }
-
-  clearUserFromLocalStorage() {
-    localStorage.removeItem("userData");
-    this.userData = defaultUser;
-  }
-
-  async createUser(clerkUserId) {
-    const dataToInsert = { ...this.userData, clerk_user_id: clerkUserId };
-    console.log(dataToInsert);
-
-    const { data, error } = await supabase
-      .from(process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE)
-      .insert([dataToInsert])
-      .select();
-
-    if (error) {
-      console.error(`Error creating user record: ${error.message}`);
-      return { error };
-    }
-
-    this.setUser(data[0]);
-    return { data: data[0] };
-  }
-
-  async fetchUser(clerkUserId) {
-    const { data, error } = await supabase
-      .from(process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE)
-      .select()
-      .eq("clerk_user_id", clerkUserId)
-      .single();
-
-    if (error) {
-      console.error(`Error fetching user record: ${error.message}`);
-    }
-
-    if (data) {
-      this.setUser(data);
-      return { data };
+      this.setUserData(userData);
+      return userData;
     } else {
-      // No user record found, create a new user
-      return await this.createUser(clerkUserId);
+      await this.createUserData(id, this.userData);
     }
-  }
+  };
 
-  async updateUser(clerkUserId, newData) {
-    const { data, error } = await supabase
-      .from(process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE)
-      .update(newData)
-      .eq("clerk_user_id", clerkUserId)
-      .select();
+  createUserData = async (id, data) => {
+    const userData = await createUser(id, data);
 
-    if (error) {
-      console.error(`Error updating user record: ${error.message}`);
+    if (userData) {
+      this.setUserData(userData);
+      return userData;
     }
+  };
 
-    return data;
-  }
+  addLink = async (link) => {
+    const newLink = { ...link, public: true };
+
+    this.userData.links.push(newLink);
+
+    await updateUser(this.userData.clerk_user_id, this.userData);
+    saveToLocalStorage("userData", this.userData);
+  };
+
+  removeLink = async (id) => {
+    const idInList = this.userData.links.findIndex((link) => link.id === id);
+
+    this.userData.links.splice(idInList, 1);
+
+    await updateUser(this.userData.clerk_user_id, this.userData);
+    saveToLocalStorage("userData", this.userData);
+  };
+
+  updateLink = async (linkId, linkData) => {
+    this.userData.links = this.userData.links.map((link) => {
+      if (link.id === linkId) {
+        return { ...link, ...linkData };
+      }
+      return link;
+    });
+
+    await updateUser(this.userData.clerk_user_id, this.userData);
+    saveToLocalStorage("userData", this.userData);
+  };
+
+  resetLinkList = async (linkList) => {
+    this.userData.links = linkList;
+
+    await updateUser(this.userData.clerk_user_id, this.userData);
+    saveToLocalStorage("userData", this.userData);
+  };
 }
 
 const userStore = new UserStore();

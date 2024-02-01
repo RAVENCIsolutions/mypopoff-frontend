@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 
-const POBase = styled.div``;
+const POBase = styled.div`
+  margin-top: -16px;
+`;
 
 const POWrapper = styled.div`
   margin-top: 16px;

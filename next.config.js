@@ -32,26 +32,12 @@ const nextConfig = {
         destination: "/auth/register",
         permanent: true,
       },
-
-      {
-        source: "/me",
-        destination: "/me/dashboard",
-        permanent: true,
-      },
       {
         source: "/dashboard",
         destination: "/me/dashboard",
         permanent: true,
       },
     ];
-  },
-  examples: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "pixabay.com/",
-      },
-    ],
   },
 };
 

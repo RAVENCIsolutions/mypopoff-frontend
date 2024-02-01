@@ -1,10 +1,4 @@
-import {
-  BiLogoFacebookCircle,
-  BiLogoInstagramAlt,
-  BiLogoTwitch,
-} from "react-icons/bi";
 import Link from "next/link";
-import Image from "next/image";
 
 const LapisAzuliTheme = () => {
   const sampleLinks = [

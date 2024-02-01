@@ -23,17 +23,17 @@ const OnboardingThree = observer((props) => {
 
   return (
     <section
-      className={`p-6 grid grid-cols-5 gap-9 bg-white rounded-3xl w-full`}
+      className={`p-6 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 xs:gap-4 lg:gap-9 bg-white rounded-3xl w-full`}
     >
       {props.pageLayouts &&
         props.pageLayouts.map((layout, index) => (
           <article
             key={`page-layout-${index}`}
-            className={`group cursor-pointer relative rounded-2xl ${
+            className={`group cursor-pointer relative flex items-center justify-center rounded-lg md:rounded-2xl ${
               activeIndex === index
                 ? "shadow-lg shadow-black/20"
-                : "hover:shadow-lg shadow-black/20"
-            } aspect-[12/23] transition-all duration-150`}
+                : "grayscale hover:shadow-lg shadow-black/20"
+            } transition-all duration-150`}
             onClick={() => handleLayoutSelect(index)}
           >
             <div
@@ -41,10 +41,10 @@ const OnboardingThree = observer((props) => {
                 activeIndex === index
                   ? "border-[2px] border-action"
                   : "border-[1px] hover:border-dashboard-secondary-dark"
-              } rounded-2xl w-full h-full transition-all duration-300`}
+              } rounded-lg md:rounded-2xl w-full h-full transition-all duration-300`}
             ></div>
             <img
-              className={`p-2 h-full rounded-2xl aspect-[12/23]`}
+              className={`p-2 h-full rounded-lg md:rounded-2xl`}
               src={layout.selector}
               alt={layout.title}
             />

@@ -3,11 +3,15 @@
 import { useEffect, useState } from "react";
 import { FiMoon, FiSun } from "react-icons/fi";
 import Switch from "@mui/material/Switch";
-import { getCookie } from "@/utility/utilities";
+import { useTheme } from "next-themes";
 
-const DarkModeToggle = ({ size = "l", className = "" }) => {
+import { observer } from "mobx-react";
+
+const DarkModeToggle = observer(({ size = "l", className = "" }) => {
+  const [mounted, setMounted] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [theme, setTheme] = useState("dark");
+
+  const { setTheme, resolvedTheme } = useTheme();
 
   const sizing = {
     s: {
@@ -28,28 +32,14 @@ const DarkModeToggle = ({ size = "l", className = "" }) => {
   };
 
   useEffect(() => {
-    if (typeof document === "undefined") return;
+    setMounted(true);
 
-    const currentTheme = getCookie("theme");
-    updateTheme(currentTheme);
+    setChecked(resolvedTheme !== "dark");
   }, []);
 
-  const updateTheme = (value) => {
-    const root = document.getElementsByTagName("html")[0];
-    value === "dark"
-      ? root.classList.add("dark")
-      : root.classList.remove("dark");
-
-    document.cookie = `theme=${value}; path=/`;
-    setChecked(value !== "dark");
-  };
-
   const toggleTheme = () => {
-    const root = document.getElementsByTagName("html")[0];
-    root.classList.toggle("dark");
-
-    if (root.classList.contains("dark")) updateTheme("dark");
-    else updateTheme("light");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
+    setChecked(resolvedTheme !== "dark");
   };
 
   return (
@@ -58,22 +48,22 @@ const DarkModeToggle = ({ size = "l", className = "" }) => {
     >
       <FiMoon
         size={sizing[size].iconSize}
-        onClick={() => toggleTheme()}
+        onClick={toggleTheme}
         className="text-primary-dark dark:text-primary-light"
       />
       <Switch
         color="warning"
         checked={checked}
         size={sizing[size].switchSize}
-        onChange={() => toggleTheme()}
+        onChange={toggleTheme}
       />
       <FiSun
         size={sizing[size].iconSize}
-        onClick={() => toggleTheme()}
+        onClick={toggleTheme}
         className="text-primary-dark dark:text-primary-light"
       />
     </article>
   );
-};
+});
 
 export default DarkModeToggle;

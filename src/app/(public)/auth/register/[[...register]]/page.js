@@ -1,15 +1,18 @@
-import { SignUp } from "@clerk/nextjs";
+"use client";
 
-export const metadata = {
-  title: "Start your free Pop Off journey!",
-  description:
-    "Register a new Pop Off account for free and start your creative journey!",
-};
+import { SignUp, useUser } from "@clerk/nextjs";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
-  return (
+  const { isSignedIn } = useUser();
+  const router = useRouter();
+
+  return isSignedIn ? (
+    router.push("/me")
+  ) : (
     <SignUp
-      signInUrl={"/auth/register"}
+      signInUrl={"/auth/login"}
       afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}
       appearance={{
         elements: {

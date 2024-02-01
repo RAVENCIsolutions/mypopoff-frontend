@@ -2,26 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
-import { FaAngleLeft, FaAngleRight, FaArrowRight } from "react-icons/fa";
 
 import OnboardingOne from "@/onboardingComponents/OnboardingOne";
 import OnboardingTwo from "@/onboardingComponents/OnboardingTwo";
 import OnboardingThree from "@/onboardingComponents/OnboardingThree";
 import OnBoardingFour from "@/onboardingComponents/OnBoardingFour";
-import { Alert, Box, Snackbar } from "@mui/material";
-import PopOffSnackbarBlock from "@/components/PopOffSnackbarBlock";
 import SkipButton from "@/onboardingComponents/SkipButton";
 import NextButton from "@/onboardingComponents/NextButton";
 import OnboardingSteps from "@/onboardingComponents/OnboardingSteps";
 import PrevButton from "@/onboardingComponents/PrevButton";
-import onBoardingStore from "@/stores/OnboardingStore";
 import { OnboardingLayouts } from "@/data/OnboardingLayouts";
+import OnboardingFive from "@/onboardingComponents/OnboardingFive";
 
 const OnBoardingMain = observer(() => {
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(3);
 
   const pageContainer = useRef(null);
-  const snackbar = useRef(null);
 
   const onBoardingTitle = [
     {
@@ -55,11 +51,15 @@ const OnBoardingMain = observer(() => {
     {
       id: "page-four",
       index: `04`,
-      title: `Button Style`,
+      title: `Colours`,
       component: <OnBoardingFour />,
     },
-    { index: `05`, title: `Colours` },
-    { index: `06`, title: `That's it!` },
+    {
+      id: "page-five",
+      index: `05`,
+      title: `That's it!`,
+      component: <OnboardingFive />,
+    },
   ];
 
   const prevPage = () => {

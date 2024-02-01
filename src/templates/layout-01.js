@@ -3,7 +3,6 @@ import {
   BiLogoInstagramAlt,
   BiLogoTwitch,
 } from "react-icons/bi";
-import Link from "next/link";
 import styled from "@emotion/styled";
 import { observer } from "mobx-react";
 

@@ -10,20 +10,14 @@ export default function AuthRedirect() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("We are here!");
-
     const handleUserRedirection = async () => {
       // Redirect to sign-in page if user is not signed in
       if (isLoaded && !user) {
-        console.log("Oops, not signed in!");
-
         router.push("/login");
         return;
       }
 
       if (isSignedIn) {
-        console.log("Woohoo! We are signed in.");
-
         // Fetch user data and create if it doesn't exist
         const result = await userStore.fetchUser(user.id);
 
@@ -32,7 +26,7 @@ export default function AuthRedirect() {
           return;
         }
 
-        const redirectPath = userStore.userData.onboarding_completed
+        const redirectPath = userStore.userData.onboarding_complete
           ? "/me"
           : "/onboarding";
         router.push(redirectPath);
@@ -42,5 +36,9 @@ export default function AuthRedirect() {
     handleUserRedirection().then(() => {});
   }, [user, isSignedIn, isLoaded]);
 
-  return <>Loading...</>;
+  return (
+    <h3 className={`text-primary-dark dark:text-primary-light`}>
+      Getting things ready...
+    </h3>
+  );
 }

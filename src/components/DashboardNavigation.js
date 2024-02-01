@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { auth, SignOutButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
+
+import { SignOutButton } from "@clerk/nextjs";
+
 import DarkModeToggle from "@/components/DarkModeToggle";
+
 import { CgLogOff, CgPerformance, CgUser, CgWebsite } from "react-icons/cg";
 import { RiPaletteLine } from "react-icons/ri";
 import { ImCog } from "react-icons/im";
@@ -21,9 +24,9 @@ const DashboardNavigation = () => {
       icon: <CgPerformance size={20} />,
     },
     {
-      title: "Landing Page",
-      alt: "The main Landing Page for your Pop Off",
-      route: "/me/my-page",
+      title: "My Links",
+      alt: "Add and manage your favourite links for your Pop Off",
+      route: "/me/my-links",
       icon: <CgWebsite size={20} />,
     },
     {
@@ -84,7 +87,10 @@ const DashboardNavigation = () => {
               <Link
                 key={index}
                 href={link.route}
-                className="flex gap-3 items-center hover:text-action transition-all duration-300"
+                className={
+                  "flex gap-3 items-center hover:text-action transition-all duration-300 " +
+                  (pathname === link.route ? " active" : "")
+                }
               >
                 {link.icon}{" "}
                 <span className="text-sm sm:text-base hidden sm:block">
@@ -95,12 +101,10 @@ const DashboardNavigation = () => {
 
             <SignOutButton>
               <div className="cursor-pointer flex gap-3 items-center hover:text-action hover:font-bold transition-all duration-300">
-                <SignOutButton>
-                  <>
-                    <CgLogOff size={20} />{" "}
-                    <span className="hidden sm:block">Logout</span>
-                  </>
-                </SignOutButton>
+                <>
+                  <CgLogOff size={20} />{" "}
+                  <span className="hidden sm:block">Logout</span>
+                </>
               </div>
             </SignOutButton>
           </ul>

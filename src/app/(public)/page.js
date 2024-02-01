@@ -3,7 +3,6 @@ import HeroSection from "@/components/HeroSection";
 import InfluencerSection from "@/components/InfluencerSection";
 import SplitThirdSection from "@/components/SplitThirdSection";
 import ThreeColSection from "@/components/ThreeColSection";
-import SplitHalfSection from "@/components/SplitHalfSection";
 import CallToActionSection from "@/components/CallToActionSection";
 import Footer from "@/components/Footer";
 

@@ -3,8 +3,6 @@ import {
   BiLogoInstagramAlt,
   BiLogoTwitch,
 } from "react-icons/bi";
-import Link from "next/link";
-import Image from "next/image";
 import { observer } from "mobx-react";
 import onBoardingStore from "@/stores/OnboardingStore";
 import { OnboardingButtons } from "@/data/OnboardingButtons";
