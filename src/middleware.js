@@ -7,7 +7,7 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/explore",
-    "privacy-policy",
+    "/privacy-policy",
     "/terms-of-service",
     "/cookies-policy",
     "/colour-wheel-test",
