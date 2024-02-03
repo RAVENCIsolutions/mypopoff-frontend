@@ -1,6 +1,6 @@
-﻿import * as React from "react";
-import { useEffect, useState } from "react";
-const WheelSegments = ({ ...props }) => {
+﻿import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+
+const WheelSegments = forwardRef(({ speed, buffer, ...props }, ref) => {
   const [segments, setSegments] = useState([]);
 
   const pathArray = [
@@ -17,35 +17,49 @@ const WheelSegments = ({ ...props }) => {
     "M200,200L100.01,26.82c-31.51,18.19-56.19,43.67-73.16,73.07l173.14,100.11Z",
     "M200,200V.03C163.61.03,129.5,9.75,100.11,26.73l99.89,173.27Z",
   ];
+
+  useImperativeHandle(ref, () => ({
+    callCloseMe: closeMe,
+  }));
+
   const resetColours = (forward = true) => {
     const paths = document.querySelectorAll(".rcpw-segment");
-    const speed = 25;
-    const buffer = 20;
-
-    if (!forward) paths.reverse();
 
     if (segments.length > 0) {
-      paths.forEach((path, index) => {
-        setTimeout(() => {
-          path.style.opacity = "0";
-        }, speed * index);
-      });
+      const start = forward ? 0 : paths.length - 1;
+      const end = forward ? paths.length : -1;
+      const step = forward ? 1 : -1;
+
+      for (let pointer = start; pointer !== end; pointer += step) {
+        setTimeout(
+          () => {
+            paths[pointer].style.opacity = "0";
+          },
+          speed * (forward ? pointer : paths.length - pointer - 1),
+        );
+      }
     }
 
-    setTimeout(
-      () => {
-        setSegments(props.wheelPalette);
-      },
-      speed * paths.length + buffer,
-    );
+    if (forward) {
+      setTimeout(
+        () => {
+          setSegments(props.wheelPalette);
+        },
+        speed * paths.length + buffer,
+      );
 
-    setTimeout(() => {
-      paths.forEach((path, index) => {
-        setTimeout(() => {
-          path.style.opacity = "1";
-        }, speed * index);
-      });
-    }, speed * paths.length);
+      setTimeout(() => {
+        paths.forEach((path, index) => {
+          setTimeout(() => {
+            path.style.opacity = "1";
+          }, speed * index);
+        });
+      }, speed * paths.length);
+    }
+  };
+
+  const closeMe = () => {
+    resetColours(false);
   };
 
   useEffect(() => {
@@ -70,5 +84,5 @@ const WheelSegments = ({ ...props }) => {
       ))}
     </svg>
   );
-};
+});
 export default WheelSegments;

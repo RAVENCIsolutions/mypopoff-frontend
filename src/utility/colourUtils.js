@@ -5,8 +5,48 @@
   rgbToHsl,
 } from "@/utility/colourConversions";
 
+const removeLeadingHash = (value) => {
+  return value.replace(/^#/, "");
+};
+
 const isValidHex = (value) => {
   return /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.test(value);
+};
+
+const handleHex = (value) => {
+  value = removeLeadingHash(value.toUpperCase());
+
+  switch (value.length) {
+    case 1:
+      value = value.repeat(6);
+      break;
+    case 2:
+      value = value.repeat(3);
+      break;
+    case 3:
+      value = value.repeat(2);
+      break;
+    case 4:
+      if (value[0] === value[3]) {
+        value = value.slice(0, 3).repeat(2);
+      } else {
+        return false;
+      }
+
+      break;
+    case 5:
+      if (value.slice(0, 2) === value.slice(3)) {
+        value = value.slice(0, 3).repeat(2);
+      } else {
+        return false;
+      }
+      break;
+
+    default:
+      break;
+  }
+
+  return value;
 };
 
 const generateRandomColor = () => {
@@ -38,4 +78,10 @@ const makePastel = (colors = []) => {
   });
 };
 
-export { isValidHex, generateRandomColor, makePastel };
+export {
+  removeLeadingHash,
+  isValidHex,
+  handleHex,
+  generateRandomColor,
+  makePastel,
+};

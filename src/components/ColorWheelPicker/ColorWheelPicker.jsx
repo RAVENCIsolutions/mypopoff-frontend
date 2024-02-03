@@ -61,6 +61,7 @@ const ColorWheelPicker = ({ value = "", handleChange }) => {
           onChange={(e) => {
             // handleValueChange(e.target.value);
           }}
+          readOnly
         />
         <div
           className={`color-block absolute top-0 left-0 flex justify-center items-center h-full rounded-l-lg aspect-square transition-all duration-700`}

@@ -1,7 +1,12 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { BiHomeHeart } from "react-icons/bi";
 import { hexToRgb, rgbToHsl } from "@/utility/colourConversions";
-import { generateRandomColor, isValidHex } from "@/utility/colourUtils";
+import {
+  generateRandomColor,
+  handleHex,
+  isValidHex,
+  removeLeadingHash,
+} from "@/utility/colourUtils";
 import { FaCheck, FaSlackHash, FaTimes } from "react-icons/fa";
 import WheelSegments from "@/components/ColorWheelPicker/WheelSegments";
 
@@ -12,7 +17,10 @@ const ColorWheel = ({
   handleChange,
   extraPalettes = [],
   parentCenter,
+  speed = 25,
+  buffer = 20,
   show,
+  ...props
 }) => {
   const [color, setColor] = useState(value);
   const [wheelPalette, setWheelPalette] = useState([]);
@@ -27,21 +35,24 @@ const ColorWheel = ({
 
   const [saveCancelOpacity, setSaveCancelOpacity] = useState("0");
 
-  const defaultColours = [
-    "#a71e48",
-    "#dd0500",
-    "#f15523",
-    "#f99b1e",
-    "#f9bd19",
-    "#f3ec3a",
-    "#d0dd37",
-    "#62b146",
-    "#1496ce",
-    "#3d5eac",
-    "#463191",
-    "#7c3697",
-  ];
+  const [showError, setShowError] = useState("");
 
+  const segmentsRef = useRef(null);
+
+  const defaultColours = [
+    "#D80F0F",
+    "#A61B30",
+    "#752651",
+    "#443172",
+    "#123D93",
+    "#135C5B",
+    "#157C22",
+    "#83A511",
+    "#F2CF00",
+    "#EC9F03",
+    "#E56F07",
+    "#DF3F0B",
+  ];
   const defaultPalette = [
     {
       label: "Standard",
@@ -53,9 +64,11 @@ const ColorWheel = ({
   const palettes = [...defaultPalette, ...extraPalettes];
 
   const handleColorChange = (color, pop = true) => {
+    setShowError("");
+
     pop && setHashBlockScale(2);
 
-    const newValue = color[0] === "#" ? color.split("#")[1] : color;
+    const newValue = removeLeadingHash(color);
     const RGBColor = hexToRgb(color);
     const HSLColor = rgbToHsl(RGBColor);
 
@@ -69,14 +82,50 @@ const ColorWheel = ({
       }, 200);
   };
 
+  const closeWheel = () => {
+    let delay = 0;
+    const waitForOpacity = 300;
+    const waitForClose = 500;
+
+    setSaveCancelOpacity("0");
+
+    setTimeout(() => {
+      setRotateIcons(0);
+      setTranslateIcons(innerWheelSize / 2);
+      setElementsOpacity("0");
+    }, waitForOpacity);
+
+    if (segmentsRef.current) {
+      delay = 12 * speed;
+
+      setTimeout(() => {
+        segmentsRef.current.callCloseMe();
+      }, waitForClose);
+    }
+
+    setTimeout(
+      () => {
+        show(false);
+      },
+      waitForOpacity + waitForClose + delay + buffer,
+    );
+  };
+
   const saveChanges = () => {
-    handleChange(color);
-    show(false);
+    const finalColor = handleHex(color);
+
+    if (finalColor) {
+      setColor(finalColor);
+      handleChange(finalColor);
+      closeWheel();
+    } else {
+      setShowError("Oops! Invalid Hex value.");
+    }
   };
 
   const cancelChanges = () => {
     setColor(value);
-    show(false);
+    closeWheel();
   };
 
   useEffect(() => {
@@ -135,19 +184,23 @@ const ColorWheel = ({
       </section>
 
       <WheelSegments
+        ref={segmentsRef}
         wheelPalette={wheelPalette}
         handleColorChange={handleColorChange}
+        speed={speed}
+        buffer={buffer}
       />
       <article
         className={`absolute flex justify-center items-center top-1/2 left-1/2 w-3/4 aspect-square bg-white rounded-full -translate-x-1/2 -translate-y-1/2 z-10 transition-all duration-500`}
-        style={{ opacity: elementsOpacity }}
       >
         {/* Current Palette Label */}
         <section
           className={`absolute top-1/2 -translate-y-10 transition-all duration-500`}
+          style={{ opacity: elementsOpacity }}
         >
           <p
             className={`font-semibold text-sm tracking-wider text-dashboard-primary-dark/80 italic`}
+            style={{ opacity: elementsOpacity }}
           >
             {paletteLabel}
           </p>
@@ -159,6 +212,7 @@ const ColorWheel = ({
           style={{
             width: innerWheelSize,
             height: innerWheelSize,
+            opacity: elementsOpacity,
           }}
         >
           {palettes.map((palette, index) => (
@@ -199,39 +253,46 @@ const ColorWheel = ({
               </div>
             </article>
           ))}
-
-          <div
-            className={`pointer-events-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
-            style={{
-              width:
-                window.innerWidth < 350
-                  ? innerWheelSize * 0.7
-                  : innerWheelSize * 0.55,
-            }}
-          >
-            <input
-              type="text"
-              value={color.toUpperCase()}
-              className={`p-0.5 pr-2 pl-6 w-full bg-white shadow-xl shadow-black/15 rounded-lg border-2 outline-none font-semibold text-lg text-black/70 tracking-widest text-right transition-all duration-700`}
-              style={{ borderColor: "#" + color.toUpperCase() }}
-              maxLength={6}
-              onChange={(e) => {
-                handleColorChange(e.target.value);
-              }}
-            />
-            <div
-              className={`color-block absolute top-0 left-0 flex justify-center items-center h-full rounded-l-lg aspect-square transition-all duration-700`}
-              style={{
-                backgroundColor: "#" + color.toUpperCase(),
-                color: hashColour,
-                transform: `scale(${hashBlockScale})`,
-              }}
-            >
-              <FaSlackHash size={20} />
-            </div>
-          </div>
         </section>
       </article>
+
+      <div
+        className={`pointer-events-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10`}
+        style={{
+          width:
+            window.innerWidth < 350
+              ? innerWheelSize * 0.7
+              : innerWheelSize * 0.6,
+        }}
+      >
+        <input
+          type="text"
+          value={color.toUpperCase()}
+          className={`p-0.5 pr-2 pl-6 w-full bg-white shadow-xl shadow-black/15 rounded-lg border-2 outline-none font-semibold text-lg text-black/70 tracking-widest text-right transition-all duration-700`}
+          style={{ borderColor: "#" + color.toUpperCase() }}
+          maxLength={6}
+          onChange={(e) => {
+            handleColorChange(e.target.value);
+          }}
+        />
+        {showError && (
+          <p
+            className={`absolute top-1/2 translate-y-6 w-full text-center text-xs text-rose-600 font-semibold italic transition-all duration-500`}
+          >
+            {showError}
+          </p>
+        )}
+        <div
+          className={`color-block absolute top-0 left-0 flex justify-center items-center h-full rounded-l-lg aspect-square transition-all duration-700`}
+          style={{
+            backgroundColor: "#" + color.toUpperCase(),
+            color: hashColour,
+            transform: `scale(${hashBlockScale})`,
+          }}
+        >
+          <FaSlackHash size={20} />
+        </div>
+      </div>
     </section>
   );
 };
