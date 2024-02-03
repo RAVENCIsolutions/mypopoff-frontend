@@ -33,6 +33,9 @@ const ColorWheel = ({
   const [rotateIcons, setRotateIcons] = useState(0);
   const [elementsOpacity, setElementsOpacity] = useState("0");
 
+  const [buttonsTooltips, setButtonsTooltips] = useState(false);
+  const [buttonsTooltipsOpacity, setButtonsTooltipsOpacity] = useState("100");
+
   const [saveCancelOpacity, setSaveCancelOpacity] = useState("0");
 
   const [showError, setShowError] = useState("");
@@ -128,7 +131,19 @@ const ColorWheel = ({
     closeWheel();
   };
 
+  const changeButtonTooltips = () => {
+    setButtonsTooltipsOpacity("0");
+
+    setTimeout(() => {
+      setButtonsTooltips(true);
+    }, 500);
+  };
+
   useEffect(() => {
+    const colorChangeDelay = 200;
+    const opacityDelay = 1000;
+    const buttonsTooltipDelay = 2500;
+
     setWheelPalette(defaultColours);
 
     setTranslateIcons(innerWheelSize / 2);
@@ -142,11 +157,15 @@ const ColorWheel = ({
         isValidHex(value) ? value : generateRandomColor(),
         false,
       );
-    }, 200);
+    }, colorChangeDelay);
 
     setTimeout(() => {
       setSaveCancelOpacity("initial");
-    }, 1000);
+    }, opacityDelay);
+
+    setTimeout(() => {
+      changeButtonTooltips();
+    }, buttonsTooltipDelay);
   }, []);
 
   return (
@@ -166,21 +185,45 @@ const ColorWheel = ({
     >
       {/* Save / Cancel */}
       <section
-        className={`cursor-pointer absolute top-0 right-0 ${
-          saveCancelOpacity === "0"
-            ? "opacity-0"
-            : "opacity-30 hover:opacity-100"
-        } text-dashboard-primary-dark hover:text-rose-700 transition-all duration-500`}
+        className={`cursor-pointer absolute top-0 right-0 text-dashboard-primary-dark hover:text-rose-700 transition-all duration-500`}
+        style={{
+          opacity: saveCancelOpacity,
+        }}
         onClick={cancelChanges}
       >
-        <FaTimes size={20} />
+        {buttonsTooltips ? (
+          <FaTimes
+            size={20}
+            className={`${
+              saveCancelOpacity === "0"
+                ? "opacity-0"
+                : "opacity-30 hover:opacity-100"
+            }`}
+          />
+        ) : (
+          <p
+            className={`text-sm text-rose-700 transition-all duration-500`}
+            style={{ opacity: buttonsTooltipsOpacity / 100 }}
+          >
+            Cancel
+          </p>
+        )}
       </section>
       <section
         className={`cursor-pointer absolute bottom-0 right-0 opacity-100 text-dashboard-primary-dark hover:text-emerald-700 transition-all duration-500`}
         style={{ opacity: saveCancelOpacity }}
         onClick={saveChanges}
       >
-        <FaCheck size={20} />
+        {buttonsTooltips ? (
+          <FaCheck size={20} />
+        ) : (
+          <p
+            className={`text-sm text-emerald-700 transition-all duration-500`}
+            style={{ opacity: buttonsTooltipsOpacity / 100 }}
+          >
+            Save
+          </p>
+        )}
       </section>
 
       <WheelSegments
@@ -277,7 +320,7 @@ const ColorWheel = ({
         />
         {showError && (
           <p
-            className={`absolute top-1/2 translate-y-6 w-full text-center text-xs text-rose-600 font-semibold italic transition-all duration-500`}
+            className={`absolute top-1/2 translate-y-6 w-full text-center text-xs text-rose-700 font-semibold italic transition-all duration-500`}
           >
             {showError}
           </p>
