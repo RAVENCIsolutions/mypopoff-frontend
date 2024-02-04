@@ -35,6 +35,7 @@ module.exports = {
       fontFamily: {
         sans: ["agenda", "sans-serif"],
         body: ["agenda", "sans-serif"],
+        anonymous: ["AnonymousPro", "monospace"],
         display: ["bely-display", "sans-serif"],
         abril: ["AbrilFatface", "sans-serif"],
         alegreya: ["AlegreyaSans", "sans-serif"],

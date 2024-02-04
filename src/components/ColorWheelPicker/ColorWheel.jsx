@@ -117,7 +117,7 @@ const ColorWheel = ({
   const saveChanges = () => {
     const finalColor = handleHex(color);
 
-    if (finalColor) {
+    if (isValidHex(finalColor)) {
       setColor(finalColor);
       handleChange(finalColor);
       closeWheel();
@@ -136,13 +136,13 @@ const ColorWheel = ({
 
     setTimeout(() => {
       setButtonsTooltips(true);
-    }, 500);
+    }, 300);
   };
 
   useEffect(() => {
     const colorChangeDelay = 200;
     const opacityDelay = 1000;
-    const buttonsTooltipDelay = 2500;
+    const buttonsTooltipDelay = 2000;
 
     setWheelPalette(defaultColours);
 
@@ -185,7 +185,7 @@ const ColorWheel = ({
     >
       {/* Save / Cancel */}
       <section
-        className={`cursor-pointer absolute top-0 right-0 text-dashboard-primary-dark hover:text-rose-700 transition-all duration-500`}
+        className={`cursor-pointer absolute top-0 right-0 transition-all duration-500`}
         style={{
           opacity: saveCancelOpacity,
         }}
@@ -194,11 +194,7 @@ const ColorWheel = ({
         {buttonsTooltips ? (
           <FaTimes
             size={20}
-            className={`${
-              saveCancelOpacity === "0"
-                ? "opacity-0"
-                : "opacity-30 hover:opacity-100"
-            }`}
+            className={`text-dashboard-primary-dark/30 hover:text-rose-700 transition-all duration-500`}
           />
         ) : (
           <p
@@ -210,12 +206,15 @@ const ColorWheel = ({
         )}
       </section>
       <section
-        className={`cursor-pointer absolute bottom-0 right-0 opacity-100 text-dashboard-primary-dark hover:text-emerald-700 transition-all duration-500`}
+        className={`cursor-pointer absolute bottom-0 right-0 opacity-100 transition-all duration-500`}
         style={{ opacity: saveCancelOpacity }}
         onClick={saveChanges}
       >
         {buttonsTooltips ? (
-          <FaCheck size={20} />
+          <FaCheck
+            size={20}
+            className={`text-dashboard-primary-dark hover:text-emerald-700 transition-all duration-500`}
+          />
         ) : (
           <p
             className={`text-sm text-emerald-700 transition-all duration-500`}
@@ -311,16 +310,17 @@ const ColorWheel = ({
         <input
           type="text"
           value={color.toUpperCase()}
-          className={`p-0.5 pr-2 pl-6 w-full bg-white shadow-xl shadow-black/15 rounded-lg border-2 outline-none font-semibold text-lg text-black/70 tracking-widest text-right transition-all duration-700`}
+          className={`p-0.5 pr-2 pl-6 w-full bg-white shadow-xl shadow-black/15 rounded-lg border-2 outline-none font-anonymous font-bold text-lg text-black/70 tracking-widest text-right transition-all duration-700`}
           style={{ borderColor: "#" + color.toUpperCase() }}
           maxLength={6}
           onChange={(e) => {
-            handleColorChange(e.target.value);
+            const lastChar = e.target.value[e.target.value.length - 1];
+            if (/([a-f\d])$/i.test(lastChar)) handleColorChange(e.target.value);
           }}
         />
         {showError && (
           <p
-            className={`absolute top-1/2 translate-y-6 w-full text-center text-xs text-rose-700 font-semibold italic transition-all duration-500`}
+            className={`absolute top-1/2 translate-y-6 w-full text-center text-xs text-rose-700 font-bold italic transition-all duration-500`}
           >
             {showError}
           </p>
