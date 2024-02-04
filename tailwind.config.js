@@ -35,7 +35,7 @@ module.exports = {
       fontFamily: {
         sans: ["agenda", "sans-serif"],
         body: ["agenda", "sans-serif"],
-        anonymous: ["AnonymousPro", "monospace"],
+        anonymous: ["anonymous-pro", "monospace"],
         display: ["bely-display", "sans-serif"],
         abril: ["AbrilFatface", "sans-serif"],
         alegreya: ["AlegreyaSans", "sans-serif"],
@@ -49,6 +49,9 @@ module.exports = {
         newSpirit: ["new-spirit", "serif"],
         proximaNova: ["proxima-nova-condensed", "sans-serif"],
         vistaSlab: ["vista-slab", "serif"],
+      },
+      fontWeight: {
+        anonymous: "700",
       },
       width: {
         auth: "400px",

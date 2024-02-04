@@ -51,7 +51,7 @@ const ColorWheelPicker = ({ value = "", handleChange }) => {
           ref={myRef}
           type="text"
           value={value.toUpperCase()}
-          className={`p-0.5 pr-2 pl-6 w-full bg-white rounded-lg border-none outline-none font-anonymous font-bold text-lg text-black/70 tracking-widest text-right transition-all duration-700`}
+          className={`p-0.5 pr-2 pl-6 w-full bg-white rounded-lg border-none outline-none font-anonymous font-bold text-lg text-primary-dark tracking-widest text-right transition-all duration-700`}
           onClick={() => {
             const { left, top, width, height } = getMyCenter();
             setMyCenter({ left: left + width / 2, top: top + height / 2 });

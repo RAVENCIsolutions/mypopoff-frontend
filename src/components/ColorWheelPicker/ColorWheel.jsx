@@ -18,9 +18,8 @@ const ColorWheel = ({
   extraPalettes = [],
   parentCenter,
   speed = 25,
-  buffer = 20,
+  buffer = 50,
   show,
-  ...props
 }) => {
   const [color, setColor] = useState(value);
   const [wheelPalette, setWheelPalette] = useState([]);
@@ -56,6 +55,7 @@ const ColorWheel = ({
     "#E56F07",
     "#DF3F0B",
   ];
+
   const defaultPalette = [
     {
       label: "Standard",
@@ -142,7 +142,7 @@ const ColorWheel = ({
   useEffect(() => {
     const colorChangeDelay = 200;
     const opacityDelay = 1000;
-    const buttonsTooltipDelay = 2000;
+    const buttonsTooltipDelay = 2500;
 
     setWheelPalette(defaultColours);
 
@@ -198,7 +198,7 @@ const ColorWheel = ({
           />
         ) : (
           <p
-            className={`text-sm text-rose-700 transition-all duration-500`}
+            className={`text-sm text-primary-dark/60 font-bold italic transition-all duration-500`}
             style={{ opacity: buttonsTooltipsOpacity / 100 }}
           >
             Cancel
@@ -217,7 +217,7 @@ const ColorWheel = ({
           />
         ) : (
           <p
-            className={`text-sm text-emerald-700 transition-all duration-500`}
+            className={`text-sm text-primary-dark/60 font-bold italic transition-all duration-500`}
             style={{ opacity: buttonsTooltipsOpacity / 100 }}
           >
             Save
@@ -310,7 +310,7 @@ const ColorWheel = ({
         <input
           type="text"
           value={color.toUpperCase()}
-          className={`p-0.5 pr-2 pl-6 w-full bg-white shadow-xl shadow-black/15 rounded-lg border-2 outline-none font-anonymous font-bold text-lg text-black/70 tracking-widest text-right transition-all duration-700`}
+          className={`p-0.5 pr-2 pl-6 w-full bg-white shadow-xl shadow-black/15 rounded-lg border-2 outline-none font-anonymous font-bold text-lg text-primary-dark tracking-widest text-right transition-all duration-700`}
           style={{ borderColor: "#" + color.toUpperCase() }}
           maxLength={6}
           onChange={(e) => {
