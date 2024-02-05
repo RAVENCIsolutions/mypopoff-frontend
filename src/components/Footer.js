@@ -14,7 +14,9 @@ const Footer = () => {
           {/*  Blog*/}
           {/*</li>*/}
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
-            Support
+            <Link href={`/support`} target={`_blank`}>
+              Support
+            </Link>
           </li>
         </ul>
 

@@ -11,6 +11,7 @@ export default authMiddleware({
     "/terms-of-service",
     "/cookies-policy",
     "/colour-wheel-test",
+    "/support",
   ],
 });
 
