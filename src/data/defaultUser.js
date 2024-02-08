@@ -29,6 +29,8 @@ const defaultUser = {
   images: {
     background: "",
   },
+
+  links: [],
 };
 
 export { defaultUser };

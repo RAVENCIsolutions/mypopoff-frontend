@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { SignOutButton } from "@clerk/nextjs";
+import { SignOutButton, useClerk } from "@clerk/nextjs";
 
 import DarkModeToggle from "@/components/DarkModeToggle";
 
@@ -12,9 +12,13 @@ import { RiPaletteLine } from "react-icons/ri";
 import { ImCog } from "react-icons/im";
 
 import "@/app/me/dashboard.scss";
+import { removeUserDataFromLocalStorage } from "@/utility/userUtils";
+import { Clerk } from "@clerk/nextjs/server";
 
 const DashboardNavigation = () => {
   const pathname = usePathname();
+
+  const clerkObject = useClerk();
 
   const topLinks = [
     {
@@ -99,14 +103,20 @@ const DashboardNavigation = () => {
               </Link>
             ))}
 
-            <SignOutButton>
-              <div className="cursor-pointer flex gap-3 items-center hover:text-action hover:font-bold transition-all duration-300">
-                <>
-                  <CgLogOff size={20} />{" "}
-                  <span className="hidden sm:block">Logout</span>
-                </>
-              </div>
-            </SignOutButton>
+            <div
+              className="cursor-pointer flex gap-3 items-center hover:text-action hover:font-bold transition-all duration-300"
+              onClick={() => {
+                removeUserDataFromLocalStorage();
+                clerkObject
+                  .signOut()
+                  .then(() => console.log("User successfully signed out."));
+              }}
+            >
+              <>
+                <CgLogOff size={20} />{" "}
+                <span className="hidden sm:block">Logout</span>
+              </>
+            </div>
           </ul>
         </section>
       </div>

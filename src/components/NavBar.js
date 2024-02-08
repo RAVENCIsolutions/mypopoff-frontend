@@ -29,7 +29,10 @@ const NavBar = () => {
           (menuOpen ? "translate-y-0" : "-translate-y-full xs:translate-y-0")
         }
       >
-        <ul className="mt-0 xs:mt-0">
+        <ul className="mt-0 xs:mt-0 flex flex-col xs:flex-row gap-6">
+          <li>
+            <Link href={`/`}>Home</Link>
+          </li>
           <li>Explore</li>
         </ul>
 

@@ -1,7 +1,7 @@
 import "@/app/(public)/globals.scss";
 import { auth, ClerkProvider } from "@clerk/nextjs";
 import DashboardNavigation from "@/components/DashboardNavigation";
-import { Providers } from "@/providers/Providers";
+import Providers from "@/providers/Providers";
 
 export const metadata = {
   title: "Welcome Back | My Pop Off",

@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import LinkBlock from "@/components/LinkBlock";
 import { BsArrowDownSquare, BsArrowUpSquare } from "react-icons/bs";
 import { observer } from "mobx-react";
 import userStore from "@/stores/UserStore";
+import { useEffect } from "react";
 
 const LinksList = observer(({ setProcessing }) => {
-  const userLinks = userStore.userData.links;
+  const userLinks = userStore.userData.links || [];
 
   // Function to reorder list
   const reorder = (list, startIndex, endIndex) => {

@@ -14,9 +14,6 @@ import {
   saveToLocalStorage,
 } from "@/utility/localStorageUtils";
 import { CircularProgress, Skeleton, Stack } from "@mui/material";
-import { BsCardHeading, BsLink45Deg } from "react-icons/bs";
-import { FaCheck, FaPencilAlt, FaTimes, FaTrashAlt } from "react-icons/fa";
-import Switch from "@mui/material/Switch";
 
 const MyLinks = observer(() => {
   const [processing, setProcessing] = useState(true);
