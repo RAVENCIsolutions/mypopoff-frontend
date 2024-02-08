@@ -9,7 +9,7 @@ export default function Register() {
   const router = useRouter();
 
   return isSignedIn ? (
-    router.push("/me")
+    router.push("/auth/redirect")
   ) : (
     <SignUp
       signInUrl={"/auth/login"}

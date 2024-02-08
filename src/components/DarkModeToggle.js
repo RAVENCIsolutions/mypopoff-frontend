@@ -38,8 +38,9 @@ const DarkModeToggle = observer(({ size = "l", className = "" }) => {
   }, []);
 
   const toggleTheme = () => {
+    console.log(resolvedTheme);
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
-    setChecked(resolvedTheme !== "dark");
+    setChecked(resolvedTheme === "dark");
   };
 
   return (

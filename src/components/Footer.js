@@ -4,26 +4,26 @@ import { CgCoffee } from "react-icons/cg";
 
 const Footer = () => {
   return (
-    <footer className="mt-4 mx-auto px-5 lg:px-14 w-full max-w-windowed">
-      <section className="flex flex-col-reverse sm:flex-row justify-between items-center">
-        <ul className="py-4 sm:py-8 flex flex-row justify-between sm:justify-start gap-0 sm:gap-10 w-full font-medium text-secondary-dark dark:text-secondary-light">
+    <footer className="mx-auto px-5 lg:px-14 pt-8 pb-4 w-full max-w-windowed">
+      <section className="py-4 flex flex-col-reverse sm:flex-row justify-between items-center gap-4">
+        <ul className="flex flex-col xs:flex-row justify-between sm:justify-start gap-4 sm:gap-10 w-full font-medium text-secondary-dark dark:text-secondary-light text-center">
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
             <a>Explore</a>
           </li>
           {/*<li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">*/}
-          {/*  Blog*/}
+          {/* Blog */}
           {/*</li>*/}
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
-            <Link href={`/support`} target={`_blank`}>
-              Support
-            </Link>
+            <Link href={`/support`}>Support</Link>
           </li>
         </ul>
 
-        <DarkModeToggle />
+        <div className={`relative xs:absolute sm:relative`}>
+          <DarkModeToggle size={"s"} />
+        </div>
       </section>
 
-      <section className="py-4 sm:py-8 flex flex-col-reverse sm:flex-row items-center justify-between max-w-windowed border-t-2 border-secondary-dark dark:border-secondary-light">
+      <section className="pt-4 flex flex-col-reverse sm:flex-row items-center justify-between border-t-[1.5px] border-secondary-dark dark:border-secondary-light">
         <p className="flex gap-2 text-sm text-secondary-dark dark:text-secondary-light min-w-fit">
           Start Getting Noticed
           <CgCoffee
@@ -32,7 +32,7 @@ const Footer = () => {
           />
           My Pop Off
         </p>
-        <ul className="pb-6 sm:pb-0 flex flex-row justify-between sm:justify-end gap-0 sm:gap-10 w-full font-medium text-secondary-dark dark:text-secondary-light">
+        <ul className="pb-6 sm:pb-0 flex flex-col xs:flex-row justify-between sm:justify-end gap-4 sm:gap-10 w-full font-medium text-secondary-dark dark:text-secondary-light text-center">
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
             <Link href="/privacy-policy">Privacy</Link>
           </li>

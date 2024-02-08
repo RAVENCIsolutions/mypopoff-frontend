@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { ClerkLoading, ClerkLoaded } from "@clerk/nextjs";
-
 import { CgCoffee } from "react-icons/cg";
 import { Skeleton } from "@mui/material";
+import { ClerkLoading, ClerkLoaded } from "@clerk/nextjs";
 
 export const metadata = {
   title: "Start your free Pop Off journey!",
   description:
-    "Register a new Pop Off account for free or sign in and customise!",
+      "Register a new Pop Off account for free or sign in and customise!",
 };
 
 export default function AuthLayout({ children }) {

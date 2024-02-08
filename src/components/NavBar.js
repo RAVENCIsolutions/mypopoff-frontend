@@ -19,28 +19,28 @@ const NavBar = () => {
     <nav className="relative my-4 md:my-7 mx-auto px-5 md:px-10 flex items-center justify-between w-full max-w-windowed">
       {menuOpen ? (
         <div
-          className="block sm:hidden absolute -top-10 left-0 w-screen h-screen bg-primary-light/50 dark:bg-primary-dark/50 z-20"
+          className="block xs:hidden absolute -top-10 left-0 w-screen h-screen bg-primary-light/50 dark:bg-primary-dark/50 z-20"
           onClick={() => setMenuOpen(false)}
         />
       ) : null}
       <div
         className={
-          "absolute sm:relative px-5 pt-20 pb-10 sm:p-0 -top-4 sm:top-0 right-0 flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between gap-6 sm:gap-0 bg-secondary-light dark:bg-secondary-light sm:bg-transparent sm:dark:bg-transparent sm:h-auto w-full max-w-full text-primary-dark dark:text-primary-light text-lg sm:text-base transition-all duration-300 z-50 sm:z-0 " +
-          (menuOpen ? "translate-y-0" : "-translate-y-full sm:translate-y-0")
+          "absolute xs:relative px-5 pt-20 pb-10 xs:p-0 -top-4 xs:top-0 right-0 flex flex-col xs:flex-row items-start xs:items-center justify-start xs:justify-between gap-6 xs:gap-0 bg-secondary-light dark:bg-secondary-light xs:bg-transparent xs:dark:bg-transparent xs:h-auto w-full max-w-full text-primary-dark dark:text-primary-light text-lg xs:text-base transition-all duration-300 z-50 xs:z-0 " +
+          (menuOpen ? "translate-y-0" : "-translate-y-full xs:translate-y-0")
         }
       >
-        <ul className="mt-0 sm:mt-0">
+        <ul className="mt-0 xs:mt-0">
           <li>Explore</li>
         </ul>
 
-        <ul className="mb-0 flex flex-col sm:flex-row items-start sm:items-center gap-6 text-primary-dark dark:text-primary-light">
+        <ul className="mb-0 flex flex-col xs:flex-row items-start xs:items-center gap-6 text-primary-dark dark:text-primary-light">
           <SignedIn>
             <li>
               <Link href={"/me/dashboard"}>
-                <div className={`hidden sm:block`}>
+                <div className={`hidden xs:block`}>
                   <BiSolidUserCircle className={`text-action`} size={32} />
                 </div>
-                <div className={`block sm:hidden`}>
+                <div className={`block xs:hidden`}>
                   <p className={`font-bold text-action`}>My Dashboard</p>
                 </div>
               </Link>
@@ -68,14 +68,14 @@ const NavBar = () => {
         </ul>
       </div>
 
-      <div className="relative sm:absolute sm:left-1/2 sm:-translate-x-1/2 sm:w-auto z-50">
-        <p className="text-lg text-primary-dark dark:text-primary-light font-bold font-display sm:z-50">
+      <div className="relative xs:absolute xs:left-1/2 xs:-translate-x-1/2 xs:w-auto z-50">
+        <p className="text-lg text-primary-dark dark:text-primary-light font-bold font-display xs:z-50">
           <Link href="/">My Pop Off</Link>
         </p>
       </div>
 
       <div
-        className={`block sm:hidden cursor-pointer sm:top-4 text-primary-dark dark:text-primary-light z-50 transition-all duration-300 z-50`}
+        className={`block xs:hidden cursor-pointer xs:top-4 text-primary-dark dark:text-primary-light z-50 transition-all duration-300 z-50`}
         onClick={() => setMenuOpen(!menuOpen)}
       >
         <CgCloseR
