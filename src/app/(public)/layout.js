@@ -1,6 +1,6 @@
 import "./globals.scss";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Providers } from "@/providers/Providers";
+import Providers from "@/providers/Providers";
 
 const RootLayout = ({ children }) => {
   return (
