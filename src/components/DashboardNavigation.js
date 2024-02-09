@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
-import { SignOutButton, useClerk } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 
 import DarkModeToggle from "@/components/DarkModeToggle";
 
@@ -12,13 +13,19 @@ import { RiPaletteLine } from "react-icons/ri";
 import { ImCog } from "react-icons/im";
 
 import "@/app/me/dashboard.scss";
-import { removeUserDataFromLocalStorage } from "@/utility/userUtils";
-import { Clerk } from "@clerk/nextjs/server";
+import userStore from "@/stores/UserStore";
+import {
+  getFromLocalStorage,
+  removeFromLocalStorage,
+  saveToLocalStorage,
+} from "@/utility/localStorageUtils";
 
 const DashboardNavigation = () => {
   const pathname = usePathname();
 
   const clerkObject = useClerk();
+  const router = useRouter();
+  const { isSignedIn } = useUser();
 
   const topLinks = [
     {
@@ -55,6 +62,23 @@ const DashboardNavigation = () => {
       icon: <ImCog size={18} />,
     },
   ];
+
+  useEffect(() => {
+    const handleUserRedirection = () => {
+      if (isSignedIn && pathname !== "/me") {
+        const inLocalStorage = getFromLocalStorage("userData");
+
+        if (!inLocalStorage) {
+          saveToLocalStorage("lastPage", pathname);
+          router.push(`/me`);
+        } else {
+          removeFromLocalStorage("lastPage");
+        }
+      }
+    };
+
+    handleUserRedirection();
+  }, [isSignedIn]);
 
   return (
     <nav className="p-4 py-5 sm:p-0 pb-6 flex flex-col w-full sm:w-1/6 min-w-max text-primary-dark dark:text-primary-light font-light font-base">
@@ -105,11 +129,10 @@ const DashboardNavigation = () => {
 
             <div
               className="cursor-pointer flex gap-3 items-center hover:text-action hover:font-bold transition-all duration-300"
-              onClick={() => {
-                removeUserDataFromLocalStorage();
-                clerkObject
-                  .signOut()
-                  .then(() => console.log("User successfully signed out."));
+              onClick={async () => {
+                clerkObject.signOut().then(async () => {
+                  await userStore.logoutUser();
+                });
               }}
             >
               <>

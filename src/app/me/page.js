@@ -8,6 +8,7 @@ import { LinearProgress, Stack } from "@mui/material";
 
 import { observer } from "mobx-react";
 import userStore from "@/stores/UserStore";
+import { getFromLocalStorage } from "@/utility/localStorageUtils";
 
 const Me = observer(() => {
   const { user, isSignedIn, isLoaded } = useUser();
@@ -29,9 +30,9 @@ const Me = observer(() => {
         //   : "/onboarding";
         // router.push(redirectPath);
 
-        router.push("/me/dashboard");
-      } else {
-        //   router.push("/login");
+        const lastPage = getFromLocalStorage("lastPage") || "/me/dashboard";
+
+        router.push(lastPage);
       }
     };
 

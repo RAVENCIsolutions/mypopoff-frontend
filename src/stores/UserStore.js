@@ -2,7 +2,10 @@ import { makeAutoObservable, toJS } from "mobx";
 import { defaultUser } from "@/data/defaultUser";
 
 import { createUser, fetchUser, updateUser } from "@/utility/dbUtils";
-import { saveToLocalStorage } from "@/utility/localStorageUtils";
+import {
+  removeFromLocalStorage,
+  saveToLocalStorage,
+} from "@/utility/localStorageUtils";
 
 class UserStore {
   // initialise user data
@@ -11,6 +14,10 @@ class UserStore {
   constructor() {
     makeAutoObservable(this);
   }
+
+  resetUserData = () => {
+    this.userData = defaultUser;
+  };
 
   setUser = (id) => {
     this.userData.clerk_user_id = id;
@@ -39,6 +46,11 @@ class UserStore {
       this.setUserData(userData);
       return userData;
     }
+  };
+
+  logoutUser = async () => {
+    removeFromLocalStorage("userData");
+    this.resetUserData();
   };
 
   addLink = async (link) => {

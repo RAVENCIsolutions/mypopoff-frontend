@@ -2,17 +2,16 @@ import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 
 const POBase = styled.div`
-  margin-top: -16px;
+  margin-left: 5px;
 `;
 
 const POWrapper = styled.div`
-  margin-top: 16px;
   padding: 0;
 
   position: relative;
   display: inline-block;
 
-  min-width: 12rem;
+  width: 100%;
 
   &:before {
     pointer-events: none;
@@ -24,7 +23,7 @@ const POWrapper = styled.div`
     right: 0;
     bottom: -1px;
 
-    width: 99%;
+    width: 100%;
     height: 1px;
 
     background-color: rgba(0, 0, 0, 0.5);
@@ -66,29 +65,28 @@ const POWrapper = styled.div`
 `;
 
 const POInput = styled.input`
-  padding: 3px 0 4px;
+  padding: 2px 0;
 
   width: 100%;
   outline: none;
 
   color: #c68a4e;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
+
+  background-color: transparent;
 
   @media (max-width: 768px) {
     font-size: 1rem;
-    text-align: center;
   }
 `;
 
 const POLabel = styled.label`
-  top: 38%;
+  top: 0;
 
   width: 100%;
 
-  transform: translateZ(-50%);
-
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 300;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -98,14 +96,12 @@ const POLabel = styled.label`
   transition: all 0.3s ease;
 
   &.is-focused {
-    top: 0;
-    left: 0;
-    font-size: 0.85rem;
+    top: -45%;
+    font-size: 0.8rem;
   }
 
   @media (max-width: 768px) {
     font-size: 1rem;
-    text-align: center;
   }
 `;
 
@@ -137,14 +133,18 @@ const PopOffInput = (props) => {
   }, [ref]);
 
   return (
-    <POBase className="relative">
+    <POBase className={`relative ${props.className}`}>
       <POLabel
         htmlFor=":poi:"
         className={`absolute z-50 ${
           focused || props.value.length > 0
             ? "is-focused"
             : "pointer-events-none"
-        } ${focused ? "text-action" : "text-primary-dark/70"}`}
+        } ${
+          focused
+            ? "text-action"
+            : "text-primary-dark/70 dark:text-primary-light/40"
+        }`}
       >
         {props.label}
       </POLabel>

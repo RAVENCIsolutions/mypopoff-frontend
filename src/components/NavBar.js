@@ -39,7 +39,7 @@ const NavBar = () => {
         <ul className="mb-0 flex flex-col xs:flex-row items-start xs:items-center gap-6 text-primary-dark dark:text-primary-light">
           <SignedIn>
             <li>
-              <Link href={"/me/dashboard"}>
+              <Link href={"/me"}>
                 <div className={`hidden xs:block`}>
                   <BiSolidUserCircle className={`text-action`} size={32} />
                 </div>
