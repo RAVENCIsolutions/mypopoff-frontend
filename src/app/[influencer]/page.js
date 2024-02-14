@@ -1,6 +1,7 @@
 import InfluencerComponent from "@/components/InfluencerComponent";
 import { fetchUsername } from "@/utility/dbUtils";
 import { notFound, useParams } from "next/navigation";
+import Layout01 from "@/templates/layout-01";
 
 async function getData(username) {
   const userData = await fetchUsername(username);
@@ -12,17 +13,16 @@ async function getData(username) {
   return userData;
 }
 
-// export async function generateMetadata({ userData }) {
-//   return {
-//     title: `${userData.username} | My Pop Off`,
-//   };
-// }
+export async function generateMetadata({ params }) {
+  const { username } = await getData(params.influencer);
+
+  return {
+    title: `@${username} | My Pop Off`,
+  };
+}
 
 export default async function Page({ params }) {
-  console.log(await getData(params.influencer));
+  const userData = await getData(params.influencer);
 
-  return <div>{JSON.stringify(await getData(params.influencer))}</div>;
-  // const data = getData(userData.username);
-  // console.log(data);
-  // return <InfluencerComponent username={userData.username} />;
+  return userData && <Layout01 userData={userData} />;
 }
