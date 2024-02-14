@@ -1,4 +1,5 @@
 ﻿import supabase from "@/config/Supbase";
+import { users } from "@clerk/nextjs/api";
 
 const usersTable = process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE;
 
@@ -14,6 +15,17 @@ const fetchUser = async (id) => {
   return data;
 };
 
+const fetchUsername = async (value) => {
+  const { data, error } = await supabase
+    .from(usersTable)
+    .select()
+    .eq("username", value)
+    .single();
+
+  console.log(error);
+  return !error;
+};
+
 const createUser = async (id, saveData) => {
   const { data, error } = await supabase
     .from(usersTable)
@@ -26,13 +38,13 @@ const createUser = async (id, saveData) => {
 };
 
 const updateUser = async (id, dataToSave) => {
-  console.log(id);
   const { error } = await supabase
     .from(usersTable)
     .update({ ...dataToSave })
     .eq("clerk_user_id", id);
 
+  console.log(error);
   return !error;
 };
 
-export { fetchUser, createUser, updateUser };
+export { fetchUser, fetchUsername, createUser, updateUser };

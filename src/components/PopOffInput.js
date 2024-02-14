@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 
-const POBase = styled.div`
-  margin-left: 5px;
-`;
+const POBase = styled.div``;
 
 const POWrapper = styled.div`
   padding: 0;
@@ -24,7 +22,7 @@ const POWrapper = styled.div`
     bottom: -1px;
 
     width: 100%;
-    height: 1px;
+    height: 0.5px;
 
     background-color: rgba(0, 0, 0, 0.5);
 
@@ -82,11 +80,11 @@ const POInput = styled.input`
 `;
 
 const POLabel = styled.label`
-  top: 0;
+  top: 15%;
 
   width: 100%;
 
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 300;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -100,8 +98,8 @@ const POLabel = styled.label`
     font-size: 0.8rem;
   }
 
-  @media (max-width: 768px) {
-    font-size: 1rem;
+  @media (max-width: 480px) {
+    top: 10%;
   }
 `;
 
@@ -157,6 +155,7 @@ const PopOffInput = (props) => {
           id=":poi:"
           onFocus={handleOnFocus}
           onBlur={handleOnBlur}
+          type={props.type || "text"}
           {...props.inputProps}
           {...props}
         />

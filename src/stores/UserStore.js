@@ -15,8 +15,19 @@ class UserStore {
     makeAutoObservable(this);
   }
 
+  fixUserData = () => {
+    if (this.userData.username === null) this.userData.username = "";
+    if (this.userData.bio === null) this.userData.bio = "";
+    if (this.userData.tagline === null) this.userData.tagline = "";
+    if (this.userData.category === null) this.userData.category = "";
+    if (this.userData.avatar_url === null) this.userData.avatar_url = "";
+    if (this.userData.links === null) this.userData.links = [];
+    if (this.userData.tags === null) this.userData.tags = [];
+  };
+
   resetUserData = () => {
     this.userData = defaultUser;
+    this.fixUserData();
   };
 
   setUser = (id) => {
@@ -25,11 +36,16 @@ class UserStore {
 
   setUserData = (userData) => {
     this.userData = userData;
+
+    this.fixUserData();
+
     saveToLocalStorage("userData", userData);
   };
 
   loadUserData = async (id) => {
     const userData = await fetchUser(id);
+
+    this.fixUserData();
 
     if (userData) {
       this.setUserData(userData);
@@ -42,10 +58,19 @@ class UserStore {
   createUserData = async (id, data) => {
     const userData = await createUser(id, data);
 
+    this.fixUserData();
+
     if (userData) {
       this.setUserData(userData);
       return userData;
     }
+  };
+
+  saveUserData = async () => {
+    this.fixUserData();
+
+    await updateUser(this.userData.clerk_user_id, this.userData);
+    saveToLocalStorage("userData", this.userData);
   };
 
   logoutUser = async () => {
@@ -56,6 +81,7 @@ class UserStore {
   addLink = async (link) => {
     const newLink = { ...link, public: true };
 
+    if (this.userData.links === null) this.userData.links = [];
     this.userData.links.push(newLink);
 
     await updateUser(this.userData.clerk_user_id, this.userData);

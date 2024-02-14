@@ -16,16 +16,20 @@ export default function MeLayout({ children }) {
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
     >
-      <html lang="en" className="dark" suppressHydrationWarning>
+      <html lang="en" suppressHydrationWarning>
         <head>
           <link rel="stylesheet" href="https://use.typekit.net/oya4ufz.css" />
         </head>
-        <body className="p-0 sm:p-6 flex flex-col sm:flex-row items-stretch w-full h-auto md:h-screen min-h-fit bg-primary-light dark:bg-primary-dark">
+        <body className="flex flex-col md:flex-row items-stretch w-full h-auto md:h-screen bg-primary-light dark:bg-primary-dark">
           <Providers>
-            <DashboardNavigation />
+            <section
+              className={`md:fixed p-4 md:pl-6 md:py-6 md:1/5 lg:w-1/6 relative w-full md:h-screen`}
+            >
+              <DashboardNavigation />
+            </section>
 
-            <section className="ml-0 sm:ml-6 flex flex-col w-full h-full">
-              <main className="w-full h-full bg-dashboard-secondary-light dark:bg-dashboard-primary-dark rounded-none md:rounded-3xl shadow-xl shadow-black/5 lg:shadow-black/20 sm:overflow-hidden">
+            <section className="md:absolute right-0 md:ml-6 md:px-6 md:py-6 flex flex-col md:w-4/5 lg:w-5/6 h-full">
+              <main className="w-full min-h-full bg-dashboard-secondary-light dark:bg-dashboard-primary-dark rounded-none md:rounded-3xl shadow-xl shadow-black/5 lg:shadow-black/20 sm:overflow-hidden">
                 {isSignedIn && children}
               </main>
             </section>

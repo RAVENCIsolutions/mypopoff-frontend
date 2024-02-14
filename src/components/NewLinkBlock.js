@@ -19,7 +19,7 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
   const [urlError, setUrlError] = useState("");
   const [titleError, setTitleError] = useState("");
 
-  const userLinks = userStore.userData.links;
+  const userLinks = userStore.userData.links || [];
 
   const showBlock = (links = []) => {
     setShowNew(true);
@@ -71,7 +71,7 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
 
     const newId = generateId(
       5,
-      userLinks.map((link) => link.id),
+      userLinks.length > 0 ? userLinks.map((link) => link.id) : [],
     );
 
     await userStore.addLink({ id: newId, url: newLink, title: newLinkTitle });

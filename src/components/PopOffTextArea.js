@@ -22,7 +22,7 @@ const POWrapper = styled.div`
     bottom: 0;
 
     width: 100%;
-    height: 1px;
+    height: 0.5px;
 
     background-color: rgba(0, 0, 0, 0.5);
 
@@ -31,9 +31,9 @@ const POWrapper = styled.div`
     transition: height 0.1s ease;
   }
 
-  &:hover:not(.when-focused)::before {
+  &:hover::before {
     height: 2px;
-    background-color: rgb(32, 34, 36, 1);
+    background-color: rgb(32, 34, 36, 0.5);
   }
 
   &.when-focused::after {
@@ -86,7 +86,7 @@ const POLabel = styled.label`
 
   width: 100%;
 
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 300;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -125,7 +125,6 @@ const PopOffTextArea = (props) => {
   };
 
   useEffect(() => {
-    console.log("Value:", props.value);
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
@@ -156,7 +155,7 @@ const PopOffTextArea = (props) => {
       >
         <POTextArea
           id=":pota:"
-          rows={4}
+          rows={props.rows || 4}
           onFocus={handleOnFocus}
           onBlur={handleOnBlur}
           {...props.inputProps}

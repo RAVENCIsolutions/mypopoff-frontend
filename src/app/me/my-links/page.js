@@ -48,6 +48,8 @@ const MyLinks = observer(() => {
     };
 
     handleUser().then(() => setProcessing(false));
+
+    setProcessing(false);
   }, [user, isSignedIn]);
 
   return (

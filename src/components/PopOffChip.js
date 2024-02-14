@@ -20,8 +20,8 @@ const PopOffChip = (props) => {
         }`}
       {...props}
     >
-      <div className={`hidden xs:block`}>{props.icon}</div>
-      <p className={`flex-grow text-sm xs:text-base text-center`}>
+      {props.icon && <div className={`hidden 3xs:block`}>{props.icon}</div>}
+      <p className={`flex-grow text-sm xs:text-base text-center 3xs:text-left`}>
         {props.label}
       </p>
     </Chip>

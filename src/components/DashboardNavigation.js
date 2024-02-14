@@ -25,7 +25,7 @@ const DashboardNavigation = () => {
 
   const clerkObject = useClerk();
   const router = useRouter();
-  const { isSignedIn } = useUser();
+  const { user, isSignedIn } = useUser();
 
   const topLinks = [
     {
@@ -65,50 +65,52 @@ const DashboardNavigation = () => {
 
   useEffect(() => {
     const handleUserRedirection = () => {
-      if (isSignedIn && pathname !== "/me") {
-        const inLocalStorage = getFromLocalStorage("userData");
-
-        if (!inLocalStorage) {
-          saveToLocalStorage("lastPage", pathname);
-          router.push(`/me`);
-        } else {
-          removeFromLocalStorage("lastPage");
-        }
+      if (user && isSignedIn) {
+        userStore.loadUserData(user.id).then(() => {});
       }
+
+      // if (isSignedIn && pathname !== "/me") {
+      //   const inLocalStorage = getFromLocalStorage("userData");
+      //
+      //   if (!inLocalStorage) {
+      //     saveToLocalStorage("lastPage", pathname);
+      //     router.push(`/me`);
+      //   } else {
+      //     removeFromLocalStorage("lastPage");
+      //   }
+      // }
     };
 
     handleUserRedirection();
-  }, [isSignedIn]);
+  }, [user, isSignedIn]);
 
   return (
-    <nav className="p-4 py-5 sm:p-0 pb-6 flex flex-col w-full sm:w-1/6 min-w-max text-primary-dark dark:text-primary-light font-light font-base">
+    <nav className="flex flex-col h-full text-primary-dark dark:text-primary-light font-light">
       <p className="pb-6 sm:pb-12 text-base sm:text-lg text-action dark:text-action font-bold font-display">
         <Link href="/">My Pop Off</Link>
       </p>
-      <div className="flex flex-row sm:flex-col sm:justify-between h-auto sm:h-full">
-        <section className="w-1/2 sm:w-auto">
-          <ul className="flex flex-row sm:flex-col justify-around sm:justify-start sm:gap-8">
+      <div className="flex flex-row md:flex-col justify-between h-auto md:h-full">
+        <section className="w-1/2 md:w-auto">
+          <ul className="relative flex flex-row md:flex-col justify-between md:justify-start sm:gap-8 w-full">
             {topLinks.map((link, index) => (
               <Link
                 key={index}
                 href={link.route}
                 className={
-                  "flex flex-col sm:flex-row gap-2 sm:gap-3 items-center hover:text-action" +
+                  `flex-grow flex justify-center md:justify-start items-center gap-3 hover:text-action` +
                   " transition-all duration-300" +
                   (pathname === link.route ? " active" : "")
                 }
               >
                 {link.icon}{" "}
-                <span className="text-sm sm:text-base hidden sm:block">
-                  {link.title}
-                </span>
+                <span className="hidden md:block text-sm">{link.title}</span>
               </Link>
             ))}
           </ul>
         </section>
-        <section className="w-1/2 sm:w-auto">
-          <ul className="flex flex-row sm:flex-col justify-around sm:justify-start sm:gap-8">
-            <div className="absolute sm:relative right-4 sm:right-auto top-4 sm:top-auto block">
+        <section className="w-1/2 md:w-auto">
+          <ul className="flex flex-row md:flex-col justify-between md:justify-start sm:gap-8 w-full">
+            <div className="absolute md:relative right-4 md:right-auto top-5 md:top-auto block">
               <DarkModeToggle size={"s"} />
             </div>
             {bottomLinks.map((link, index) => (
@@ -116,19 +118,18 @@ const DashboardNavigation = () => {
                 key={index}
                 href={link.route}
                 className={
-                  "flex gap-3 items-center hover:text-action transition-all duration-300 " +
+                  `flex-grow flex justify-center md:justify-start items-center gap-3 hover:text-action` +
+                  " transition-all duration-300" +
                   (pathname === link.route ? " active" : "")
                 }
               >
                 {link.icon}{" "}
-                <span className="text-sm sm:text-base hidden sm:block">
-                  {link.title}
-                </span>
+                <span className="hidden md:block text-sm">{link.title}</span>
               </Link>
             ))}
 
             <div
-              className="cursor-pointer flex gap-3 items-center hover:text-action hover:font-bold transition-all duration-300"
+              className="cursor-pointer flex-grow flex justify-center md:justify-start items-center gap-3 hover:text-action hover:font-bold transition-all duration-300"
               onClick={async () => {
                 clerkObject.signOut().then(async () => {
                   await userStore.logoutUser();
@@ -137,7 +138,7 @@ const DashboardNavigation = () => {
             >
               <>
                 <CgLogOff size={20} />{" "}
-                <span className="hidden sm:block">Logout</span>
+                <span className="hidden md:block text-sm">Logout</span>
               </>
             </div>
           </ul>
