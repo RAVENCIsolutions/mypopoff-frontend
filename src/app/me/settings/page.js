@@ -8,7 +8,7 @@ export default function SettingsPage() {
   const [makePublic, setMakePublic] = useState(false);
   const [hidePopOff, setHidePopOff] = useState(false);
   const [hideLandingPage, setHideLandingPage] = useState(false);
-  const [changed, setChanged] = useState(false);
+  const [changed, setChanged] = useState(true);
   const [formData, setFormData] = useState({
     oldPassword: "",
     newPassword: "",
@@ -33,49 +33,49 @@ export default function SettingsPage() {
           </button>
         </section>
         <section className="px-3 py-5 sm:p-6 w-full min-h-full sm:overflow-y-auto">
+          {/*<section*/}
+          {/*  className={`p-4 bg-dashboard-primary-light/70 dark:bg-dashboard-secondary-light/20 rounded-xl shadow-lg shadow-dashboard-primary-dark/10`}*/}
+          {/*>*/}
+          {/*  <h4 className={`text-base font-bold uppercase`}>Privacy</h4>*/}
+          {/*  <article className={`mt-4 flex justify-between sm:indent-4`}>*/}
+          {/*    <p className={`text-sm`}>Make my landing page public</p>*/}
+          {/*    <Switch*/}
+          {/*      checked={makePublic}*/}
+          {/*      size="small"*/}
+          {/*      onClick={() => setMakePublic(!makePublic)}*/}
+          {/*    ></Switch>*/}
+          {/*  </article>*/}
+
+          {/*  <article className={`mt-4 flex justify-between sm:indent-4`}>*/}
+          {/*    <p className={`text-sm`}>Hide my pop off from internal search</p>*/}
+          {/*    <Switch*/}
+          {/*      checked={hidePopOff}*/}
+          {/*      size="small"*/}
+          {/*      onClick={() => setHidePopOff(!hidePopOff)}*/}
+          {/*    ></Switch>*/}
+          {/*  </article>*/}
+
+          {/*  <article className={`mt-4 flex justify-between sm:indent-4`}>*/}
+          {/*    <p className={`text-sm`}>*/}
+          {/*      Hide my landing page from search engines*/}
+          {/*    </p>*/}
+          {/*    <Switch*/}
+          {/*      checked={hideLandingPage}*/}
+          {/*      size="small"*/}
+          {/*      onClick={() => setHideLandingPage(!hideLandingPage)}*/}
+          {/*    ></Switch>*/}
+          {/*  </article>*/}
+          {/*</section>*/}
+
           <section
-            className={`p-4 bg-dashboard-primary-light/70 dark:bg-dashboard-secondary-light/20 rounded-xl shadow-lg shadow-dashboard-primary-dark/10`}
-          >
-            <h4 className={`text-base font-bold uppercase`}>Privacy</h4>
-            <article className={`mt-4 flex justify-between sm:indent-4`}>
-              <p className={`text-sm`}>Make my landing page public</p>
-              <Switch
-                checked={makePublic}
-                size="small"
-                onClick={() => setMakePublic(!makePublic)}
-              ></Switch>
-            </article>
-
-            <article className={`mt-4 flex justify-between sm:indent-4`}>
-              <p className={`text-sm`}>Hide my pop off from internal search</p>
-              <Switch
-                checked={hidePopOff}
-                size="small"
-                onClick={() => setHidePopOff(!hidePopOff)}
-              ></Switch>
-            </article>
-
-            <article className={`mt-4 flex justify-between sm:indent-4`}>
-              <p className={`text-sm`}>
-                Hide my landing page from search engines
-              </p>
-              <Switch
-                checked={hideLandingPage}
-                size="small"
-                onClick={() => setHideLandingPage(!hideLandingPage)}
-              ></Switch>
-            </article>
-          </section>
-
-          <section
-            className={`mt-6 p-4 bg-dashboard-primary-light/70 dark:bg-dashboard-secondary-light/20 rounded-xl shadow-lg shadow-dashboard-primary-dark/10`}
+            className={`mt-0 p-4 bg-dashboard-primary-light/70 dark:bg-dashboard-secondary-light/20 rounded-xl shadow-lg shadow-dashboard-primary-dark/10`}
           >
             <h4 className={`text-base font-bold uppercase`}>Security</h4>
             <article className={`mt-4 sm:ml-4 flex flex-col gap-3`}>
               <p className={`mb-2 text-sm`}>Change Password</p>
               <PopOffInput
                 name="oldPassword"
-                label="what's your old password"
+                label="your old password"
                 className={`mb-2`}
                 value={formData.oldPassword}
                 type={"password"}
@@ -85,7 +85,7 @@ export default function SettingsPage() {
               />
               <PopOffInput
                 name="newPassword"
-                label="what's your your new password"
+                label="your your new password"
                 className={`mb-2`}
                 value={formData.newPassword}
                 onChange={(e) =>
@@ -94,7 +94,7 @@ export default function SettingsPage() {
               />
               <PopOffInput
                 name="confirmPassword"
-                label="let's confirm your new password"
+                label="confirm your new password"
                 className={`mb-2`}
                 value={formData.confirmPassword}
                 onChange={(e) =>
