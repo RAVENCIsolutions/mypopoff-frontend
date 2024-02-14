@@ -1,20 +1,28 @@
-export async function generateMetadata({ params }) {
-  return {
-    title: `@${params.influencer} | My Pop Off`,
-  };
+import InfluencerComponent from "@/components/InfluencerComponent";
+import { fetchUsername } from "@/utility/dbUtils";
+import { notFound, useParams } from "next/navigation";
+
+async function getData(username) {
+  const userData = await fetchUsername(username);
+
+  if (!userData) {
+    notFound();
+  }
+
+  return userData;
 }
 
-export default function InfluencerPage({ params }) {
-  const influencerData = [
-    {
-      handle: "samplify",
-      featuredImage: "https://picsum.photos/400/400",
-    },
-  ];
+// export async function generateMetadata({ userData }) {
+//   return {
+//     title: `${userData.username} | My Pop Off`,
+//   };
+// }
 
-  return (
-    <div>
-      <h1>Influencer Page: {params.influencer}</h1>
-    </div>
-  );
+export default async function Page({ params }) {
+  console.log(await getData(params.influencer));
+
+  return <div>{JSON.stringify(await getData(params.influencer))}</div>;
+  // const data = getData(userData.username);
+  // console.log(data);
+  // return <InfluencerComponent username={userData.username} />;
 }

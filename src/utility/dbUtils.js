@@ -18,11 +18,23 @@ const fetchUser = async (id) => {
 const fetchUsername = async (value) => {
   const { data, error } = await supabase
     .from(usersTable)
+    .select(
+      "username, bio, category, otherCategory, tags, avatar_url, page_layout, button_style, palette, links",
+    )
+    .eq("username", value)
+    .single();
+
+  if (error) return false;
+  return data;
+};
+
+const usernameExists = async (value) => {
+  const { data, error } = await supabase
+    .from(usersTable)
     .select()
     .eq("username", value)
     .single();
 
-  console.log(error);
   return !error;
 };
 
@@ -47,4 +59,4 @@ const updateUser = async (id, dataToSave) => {
   return !error;
 };
 
-export { fetchUser, fetchUsername, createUser, updateUser };
+export { fetchUser, fetchUsername, usernameExists, createUser, updateUser };

@@ -14,8 +14,7 @@ import PopOffTextArea from "@/components/PopOffTextArea";
 
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
-import { fetchUsername } from "@/utility/dbUtils";
-import { getFromLocalStorage } from "@/utility/localStorageUtils";
+import { usernameExists } from "@/utility/dbUtils";
 
 const AccountPage = observer(() => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -90,7 +89,7 @@ const AccountPage = observer(() => {
       return false;
     }
 
-    fetchUsername(username).then((r) => {
+    usernameExists(username).then((r) => {
       if (r) {
         setUsernameError({
           status: 1,
