@@ -5,14 +5,13 @@ import {
   BiLogoInstagramAlt,
   BiLogoTwitch,
 } from "react-icons/bi";
+
 import Link from "next/link";
-import styled from "@emotion/styled";
 import { observer } from "mobx-react";
 
 import { getContrastLuminance } from "@/utility/generalUtils";
 import { defaultUser } from "@/data/defaultUser";
-
-const ResponsiveMain = styled.main``;
+import ButtonStyle01 from "@/onboardingComponents/button-style-01";
 
 const Layout01 = observer(
   ({ previewWindow = false, userData = defaultUser }) => {
@@ -46,7 +45,7 @@ const Layout01 = observer(
               className={`font-bold text-xl text-center tracking-wide uppercase`}
               style={{ color: palette.mainText }}
             >
-              {userData.username && userData.username}
+              @{userData.username && userData.username}
             </p>
             <p className="text-base text-center">
               {userData.bio && userData.bio}
@@ -74,10 +73,18 @@ const Layout01 = observer(
           {/*      })}*/}
           {/*  </ul>*/}
           {/*</section>*/}
-          <section className={`mb-10 flex items-stretch justify-center w-full`}>
+          <section className={`mb-10 flex items-stretch justify-center`}>
             {userData.links &&
               userData.links.map((link, index) => (
-                <Link href={link.url} key={index}>
+                <Link
+                  href={link.url}
+                  key={`link-${index}`}
+                  className={`pt-1.5 pb-1 px-5 mx-auto min-w-44 max-w-full rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
+                  style={{
+                    backgroundColor: palette.buttonMain,
+                    color: palette.buttonText,
+                  }}
+                >
                   {link.title}
                 </Link>
               ))}

@@ -16,7 +16,7 @@ const defaultUser = {
   button_style: "button-01",
 
   palette: {
-    background: "#c68a4e",
+    background: "#f7f5f3",
     middleGround: "#ffffff",
     mainText: "#c68a4e",
     subText: "#202224",
