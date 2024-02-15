@@ -7,7 +7,7 @@ import Layout04 from "@/templates/layout-04";
 // import Layout05 from "@/templates/layout-05";
 // import Layout06 from "@/templates/layout-06";
 import Layout07 from "@/templates/layout-07";
-// import Layout08 from "@/templates/layout-08";
+import Layout08 from "@/templates/layout-08";
 // import Layout09 from "@/templates/layout-09";
 // import Layout10 from "@/templates/layout-10";
 
@@ -42,11 +42,11 @@ export default async function Page({ params }) {
     // layoutLookup["layout-05"] = <Layout05 userData={data} />;
     // layoutLookup["layout-06"] = <Layout06 userData={data} />;
     layoutLookup["layout-07"] = <Layout07 userData={data} />;
-    // layoutLookup["layout-08"] = <Layout08 userData={data} />;
+    layoutLookup["layout-08"] = <Layout08 userData={data} />;
     // layoutLookup["layout-09"] = <Layout09 userData={data} />;
     // layoutLookup["layout-10"] = <Layout10 userData={data} />;
   });
 
   // return layoutLookup[userData.page_layout];
-  return layoutLookup["layout-07"];
+  return layoutLookup["layout-08"];
 }

@@ -6,9 +6,122 @@
 @import "@flaticon/flaticon-uicons/css/bold/rounded.css";
 
 // Fonts
+//Abril
 @font-face {
-  font-family: "Abril Fatface";
-  
+  font-family: "abril";
+  src: url("../../../public/fonts/AbrilFatface-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Alegreya
+@font-face {
+  font-family: "alegreya";
+  src: url("../../../public/fonts/AlegreyaSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "alegreya";
+  src: url("../../../public/fonts/AlegreyaSans-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "alegreya";
+  src: url("../../../public/fonts/AlegreyaSans-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Amatic SC
+@font-face {
+  font-family: "amatic";
+  src: url("../../../public/fonts/AmaticSC-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "amatic";
+  src: url("../../../public/fonts/AmaticSC-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Anton
+@font-face {
+  font-family: "anton";
+  src: url("../../../public/fonts/Anton-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Barlow Condensed
+@font-face {
+  font-family: "BarlowCondensed";
+  src: url("../../../public/fonts/BarlowCondensed-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BarlowCondensed";
+  src: url("../../../public/fonts/BarlowCondensed-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+// DM Sans
+@font-face {
+  font-family: "dmsans";
+  src: url("../../../public/fonts/DMSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "dmsans";
+  src: url("../../../public/fonts/DMSans-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "dmsans";
+  src: url("../../../public/fonts/DMSans-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "dmsans";
+  src: url("../../../public/fonts/DMSans-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "dmsans";
+  src: url("../../../public/fonts/DMSans-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* ScrollBar */
