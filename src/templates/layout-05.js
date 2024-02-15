@@ -10,6 +10,7 @@ import Link from "next/link";
 import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
+import { useState } from "react";
 
 const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
   const { username, bio, links, palette } = userData;
@@ -25,11 +26,10 @@ const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
             alt="Influencer Username"
           />
           <h1 className="mb-4 font-bold text-3xl text-center uppercase tracking-wide text-stone-800">
-            username
+            @{username}
           </h1>
           <p className="text-lg font-dmsans text-stone-600 text-center max-w-xs">
-            This is a small block of text about the user who owns this
-            particular profile.
+            {bio}
           </p>
         </div>
       ),
@@ -38,30 +38,44 @@ const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
     {
       title: "Links",
       content: (
-        <ul className="px-0 md:px-8 flex flex-col gap-5 items-stretch justify-center h-full text-center">
-          {sampleLinks.map((link, index) => (
-            <Link
-              key={index}
-              className="cursor-pointer py-2 px-0 md:px-5 bg-white hover:bg-sky-600 border-[2px] border-sky-600 rounded-lg text-sky-600 hover:text-white font-dmsans font-semibold tracking-tight transition-all duration-300"
-              href={link.url}
-            >
-              <li>{link.title}</li>
-            </Link>
-          ))}
+        <ul className="px-0 md:px-8 flex flex-col gap-5 items-stretch justify-between w-full h-full text-center overflow-y-auto">
+          {userData.links &&
+            userData.links.map((link, index) => (
+              <Link
+                href={link.url}
+                key={`link-${index}`}
+                className={`pt-1.5 pb-1 px-5 mx-auto min-w-44 max-w-full rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
+                style={{
+                  backgroundColor: palette.buttonMain,
+                  color: palette.buttonText,
+                }}
+              >
+                {link.title}
+              </Link>
+            ))}
+          <p>test</p>
+          <p>test</p>
+          <p>test</p>
+          <p>test</p>
+          <p>test</p>
+          <p>test</p>
+          <p>test</p>
+          <p>test</p>
+          <p>test</p>
         </ul>
       ),
     },
 
-    {
-      title: "Socials",
-      content: (
-        <div className="flex justify-center items-center gap-4 w-full h-full">
-          <BiLogoFacebookCircle size={30} className="text-stone-900" />
-          <BiLogoInstagramAlt size={30} className="text-stone-900" />
-          <BiLogoTwitch size={30} className="text-stone-900" />
-        </div>
-      ),
-    },
+    // {
+    //   title: "Socials",
+    //   content: (
+    //     <div className="flex justify-center items-center gap-4 w-full h-full">
+    //       <BiLogoFacebookCircle size={30} className="text-stone-900" />
+    //       <BiLogoInstagramAlt size={30} className="text-stone-900" />
+    //       <BiLogoTwitch size={30} className="text-stone-900" />
+    //     </div>
+    //   ),
+    // },
   ];
 
   const [currentCard, setCurrentCard] = useState(0);
@@ -95,7 +109,7 @@ const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
               {card.title}
             </div>
             <div
-              className={`absolute p-6 inline-block w-full md:w-[calc(36rem-2.25rem)] h-full overflow-x-auto`}
+              className={`relative md:absolute py-6 inline-block w-full md:w-[calc(36rem-2.25rem)] h-full overflow-hidden`}
             >
               {card.content}
             </div>

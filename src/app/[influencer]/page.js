@@ -48,5 +48,5 @@ export default async function Page({ params }) {
   });
 
   // return layoutLookup[userData.page_layout];
-  return layoutLookup["layout-04"];
+  return layoutLookup["layout-05"];
 }
