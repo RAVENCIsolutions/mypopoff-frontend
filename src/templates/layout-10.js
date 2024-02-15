@@ -26,19 +26,21 @@ const Layout10 = observer(
       >
         <article
           className={`${
-            previewWindow ? "mx-auto w-10/12 p-3" : "w-10/12 max-w-sm p-10"
+            previewWindow
+              ? "mx-auto w-10/12 p-3"
+              : "w-10/12 max-w-sm p-3 md:p-10"
           } flex flex-col items-center border-2 border-black rounded-xl`}
           style={{ backgroundColor: palette.middleGround }}
         >
           <section className="mb-8">
             <h2
-              className={`font-black text-3xl text-center tracking-wide`}
+              className={`font-black text-xl md:text-3xl text-center tracking-wide`}
               style={{ color: palette.mainText }}
             >
               Hello!
             </h2>
-            <h1 className="text-xl" style={{ color: palette.subText }}>
-              My name is username
+            <h1 className="text-base" style={{ color: palette.subText }}>
+              I am @{username}
             </h1>
           </section>
 
@@ -47,19 +49,22 @@ const Layout10 = observer(
             <ul
               className={`${
                 previewWindow ? "gap-2" : "gap-8"
-              } mx-auto flex flex-col text-center w-full font-sans ${
-                currentButtonStyle.uniqueClasses
-              }`}
+              } mx-auto flex flex-col text-center justify-center w-full font-sans`}
             >
-              {sampleLinks.map((link, index) => {
-                if (currentButtonStyle && currentButtonStyle.component) {
-                  return currentButtonStyle.component(
-                    link.title,
-                    onBoardingStore.onBoardingCurrent.palette,
-                    index,
-                  );
-                }
-              })}
+              {userData.links &&
+                userData.links.map((link, index) => (
+                  <Link
+                    href={link.url}
+                    key={`link-${index}`}
+                    className={`p-0.5 md:p-1 m-1 px-5 min-w-max rounded-lg shadow-[5px_6px_0px_rgba(0,0,0,1)] border-2 border-black hover:translate-x-1 hover:-translate-y-1 transition-all duration-100`}
+                    style={{
+                      backgroundColor: palette.buttonMain,
+                      color: palette.buttonText,
+                    }}
+                  >
+                    {link.title}
+                  </Link>
+                ))}
             </ul>
           </section>
 
