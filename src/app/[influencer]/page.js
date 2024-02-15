@@ -2,8 +2,8 @@ import { fetchUsername } from "@/utility/dbUtils";
 import { notFound, useParams } from "next/navigation";
 import Layout01 from "@/templates/layout-01";
 import Layout02 from "@/templates/layout-02";
-// import Layout03 from "@/templates/layout-03";
-// import Layout04 from "@/templates/layout-04";
+import Layout03 from "@/templates/layout-03";
+import Layout04 from "@/templates/layout-04";
 // import Layout05 from "@/templates/layout-05";
 // import Layout06 from "@/templates/layout-06";
 // import Layout07 from "@/templates/layout-07";
@@ -37,8 +37,8 @@ export default async function Page({ params }) {
     userData = data;
     layoutLookup["layout-01"] = <Layout01 userData={data} />;
     layoutLookup["layout-02"] = <Layout02 userData={data} />;
-    // layoutLookup["layout-03"] = <Layout03 userData={data} />;
-    // layoutLookup["layout-04"] = <Layout04 userData={data} />;
+    layoutLookup["layout-03"] = <Layout03 userData={data} />;
+    layoutLookup["layout-04"] = <Layout04 userData={data} />;
     // layoutLookup["layout-05"] = <Layout05 userData={data} />;
     // layoutLookup["layout-06"] = <Layout06 userData={data} />;
     // layoutLookup["layout-07"] = <Layout07 userData={data} />;
@@ -48,5 +48,5 @@ export default async function Page({ params }) {
   });
 
   // return layoutLookup[userData.page_layout];
-  return layoutLookup["layout-02"];
+  return layoutLookup["layout-04"];
 }

@@ -5,6 +5,12 @@
 // Flaticons
 @import "@flaticon/flaticon-uicons/css/bold/rounded.css";
 
+// Fonts
+@font-face {
+  font-family: "Abril Fatface";
+  
+}
+
 /* ScrollBar */
 ::-webkit-scrollbar {
   width: 9px;
@@ -12,7 +18,7 @@
 }
 
 .preview-window::-webkit-scrollbar {
-  width: 0px;
+  width: 0;
 }
 
 /* ScrollBar Track */

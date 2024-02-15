@@ -1,12 +1,19 @@
+"use client";
+
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
   BiLogoTwitch,
 } from "react-icons/bi";
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 
-const Layout06 = () => {
+import Link from "next/link";
+import { observer } from "mobx-react";
+
+import { defaultUser } from "@/data/defaultUser";
+
+const Layout06 = ({ previewWindow = false, userData = defaultUser }) => {
+  const { username, bio, links, palette } = userData;
+
   const scrollRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(true);
   const [scrollingForwards, setScrollingForwards] = useState(true);

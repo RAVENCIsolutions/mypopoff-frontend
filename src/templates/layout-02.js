@@ -46,7 +46,9 @@ const Layout02 = observer(
           } mx-auto relative flex flex-col justify-between md:justify-center items-center gap-8 w-full overflow-y-auto`}
         >
           <article
-            className={previewWindow ? "mx-auto w-[80%]" : "w-full md:w-72"}
+            className={`my-10 ${
+              previewWindow ? "mx-auto w-[80%]" : "w-full md:w-72"
+            }`}
           >
             <h1
               className="font-proximaNova font-black text-2xl text-center"
@@ -119,7 +121,7 @@ const Layout02 = observer(
           <footer
             className={`${
               !previewWindow && "md:absolute"
-            } bottom-3 justify-self-end text-center text-sm`}
+            } bottom-3 justify-self-end text-center text-xs`}
             style={{ color: palette.subText }}
           >
             Copyright © {new Date().getFullYear()}. My Pop Off

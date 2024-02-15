@@ -1,18 +1,18 @@
+"use client";
+
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
   BiLogoTwitch,
 } from "react-icons/bi";
-import Link from "next/link";
-import Image from "next/image";
 
-const Layout08 = () => {
-  const sampleLinks = [
-    { url: "/", title: "Book a Free Consultation" },
-    { url: "/", title: "My Website" },
-    { url: "/", title: "My Portfolio" },
-    { url: "/", title: "Email Me" },
-  ];
+import Link from "next/link";
+import { observer } from "mobx-react";
+
+import { defaultUser } from "@/data/defaultUser";
+
+const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
+  const { username, bio, links, palette } = userData;
 
   return (
     <main className="flex items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-blue-900 bg-[url(/images/templates/bannerific_background.jpg)] bg-cover bg-center">

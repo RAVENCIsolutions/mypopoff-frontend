@@ -1,18 +1,18 @@
+"use client";
+
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
   BiLogoTwitch,
 } from "react-icons/bi";
-import Link from "next/link";
-import { useState } from "react";
 
-const Layout05 = () => {
-  const sampleLinks = [
-    { url: "/", title: "Book a Free Consultation" },
-    { url: "/", title: "My Website" },
-    { url: "/", title: "My Portfolio" },
-    { url: "/", title: "Email Me" },
-  ];
+import Link from "next/link";
+import { observer } from "mobx-react";
+
+import { defaultUser } from "@/data/defaultUser";
+
+const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
+  const { username, bio, links, palette } = userData;
 
   const cards = [
     {
