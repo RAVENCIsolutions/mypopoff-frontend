@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { defaultUser } from "@/data/defaultUser";
-import { OnboardingLayouts } from "@/data/OnboardingLayouts";
-import { OnboardingButtons } from "@/data/OnboardingButtons";
+import { LayoutsLookup } from "@/data/LayoutsLookup";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
 
 class OnboardingStore {
   userData = defaultUser;
@@ -19,22 +19,22 @@ class OnboardingStore {
   }
 
   updateLayout = (id) => {
-    this.userData.page_layout = OnboardingLayouts[id].id;
+    this.userData.page_layout = LayoutsLookup[id].id;
   };
 
   resetColours = () => {
-    const layoutIndex = OnboardingLayouts.findIndex(
+    const layoutIndex = LayoutsLookup.findIndex(
       (layout) => layout.id === this.userData.page_layout,
     );
 
-    const buttonIndex = OnboardingButtons.findIndex(
+    const buttonIndex = ButtonsLookup.findIndex(
       (button) => button.id === this.userData.button_style,
     );
 
     this.userData.palette = {};
     this.userData.palette = {
-      ...OnboardingLayouts[layoutIndex].colours,
-      ...OnboardingButtons[buttonIndex].colours,
+      ...LayoutsLookup[layoutIndex].colours,
+      ...ButtonsLookup[buttonIndex].colours,
     };
   };
 }

@@ -6,6 +6,7 @@ import {
   BiLogoTwitch,
 } from "react-icons/bi";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { observer } from "mobx-react";
 
@@ -121,7 +122,8 @@ const Layout06 = ({ previewWindow = false, userData = defaultUser }) => {
 
         <footer className="py-2 md:py-3 flex flex-col md:flex-row md:justify-between gap-2 border-t-2 border-neutral-900 text-neutral-900">
           <p className="text-base md:text-lg font-barlowCondensed uppercase font-bold text-neutral-900">
-            Copyright © {new Date().getFullYear()}. My Pop Off
+            Copyright © {new Date().getFullYear()}.{" "}
+            <Link href={"/"}>My Pop Off</Link>
           </p>
           <section className="flex flex-row gap-4">
             <Link href="/">

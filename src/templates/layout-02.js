@@ -10,16 +10,11 @@ import Link from "next/link";
 import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
+import { getButtonStyleIndex } from "@/utility/generalUtils";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
 
 const Layout02 = observer(
   ({ previewWindow = false, userData = defaultUser }) => {
-    // const sampleLinks = [
-    //   { url: "", title: "Book a Free Consultation" },
-    //   { url: "", title: "My Website" },
-    //   { url: "", title: "My Portfolio" },
-    //   { url: "", title: "Email Me" },
-    // ];
-
     const { username, bio, links, palette } = userData;
 
     return (
@@ -81,22 +76,35 @@ const Layout02 = observer(
             {/*    }*/}
             {/*  })}*/}
             {/*</ul>*/}
-            <ul className={`mx-auto flex flex-col`}>
+            <div
+              className={`mx-auto flex flex-col ${
+                ButtonsLookup[getButtonStyleIndex(userData.button_style)]
+                  .uniqueClasses
+              }`}
+            >
               {userData.links &&
-                userData.links.map((link, index) => (
-                  <Link
-                    href={link.url}
-                    key={`link-${index}`}
-                    className={`pt-1.5 pb-1 px-5 mx-auto min-w-44 max-w-full rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
-                    style={{
-                      backgroundColor: palette.buttonMain,
-                      color: palette.buttonText,
-                    }}
-                  >
-                    {link.title}
-                  </Link>
-                ))}
-            </ul>
+                userData.links.map(
+                  (link, index) =>
+                    ButtonsLookup[
+                      getButtonStyleIndex(userData.button_style)
+                    ].component(link.url, link.title, palette, index),
+                  // {
+                  //   return (
+                  //     <Link
+                  //       href={link.url}
+                  //       key={`link-${index}`}
+                  //       className={`pt-1.5 pb-1 px-5 mx-auto min-w-44 max-w-full rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
+                  //       style={{
+                  //         backgroundColor: palette.buttonMain,
+                  //         color: palette.buttonText,
+                  //       }}
+                  //     >
+                  //       {link.title}
+                  //     </Link>
+                  //   );
+                  // }
+                )}
+            </div>
           </article>
 
           {/* Social Media */}
@@ -124,7 +132,8 @@ const Layout02 = observer(
             } bottom-3 justify-self-end text-center text-xs`}
             style={{ color: palette.subText }}
           >
-            Copyright © {new Date().getFullYear()}. My Pop Off
+            Copyright © {new Date().getFullYear()}.{" "}
+            <Link href={"/"}>My Pop Off</Link>
           </footer>
         </section>
       </main>

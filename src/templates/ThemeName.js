@@ -51,7 +51,8 @@ const ThemeName = () => {
       </section>
 
       <footer className="absolute bottom-3 text-sm text-stone-500">
-        Copyright © {new Date().getFullYear()}. My Pop Off
+        Copyright © {new Date().getFullYear()}.{" "}
+        <Link href={"/"}>My Pop Off</Link>
       </footer>
     </main>
   );

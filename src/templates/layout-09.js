@@ -58,7 +58,8 @@ const Layout09 = ({ previewWindow = false, userData = defaultUser }) => {
       {/*</section>*/}
 
       <footer className="absolute bottom-6 text-base text-white/80 z-20">
-        Copyright © {new Date().getFullYear()}. My Pop Off
+        Copyright © {new Date().getFullYear()}.{" "}
+        <Link href={"/"}>My Pop Off</Link>
       </footer>
     </main>
   );

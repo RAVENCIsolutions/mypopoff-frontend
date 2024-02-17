@@ -2,13 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import {
-  FaCheck,
-  FaPencilAlt,
-  FaTimes,
-  FaTimesCircle,
-  FaTrashAlt,
-} from "react-icons/fa";
+import { FaCheck, FaPencilAlt, FaTimes, FaTrashAlt } from "react-icons/fa";
 import { BsCardHeading, BsLink45Deg } from "react-icons/bs";
 
 import Switch from "@mui/material/Switch";
@@ -49,7 +43,7 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
   return (
     <section className="flex-grow flex flex-col overflow-x-clip">
       <div
-        className={`pl-3 pr-1 py-2 pb-0 sm:p-5 sm:pb-2 flex flex-col items-stretch justify-between border-2 bg-dashboard-primary-light/50 dark:bg-dashboard-secondary-light/5 rounded-lg w-full text-primary-dark dark:text-primary-light ${
+        className={`pl-3 pr-1 py-2 pb-0 sm:p-5 sm:pb-2 flex flex-col items-stretch justify-between border-2 bg-primary-light/50 dark:bg-dashboard-secondary-light/5 rounded-lg w-full text-primary-dark dark:text-primary-light ${
           makePublic
             ? "border-action shadow-lg"
             : "border-transparent shadow-none opacity-70"
@@ -58,10 +52,11 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
         <div className="flex flex-col gap-0 sm:gap-2 w-full">
           {/* Title */}
           <div className="flex items-center justify-between gap-1 lg:gap-2">
-            <div className="hidden sm:block w-6" title="Link Title">
+            <div className="hidden sm:block w-6" title={"Title of your link"}>
               <BsCardHeading
                 size={18}
                 className="text-primary-dark/50 dark:text-primary-light/30 hover:text-primary-dark hover:dark:text-primary-light transition-all duration-300"
+                title={"Title of your link"}
               />
             </div>
             {editTitle ? (
@@ -115,10 +110,14 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
 
           {/* Link */}
           <div className="flex items-center justify-between gap-2">
-            <div className="hidden sm:block w-6" title="Link Destination">
+            <div
+              className="hidden sm:block w-6"
+              title={"Destination of your link"}
+            >
               <BsLink45Deg
                 size={18}
                 className="text-primary-dark/50 dark:text-primary-light/30 hover:text-primary-dark hover:dark:text-primary-light transition-all duration-300"
+                title={"Destination of your link"}
               />
             </div>
             {editLink ? (
@@ -171,10 +170,10 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
           </div>
         </div>
 
-        <section className="mt-3 py-3 flex justify-between items-center border-t-2 border-dashboard-primary-light dark:border-primary-light/10">
+        <section className="mt-3 py-3 flex justify-between items-center border-t-2 border-secondary-dark/20 dark:border-primary-light/10">
           <article className="flex items-center gap-1">
             <button
-              className="py-2 flex justify-center rounded-full hover:bg-primary-dark dark:bg-primary-light hover:text-primary-light hover:dark:text-primary-dark transition-all duration-300"
+              className="p-2 flex justify-center rounded-full bg-transparent hover:bg-primary-dark hover:dark:bg-dashboard-primary-light hover:text-dashboard-primary-light hover:dark:text-dashboard-primary-dark transition-all duration-300"
               title="Delete Link"
               onClick={async () => await userStore.removeLink(id)}
             >
@@ -185,7 +184,20 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
           <article className="flex items-center">
             <p className="text-sm">Make Public?</p>
             <Switch
-              color="warning"
+              sx={{
+                "& .MuiSwitch-switchBase": {
+                  color: "#c68a4e", // color for the off state
+                  "&.Mui-checked": {
+                    color: "#c68a4e", // color for the on state
+                  },
+                  "&.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: "#c68a4e", // background color for the on state
+                  },
+                },
+                "& .MuiSwitch-track": {
+                  backgroundColor: "#c68a4e", // adjust to change the track color when off if needed
+                },
+              }}
               checked={makePublic}
               size={"small"}
               onChange={async () => {

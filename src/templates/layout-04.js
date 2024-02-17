@@ -76,7 +76,8 @@ const Layout04 = observer(
           {/*  <BiLogoInstagramAlt size={24} style={{ color: palette.subText }} />*/}
           {/*  <BiLogoTwitch size={24} style={{ color: palette.subText }} />*/}
           {/*</section>*/}
-          Copyright © {new Date().getFullYear()}. My Pop Off
+          Copyright © {new Date().getFullYear()}.{" "}
+          <Link href={"/"}>My Pop Off</Link>
         </footer>
       </main>
     );

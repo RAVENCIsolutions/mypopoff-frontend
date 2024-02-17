@@ -40,7 +40,7 @@ const AccountPage = observer(() => {
   const maxBioLength = 150;
 
   const progressColours = {
-    0: "#C68A4E",
+    0: "#c68a4e",
     120: "#2F975A",
     151: "#DB2B20",
   };
@@ -48,7 +48,7 @@ const AccountPage = observer(() => {
   const usernameFeedback = {
     0: null,
     1: <ImCross size={8} color={"#DB2B20"} />,
-    2: <FaCheck size={10} color={"#C68A4E"} />,
+    2: <FaCheck size={10} color={"#c68a4e"} />,
   };
 
   const { user, isSignedIn, isLoaded } = useUser();
@@ -224,7 +224,7 @@ const AccountPage = observer(() => {
                         className={`flex items-center gap-2 text-xs text-action`}
                         style={{
                           color:
-                            usernameError.status === 1 ? "#DB2B20" : "#C68A4E",
+                            usernameError.status === 1 ? "#DB2B20" : "#c68a4e",
                         }}
                       >
                         {usernameFeedback[usernameError.status]}

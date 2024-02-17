@@ -1,23 +1,25 @@
 import { useState } from "react";
+import Link from "next/link";
 
 const ButtonStyle07 = (props) => {
   const [hover, setHover] = useState(false);
 
-  const { label, palette } = props;
+  const { link, title, palette } = props;
 
   return (
-    <button
-      className={`p-1 px-5 mx-2 min-w-max border-2 transition-all duration-300`}
+    <Link
+      href={link}
+      className={`p-1 px-5 mx-2 min-w-max border-2 text-center transition-all duration-300`}
       style={{
-        borderColor: palette.buttonOutline,
-        backgroundColor: hover ? palette.buttonHover : "transparent",
-        color: hover ? palette.buttonHoverText : palette.buttonText,
+        borderColor: palette.buttonMain,
+        backgroundColor: hover ? palette.buttonMain : "transparent",
+        color: palette.buttonText,
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      {label}
-    </button>
+      {title}
+    </Link>
   );
 };
 

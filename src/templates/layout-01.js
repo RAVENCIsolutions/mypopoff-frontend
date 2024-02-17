@@ -9,12 +9,16 @@ import {
 import Link from "next/link";
 import { observer } from "mobx-react";
 
-import { getContrastLuminance } from "@/utility/generalUtils";
+import {
+  getButtonStyleIndex,
+  getContrastLuminance,
+} from "@/utility/generalUtils";
 import { defaultUser } from "@/data/defaultUser";
 import ButtonStyle01 from "@/onboardingComponents/button-style-01";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
 
 const Layout01 = observer(
-  ({ previewWindow = false, userData = defaultUser }) => {
+  ({ previewWindow = false, userData = defaultUser, buttonStyle = 0 }) => {
     const { username, bio, links, palette } = userData;
 
     return (
@@ -73,21 +77,29 @@ const Layout01 = observer(
           {/*      })}*/}
           {/*  </ul>*/}
           {/*</section>*/}
-          <section className={`mb-10 flex items-stretch justify-center`}>
+          <section
+            className={`mb-10 flex flex-col items-stretch justify-center gap-3`}
+          >
             {userData.links &&
-              userData.links.map((link, index) => (
-                <Link
-                  href={link.url}
-                  key={`link-${index}`}
-                  className={`pt-1.5 pb-1 px-5 mx-auto min-w-44 max-w-full rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
-                  style={{
-                    backgroundColor: palette.buttonMain,
-                    color: palette.buttonText,
-                  }}
-                >
-                  {link.title}
-                </Link>
-              ))}
+              userData.links.map(
+                (link, index) =>
+                  ButtonsLookup[
+                    getButtonStyleIndex(userData.button_style)
+                  ].component(link.url, link.title, palette, index),
+                // (
+                // <Link
+                //   href={link.url}
+                //   key={`link-${index}`}
+                //   className={`py-1.5 px-5 mx-auto min-w-44 max-w-full rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
+                //   style={{
+                //     backgroundColor: palette.buttonMain,
+                //     color: palette.buttonText,
+                //   }}
+                // >
+                //   {link.title}
+                // </Link>
+                // );
+              )}
           </section>
 
           {/* Social Media */}
@@ -102,7 +114,8 @@ const Layout01 = observer(
           className={`relative text-sm opacity-50`}
           style={{ color: getContrastLuminance(palette.background) }}
         >
-          Copyright © {new Date().getFullYear()}. My Pop Off
+          Copyright © {new Date().getFullYear()}.{" "}
+          <Link href={"/"}>My Pop Off</Link>
         </footer>
       </main>
     );

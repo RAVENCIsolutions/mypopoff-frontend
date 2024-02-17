@@ -57,7 +57,8 @@ const SideBySideTheme = () => {
           <BiLogoInstagramAlt size={24} className="text-neutral-500" />
           <BiLogoTwitch size={24} className="text-neutral-500" />
         </section>
-        Copyright © {new Date().getFullYear()}. My Pop Off
+        Copyright © {new Date().getFullYear()}.{" "}
+        <Link href={"/"}>My Pop Off</Link>
       </footer>
     </main>
   );

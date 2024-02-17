@@ -27,7 +27,12 @@ const Layout07 = ({ previewWindow = false, userData = defaultUser }) => {
         <ul className="py-4 flex flex-col items-start gap-8 h-full font-newSpirit font-bold text-base md:text-3xl overflow-y-auto">
           {userData.links &&
             userData.links.map((link, index) => (
-              <Link09 title={link.title} url={link.url} palette={palette} />
+              <Link09
+                key={`link-${index}`}
+                title={link.title}
+                url={link.url}
+                palette={palette}
+              />
             ))}
         </ul>
 
@@ -40,7 +45,8 @@ const Layout07 = ({ previewWindow = false, userData = defaultUser }) => {
       </section>
 
       <footer className="fixed px-4 md:px-16 bottom-3 flex flex-col md:flex-row items-center justify-between gap-1 md:gap-0 w-full text-base text-neutral-500 text-center">
-        Copyright © {new Date().getFullYear()}. My Pop Off
+        Copyright © {new Date().getFullYear()}.{" "}
+        <Link href={"/"}>My Pop Off</Link>
       </footer>
     </main>
   );

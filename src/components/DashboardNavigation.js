@@ -55,12 +55,12 @@ const DashboardNavigation = () => {
       route: "/me/account",
       icon: <CgUser size={20} />,
     },
-    {
-      title: "Settings",
-      alt: "Settings for application preferences and configurations",
-      route: "/me/settings",
-      icon: <ImCog size={18} />,
-    },
+    // {
+    //   title: "Settings",
+    //   alt: "Settings for application preferences and configurations",
+    //   route: "/me/settings",
+    //   icon: <ImCog size={18} />,
+    // },
   ];
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const DashboardNavigation = () => {
         <Link href="/">My Pop Off</Link>
       </p>
       <div className="flex flex-row md:flex-col justify-between h-auto md:h-full">
-        <section className="w-1/2 md:w-auto">
+        <section className="w-3/5 md:w-auto">
           <ul className="relative flex flex-row md:flex-col justify-between md:justify-start sm:gap-8 w-full">
             {topLinks.map((link, index) => (
               <Link
@@ -108,7 +108,7 @@ const DashboardNavigation = () => {
             ))}
           </ul>
         </section>
-        <section className="w-1/2 md:w-auto">
+        <section className="w-2/5 md:w-auto">
           <ul className="flex flex-row md:flex-col justify-between md:justify-start sm:gap-8 w-full">
             <div className="absolute md:relative right-4 md:right-auto top-5 md:top-auto block">
               <DarkModeToggle size={"s"} />

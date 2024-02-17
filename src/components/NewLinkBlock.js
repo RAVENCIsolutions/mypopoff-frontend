@@ -83,7 +83,7 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
   };
 
   return (
-    <article className="pb-4 flex flex-col border-b-2 border-secondary-dark/30">
+    <article className="pb-4 flex flex-col border-b-2 border-secondary-dark/20">
       {showNew ? (
         <div
           className={`self-center px-3 flex flex-col gap-3 bg-dashboard-primary-light rounded-lg w-full max-w-lg box-border transition-all duration-500 overflow-hidden`}
@@ -153,7 +153,7 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
         </div>
       ) : (
         <button
-          className="self-center p-2 bg-action rounded-lg w-full max-w-xs"
+          className="self-center p-2 bg-action rounded-lg w-full max-w-xs text-white dark:text-primary-dark"
           onClick={showBlock}
         >
           + Add New Link

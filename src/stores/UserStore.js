@@ -20,7 +20,6 @@ class UserStore {
     if (this.userData.bio === null) this.userData.bio = "";
     if (this.userData.tagline === null) this.userData.tagline = "";
     if (this.userData.category === null) this.userData.category = "";
-    if (this.userData.avatar_url === null) this.userData.avatar_url = "";
     if (this.userData.links === null) this.userData.links = [];
     if (this.userData.tags === null) this.userData.tags = [];
   };
@@ -40,6 +39,12 @@ class UserStore {
     this.fixUserData();
 
     saveToLocalStorage("userData", userData);
+  };
+
+  setPalette = (palette) => {
+    this.userData.palette = palette;
+
+    saveToLocalStorage("userData", this.userData);
   };
 
   loadUserData = async (id) => {

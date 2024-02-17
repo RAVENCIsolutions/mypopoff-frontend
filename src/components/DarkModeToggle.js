@@ -6,6 +6,7 @@ import Switch from "@mui/material/Switch";
 import { useTheme } from "next-themes";
 
 import { observer } from "mobx-react";
+import { Stack } from "@mui/material";
 
 const DarkModeToggle = observer(({ size = "l", className = "" }) => {
   const [mounted, setMounted] = useState(false);
@@ -53,7 +54,20 @@ const DarkModeToggle = observer(({ size = "l", className = "" }) => {
         className="text-primary-dark dark:text-primary-light"
       />
       <Switch
-        color="warning"
+        sx={{
+          "& .MuiSwitch-switchBase": {
+            color: "#c68a4e", // color for the off state
+            "&.Mui-checked": {
+              color: "#c68a4e", // color for the on state
+            },
+            "&.Mui-checked + .MuiSwitch-track": {
+              backgroundColor: "#c68a4e", // background color for the on state
+            },
+          },
+          "& .MuiSwitch-track": {
+            backgroundColor: "#c68a4e", // adjust to change the track color when off if needed
+          },
+        }}
         checked={checked}
         size={sizing[size].switchSize}
         onChange={toggleTheme}

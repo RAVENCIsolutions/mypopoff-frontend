@@ -48,7 +48,7 @@ const Layout10 = observer(
           <section className="mb-16 w-full">
             <ul
               className={`${
-                previewWindow ? "gap-2" : "gap-8"
+                previewWindow ? "gap-2" : "gap-4"
               } mx-auto flex flex-col text-center justify-center w-full font-sans`}
             >
               {userData.links &&
@@ -83,7 +83,8 @@ const Layout10 = observer(
             previewWindow ? "relative" : "absolute"
           } bottom-3 text-sm text-white`}
         >
-          Copyright © {new Date().getFullYear()}. My Pop Off
+          Copyright © {new Date().getFullYear()}.{" "}
+          <Link href={"/"}>My Pop Off</Link>
         </footer>
       </main>
     );

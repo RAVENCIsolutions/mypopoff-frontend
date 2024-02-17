@@ -1,3 +1,6 @@
+import { ButtonsLookup } from "@/data/ButtonsLookup";
+import userStore from "@/stores/UserStore";
+
 const normaliseUrl = (url) => {
   // Remove protocol (http or https) and www if present
   url = url.replace(/^https?:\/\//, "");
@@ -7,6 +10,14 @@ const normaliseUrl = (url) => {
   url = url.replace(/\/$/, "");
 
   return url.toLowerCase();
+};
+
+const getButtonStyleIndex = (buttonId) => {
+  if (!userStore.userData) return 0;
+
+  const found = ButtonsLookup.findIndex((button) => button.id === buttonId);
+
+  return found === -1 ? 0 : found;
 };
 
 const decodeHtmlEntities = (str) => {
@@ -94,4 +105,11 @@ const generateId = (numberOfChars, listOfIds = []) => {
   return results;
 };
 
-export { getCookie, getPageTitle, hexToRGB, getContrastLuminance, generateId };
+export {
+  getCookie,
+  getPageTitle,
+  hexToRGB,
+  getContrastLuminance,
+  generateId,
+  getButtonStyleIndex,
+};

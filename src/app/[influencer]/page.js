@@ -47,6 +47,6 @@ export default async function Page({ params }) {
     layoutLookup["layout-10"] = <Layout10 userData={data} />;
   });
 
-  // return layoutLookup[userData.page_layout];
-  return layoutLookup["layout-10"];
+  return layoutLookup[userData.page_layout];
+  // return layoutLookup["layout-06"];
 }

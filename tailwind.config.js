@@ -1,13 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/templates/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   darkMode: "class",
   theme: {
     extend: {
@@ -22,6 +16,19 @@ module.exports = {
         "3xs": "260px",
       },
       colors: {
+        // fluro blue: 5ce1e6
+        // fluro pink: f10098
+        // original gold: c68a4e
+        // action: "#f10098",
+        // "primary-light": "#fff",
+        // "primary-dark": "#202224",
+        // "secondary-light": "#eee",
+        // "secondary-dark": "#a4a4a4",
+        // "dashboard-primary-light": "#fff",
+        // "dashboard-secondary-light": "#eee",
+        // "dashboard-primary-dark": "#383532",
+        // "dashboard-secondary-dark": "#2A2826",
+
         action: "#c68a4e",
         "primary-light": "#f7f5f3",
         "primary-dark": "#202224",

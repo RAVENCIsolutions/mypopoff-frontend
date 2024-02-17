@@ -48,7 +48,7 @@ const POWrapper = styled.div`
     width: 0;
     height: 3px;
 
-    background-color: ${(props) => props.shade || "rgb(198, 138, 78)"};
+    background-color: ${(props) => props.shade || "#c68a4e"};
     transform: translateX(-50%);
 
     z-index: 2;
