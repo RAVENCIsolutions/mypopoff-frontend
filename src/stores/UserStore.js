@@ -10,6 +10,7 @@ import {
 class UserStore {
   // initialise user data
   userData = defaultUser;
+  loaded = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -22,6 +23,10 @@ class UserStore {
     if (this.userData.category === null) this.userData.category = "";
     if (this.userData.links === null) this.userData.links = [];
     if (this.userData.tags === null) this.userData.tags = [];
+  };
+
+  completeLoad = () => {
+    this.loaded = true;
   };
 
   resetUserData = () => {

@@ -6,6 +6,7 @@ const ButtonStyle10 = (props) => {
   return (
     <Link
       href={link}
+      target={`_blank`}
       className={`group relative ml-6 flex self-start transition-all duration-[0.35s]`}
       style={{
         color: palette.buttonText,

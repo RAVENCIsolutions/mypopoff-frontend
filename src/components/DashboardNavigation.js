@@ -1,31 +1,26 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
+import { observer } from "mobx-react";
 import { useClerk, useUser } from "@clerk/nextjs";
-
-import DarkModeToggle from "@/components/DarkModeToggle";
 
 import { CgLogOff, CgPerformance, CgUser, CgWebsite } from "react-icons/cg";
 import { RiPaletteLine } from "react-icons/ri";
-import { ImCog } from "react-icons/im";
 
 import "@/app/me/dashboard.scss";
 import userStore from "@/stores/UserStore";
-import {
-  getFromLocalStorage,
-  removeFromLocalStorage,
-  saveToLocalStorage,
-} from "@/utility/localStorageUtils";
+import DarkModeToggle from "@/components/DarkModeToggle";
+import { getFromLocalStorage } from "@/utility/localStorageUtils";
+import { users } from "@clerk/nextjs/api";
 
-const DashboardNavigation = () => {
+const DashboardNavigation = observer(() => {
   const pathname = usePathname();
 
   const clerkObject = useClerk();
-  const router = useRouter();
-  const { user, isSignedIn } = useUser();
+  const { user, isSignedIn, isLoaded } = useUser();
 
   const topLinks = [
     {
@@ -64,25 +59,16 @@ const DashboardNavigation = () => {
   ];
 
   useEffect(() => {
-    const handleUserRedirection = () => {
-      if (user && isSignedIn) {
-        userStore.loadUserData(user.id).then(() => {});
-      }
-
-      // if (isSignedIn && pathname !== "/me") {
-      //   const inLocalStorage = getFromLocalStorage("userData");
-      //
-      //   if (!inLocalStorage) {
-      //     saveToLocalStorage("lastPage", pathname);
-      //     router.push(`/me`);
-      //   } else {
-      //     removeFromLocalStorage("lastPage");
-      //   }
-      // }
+    const handleUser = async () => {
+      await userStore.loadUserData(user.id);
     };
 
-    handleUserRedirection();
-  }, [user, isSignedIn]);
+    if (isSignedIn) {
+      handleUser().then((data) => {
+        userStore.completeLoad();
+      });
+    }
+  }, [user, isSignedIn, isLoaded]);
 
   return (
     <nav className="flex flex-col h-full text-primary-dark dark:text-primary-light font-light">
@@ -146,6 +132,6 @@ const DashboardNavigation = () => {
       </div>
     </nav>
   );
-};
+});
 
 export default DashboardNavigation;

@@ -6,6 +6,7 @@ const ButtonStyle03 = (props) => {
   return (
     <Link
       href={link}
+      target={`_blank`}
       className="group relative px-5 py-1 mx-2 hover:scale-105 transition-all duration-100"
     >
       <div

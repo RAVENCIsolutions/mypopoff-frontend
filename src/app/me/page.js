@@ -1,37 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
+import { observer } from "mobx-react";
 import { LinearProgress, Stack } from "@mui/material";
 
-import { observer } from "mobx-react";
 import userStore from "@/stores/UserStore";
 import { getFromLocalStorage } from "@/utility/localStorageUtils";
 
 const Me = observer(() => {
+  const [currentUser, setCurrentUser] = useState({});
+
   const { user, isSignedIn, isLoaded } = useUser();
   const router = useRouter();
-
-  const currentUser = userStore.userData;
 
   useEffect(() => {
     const handleUserRedirection = async () => {
       if (isSignedIn) {
-        userStore.setUser(user.id);
-
-        // Fetch user data and create if it doesn't exist
-        await userStore.loadUserData(user.id);
-
-        // redirect to onboarding if not completed yet
-        // const redirectPath = currentUser.onboarding_complete
-        //   ? "/me/dashboard"
-        //   : "/onboarding";
-        // router.push(redirectPath);
+        setCurrentUser(getFromLocalStorage("userData"));
 
         const lastPage = getFromLocalStorage("lastPage") || "/me/dashboard";
-
         router.push(lastPage);
       }
     };

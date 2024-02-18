@@ -1,56 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+
+import { observer } from "mobx-react";
 
 import NewLinkBlock from "@/components/NewLinkBlock";
 import LinksList from "@/components/LinksList";
 
-import { useUser } from "@clerk/nextjs";
-
-import { observer } from "mobx-react";
 import userStore from "@/stores/UserStore";
-import {
-  getFromLocalStorage,
-  saveToLocalStorage,
-} from "@/utility/localStorageUtils";
 import { CircularProgress, Skeleton, Stack } from "@mui/material";
 
 const MyLinks = observer(() => {
   const [processing, setProcessing] = useState(true);
-
-  const { user, isSignedIn, isLoaded } = useUser();
 
   const skeletonList = [];
 
   for (let x = 0; x < 4; x++) {
     skeletonList.push(x);
   }
-
-  useEffect(() => {
-    const handleUser = async () => {
-      let userData = {};
-
-      if (isSignedIn) {
-        const dataFromLocalStorage = getFromLocalStorage("userData");
-
-        if (
-          !dataFromLocalStorage ||
-          dataFromLocalStorage.clerk_user_id !== user.id
-        ) {
-          userData = await userStore.loadUserData(user.id);
-          saveToLocalStorage("userData", userData);
-        } else {
-          userData = dataFromLocalStorage;
-        }
-
-        userStore.setUserData(userData);
-      }
-    };
-
-    handleUser().then(() => setProcessing(false));
-
-    setProcessing(false);
-  }, [user, isSignedIn]);
 
   return (
     <article className="relative w-full h-full rounded-none lg:rounded-lg sm:overflow-hidden">
@@ -75,7 +43,7 @@ const MyLinks = observer(() => {
 
             <h3 className="mt-2 text-lg w-full">Existing Links</h3>
 
-            {processing ? (
+            {processing &&
               skeletonList.map((item, index) => (
                 <section
                   key={`list-${item}-${index}`}
@@ -144,13 +112,8 @@ const MyLinks = observer(() => {
                     </section>
                   </div>
                 </section>
-              ))
-            ) : (
-              <LinksList
-                processing={processing}
-                setProcessing={setProcessing}
-              />
-            )}
+              ))}
+            <LinksList processing={processing} setProcessing={setProcessing} />
           </section>
         </section>
       </div>

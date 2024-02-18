@@ -1,21 +1,23 @@
 ﻿"use client";
 
-import { useState } from "react";
-import Switch from "@mui/material/Switch";
+import { useEffect, useState } from "react";
 import PopOffInput from "@/components/PopOffInput";
+import { useUser } from "@clerk/nextjs";
+import { users } from "@clerk/nextjs/api";
+import userStore from "@/stores/UserStore";
 
 export default function SettingsPage() {
-  const [makePublic, setMakePublic] = useState(false);
-  const [hidePopOff, setHidePopOff] = useState(false);
-  const [hideLandingPage, setHideLandingPage] = useState(false);
   const [changed, setChanged] = useState(true);
-  const [formData, setFormData] = useState({
-    oldPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+  const [socialMediaLinks, setSocialMediaLinks] = useState([]);
 
-    // email: user.primaryEmailAddress.emailAddress,
-  });
+  const { user, isSignedIn, isLoaded } = useUser();
+  const { loaded } = userStore;
+
+  useEffect(() => {
+    if (isSignedIn && loaded) {
+      // setSocialMediaLinks(userStore.userData.socialMediaLinks);
+    }
+  }, [user, isSignedIn, isLoaded, loaded]);
 
   return (
     <main className="relative w-full h-full rounded-none lg:rounded-lg">

@@ -11,9 +11,6 @@ import { observer } from "mobx-react";
 import userStore from "@/stores/UserStore";
 
 const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
-  const [blockVisible, setBlockVisible] = useState(false);
-  const [blockHeight, setBlockHeight] = useState("0");
-
   const [blockLink, setBlockLink] = useState(url.toString());
   const [blockTitle, setBlockTitle] = useState(title.toString());
 
@@ -143,7 +140,7 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
                 <button
                   className="p-2 flex justify-center rounded-full hover:bg-primary-dark dark:hover:bg-primary-light hover:text-primary-light hover:dark:text-primary-dark transition-all duration-300"
                   onClick={async () => {
-                    await userStore.updateLink(id, { link: blockLink });
+                    await userStore.updateLink(id, { url: blockLink });
                     setPreviousLink(blockLink);
                     setEditLink(false);
                   }}

@@ -182,7 +182,11 @@ const AccountPage = observer(() => {
                   setUsername(userData.username);
 
                   setSaving(true);
-                  userStore.saveUserData(user.id).then((r) => setSaving(false));
+                  userStore.saveUserData(user.id).then((r) => {
+                    setTimeout(() => {
+                      setSaving(false);
+                    }, 500);
+                  });
                 }}
               >
                 Save Changes

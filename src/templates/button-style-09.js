@@ -11,6 +11,7 @@ const ButtonStyle09 = (props) => {
   return (
     <Link
       href={link}
+      target={`_blank`}
       className={`group flex self-start items-center gap-2 transition-all duration-300`}
       style={{
         color: palette.buttonText,

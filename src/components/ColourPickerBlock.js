@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 
-import useOutsideClick from "@/utility/useOutsideClick";
-import userStore from "@/stores/UserStore";
 import { FaSlackHash } from "react-icons/fa";
+
+import useOutsideClick from "@/utility/useOutsideClick";
 import { isValidHex, removeLeadingHash } from "@/utility/colourUtils";
+
+import userStore from "@/stores/UserStore";
 
 const ColourPickerBlock = observer(({ label, customisation }) => {
   const [showPicker, setShowPicker] = useState(false);
@@ -54,11 +56,11 @@ const ColourPickerBlock = observer(({ label, customisation }) => {
   return (
     <article
       ref={ref}
-      className="flex flex-col items-start w-fit"
+      className="flex flex-col items-start w-fit text-dashboard-primary-dark dark:text-dashboard-primary-light/80"
       onFocus={() => setShowPicker(true)}
     >
       <section
-        className="mb-1 flex items-center gap-4"
+        className="mb-2 flex items-center gap-2"
         onClick={() => setShowPicker(!showPicker)}
       >
         <div
@@ -69,13 +71,19 @@ const ColourPickerBlock = observer(({ label, customisation }) => {
               : userData.palette[customisation],
           }}
         ></div>
-        <p className={`text-sm font-bold uppercase`}>{label}</p>
+        <p className={`text-sm font-bold uppercase`}>
+          {showPicker
+            ? `#${removeLeadingHash(chosenColour)}`
+            : userStore.userData.palette[customisation]}
+        </p>
       </section>
       {showPicker && (
         <div
-          className={`p-2 flex flex-col gap-2 bg-dashboard-primary-dark/45 dark:bg-dashboard-primary-light/30`}
+          className={`p-2 flex flex-col bg-dashboard-primary-dark/20 dark:bg-dashboard-primary-light/30 rounded-lg`}
         >
-          <div className={`flex flex-wrap gap-1`}>
+          <div
+            className={`pb-3 flex flex-wrap gap-1 border-b-[1px] border-dashboard-primary-dark/20`}
+          >
             {defaultColours.map((colour, index) => (
               <div
                 key={`picker-${index}`}
@@ -96,9 +104,9 @@ const ColourPickerBlock = observer(({ label, customisation }) => {
               ></div>
             ))}
           </div>
-          <div className={`flex items-center gap-1`}>
+          <div className={`pt-2 flex items-center`}>
             <div
-              className={`block w-2 h-2 rounded-sm`}
+              className={`mr-2 block w-2 h-2 rounded-sm shadow-sm shadow-primary-dark/10`}
               style={{
                 backgroundColor: `#${removeLeadingHash(chosenColour)}`,
               }}
@@ -109,7 +117,7 @@ const ColourPickerBlock = observer(({ label, customisation }) => {
             <input
               type="text"
               value={removeLeadingHash(chosenColour.toUpperCase())}
-              className={`p-1 w-14 h-4 text-xs font-sans tracking-wider font-bold uppercase bg-transparent border-[1px] border-dashboard-secondary-light/50 dark:bg-dashboard-secondary-dark/50`}
+              className={`p-0.5 w-14 text-xs font-sans tracking-wider font-bold uppercase bg-dashboard-primary-light outline-none`}
               maxLength={6}
               onChange={(e) => {
                 const lastChar = e.target.value[e.target.value.length - 1];

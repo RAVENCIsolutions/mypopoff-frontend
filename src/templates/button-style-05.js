@@ -11,6 +11,7 @@ const ButtonStyle05 = (props) => {
   return (
     <Link
       href={link}
+      target={`_blank`}
       className={`group relative p-3 w-full flex border-t-2 last-of-type:border-b-2 transition-all duration-300 z-10`}
       style={{
         borderColor: palette.buttonMain,

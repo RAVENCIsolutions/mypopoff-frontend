@@ -1,19 +1,15 @@
 "use client";
 
-import Image from "next/image";
-
-import { LayoutsLookup } from "@/data/LayoutsLookup";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import {
-  getFromLocalStorage,
-  saveToLocalStorage,
-} from "@/utility/localStorageUtils";
-import userStore from "@/stores/UserStore";
+import Image from "next/image";
+
 import { observer } from "mobx-react";
 import { CircularProgress, LinearProgress, Stack } from "@mui/material";
+
+import userStore from "@/stores/UserStore";
+import { LayoutsLookup } from "@/data/LayoutsLookup";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
-import { BlockPicker, ChromePicker } from "react-color";
 import ColourPickerBlock from "@/components/ColourPickerBlock";
 
 const CustomisePage = observer(() => {
@@ -26,49 +22,26 @@ const CustomisePage = observer(() => {
   const [chosenImage, setChosenImage] = useState(null);
 
   const { user, isSignedIn, isLoaded } = useUser();
-  const { userData } = userStore;
+
+  const { loaded } = userStore;
 
   useEffect(() => {
-    const handleUser = async () => {
-      let userData = {};
+    if (isSignedIn && loaded) {
+      setSelectedLayout(
+        LayoutsLookup.findIndex(
+          (layout) => layout.id === userStore.userData.page_layout,
+        ),
+      );
+      setSelectedButton(
+        ButtonsLookup.findIndex(
+          (button) => button.id === userStore.userData.button_style,
+        ),
+      );
 
-      if (isSignedIn) {
-        const dataFromLocalStorage = getFromLocalStorage("userData");
-
-        if (
-          !dataFromLocalStorage ||
-          dataFromLocalStorage.clerk_user_id !== user.id
-        ) {
-          userData = await userStore.loadUserData(user.id);
-          saveToLocalStorage("userData", userData);
-        } else {
-          userData = dataFromLocalStorage;
-        }
-
-        userStore.setUserData(userData);
-      }
-    };
-
-    if (firstLoad) {
-      handleUser().then(() => {
-        setSelectedLayout(
-          LayoutsLookup.findIndex(
-            (layout) => layout.id === userData.page_layout,
-          ),
-        );
-        setSelectedButton(
-          ButtonsLookup.findIndex(
-            (button) => button.id === userData.button_style,
-          ),
-        );
-
-        setProcessing(false);
-        setFirstLoad(false);
-      });
+      setProcessing(false);
+      setFirstLoad(false);
     }
-
-    setProcessing(false);
-  }, [isSignedIn, firstLoad]);
+  }, [user, isSignedIn, isLoaded, loaded]);
 
   return (
     <section className="w-full h-full rounded-lg">
@@ -92,11 +65,15 @@ const CustomisePage = observer(() => {
                 }
 
                 userStore.setUserData({
-                  ...userData,
+                  ...userStore.userData,
                   page_layout: LayoutsLookup[selectedLayout].id,
                   button_style: ButtonsLookup[selectedButton].id,
                 });
-                userStore.saveUserData(user.id).then((r) => setSaving(false));
+                userStore.saveUserData(user.id).then((r) => {
+                  setTimeout(() => {
+                    setSaving(false);
+                  }, 500);
+                });
               }}
             >
               Save<span className={`hidden xs:inline-block ml-1`}>Changes</span>
@@ -104,7 +81,7 @@ const CustomisePage = observer(() => {
           )}
         </section>
 
-        {isLoaded && processing ? (
+        {isLoaded && loaded && processing ? (
           <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
             <LinearProgress color="inherit" />
           </Stack>
@@ -116,6 +93,7 @@ const CustomisePage = observer(() => {
             >
               {LayoutsLookup.map((item, index) => (
                 <div
+                  key={`layout-selector-${index}`}
                   className={`cursor-pointer mx-auto ${
                     selectedLayout === index
                       ? "opacity-100"
@@ -137,7 +115,6 @@ const CustomisePage = observer(() => {
                   }}
                 >
                   <Image
-                    key={`layout-selector-${index}`}
                     src={item.selector}
                     alt={item.title}
                     width={80}
@@ -158,6 +135,7 @@ const CustomisePage = observer(() => {
             >
               {ButtonsLookup.map((item, index) => (
                 <div
+                  key={`button-selector-${index}`}
                   className={`cursor-pointer mx-auto ${
                     selectedButton === index
                       ? "opacity-100"
@@ -206,7 +184,6 @@ const CustomisePage = observer(() => {
                       <div className={`flex items-center gap-2`}>
                         {chosenImage && (
                           <Image
-                            key={`customisation-${index}`}
                             src={chosenImage}
                             alt={
                               LayoutsLookup[selectedLayout].colours[
@@ -244,7 +221,7 @@ const CustomisePage = observer(() => {
                       </div>
                     ) : (
                       <ColourPickerBlock
-                        label={userData.palette[customisation]}
+                        label={userStore.userData.palette[customisation]}
                         customisation={customisation}
                       />
                     )}
@@ -264,7 +241,7 @@ const CustomisePage = observer(() => {
                     </h4>
 
                     <ColourPickerBlock
-                      label={userData.palette[customisation]}
+                      label={userStore.userData.palette[customisation]}
                       customisation={customisation}
                     />
                   </div>

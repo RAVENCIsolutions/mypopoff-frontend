@@ -11,6 +11,7 @@ const ButtonStyle08 = (props) => {
   return (
     <Link
       href={link}
+      target={`_blank`}
       className="group relative px-5 py-1 hover:scale-105 transition-all duration-100"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

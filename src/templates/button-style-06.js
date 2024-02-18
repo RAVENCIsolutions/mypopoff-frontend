@@ -11,6 +11,7 @@ const ButtonStyle06 = (props) => {
   return (
     <Link
       href={link}
+      target={`_blank`}
       className={`px-5 py-1.5 rounded-full border-2 text-base sm:text-lg transition-all duration-300`}
       style={{
         borderColor: palette.buttonMain,
