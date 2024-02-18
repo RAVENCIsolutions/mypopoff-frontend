@@ -33,7 +33,9 @@ const NavBar = () => {
           <li>
             <Link href={`/`}>Home</Link>
           </li>
-          <li>Explore</li>
+          <li>
+            <Link href={`/explore`}>Explore</Link>
+          </li>
         </ul>
 
         <ul className="mb-0 flex flex-col xs:flex-row items-start xs:items-center gap-6 text-primary-dark dark:text-primary-light">

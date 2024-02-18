@@ -5,6 +5,11 @@ import SplitThirdSection from "@/components/SplitThirdSection";
 import ThreeColSection from "@/components/ThreeColSection";
 import CallToActionSection from "@/components/CallToActionSection";
 import Footer from "@/components/Footer";
+import SplitHalfSection from "@/components/SplitHalfSection";
+import SplitHalfWithThreeHeadings from "@/components/SplitHalfWithThreeHeadings";
+import { FaGoogle } from "react-icons/fa";
+import { IoSpeedometer } from "react-icons/io5";
+import { BsGraphUpArrow } from "react-icons/bs";
 
 export const metadata = {
   title: "The link in bio tool with a bang | My Pop Off",
@@ -26,13 +31,57 @@ export default function Home() {
         subHeading={"Do it your way"}
         image={"/images/a-landing-page-that-pops.png"}
       />
-      <ThreeColSection
-        heading={"Triple the Charm with My Pop Off"}
-        firstImage={""}
-        secondImage={""}
-        thirdImage={""}
+      {/*<ThreeColSection*/}
+      {/*  heading={"Triple the Charm with My Pop Off"}*/}
+      {/*  firstImage={""}*/}
+      {/*  secondImage={""}*/}
+      {/*  thirdImage={""}*/}
+      {/*/>*/}
+      <SplitHalfSection
+        heading={`Promote Yourself`}
+        body={`My Pop Off is the link-in-bio that helps you promote yourself whether you are a starting or experienced influencer.`}
+        callToAction={`Start Exploring`}
       />
-      {/*<SplitHalfSection />*/}
+      <SplitHalfWithThreeHeadings
+        mainHeading={"Be Seen"}
+        blocks={[
+          {
+            icon: (
+              <IoSpeedometer
+                size={30}
+                className={`fill-primary-dark dark:fill-primary-light`}
+              />
+            ),
+            title: "Focus on what matters",
+            content: "Build a landing page in a few minutes",
+          },
+          {
+            icon: (
+              <FaGoogle
+                size={30}
+                className={`fill-primary-dark dark:fill-primary-light`}
+              />
+            ),
+            title: "Let us do the work for you",
+            content:
+              "Have your page automatically inspected and seen by Google",
+          },
+          {
+            icon: (
+              <BsGraphUpArrow
+                size={30}
+                className={`fill-primary-dark dark:fill-primary-light`}
+              />
+            ),
+            title: "Be listed where it matters",
+            content: "Join a growing directory of many other creatives",
+          },
+        ]}
+        image={{
+          source: "./images/smiling-female-influencer.jpg",
+          text: "",
+        }}
+      />
       <CallToActionSection />
 
       <Footer />

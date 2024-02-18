@@ -16,21 +16,6 @@ export default function SupportPage() {
     >
       <NavBar />
 
-      {/*<section*/}
-      {/*  className={`px-5 lg:px-14 py-16 pb-20 flex justify-center w-full max-w-lg lg:max-w-squeezed`}*/}
-      {/*>*/}
-      {/*  <div className={`relative w-full max-w-lg`}>*/}
-      {/*    <input*/}
-      {/*      className={`p-3 pl-5 pr-12 rounded-full w-full bg-primary-dark/10 focus:bg-primary-dark/20 dark:bg-primary-light/10 focus:dark:bg-primary-light/20 placeholder-primary-dark focus:placeholder-primary-dark/60 dark:placeholder-primary-light/40 dark:focus:placeholder-primary-light/70 outline-none shadow-none focus:shadow-xl shadow-primary-dark/10 opacity-60 focus:opacity-100 transition-all duration-500`}*/}
-      {/*      placeholder={`Search support...`}*/}
-      {/*    />*/}
-      {/*    <FaSearch*/}
-      {/*      size={20}*/}
-      {/*      className={`cursor-pointer absolute top-1/2 right-4 -translate-y-1/2 text-primary-dark/30 hover:text-primary-dark dark:text-primary-light/50 dark:hover:text-primary-light/90 transition-all duration-300`}*/}
-      {/*    />*/}
-      {/*  </div>*/}
-      {/*</section>*/}
-
       <section
         className={`mt-10 px-5 lg:px-14 grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl`}
       >

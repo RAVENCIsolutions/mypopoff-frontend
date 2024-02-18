@@ -8,7 +8,7 @@ const Footer = () => {
       <section className="py-4 flex flex-col-reverse sm:flex-row justify-between items-center gap-4">
         <ul className="flex flex-col xs:flex-row justify-between sm:justify-start gap-4 sm:gap-10 w-full font-medium text-secondary-dark dark:text-secondary-light text-center">
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
-            <a>Explore</a>
+            <Link href={"/explore"}>Explore</Link>
           </li>
           {/*<li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">*/}
           {/* Blog */}
@@ -30,7 +30,7 @@ const Footer = () => {
             size={18}
             className="text-secondary-dark dark:text-secondary-light hover:text-action hover:dark:text-action transition-all duration-200"
           />
-          My Pop Off
+          <Link href={"/"}>My Pop Off</Link>
         </p>
         <ul className="pb-6 sm:pb-0 flex flex-col xs:flex-row justify-between sm:justify-end gap-4 sm:gap-10 w-full font-medium text-secondary-dark dark:text-secondary-light text-center">
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
