@@ -1,5 +1,6 @@
 ﻿import supabase from "@/config/Supbase";
 import { users } from "@clerk/nextjs/api";
+import { generateRandomString } from "@/utility/generalUtils";
 
 const usersTable = process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE;
 const usersImages = process.env.NEXT_PUBLIC_SUPABASE_IMAGES_BUCKET;
@@ -56,28 +57,30 @@ const updateUser = async (id, dataToSave) => {
     .update({ ...dataToSave })
     .eq("clerk_user_id", id);
 
-  console.log(error);
   return !error;
 };
 
-// const uploadImage = async (id, file) => {
-//   console.log(Date.now());
-//
-//   return;
-//   const uploadFilename = `${id}_${Date.now()}_${btoa(file.name.toString())}.${
-//     file.extension
-//   }`;
-//
-//   const { data, error } = await supabase.storage
-//     .from(usersImages)
-//     .upload(`/${uploadFilename}`, file, {
-//       cacheControl: "3600",
-//       upsert: false,
-//     });
-//
-//   if (error) return false;
-//
-//   return data;
-// };
+const uploadImage = async (id, file) => {
+  const uploadFilename = `${id}_${generateRandomString(10)}_${btoa(
+    file.name.toString(),
+  )}.${file.extension}`;
+
+  const { data, error } = await supabase.storage
+    .from(usersImages)
+    .upload(`/${uploadFilename}`, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+  if (error) return false;
+
+  return data;
+};
+
+const getImage = async (filename) => {
+  const { data } = supabase.storage.from(usersImages).getPublicUrl(filename);
+
+  return data;
+};
 
 export { fetchUser, fetchUsername, usernameExists, createUser, updateUser };

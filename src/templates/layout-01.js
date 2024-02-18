@@ -14,7 +14,7 @@ import {
   getContrastLuminance,
 } from "@/utility/generalUtils";
 import { defaultUser } from "@/data/defaultUser";
-import ButtonStyle01 from "@/onboardingComponents/button-style-01";
+import ButtonStyle01 from "@/templates/button-style-01";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 
 const Layout01 = observer(
@@ -33,12 +33,12 @@ const Layout01 = observer(
       >
         {/* Image */}
         <article
-          className={`flex-grow flex flex-col items-center justify-center w-full max-w-lg`}
+          className={`flex-grow flex flex-col items-center justify-center w-full max-w-sm`}
         >
           <section
             className={`${
               previewWindow ? "mb-4" : "mb-8"
-            } flex flex-col items-center max-w-[80%]`}
+            } flex flex-col items-center`}
           >
             <img
               className="mb-3 w-32 h-32 rounded-full shadow-lg shadow-black/40 bg-dashboard-primary-dark object-cover object-center"
@@ -57,49 +57,21 @@ const Layout01 = observer(
           </section>
 
           {/* Links */}
-          {/*<section className={`${previewWindow ? "mb-4" : "mb-10"} w-full`}>*/}
-          {/*  <ul*/}
-          {/*    className={`mx-auto flex flex-col ${*/}
-          {/*      previewWindow ? "gap-2" : "gap-4"*/}
-          {/*    } ${*/}
-          {/*      buttonStyle01.uniqueClasses*/}
-          {/*    } text-center max-w-max font-sans tracking-wide`}*/}
-          {/*  >*/}
-          {/*    {userData.links &&*/}
-          {/*      userData.links.map((link, index) => {*/}
-          {/*        if (currentButtonStyle && currentButtonStyle.component) {*/}
-          {/*          return currentButtonStyle.component(*/}
-          {/*            link.title,*/}
-          {/*            onBoardingStore.userData.palette,*/}
-          {/*            index,*/}
-          {/*          );*/}
-          {/*        }*/}
-          {/*      })}*/}
-          {/*  </ul>*/}
-          {/*</section>*/}
           <section
-            className={`mb-10 flex flex-col items-stretch justify-center gap-3`}
+            className={`mb-10 flex flex-col text-base md:text-xl ${
+              ButtonsLookup[getButtonStyleIndex(userData.button_style)]
+                .uniqueClasses
+            }`}
           >
             {userData.links &&
-              userData.links.map(
-                (link, index) =>
+              userData.links.map((link, index) => {
+                return (
+                  link.public &&
                   ButtonsLookup[
                     getButtonStyleIndex(userData.button_style)
-                  ].component(link.url, link.title, palette, index),
-                // (
-                // <Link
-                //   href={link.url}
-                //   key={`link-${index}`}
-                //   className={`py-1.5 px-5 mx-auto min-w-44 max-w-full rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
-                //   style={{
-                //     backgroundColor: palette.buttonMain,
-                //     color: palette.buttonText,
-                //   }}
-                // >
-                //   {link.title}
-                // </Link>
-                // );
-              )}
+                  ].component(link.url, link.title, palette, index)
+                );
+              })}
           </section>
 
           {/* Social Media */}

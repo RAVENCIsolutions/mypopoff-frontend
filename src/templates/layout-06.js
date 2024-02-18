@@ -11,6 +11,8 @@ import Link from "next/link";
 import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
+import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout06 = ({ previewWindow = false, userData = defaultUser }) => {
   const { username, bio, links, palette } = userData;
@@ -20,34 +22,6 @@ const Layout06 = ({ previewWindow = false, userData = defaultUser }) => {
   const [scrollingForwards, setScrollingForwards] = useState(true);
 
   let intervalId = null;
-
-  const sampleLinks = [
-    {
-      url: "/",
-      title: "Visit my official portfolio",
-      image: "/images/templates/modernNewsprint_photo01.jpg",
-    },
-    {
-      url: "/",
-      title: "My Website",
-      image: "/images/templates/modernNewsprint_photo02.jpg",
-    },
-    {
-      url: "/",
-      title: "My Portfolio",
-      image: "/images/templates/modernNewsprint_photo04.jpg",
-    },
-    {
-      url: "/",
-      title: "Email Me",
-      image: "/images/templates/modernNewsprint_photo03.jpg",
-    },
-    {
-      url: "/",
-      title: "Email Me",
-      image: "/images/templates/modernNewsprint_photo04.jpg",
-    },
-  ];
 
   useEffect(() => {
     const scrollElement = scrollRef.current;
@@ -94,28 +68,17 @@ const Layout06 = ({ previewWindow = false, userData = defaultUser }) => {
           className="flex-grow w-full overflow-y-hidden overflow-x-scroll hide-scrollbar"
           ref={scrollRef}
         >
-          <ul className="py-10 flex flex-row gap-6 md:gap-10 items-start text-center w-max font-sans tracking-wide">
-            {sampleLinks.map((link, index) => (
-              <Link
-                key={index}
-                className="group cursor-pointer w-36 md:w-44 text-stone-100 transition-all duration-300"
-                href={link.url}
-                onMouseEnter={() => setIsScrolling(false)}
-                onMouseLeave={() => setIsScrolling(true)}
-              >
-                <li className="flex flex-col items-stretch gap-2 md:gap-4">
-                  <img
-                    className="w-full h-56 aspect-auto object-cover md:grayscale hover:grayscale-0 origin-left group-hover:scale-105 transition-all duration-300"
-                    src={link.image}
-                    alt=""
-                  />
-                  <h3 className="font-barlowCondensed font-semibold uppercase text-left text-xl md:text-2xl text-neutral-900">
-                    {link.title}
-                  </h3>
-                </li>
-              </Link>
-            ))}
-          </ul>
+          <article className="py-10 flex flex-row gap-6 md:gap-10 items-start text-center w-max font-sans tracking-wide">
+            {userData.links &&
+              userData.links.map((link, index) => {
+                return (
+                  link.public &&
+                  ButtonsLookup[
+                    getButtonStyleIndex(userData.button_style)
+                  ].component(link.url, link.title, palette, index)
+                );
+              })}
+          </article>
         </section>
 
         {/* Social Media */}

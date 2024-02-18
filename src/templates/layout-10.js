@@ -10,6 +10,8 @@ import Link from "next/link";
 import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
+import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout10 = observer(
   ({ previewWindow = false, userData = defaultUser }) => {
@@ -45,38 +47,33 @@ const Layout10 = observer(
           </section>
 
           {/* Links */}
-          <section className="mb-16 w-full">
-            <ul
+          <section className="mb-2 w-full">
+            <article
               className={`${
                 previewWindow ? "gap-2" : "gap-4"
               } mx-auto flex flex-col text-center justify-center w-full font-sans`}
             >
               {userData.links &&
-                userData.links.map((link, index) => (
-                  <Link
-                    href={link.url}
-                    key={`link-${index}`}
-                    className={`p-0.5 md:p-1 m-1 px-5 min-w-max rounded-lg shadow-[5px_6px_0px_rgba(0,0,0,1)] border-2 border-black hover:translate-x-1 hover:-translate-y-1 transition-all duration-100`}
-                    style={{
-                      backgroundColor: palette.buttonMain,
-                      color: palette.buttonText,
-                    }}
-                  >
-                    {link.title}
-                  </Link>
-                ))}
-            </ul>
+                userData.links.map((link, index) => {
+                  return (
+                    link.public &&
+                    ButtonsLookup[
+                      getButtonStyleIndex(userData.button_style)
+                    ].component(link.url, link.title, palette, index)
+                  );
+                })}
+            </article>
           </section>
 
           {/* Social Media */}
-          <section className="flex flex-row gap-4">
-            <BiLogoFacebookCircle
-              size={30}
-              style={{ color: palette.mainText }}
-            />
-            <BiLogoInstagramAlt size={30} style={{ color: palette.mainText }} />
-            <BiLogoTwitch size={30} style={{ color: palette.mainText }} />
-          </section>
+          {/*<section className="flex flex-row gap-4">*/}
+          {/*  <BiLogoFacebookCircle*/}
+          {/*    size={30}*/}
+          {/*    style={{ color: palette.mainText }}*/}
+          {/*  />*/}
+          {/*  <BiLogoInstagramAlt size={30} style={{ color: palette.mainText }} />*/}
+          {/*  <BiLogoTwitch size={30} style={{ color: palette.mainText }} />*/}
+          {/*</section>*/}
         </article>
         <footer
           className={`${

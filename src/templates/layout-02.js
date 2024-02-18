@@ -41,9 +41,7 @@ const Layout02 = observer(
           } mx-auto relative flex flex-col justify-between md:justify-center items-center gap-8 w-full overflow-y-auto`}
         >
           <article
-            className={`my-10 ${
-              previewWindow ? "mx-auto w-[80%]" : "w-full md:w-72"
-            }`}
+            className={`my-10 ${previewWindow ? "mx-auto w-[80%]" : "w-full"}`}
           >
             <h1
               className="font-proximaNova font-black text-2xl text-center"
@@ -59,51 +57,21 @@ const Layout02 = observer(
             </p>
 
             {/* Links */}
-            {/*<ul*/}
-            {/*  className={`mx-auto flex flex-col ${*/}
-            {/*    currentButtonStyle.uniqueClasses*/}
-            {/*  } font-bold text-center ${*/}
-            {/*    previewWindow ? "gap-2" : "gap-4 w-fit md:w-72"*/}
-            {/*  }`}*/}
-            {/*>*/}
-            {/*  {sampleLinks.map((link, index) => {*/}
-            {/*    if (currentButtonStyle && currentButtonStyle.component) {*/}
-            {/*      return currentButtonStyle.component(*/}
-            {/*        link.title,*/}
-            {/*        onBoardingStore.onBoardingCurrent.palette,*/}
-            {/*        index,*/}
-            {/*      );*/}
-            {/*    }*/}
-            {/*  })}*/}
-            {/*</ul>*/}
             <div
-              className={`mx-auto flex flex-col ${
+              className={`flex flex-col w-fit text-base md:text-xl ${
                 ButtonsLookup[getButtonStyleIndex(userData.button_style)]
                   .uniqueClasses
               }`}
             >
               {userData.links &&
-                userData.links.map(
-                  (link, index) =>
+                userData.links.map((link, index) => {
+                  return (
+                    link.public &&
                     ButtonsLookup[
                       getButtonStyleIndex(userData.button_style)
-                    ].component(link.url, link.title, palette, index),
-                  // {
-                  //   return (
-                  //     <Link
-                  //       href={link.url}
-                  //       key={`link-${index}`}
-                  //       className={`pt-1.5 pb-1 px-5 mx-auto min-w-44 max-w-full rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
-                  //       style={{
-                  //         backgroundColor: palette.buttonMain,
-                  //         color: palette.buttonText,
-                  //       }}
-                  //     >
-                  //       {link.title}
-                  //     </Link>
-                  //   );
-                  // }
-                )}
+                    ].component(link.url, link.title, palette, index)
+                  );
+                })}
             </div>
           </article>
 

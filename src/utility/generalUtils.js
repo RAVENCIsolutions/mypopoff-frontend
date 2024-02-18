@@ -90,17 +90,23 @@ const getContrastLuminance = (hex) => {
 const generateId = (numberOfChars, listOfIds = []) => {
   let results = "";
 
+  do {
+    results = generateRandomString(numberOfChars);
+  } while (listOfIds.includes(results));
+
+  return results;
+};
+
+const generateRandomString = (numberOfChars) => {
+  let results = "";
+
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
 
-  do {
-    for (let i = 0; i < numberOfChars; i++) {
-      results += characters.charAt(
-        Math.floor(Math.random() * charactersLength),
-      );
-    }
-  } while (listOfIds.includes(results));
+  for (let i = 0; i < numberOfChars; i++) {
+    results += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
 
   return results;
 };
@@ -110,6 +116,7 @@ export {
   getPageTitle,
   hexToRGB,
   getContrastLuminance,
-  generateId,
   getButtonStyleIndex,
+  generateId,
+  generateRandomString,
 };

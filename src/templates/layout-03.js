@@ -11,6 +11,8 @@ import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
 import Link07 from "@/templates/links/Link07";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
+import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout03 = observer(
   ({ previewWindow = false, userData = defaultUser }) => {
@@ -39,7 +41,7 @@ const Layout03 = observer(
               @{username}
             </h1>
             <p
-              className={`mb-4 ${
+              className={`mb-8 ${
                 previewWindow ? "text-base" : "text-base md:text-xl"
               }`}
               style={{ color: palette.subText }}
@@ -48,36 +50,22 @@ const Layout03 = observer(
             </p>
 
             {/* Links */}
-            {/*<ul*/}
-            {/*  className={`flex flex-col ${*/}
-            {/*    currentButtonStyle.uniqueClasses*/}
-            {/*  } w-fit font-sans ${*/}
-            {/*    previewWindow*/}
-            {/*      ? "mb-2 gap-2 text-base"*/}
-            {/*      : "mb-6 gap-6 text-base md:text-xl"*/}
-            {/*  }`}*/}
-            {/*>*/}
-            {/*  {sampleLinks.map((link, index) => {*/}
-            {/*    if (currentButtonStyle && currentButtonStyle.component) {*/}
-            {/*      return currentButtonStyle.component(*/}
-            {/*        link.title,*/}
-            {/*        onBoardingStore.onBoardingCurrent.palette,*/}
-            {/*        index,*/}
-            {/*      );*/}
-            {/*    }*/}
-            {/*  })}*/}
-            {/*</ul>*/}
-            <ul className={`flex flex-col gap-3`}>
+            <section
+              className={`flex flex-col text-base md:text-lg ${
+                ButtonsLookup[getButtonStyleIndex(userData.button_style)]
+                  .uniqueClasses
+              }`}
+            >
               {userData.links &&
-                userData.links.map((link, index) => (
-                  <Link07
-                    key={`link-${index}`}
-                    title={link.title}
-                    url={link.url}
-                    palette={palette}
-                  />
-                ))}
-            </ul>
+                userData.links.map((link, index) => {
+                  return (
+                    link.public &&
+                    ButtonsLookup[
+                      getButtonStyleIndex(userData.button_style)
+                    ].component(link.url, link.title, palette, index)
+                  );
+                })}
+            </section>
 
             {/* Social Media */}
             {/*<section className="flex flex-row gap-4">*/}
@@ -96,7 +84,7 @@ const Layout03 = observer(
             {/*</section>*/}
           </article>
 
-          <footer className={`relative text-sm text-white/50`}>
+          <footer className={`relative mb-2 text-sm text-white/50`}>
             Copyright © {new Date().getFullYear()}.{" "}
             <Link href={"/"}>My Pop Off</Link>
           </footer>

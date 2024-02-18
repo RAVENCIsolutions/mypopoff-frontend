@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import Link from "next/link";
 
@@ -9,7 +11,7 @@ const ButtonStyle06 = (props) => {
   return (
     <Link
       href={link}
-      className={`p-1 px-5 mx-2 min-w-max rounded-full border-2 text-center transition-all duration-300`}
+      className={`px-5 py-1.5 rounded-full border-2 text-base sm:text-lg transition-all duration-300`}
       style={{
         borderColor: palette.buttonMain,
         backgroundColor: hover ? palette.buttonMain : "transparent",

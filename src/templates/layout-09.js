@@ -10,35 +10,45 @@ import Link from "next/link";
 import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
+import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout09 = ({ previewWindow = false, userData = defaultUser }) => {
   const { username, bio, links, palette } = userData;
 
   return (
-    <main className="flex flex-col items-center justify-center gap-8  h-screen min-h-fit bg-stone-700 font-barlowCondensed text-primary-dark bg-[url(/images/templates/business-card_background.jpg)] bg-cover bg-center">
+    <main className="flex flex-col items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-primary-dark bg-[url(/images/templates/business-card_background.jpg)] bg-cover bg-center">
       <section className="pt-8 pb-0 flex flex-col items-center justify-center rounded-xl w-5/6 max-w-3xl h-max bg-white/60 text-center gap-6 z-10 overflow-hidden">
-        <h1 className="font-bold uppercase text-xl md:text-5xl text-center">
+        <h1
+          className="font-bold uppercase text-xl md:text-5xl text-center"
+          style={{ color: palette.mainText }}
+        >
           @{username}
         </h1>
-        <p className="mb-2 text-lg md:text-xl max-w-xs">{bio}</p>
+        <p
+          className="mb-2 text-base md:text-xl max-w-xs"
+          style={{ color: palette.subText }}
+        >
+          {bio}
+        </p>
 
         {/* Links */}
-        <ul className="mb-2 px-4 md:px-20 pt-4 pb-8 flex flex-col gap-4 items-center w-full max-h-[30dvh] font-sans text-base md:text-xl overflow-y-auto">
+        <article
+          className={`mb-2 pt-4 pb-8 flex flex-col max-h-[30dvh] font-sans text-base md:text-xl overflow-y-auto ${
+            ButtonsLookup[getButtonStyleIndex(userData.button_style)]
+              .uniqueClasses
+          }`}
+        >
           {userData.links &&
-            userData.links.map((link, index) => (
-              <Link
-                href={link.url}
-                key={`link-${index}`}
-                className={`pt-1.5 pb-1 px-5 mx-auto min-w-44 max-w-full rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
-                style={{
-                  backgroundColor: palette.buttonMain,
-                  color: palette.buttonText,
-                }}
-              >
-                {link.title}
-              </Link>
-            ))}
-        </ul>
+            userData.links.map((link, index) => {
+              return (
+                link.public &&
+                ButtonsLookup[
+                  getButtonStyleIndex(userData.button_style)
+                ].component(link.url, link.title, palette, index)
+              );
+            })}
+        </article>
       </section>
 
       {/* Social Media */}

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import Link from "next/link";
 
@@ -9,7 +11,7 @@ const ButtonStyle09 = (props) => {
   return (
     <Link
       href={link}
-      className={`group p-0.5 ml-0 hover:ml-4 inline-flex self-start items-center gap-2 transition-all duration-[0.35s]`}
+      className={`group flex self-start items-center gap-2 transition-all duration-300`}
       style={{
         color: palette.buttonText,
       }}
@@ -17,7 +19,7 @@ const ButtonStyle09 = (props) => {
       onMouseLeave={() => setHover(false)}
     >
       <div
-        className={`block px-[0.15rem] py-[0.15rem] border-[2px]`}
+        className={`block group-hover:ml-2 px-[0.15rem] py-[0.15rem] border-2 text-base sm:text-lg transition-all duration-300`}
         style={{
           borderColor: palette.buttonMain,
           backgroundColor: hover ? palette.buttonMain : "transparent",

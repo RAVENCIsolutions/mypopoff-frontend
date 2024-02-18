@@ -10,6 +10,8 @@ import Link from "next/link";
 import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
+import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
   const { username, bio, links, palette } = userData;
@@ -26,22 +28,22 @@ const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
           <p className="mb-4 text-lg md:text-2xl w-full md:max-w-xs">{bio}</p>
 
           {/* Links */}
-          <ul className="mb-6 flex flex-col gap-6 items-center w-full font-sans text-base md:text-xl">
+          <section
+            className={`mb-6 flex flex-col items-center w-full font-sans text-base md:text-xl ${
+              ButtonsLookup[getButtonStyleIndex(userData.button_style)]
+                .uniqueClasses
+            }`}
+          >
             {userData.links &&
-              userData.links.map((link, index) => (
-                <Link
-                  href={link.url}
-                  key={`link-${index}`}
-                  className={`pt-1.5 pb-1 px-5 mx-auto w-full md:min-w-44 rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
-                  style={{
-                    backgroundColor: palette.buttonMain,
-                    color: palette.buttonText,
-                  }}
-                >
-                  {link.title}
-                </Link>
-              ))}
-          </ul>
+              userData.links.map((link, index) => {
+                return (
+                  link.public &&
+                  ButtonsLookup[
+                    getButtonStyleIndex(userData.button_style)
+                  ].component(link.url, link.title, palette, index)
+                );
+              })}
+          </section>
           {/* Social Media */}
           {/*<section className="flex flex-row gap-4">*/}
           {/*  <BiLogoFacebookCircle*/}

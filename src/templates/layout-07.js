@@ -11,6 +11,8 @@ import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
 import Link09 from "@/templates/links/Link09";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
+import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout07 = ({ previewWindow = false, userData = defaultUser }) => {
   const { username, bio, links, palette } = userData;
@@ -24,17 +26,22 @@ const Layout07 = ({ previewWindow = false, userData = defaultUser }) => {
         <p className="mb-6 text-base md:text-xl max-w-xs font-sans font-light text-white">
           {bio}
         </p>
-        <ul className="py-4 flex flex-col items-start gap-8 h-full font-newSpirit font-bold text-base md:text-3xl overflow-y-auto">
+        <article
+          className={`py-4 flex flex-col h-full font-newSpirit font-bold text-base md:text-3xl overflow-y-auto ${
+            ButtonsLookup[getButtonStyleIndex(userData.button_style)]
+              .uniqueClasses
+          }`}
+        >
           {userData.links &&
-            userData.links.map((link, index) => (
-              <Link09
-                key={`link-${index}`}
-                title={link.title}
-                url={link.url}
-                palette={palette}
-              />
-            ))}
-        </ul>
+            userData.links.map((link, index) => {
+              return (
+                link.public &&
+                ButtonsLookup[
+                  getButtonStyleIndex(userData.button_style)
+                ].component(link.url, link.title, palette, index)
+              );
+            })}
+        </article>
 
         {/* Social Media */}
         {/*<section className="mt-6 mb-8 flex flex-row gap-4">*/}

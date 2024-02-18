@@ -1,5 +1,5 @@
 import "@/app/(public)/globals.scss";
-import { auth, ClerkProvider, useUser } from "@clerk/nextjs";
+import { ClerkProvider, useUser } from "@clerk/nextjs";
 import DashboardNavigation from "@/components/DashboardNavigation";
 import Providers from "@/providers/Providers";
 
@@ -15,6 +15,8 @@ export default function MeLayout({ children }) {
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
+      afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}
     >
       <html lang="en" suppressHydrationWarning>
         <head>

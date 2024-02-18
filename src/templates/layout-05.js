@@ -11,6 +11,8 @@ import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
 import { useState } from "react";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
+import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
   const { username, bio, links, palette } = userData;
@@ -38,31 +40,17 @@ const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
     {
       title: "Links",
       content: (
-        <ul className="px-0 md:px-8 flex flex-col gap-5 items-stretch justify-between w-full h-full text-center overflow-y-auto">
+        <section className="px-0 md:px-8 flex flex-col gap-5 items-stretch justify-between w-full h-full text-center overflow-y-auto">
           {userData.links &&
-            userData.links.map((link, index) => (
-              <Link
-                href={link.url}
-                key={`link-${index}`}
-                className={`pt-1.5 pb-1 px-5 mx-auto min-w-44 max-w-full rounded-full hover:opacity-80 hover:shadow-[3px_3px_5px_rgba(0,0,0,0.25)] hover:scale-105 text-center transition-all duration-300`}
-                style={{
-                  backgroundColor: palette.buttonMain,
-                  color: palette.buttonText,
-                }}
-              >
-                {link.title}
-              </Link>
-            ))}
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-        </ul>
+            userData.links.map((link, index) => {
+              return (
+                link.public &&
+                ButtonsLookup[
+                  getButtonStyleIndex(userData.button_style)
+                ].component(link.url, link.title, palette, index)
+              );
+            })}
+        </section>
       ),
     },
 
