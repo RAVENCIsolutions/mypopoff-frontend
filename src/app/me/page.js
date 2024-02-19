@@ -19,10 +19,10 @@ const Me = observer(() => {
   useEffect(() => {
     const handleUserRedirection = async () => {
       if (isSignedIn) {
-        setCurrentUser(getFromLocalStorage("userData"));
-
-        const lastPage = getFromLocalStorage("lastPage") || "/me/dashboard";
-        router.push(lastPage);
+        userStore.loadUserData(user.id).then(() => {
+          const lastPage = getFromLocalStorage("lastPage") || "/me/dashboard";
+          router.push(lastPage);
+        });
       }
     };
 
@@ -35,10 +35,7 @@ const Me = observer(() => {
         <section className="p-5 md:p-6 w-full h-full rounded-sm bg-dashboard-primary-light dark:bg-dashboard-primary-dark">
           <h2 className="mb-2 md:mb-2 pb-2 md:pb-4 text-xl w-full">
             Welcome
-            {isSignedIn && currentUser.username
-              ? " " + currentUser.username
-              : ""}
-            !
+            {" " + userStore.userData.username || ""}!
           </h2>
           <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
             <LinearProgress color="inherit" />
