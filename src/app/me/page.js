@@ -34,7 +34,11 @@ const Me = observer(() => {
       <div className="flex flex-row w-full h-full text-primary-dark dark:text-primary-light">
         <section className="p-5 md:p-6 w-full h-full rounded-sm bg-dashboard-primary-light dark:bg-dashboard-primary-dark">
           <h2 className="mb-2 md:mb-2 pb-2 md:pb-4 text-xl w-full">
-            Welcome{currentUser.username ? " " + currentUser.username : ""}!
+            Welcome
+            {isSignedIn && currentUser.username
+              ? " " + currentUser.username
+              : ""}
+            !
           </h2>
           <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
             <LinearProgress color="inherit" />
