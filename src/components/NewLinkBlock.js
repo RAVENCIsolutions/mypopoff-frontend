@@ -106,7 +106,7 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
             <div className="w-6" title="Link Title">
               <BsCardHeading
                 size={18}
-                className="text-primary-dark/50 dark:text-primary-light/30 hover:text-primary-dark hover:dark:text-primary-light transition-all duration-300"
+                className="text-primary-dark/50 dark:text-primary-dark/70 hover:text-primary-dark hover:dark:text-primary-light transition-all duration-300"
               />
             </div>
             <input
@@ -128,7 +128,7 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
             <div className="w-6" title="Link Destination">
               <BsLink45Deg
                 size={18}
-                className="text-primary-dark/50 dark:text-primary-light/30 hover:text-primary-dark hover:dark:text-primary-light transition-all duration-300"
+                className="text-primary-dark/50 dark:text-primary-dark/70 hover:text-primary-dark hover:dark:text-primary-light transition-all duration-300"
               />
             </div>
             <input

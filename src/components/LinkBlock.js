@@ -62,7 +62,7 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
                 <input
                   ref={titleRef}
                   type="text"
-                  className="px-4 py-1 w-full rounded-lg outline-none font-medium text-primary-dark text-lg shadow-md shadow-black/10"
+                  className="px-4 py-1 w-full rounded-lg outline-none font-medium text-lg shadow-md shadow-black/10"
                   placeholder="Link Title"
                   value={blockTitle}
                   onChange={(e) => setBlockTitle(e.target.value)}
@@ -123,7 +123,7 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
                 <input
                   ref={linkRef}
                   type="text"
-                  className="px-4 py-1 w-full rounded-lg outline-none font-medium text-primary-dark text-lg shadow-md shadow-black/10"
+                  className="px-4 py-1 w-full rounded-lg outline-none font-medium text-lg shadow-md shadow-black/10"
                   placeholder="Link Title"
                   value={blockLink}
                   onChange={(e) => setBlockLink(e.target.value)}
