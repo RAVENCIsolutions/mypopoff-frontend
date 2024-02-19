@@ -30,7 +30,7 @@ const Layout04 = observer(
               previewWindow ? "text-3xl" : "text-xl md:text-4xl"
             } text-center`}
           >
-            @{username}
+            @{userData.username}
           </h1>
           <p
             className={`${
@@ -38,7 +38,7 @@ const Layout04 = observer(
             } max-w-xs font-calluna font-light text-center`}
             style={{ color: palette.subText }}
           >
-            {bio}
+            {userData.bio}
           </p>
         </section>
 

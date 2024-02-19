@@ -1,7 +1,9 @@
 import "@/app/(public)/globals.scss";
-import { ClerkProvider, useUser } from "@clerk/nextjs";
-import DashboardNavigation from "@/components/DashboardNavigation";
+import { ClerkProvider } from "@clerk/nextjs";
+
+import userStore from "@/stores/UserStore";
 import Providers from "@/providers/Providers";
+import DashboardNavigation from "@/components/DashboardNavigation";
 
 export const metadata = {
   title: "Dashboard | My Pop Off",
@@ -10,8 +12,6 @@ export const metadata = {
 };
 
 export default function MeLayout({ children }) {
-  const { isSignedIn } = useUser;
-
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
@@ -32,7 +32,7 @@ export default function MeLayout({ children }) {
 
             <section className="md:absolute right-0 md:ml-6 md:px-6 md:py-6 flex flex-col md:w-4/5 lg:w-5/6 h-full">
               <main className="w-full min-h-full bg-dashboard-secondary-light dark:bg-dashboard-primary-dark rounded-none md:rounded-3xl shadow-xl shadow-black/5 lg:shadow-black/20 sm:overflow-hidden">
-                {isSignedIn && children}
+                {children}
               </main>
             </section>
           </Providers>

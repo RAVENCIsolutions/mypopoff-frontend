@@ -15,13 +15,10 @@ import {
 } from "@/utility/generalUtils";
 import { defaultUser } from "@/data/defaultUser";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
+import { useEffect } from "react";
 
 const Layout01 = observer(
   ({ previewWindow = false, userData = defaultUser, buttonStyle = 0 }) => {
-    const { username, bio, links, palette } = userData;
-
-    console.log(userData);
-
     return (
       <main
         className={`${
@@ -29,7 +26,7 @@ const Layout01 = observer(
         } flex flex-col items-center justify-between`}
         style={{
           minHeight: previewWindow ? "100%" : "100vh",
-          backgroundColor: palette.background,
+          backgroundColor: userData.palette.background,
         }}
       >
         {/* Image */}
@@ -48,7 +45,7 @@ const Layout01 = observer(
             />
             <p
               className={`font-bold text-xl text-center tracking-wide uppercase`}
-              style={{ color: palette.mainText }}
+              style={{ color: userData.palette.mainText }}
             >
               @{userData.username && userData.username}
             </p>
@@ -70,22 +67,22 @@ const Layout01 = observer(
                   link.public &&
                   ButtonsLookup[
                     getButtonStyleIndex(userData.button_style)
-                  ].component(link.url, link.title, palette, index)
+                  ].component(link.url, link.title, userData.palette, index)
                 );
               })}
           </section>
 
           {/* Social Media */}
           {/*<section className="flex flex-row gap-4">*/}
-          {/*  <BiLogoFacebookCircle size={30} style={{ color: palette.subText }} />*/}
-          {/*  <BiLogoInstagramAlt size={30} style={{ color: palette.subText }} />*/}
-          {/*  <BiLogoTwitch size={30} style={{ color: palette.subText }} />*/}
+          {/*  <BiLogoFacebookCircle size={30} style={{ color: userData.palette.subText }} />*/}
+          {/*  <BiLogoInstagramAlt size={30} style={{ color: userData.palette.subText }} />*/}
+          {/*  <BiLogoTwitch size={30} style={{ color: userData.palette.subText }} />*/}
           {/*</section>*/}
         </article>
 
         <footer
           className={`relative text-sm opacity-50`}
-          style={{ color: getContrastLuminance(palette.background) }}
+          style={{ color: getContrastLuminance(userData.palette.background) }}
         >
           Copyright © {new Date().getFullYear()}.{" "}
           <Link href={"/"}>My Pop Off</Link>

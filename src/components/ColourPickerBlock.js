@@ -10,7 +10,7 @@ import { isValidHex, removeLeadingHash } from "@/utility/colourUtils";
 
 import userStore from "@/stores/UserStore";
 
-const ColourPickerBlock = observer(({ label, customisation }) => {
+const ColourPickerBlock = observer(({ customisation }) => {
   const [showPicker, setShowPicker] = useState(false);
   const [chosenColour, setChosenColour] = useState(null);
 

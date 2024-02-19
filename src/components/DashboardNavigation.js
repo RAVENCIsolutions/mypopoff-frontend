@@ -58,7 +58,7 @@ const DashboardNavigation = observer(() => {
 
   useEffect(() => {
     const handleUser = async () => {
-      await userStore.loadUserData(user.id);
+      return await userStore.loadUserData(user.id);
     };
 
     if (isSignedIn) {

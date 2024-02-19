@@ -28,10 +28,10 @@ const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
             alt="Influencer Username"
           />
           <h1 className="mb-4 font-bold text-3xl text-center uppercase tracking-wide text-stone-800">
-            @{username}
+            @{userData.username}
           </h1>
           <p className="text-lg font-dmsans text-stone-600 text-center max-w-xs">
-            {bio}
+            {userData.bio}
           </p>
         </div>
       ),

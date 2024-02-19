@@ -42,7 +42,7 @@ const Layout10 = observer(
               Hello!
             </h2>
             <h1 className="text-base" style={{ color: palette.subText }}>
-              I am @{username}
+              I am @{userData.username}
             </h1>
           </section>
 

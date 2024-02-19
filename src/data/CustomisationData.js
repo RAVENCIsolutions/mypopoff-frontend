@@ -14,18 +14,6 @@ import {
   PiSword,
 } from "react-icons/pi";
 
-const colourLabels = {
-  background: "Background",
-  middleGround: "Card",
-  mainText: "Special Text",
-  subText: "Body Text",
-  buttonOutline: "Outline",
-  buttonMain: "Button Background",
-  buttonHover: "Button Background on Hover",
-  buttonText: "Button Text",
-  buttonHoverText: "Button Text on Hover",
-};
-
 const categories = [
   {
     name: "Business and Corporate",
@@ -121,4 +109,4 @@ const categories = [
   },
 ];
 
-export { colourLabels, categories };
+export { categories };

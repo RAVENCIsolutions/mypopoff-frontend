@@ -21,10 +21,10 @@ const Layout07 = ({ previewWindow = false, userData = defaultUser }) => {
     <main className="relative py-4 flex items-center justify-stretch w-full min-h-screen h-full bg-neutral-800 text-orange-600">
       <section className="p-4 md:p-16 block md:flex flex-col justify-center">
         <h1 className="mb-2 font-newSpirit font-bold text-lg md:text-4xl">
-          @{username}
+          @{userData.username}
         </h1>
         <p className="mb-6 text-base md:text-xl max-w-xs font-sans font-light text-white">
-          {bio}
+          {userData.bio}
         </p>
         <article
           className={`py-4 flex flex-col h-full font-newSpirit font-bold text-base md:text-3xl overflow-y-auto ${

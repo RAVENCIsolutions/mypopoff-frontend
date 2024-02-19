@@ -60,13 +60,7 @@ class UserStore {
       this.setUserData(userData);
       return userData;
     } else {
-      this.createUserData(id, { ...defaultUser, clerk_user_id: id }).then(
-        (data) => {
-          this.setUserData(data);
-          this.fixUserData();
-          return data;
-        },
-      );
+      await this.createUserData(id, { ...defaultUser, clerk_user_id: id });
     }
   };
 
@@ -76,8 +70,7 @@ class UserStore {
     this.fixUserData();
 
     if (userData) {
-      this.setUserData(userData);
-      return userData;
+      await this.loadUserData(id);
     }
   };
 

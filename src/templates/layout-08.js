@@ -14,8 +14,6 @@ import { ButtonsLookup } from "@/data/ButtonsLookup";
 import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
-  const { username, bio, links, palette } = userData;
-
   return (
     <main
       className={`flex items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-blue-900 bg-cover bg-center overflow-hidden`}
@@ -28,9 +26,11 @@ const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
           className={`px-6 md:px-20 flex flex-col justify-between items-center max-h-full overflow-y-auto`}
         >
           <h1 className="font-bold text-xl md:text-4xl text-center tracking-wide">
-            @{username}
+            @{userData.username}
           </h1>
-          <p className="mb-4 text-lg md:text-2xl w-full md:max-w-xs">{bio}</p>
+          <p className="mb-4 text-lg md:text-2xl w-full md:max-w-xs">
+            {userData.bio}
+          </p>
 
           {/* Links */}
           <section
@@ -45,7 +45,7 @@ const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
                   link.public &&
                   ButtonsLookup[
                     getButtonStyleIndex(userData.button_style)
-                  ].component(link.url, link.title, palette, index)
+                  ].component(link.url, link.title, userData.palette, index)
                 );
               })}
           </section>

@@ -41,7 +41,7 @@ const Layout03 = observer(
               } text-center `}
               style={{ color: palette.mainText }}
             >
-              @{username}
+              @{userData.username}
             </h1>
             <p
               className={`mb-8 ${
@@ -49,7 +49,7 @@ const Layout03 = observer(
               }`}
               style={{ color: palette.subText }}
             >
-              {bio}
+              {userData.bio}
             </p>
 
             {/* Links */}

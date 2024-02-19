@@ -28,13 +28,13 @@ const Layout09 = ({ previewWindow = false, userData = defaultUser }) => {
           className="font-bold uppercase text-xl md:text-5xl text-center"
           style={{ color: palette.mainText }}
         >
-          @{username}
+          @{userData.username}
         </h1>
         <p
           className="mb-2 text-base md:text-xl max-w-xs"
           style={{ color: palette.subText }}
         >
-          {bio}
+          {userData.bio}
         </p>
 
         {/* Links */}

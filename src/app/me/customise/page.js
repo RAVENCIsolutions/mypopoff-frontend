@@ -16,19 +16,17 @@ import { uploadImage } from "@/utility/dbUtils";
 const CustomisePage = observer(() => {
   const [selectedLayout, setSelectedLayout] = useState(0);
   const [selectedButton, setSelectedButton] = useState(0);
-  const [firstLoad, setFirstLoad] = useState(true);
-  const [processing, setProcessing] = useState(true);
   const [saving, setSaving] = useState(false);
 
   const [chosenImage, setChosenImage] = useState(null);
   const [chosenFile, setChosenFile] = useState(null);
 
-  const { user, isSignedIn, isLoaded } = useUser();
+  const { user } = useUser();
 
   const { loaded } = userStore;
 
   useEffect(() => {
-    if (isSignedIn && loaded) {
+    if (loaded) {
       setSelectedLayout(
         LayoutsLookup.findIndex(
           (layout) => layout.id === userStore.userData.page_layout,
@@ -39,11 +37,8 @@ const CustomisePage = observer(() => {
           (button) => button.id === userStore.userData.button_style,
         ),
       );
-
-      setProcessing(false);
-      setFirstLoad(false);
     }
-  }, [user, isSignedIn, isLoaded, loaded]);
+  }, [loaded]);
 
   return (
     <section className="w-full h-full rounded-lg">
@@ -52,7 +47,7 @@ const CustomisePage = observer(() => {
           className={`px-2 xs:px-3 py-5 sm:p-6 pb-2 lg:pb-8 flex justify-between items-center w-full border-b-2 border-secondary-dark/20`}
         >
           <h1 className="text-xl font-bold">Customise</h1>
-          {isLoaded && saving ? (
+          {saving ? (
             <Stack sx={{ color: "grey.500" }} spacing={2}>
               <CircularProgress color="inherit" size={15} />
             </Stack>
@@ -100,11 +95,7 @@ const CustomisePage = observer(() => {
           )}
         </section>
 
-        {processing && !loaded ? (
-          <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
-            <LinearProgress color="inherit" />
-          </Stack>
-        ) : (
+        {loaded && userStore.userData ? (
           <section className="px-2 xs:px-3 py-5 sm:p-6 w-full min-h-full bg-dashboard-secondary-light dark:bg-dashboard-secondary-dark sm:overflow-y-auto">
             <h2 className={`text-lg`}>Choose a layout:</h2>
             <article
@@ -271,6 +262,10 @@ const CustomisePage = observer(() => {
             </article>
             <div className={`hidden md:block mb-24`}></div>
           </section>
+        ) : (
+          <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
+            <LinearProgress color="inherit" />
+          </Stack>
         )}
       </div>
     </section>
