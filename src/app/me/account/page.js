@@ -180,9 +180,7 @@ const AccountPage = observer(() => {
                   });
 
                   setSaving(true);
-                  
-                  
-                  
+
                   userStore.saveUserData(user.id).then((r) => {
                     setTimeout(() => {
                       setSaving(false);
@@ -208,8 +206,12 @@ const AccountPage = observer(() => {
             >
               <article className="relative xs:min-w-80 max-w-full">
                 <div className={`flex gap-0`}>
+                  {/*<h4 className="text-sm xs:text-base md:text-xl font-semibold">*/}
+                  {/*  mypopoff.com/*/}
+                  {/*</h4>*/}
+
                   <h4 className="text-sm xs:text-base md:text-xl font-semibold">
-                    mypopoff.com/
+                    mypopoff.netlify.com/
                   </h4>
                   <PopOffInput
                     name="username"
