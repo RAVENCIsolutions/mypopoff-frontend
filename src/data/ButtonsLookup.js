@@ -32,9 +32,8 @@ export const ButtonsLookup = [
     id: "button-02",
     title: "Solid Squared",
     selector: "/images/onboarding/button-02.png",
-    uniqueClasses: "px-4 mx-auto items-stretch gap-3 text-cente",
+    uniqueClasses: "px-4 mx-auto items-stretch gap-3 text-center",
     colours: {
-      buttonOutline: "border-transparent",
       buttonMain: ["#c68a4e", "Button Background"],
       buttonText: ["#f7f5f3", "Button Text"],
     },
@@ -51,7 +50,7 @@ export const ButtonsLookup = [
     id: "button-03",
     title: "Solid Slanted",
     selector: "/images/onboarding/button-03.png",
-    uniqueClasses: "px-4 mx-auto items-stretch gap-3 text-cente",
+    uniqueClasses: "px-4 mx-auto items-stretch gap-3 text-center",
     colours: {
       buttonMain: ["#c68a4e", "Button Background"],
       buttonText: ["#f7f5f3", "Button Text"],
