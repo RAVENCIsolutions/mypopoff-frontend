@@ -141,10 +141,12 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
                 <button
                   className="p-2 flex justify-center rounded-full hover:bg-primary-dark dark:hover:bg-primary-light hover:text-primary-light hover:dark:text-primary-dark transition-all duration-300"
                   onClick={async () => {
+                    const fixedLink = ensureHttp(blockLink);
                     await userStore.updateLink(id, {
-                      url: ensureHttp(blockLink),
+                      url: fixedLink,
                     });
-                    setPreviousLink(blockLink);
+                    setBlockLink(fixedLink);
+                    setPreviousLink(fixedLink);
                     setEditLink(false);
                   }}
                 >
