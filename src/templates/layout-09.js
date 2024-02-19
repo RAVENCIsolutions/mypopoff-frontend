@@ -17,7 +17,12 @@ const Layout09 = ({ previewWindow = false, userData = defaultUser }) => {
   const { username, bio, links, palette } = userData;
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-primary-dark bg-[url(/images/templates/business-card_background.jpg)] bg-cover bg-center">
+    <main
+      className={`flex flex-col items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-primary-dark bg-cover bg-center`}
+      style={{
+        backgroundImage: `url(${userData.images || ""})`,
+      }}
+    >
       <section className="pt-8 pb-0 flex flex-col items-center justify-center rounded-xl w-5/6 max-w-3xl h-max bg-white/60 text-center gap-6 z-10 overflow-hidden">
         <h1
           className="font-bold uppercase text-xl md:text-5xl text-center"

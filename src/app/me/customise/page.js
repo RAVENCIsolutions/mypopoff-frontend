@@ -11,6 +11,7 @@ import userStore from "@/stores/UserStore";
 import { LayoutsLookup } from "@/data/LayoutsLookup";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 import ColourPickerBlock from "@/components/ColourPickerBlock";
+import { uploadImage } from "@/utility/dbUtils";
 
 const CustomisePage = observer(() => {
   const [selectedLayout, setSelectedLayout] = useState(0);
@@ -20,6 +21,7 @@ const CustomisePage = observer(() => {
   const [saving, setSaving] = useState(false);
 
   const [chosenImage, setChosenImage] = useState(null);
+  const [chosenFile, setChosenFile] = useState(null);
 
   const { user, isSignedIn, isLoaded } = useUser();
 
@@ -57,23 +59,40 @@ const CustomisePage = observer(() => {
           ) : (
             <button
               className={`px-4 py-1 bg-action rounded-full text-primary-light transition-all duration-300`}
-              onClick={() => {
+              onClick={async () => {
                 setSaving(true);
 
                 if (chosenImage) {
-                  // Upload to Supabase
-                }
+                  uploadImage(user.id, chosenFile).then((data) => {
+                    console.log(data.path);
+                    userStore.setUserData({
+                      ...userStore.userData,
+                      images:
+                        process.env.NEXT_PUBLIC_SUPABASE_IMAGES_LINK +
+                        data.path,
+                      page_layout: LayoutsLookup[selectedLayout].id,
+                      button_style: ButtonsLookup[selectedButton].id,
+                    });
 
-                userStore.setUserData({
-                  ...userStore.userData,
-                  page_layout: LayoutsLookup[selectedLayout].id,
-                  button_style: ButtonsLookup[selectedButton].id,
-                });
-                userStore.saveUserData(user.id).then((r) => {
-                  setTimeout(() => {
-                    setSaving(false);
-                  }, 500);
-                });
+                    userStore.saveUserData(user.id).then((r) => {
+                      setTimeout(() => {
+                        setSaving(false);
+                      }, 500);
+                    });
+                  });
+                } else {
+                  userStore.setUserData({
+                    ...userStore.userData,
+                    page_layout: LayoutsLookup[selectedLayout].id,
+                    button_style: ButtonsLookup[selectedButton].id,
+                  });
+
+                  userStore.saveUserData(user.id).then((r) => {
+                    setTimeout(() => {
+                      setSaving(false);
+                    }, 500);
+                  });
+                }
               }}
             >
               Save<span className={`hidden xs:inline-block ml-1`}>Changes</span>
@@ -214,6 +233,8 @@ const CustomisePage = observer(() => {
                             reader.onloadend = () => {
                               setChosenImage(reader.result);
                             };
+
+                            setChosenFile(file);
 
                             reader.readAsDataURL(file);
                           }}

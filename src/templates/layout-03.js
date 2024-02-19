@@ -22,7 +22,10 @@ const Layout03 = observer(
       <main
         className={`relative ${
           previewWindow ? "h-full" : "h-screen"
-        } w-full bg-stone-700 font-barlowCondensed text-white bg-[url(/images/templates/takeMeAway_background.jpg)] bg-cover bg-center overflow-hidden`}
+        } w-full bg-stone-700 font-barlowCondensed text-white bg-cover bg-center overflow-hidden`}
+        style={{
+          backgroundImage: `url(${userData.images || ""})`,
+        }}
       >
         <div
           className={`absolute block left-0 top-0 ${

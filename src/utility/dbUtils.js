@@ -21,7 +21,7 @@ const fetchUsername = async (value) => {
   const { data, error } = await supabase
     .from(usersTable)
     .select(
-      "username, bio, category, otherCategory, tags, page_layout, button_style, palette, links",
+      "username, bio, category, otherCategory, tags, page_layout, button_style, palette, links, images",
     )
     .eq("username", value)
     .single();
@@ -83,4 +83,12 @@ const getImage = async (filename) => {
   return data;
 };
 
-export { fetchUser, fetchUsername, usernameExists, createUser, updateUser };
+export {
+  fetchUser,
+  fetchUsername,
+  usernameExists,
+  createUser,
+  updateUser,
+  uploadImage,
+  getImage,
+};

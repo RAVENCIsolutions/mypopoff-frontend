@@ -30,8 +30,8 @@ const Layout02 = observer(
         <section className={previewWindow ? "h-[50vh]" : "h-[50vh] md:h-full"}>
           <img
             className="mb-3 w-full h-full bg-dashboard-primary-dark object-cover object-top object-center"
-            src="https://images.pexels.com/photos/2410565/pexels-photo-2410565.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt="Influencer Username"
+            src={userData.images || ""}
+            alt={userData.username || ""}
           />
         </section>
 

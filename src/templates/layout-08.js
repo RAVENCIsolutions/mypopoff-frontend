@@ -17,7 +17,12 @@ const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
   const { username, bio, links, palette } = userData;
 
   return (
-    <main className="flex items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-blue-900 bg-[url(/images/templates/bannerific_background.jpg)] bg-cover bg-center overflow-hidden">
+    <main
+      className={`flex items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-blue-900 bg-cover bg-center overflow-hidden`}
+      style={{
+        backgroundImage: `url(${userData.images || ""})`,
+      }}
+    >
       <section className="pt-8 pb-14 flex flex-col items-center justify-center w-5/6 max-w-3xl h-full bg-white/90 text-center gap-6 z-10">
         <article
           className={`px-6 md:px-20 flex flex-col justify-between items-center max-h-full overflow-y-auto`}

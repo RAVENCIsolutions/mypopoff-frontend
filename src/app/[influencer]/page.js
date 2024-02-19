@@ -11,6 +11,8 @@ import Layout08 from "@/templates/layout-08";
 import Layout09 from "@/templates/layout-09";
 import Layout10 from "@/templates/layout-10";
 
+export const fetchCache = "force-no-store";
+
 async function getData(username) {
   const userData = await fetchUsername(username);
 

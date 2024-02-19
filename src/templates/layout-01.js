@@ -14,12 +14,13 @@ import {
   getContrastLuminance,
 } from "@/utility/generalUtils";
 import { defaultUser } from "@/data/defaultUser";
-import ButtonStyle01 from "@/templates/button-style-01";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 
 const Layout01 = observer(
   ({ previewWindow = false, userData = defaultUser, buttonStyle = 0 }) => {
     const { username, bio, links, palette } = userData;
+
+    console.log(userData);
 
     return (
       <main
@@ -42,8 +43,8 @@ const Layout01 = observer(
           >
             <img
               className="mb-3 w-32 h-32 rounded-full shadow-lg shadow-black/40 bg-dashboard-primary-dark object-cover object-center"
-              src="https://img.freepik.com/free-photo/portrait-woman-with-blue-eyes_188544-7646.jpg"
-              alt="Influencer Username"
+              src={userData.images || ""}
+              alt={userData.username || ""}
             />
             <p
               className={`font-bold text-xl text-center tracking-wide uppercase`}

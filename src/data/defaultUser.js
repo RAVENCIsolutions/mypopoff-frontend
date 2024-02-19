@@ -24,6 +24,8 @@ const defaultUser = {
     buttonText: "#f7f5f3",
   },
 
+  images: "",
+
   links: [],
 };
 

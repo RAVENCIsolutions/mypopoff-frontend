@@ -55,13 +55,18 @@ class UserStore {
   loadUserData = async (id) => {
     const userData = await fetchUser(id);
 
-    this.fixUserData();
-
     if (userData) {
+      this.fixUserData();
       this.setUserData(userData);
       return userData;
     } else {
-      await this.createUserData(id, this.userData);
+      this.createUserData(id, { ...this.userData, clerk_user_id: id }).then(
+        (data) => {
+          this.setUserData(data);
+          this.fixUserData();
+          return data;
+        },
+      );
     }
   };
 

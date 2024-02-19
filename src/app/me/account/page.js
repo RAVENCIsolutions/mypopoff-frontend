@@ -179,12 +179,14 @@ const AccountPage = observer(() => {
                     message: "",
                   });
 
-                  setUsername(userData.username);
-
                   setSaving(true);
+                  
+                  
+                  
                   userStore.saveUserData(user.id).then((r) => {
                     setTimeout(() => {
                       setSaving(false);
+                      setUsername(userStore.userData.username);
                     }, 500);
                   });
                 }}
@@ -272,7 +274,7 @@ const AccountPage = observer(() => {
                   className={`py-1 flex justify-end items-center gap-2 transition-all duration-500`}
                 >
                   <p className={`text-sm text-right`}>
-                    {userData.bio.length} / {maxBioLength}
+                    {userData.bio.length || 0} / {maxBioLength}
                   </p>
                   <CircularProgress
                     variant="determinate"
@@ -285,7 +287,7 @@ const AccountPage = observer(() => {
                     }}
                     // styles={{ @apply text-action}}
                     value={Math.min(
-                      (userData.bio.length * 100) / maxBioLength,
+                      ((userData.bio.length || 0) * 100) / maxBioLength,
                       100,
                     )}
                   />
