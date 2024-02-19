@@ -111,6 +111,10 @@ const generateRandomString = (numberOfChars) => {
   return results;
 };
 
+const ensureHttp = (url) => {
+  return url.startsWith("http") ? url : `http://${url}`;
+};
+
 export {
   getCookie,
   getPageTitle,
@@ -119,4 +123,5 @@ export {
   getButtonStyleIndex,
   generateId,
   generateRandomString,
+  ensureHttp,
 };

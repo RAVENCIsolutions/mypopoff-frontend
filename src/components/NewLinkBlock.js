@@ -7,7 +7,7 @@ import { observer } from "mobx-react";
 import { FaTimesCircle } from "react-icons/fa";
 import { BsCardHeading, BsLink45Deg } from "react-icons/bs";
 
-import { generateId } from "@/utility/generalUtils";
+import { ensureHttp, generateId } from "@/utility/generalUtils";
 import userStore from "@/stores/UserStore";
 
 const NewLinkBlock = observer(({ processing, setProcessing }) => {
@@ -74,7 +74,11 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
       userLinks.length > 0 ? userLinks.map((link) => link.id) : [],
     );
 
-    await userStore.addLink({ id: newId, url: newLink, title: newLinkTitle });
+    await userStore.addLink({
+      id: newId,
+      url: ensureHttp(newLink),
+      title: newLinkTitle,
+    });
     setNewLink("");
     setNewLinkTitle("");
     setShowNew(false);

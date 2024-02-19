@@ -9,6 +9,7 @@ import Switch from "@mui/material/Switch";
 
 import { observer } from "mobx-react";
 import userStore from "@/stores/UserStore";
+import { ensureHttp } from "@/utility/generalUtils";
 
 const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
   const [blockLink, setBlockLink] = useState(url.toString());
@@ -140,7 +141,9 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
                 <button
                   className="p-2 flex justify-center rounded-full hover:bg-primary-dark dark:hover:bg-primary-light hover:text-primary-light hover:dark:text-primary-dark transition-all duration-300"
                   onClick={async () => {
-                    await userStore.updateLink(id, { url: blockLink });
+                    await userStore.updateLink(id, {
+                      url: ensureHttp(blockLink),
+                    });
                     setPreviousLink(blockLink);
                     setEditLink(false);
                   }}
