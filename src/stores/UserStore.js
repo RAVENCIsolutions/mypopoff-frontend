@@ -1,4 +1,4 @@
-import { makeAutoObservable, toJS } from "mobx";
+import { makeAutoObservable, runInAction, toJS } from "mobx";
 import { defaultUser } from "@/data/defaultUser";
 
 import { createUser, fetchUser, updateUser } from "@/utility/dbUtils";
@@ -39,11 +39,11 @@ class UserStore {
   };
 
   setUserData = (userData) => {
-    this.userData = userData;
-
-    this.fixUserData();
-
-    saveToLocalStorage("userData", userData);
+    runInAction(() => {
+      this.userData = userData;
+      this.fixUserData();
+      saveToLocalStorage("userData", userData);
+    });
   };
 
   setPalette = (palette) => {
@@ -60,7 +60,7 @@ class UserStore {
       this.setUserData(userData);
       return userData;
     } else {
-      this.createUserData(id, { ...this.userData, clerk_user_id: id }).then(
+      this.createUserData(id, { ...defaultUser, clerk_user_id: id }).then(
         (data) => {
           this.setUserData(data);
           this.fixUserData();

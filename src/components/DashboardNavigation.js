@@ -13,8 +13,6 @@ import { RiPaletteLine } from "react-icons/ri";
 import "@/app/me/dashboard.scss";
 import userStore from "@/stores/UserStore";
 import DarkModeToggle from "@/components/DarkModeToggle";
-import { getFromLocalStorage } from "@/utility/localStorageUtils";
-import { users } from "@clerk/nextjs/api";
 
 const DashboardNavigation = observer(() => {
   const pathname = usePathname();

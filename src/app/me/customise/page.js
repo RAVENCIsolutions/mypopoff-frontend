@@ -100,7 +100,7 @@ const CustomisePage = observer(() => {
           )}
         </section>
 
-        {isLoaded && loaded && processing ? (
+        {processing && !loaded ? (
           <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
             <LinearProgress color="inherit" />
           </Stack>
