@@ -19,10 +19,8 @@ const Me = observer(() => {
   useEffect(() => {
     const handleUserRedirection = async () => {
       if (isSignedIn) {
-        userStore.loadUserData(user.id).then(() => {
-          const lastPage = getFromLocalStorage("lastPage") || "/me/dashboard";
-          router.push(lastPage);
-        });
+        const lastPage = getFromLocalStorage("lastPage") || "/me/dashboard";
+        router.push(lastPage);
       }
     };
 
