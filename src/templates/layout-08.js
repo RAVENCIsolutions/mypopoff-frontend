@@ -7,11 +7,13 @@ import {
 } from "react-icons/bi";
 
 import Link from "next/link";
-import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
-import { getButtonStyleIndex } from "@/utility/generalUtils";
+import {
+  getButtonStyleIndex,
+  getContrastLuminance,
+} from "@/utility/generalUtils";
 
 const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
   return (
@@ -25,10 +27,16 @@ const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
         <article
           className={`px-6 md:px-20 flex flex-col justify-between items-center max-h-full overflow-y-auto`}
         >
-          <h1 className="font-bold text-xl md:text-4xl text-center tracking-wide">
+          <h1
+            className="font-bold text-xl md:text-4xl text-center tracking-wide"
+            style={{ color: userData.palette.mainText }}
+          >
             @{userData.username}
           </h1>
-          <p className="mb-4 text-lg md:text-2xl w-full md:max-w-xs">
+          <p
+            className="mb-4 text-lg md:text-2xl w-full md:max-w-xs"
+            style={{ color: userData.palette.subText }}
+          >
             {userData.bio}
           </p>
 
@@ -67,7 +75,13 @@ const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
         </article>
       </section>
 
-      <footer className="absolute bottom-3 text-base font-semibold text-blue-900/80 z-20">
+      <footer
+        className="absolute bottom-3 text-base font-semibold text-blue-900/80 z-20"
+        style={{
+          color: getContrastLuminance(userData.palette.background),
+          opacity: 0.5,
+        }}
+      >
         Copyright © {new Date().getFullYear()}.{" "}
         <Link href={"/"}>My Pop Off</Link>
       </footer>

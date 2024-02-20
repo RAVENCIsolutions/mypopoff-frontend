@@ -11,7 +11,10 @@ import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
-import { getButtonStyleIndex } from "@/utility/generalUtils";
+import {
+  getButtonStyleIndex,
+  getContrastLuminance,
+} from "@/utility/generalUtils";
 
 const Layout10 = observer(
   ({ previewWindow = false, userData = defaultUser }) => {
@@ -39,10 +42,10 @@ const Layout10 = observer(
               className={`font-black text-xl md:text-3xl text-center tracking-wide`}
               style={{ color: palette.mainText }}
             >
-              Hello!
+              @{userData.username}
             </h2>
             <h1 className="text-base" style={{ color: palette.subText }}>
-              I am @{userData.username}
+              {userData.bio}
             </h1>
           </section>
 
@@ -78,7 +81,11 @@ const Layout10 = observer(
         <footer
           className={`${
             previewWindow ? "relative" : "absolute"
-          } bottom-3 text-sm text-white`}
+          } bottom-3 text-sm`}
+          style={{
+            color: getContrastLuminance(userData.palette.background),
+            opacity: 0.5,
+          }}
         >
           Copyright © {new Date().getFullYear()}.{" "}
           <Link href={"/"}>My Pop Off</Link>

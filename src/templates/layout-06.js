@@ -58,7 +58,10 @@ const Layout06 = ({ previewWindow = false, userData = defaultUser }) => {
     <main className="flex items-center justify-center w-screen h-screen bg-neutral-800">
       <article className="px-4 md:px-10 flex flex-col items-stretch justify-between w-screen h-full md:h-fit bg-white shadow-xl shadow-neutral-900">
         <section className="py-2 md:py-5 flex justify-between border-b-2 border-neutral-900">
-          <h1 className="flex-grow font-barlowCondensed font-bold text-2xl md:text-5xl uppercase tracking-wide text-neutral-900">
+          <h1
+            className="flex-grow font-barlowCondensed font-bold text-2xl md:text-5xl uppercase tracking-wide text-neutral-900"
+            style={{ color: userData.palette.mainText }}
+          >
             username
           </h1>
         </section>

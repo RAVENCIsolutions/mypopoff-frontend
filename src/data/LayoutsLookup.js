@@ -9,7 +9,6 @@ export const LayoutsLookup = [
       "/images/onboarding/layout01_i.png",
     ],
     colours: {
-      image: ["", "Profile Photo"],
       background: ["#f5f5f4", "Background Colour"],
       mainText: ["#202224", "Username Colour"],
       subText: ["#202224", "Bio Colour"],
@@ -26,7 +25,6 @@ export const LayoutsLookup = [
       "/images/onboarding/layout02_iii.png",
     ],
     colours: {
-      image: ["", "Main Image"],
       background: ["#ffffff", "Background Colour"],
       mainText: ["#202224", "Username Colour"],
       subText: ["#202224", "Bio Colour"],
@@ -124,7 +122,6 @@ export const LayoutsLookup = [
       "/images/onboarding/layout08_iii.png",
     ],
     colours: {
-      image: ["", "Background Image"],
       mainText: ["#c68a4e", "Username Colour"],
       subText: ["#f7f5f3", "Bio Colour"],
     },
@@ -140,7 +137,6 @@ export const LayoutsLookup = [
       "/images/onboarding/layout09_iii.png",
     ],
     colours: {
-      image: ["", "Background Image"],
       mainText: ["#202224", "Username Colour"],
       subText: ["#202224", "Bio Colour"],
     },

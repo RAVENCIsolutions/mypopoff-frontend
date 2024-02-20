@@ -32,14 +32,18 @@ const ColourPickerBlock = observer(({ customisation }) => {
     "#000000",
   ];
 
+  const addToPalette = (key, value) => {
+    const newPalette = {
+      ...userData.palette,
+      [key]: value,
+    };
+
+    userStore.setPalette(newPalette);
+  };
+
   useOutsideClick(ref, () => {
     if (isValidHex(chosenColour)) {
-      const newPalette = {
-        ...userData.palette,
-        [customisation]: `#${removeLeadingHash(chosenColour)}`,
-      };
-
-      userStore.setPalette(newPalette);
+      addToPalette(customisation, `#${removeLeadingHash(chosenColour)}`);
     } else {
       setChosenColour(userData.palette[customisation]);
     }
@@ -57,11 +61,15 @@ const ColourPickerBlock = observer(({ customisation }) => {
     <article
       ref={ref}
       className="flex flex-col items-start w-fit text-dashboard-primary-dark dark:text-dashboard-primary-light/80"
-      onFocus={() => setShowPicker(true)}
+      onFocus={() => {
+        setShowPicker(true);
+      }}
     >
       <section
         className="mb-2 flex items-center gap-2"
-        onClick={() => setShowPicker(!showPicker)}
+        onClick={() => {
+          setShowPicker(!showPicker);
+        }}
       >
         <div
           className={`block w-8 h-8 rounded-full border-2 border-dashboard-primary-dark shadow-lg shadow-primary-dark/10`}
@@ -92,12 +100,10 @@ const ColourPickerBlock = observer(({ customisation }) => {
                   backgroundColor: colour,
                 }}
                 onClick={() => {
-                  const newPalette = {
-                    ...userData.palette,
-                    [customisation]: `#${removeLeadingHash(chosenColour)}`,
-                  };
-
-                  userStore.setPalette(newPalette);
+                  addToPalette(
+                    customisation,
+                    `#${removeLeadingHash(chosenColour)}`,
+                  );
 
                   setChosenColour(colour);
                 }}
@@ -127,22 +133,18 @@ const ColourPickerBlock = observer(({ customisation }) => {
                 }
 
                 if (e.target.value.length === 6 && isValidHex(e.target.value)) {
-                  const newPalette = {
-                    ...userData.palette,
-                    [customisation]: `#${removeLeadingHash(chosenColour)}`,
-                  };
-
-                  userStore.setPalette(newPalette);
+                  addToPalette(
+                    customisation,
+                    `#${removeLeadingHash(chosenColour)}`,
+                  );
                 }
               }}
               onBlur={() => {
                 if (isValidHex(chosenColour)) {
-                  const newPalette = {
-                    ...userData.palette,
-                    [customisation]: `#${removeLeadingHash(chosenColour)}`,
-                  };
-
-                  userStore.setPalette(newPalette);
+                  addToPalette(
+                    customisation,
+                    `#${removeLeadingHash(chosenColour)}`,
+                  );
                 } else {
                   setChosenColour(userData.palette[customisation]);
                 }

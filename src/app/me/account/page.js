@@ -15,6 +15,7 @@ import PopOffTextArea from "@/components/PopOffTextArea";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { usernameExists } from "@/utility/dbUtils";
+import { users } from "@clerk/nextjs/api";
 
 const AccountPage = observer(() => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -130,6 +131,12 @@ const AccountPage = observer(() => {
 
         setSelectedCategory(foundCat);
         setOtherCategoryValue(data ? data.otherCategory : "");
+
+        const threshold = Object.keys(progressColours).findLast(
+          (key) => userStore.userData.bio.length >= key,
+        );
+
+        setBioProgressColour(progressColours[threshold] || "#5FD378");
       }
     });
   }, [user, isSignedIn, isLoaded]);

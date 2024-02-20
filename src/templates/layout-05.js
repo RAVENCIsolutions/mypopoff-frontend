@@ -27,10 +27,16 @@ const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
             src="https://img.freepik.com/free-photo/portrait-woman-with-blue-eyes_188544-7646.jpg"
             alt="Influencer Username"
           />
-          <h1 className="mb-4 font-bold text-3xl text-center uppercase tracking-wide text-stone-800">
+          <h1
+            className="mb-4 font-bold text-3xl text-center uppercase tracking-wide text-stone-800"
+            style={{ color: userData.palette.mainText }}
+          >
             @{userData.username}
           </h1>
-          <p className="text-lg font-dmsans text-stone-600 text-center max-w-xs">
+          <p
+            className="text-lg font-dmsans text-stone-600 text-center max-w-xs"
+            style={{ color: userData.palette.subText }}
+          >
             {userData.bio}
           </p>
         </div>

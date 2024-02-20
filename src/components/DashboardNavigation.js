@@ -13,6 +13,7 @@ import { RiPaletteLine } from "react-icons/ri";
 import "@/app/me/dashboard.scss";
 import userStore from "@/stores/UserStore";
 import DarkModeToggle from "@/components/DarkModeToggle";
+import { ImCog } from "react-icons/im";
 
 const DashboardNavigation = observer(() => {
   const pathname = usePathname();
@@ -48,12 +49,12 @@ const DashboardNavigation = observer(() => {
       route: "/me/account",
       icon: <CgUser size={20} />,
     },
-    // {
-    //   title: "Settings",
-    //   alt: "Settings for application preferences and configurations",
-    //   route: "/me/settings",
-    //   icon: <ImCog size={18} />,
-    // },
+    {
+      title: "Settings",
+      alt: "Settings for application preferences and configurations",
+      route: "/me/settings",
+      icon: <ImCog size={18} />,
+    },
   ];
 
   useEffect(() => {
