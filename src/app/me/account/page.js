@@ -356,7 +356,10 @@ const AccountPage = observer(() => {
                         label="Other Category*"
                         value={userData.otherCategory}
                         onChange={(event) => {
-                          setOtherCategoryValue(event.target.value);
+                          setOtherCategoryValue(
+                            event.target.value.replace(/[^a-zA-Z]/g, ""),
+                          );
+
                           userStore.setUserData({
                             ...userData,
                             otherCategory: event.target.value,
@@ -376,7 +379,7 @@ const AccountPage = observer(() => {
                   How about adding some tags?
                 </h4>
                 {userData.tags.length > 0 && (
-                  <div className={`mb-2 flex flex-wrap gap-1`}>
+                  <div className={`mb-2 flex flex-wrap gap-2`}>
                     {userData.tags.map((tag, index) => (
                       <div
                         key={`chip-${index}`}
@@ -401,6 +404,20 @@ const AccountPage = observer(() => {
                     value={newTag}
                     className={`flex-grow`}
                     onChange={(e) => setNewTag(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        if (
+                          newTag.length > 2 &&
+                          userData.tags.indexOf(newTag) === -1
+                        ) {
+                          userStore.setUserData({
+                            ...userData,
+                            tags: [...userData.tags, newTag],
+                          });
+                          setNewTag("");
+                        }
+                      }
+                    }}
                   />
                   <button
                     className={`px-4 py-1 bg-action rounded-full text-primary-light`}

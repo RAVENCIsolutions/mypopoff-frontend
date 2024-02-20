@@ -73,7 +73,11 @@ const SearchBlock = () => {
           placeholder={placeholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          onKeyDown={(e) => handleSearch(search)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch(search);
+            }
+          }}
           className={`px-4 2xs:px-8 py-1.5 w-full bg-dashboard-primary-dark/5 dark:bg-dashboard-primary-light/40 rounded-full shadow-none hover:shadow-xl focus:shadow-xl shadow-primary-dark/15 ${inputAlignment} outline-none transition-all duration-300 z-10`}
         />
         <LuSearch
@@ -93,7 +97,9 @@ const SearchBlock = () => {
       {/*  ))}*/}
       {/*</article>*/}
       {searching ? (
-        <article className={`flex flex-col items-center justify-center gap-4`}>
+        <article
+          className={`mt-4 flex flex-col items-center justify-center gap-4`}
+        >
           <p className={`text-base font-bold`}>Searching...</p>
           <Stack sx={{ color: "grey.500" }} spacing={2}>
             <CircularProgress color="inherit" size={30} />
@@ -101,7 +107,7 @@ const SearchBlock = () => {
         </article>
       ) : (
         <section
-          className={`relative my-4 md:my-7 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6`}
+          className={`relative my-4 md:my-14 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6`}
         >
           {data &&
             data.map((user, index) => (

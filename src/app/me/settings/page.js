@@ -113,16 +113,12 @@ export default function SettingsPage() {
             <h4 className={`text-base font-bold uppercase`}>Avatar</h4>
             {loaded && (
               <div className={`mt-2 mb-5 flex flex-col gap-4`}>
-                {userStore.userData.avatar_url ? (
+                {(chosenImage || userStore.userData.images) && (
                   <img
-                    src={userStore.userData.avatar_url}
+                    src={chosenImage || userStore.userData.avatar_url}
                     alt={"Avatar"}
                     className={`w-20 h-20 rounded-full object-cover overflow-hidden transition-all duration-300`}
                   />
-                ) : (
-                  <div
-                    className={`w-20 h-20 rounded-full bg-dashboard-primary-dark dark:bg-dashboard-secondary-light`}
-                  ></div>
                 )}
                 <input
                   type="file"
