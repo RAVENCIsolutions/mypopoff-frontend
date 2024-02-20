@@ -90,6 +90,15 @@ const AccountPage = observer(() => {
       return false;
     }
 
+    if (username.slice(-1) === "-") {
+      setUsernameError({
+        status: 1,
+        message: "Username cannot end with a dash",
+      });
+
+      return false;
+    }
+
     usernameExists(username).then((r) => {
       if (r) {
         setUsernameError({
@@ -225,9 +234,14 @@ const AccountPage = observer(() => {
                     label="choose your username"
                     className="ml-1 flex-grow"
                     value={username}
-                    onChange={(e) => {
-                      setUsername(e.target.value);
-                    }}
+                    onChange={(e) =>
+                      setUsername(e.target.value.replace(/[^a-zA-Z0-9-]/g, ""))
+                    }
+                    onBlur={(e) =>
+                      e.target.value[e.target.value.length - 1] === "-"
+                        ? setUsername(e.target.value.slice(0, -1))
+                        : null
+                    }
                   />
                   <div className={`absolute -bottom-5 right-0`}>
                     {checkingUsername ? (

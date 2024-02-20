@@ -123,7 +123,7 @@ const ColourPickerBlock = observer(({ customisation }) => {
             <input
               type="text"
               value={removeLeadingHash(chosenColour.toUpperCase())}
-              className={`p-0.5 w-14 text-xs font-sans tracking-wider font-bold uppercase bg-dashboard-primary-light outline-none`}
+              className={`p-0.5 w-14 text-xs font-sans tracking-wider font-bold uppercase bg-dashboard-primary-light dark:bg-dashboard-primary-dark outline-none`}
               maxLength={6}
               onChange={(e) => {
                 const lastChar = e.target.value[e.target.value.length - 1];
