@@ -5,7 +5,6 @@ const ExploreSingle = ({ theUser }) => {
   return (
     <Link
       href={process.env.NEXT_PUBLIC_HOME_ROUTE + theUser.username}
-      target={"_blank"}
       className={`group relative rounded-2xl bg-dashboard-primary-light dark:bg-dashboard-primary-dark aspect-square overflow-hidden`}
     >
       <div className={`w-full h-full rounded-b-3xl overflow-hidden`}>

@@ -66,7 +66,7 @@ const NavBar = () => {
                 className="py-2 px-4 bg-action rounded-full font-medium text-primary-dark"
                 href="/auth/register"
               >
-                Free Account
+                Register
               </Link>
             </li>
           </SignedOut>

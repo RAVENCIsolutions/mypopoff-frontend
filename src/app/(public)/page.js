@@ -82,7 +82,7 @@ export default function Home() {
           text: "",
         }}
       />
-      <CallToActionSection />
+      <CallToActionSection callToAction={`Create Your Own Pop Off`} />
 
       <Footer />
     </main>
