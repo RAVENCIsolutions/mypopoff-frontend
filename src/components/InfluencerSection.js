@@ -3,57 +3,50 @@
 import { useEffect, useRef, useState } from "react";
 
 const InfluencerSection = ({ data }) => {
+  const SWIPE_SENSITIVITY = 1;
+
+  const [combinedData, setCombinedData] = useState([
+    ...dummyData,
+    ...dummyData,
+  ]);
   const scrollRef = useRef(null);
-  let intervalId = useRef(null);
+  const [isSwiping, setIsSwiping] = useState(false);
+  const [startingX, setStartingX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
-  const scrollContent = () => {
-    const scrollElement = scrollRef.current;
-    if (!scrollElement) return;
-
-    requestAnimationFrame(() => {
-      scrollElement.scrollTo({
-        left: scrollElement.scrollLeft + 1,
-        behavior: "auto",
-      });
-
-      if (scrollElement.scrollLeft >= scrollElement.scrollWidth / 2) {
-        scrollElement.scrollLeft = 0;
-      }
-    });
+  const handleMouseDown = (e) => {
+    setIsSwiping(true);
+    setStartingX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
   };
 
-  const startScrolling = () => {
-    intervalId.current = setInterval(scrollContent, 16);
+  const handleMouseMove = (e) => {
+    if (!isSwiping) return;
+
+    e.preventDefault();
+
+    console.log(scrollRef.current.scrollWidth);
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startingX) * SWIPE_SENSITIVITY;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
   };
-
-  const stopScrolling = () => {
-    clearInterval(intervalId.current);
-  };
-
-  useEffect(() => {
-    startScrolling();
-
-    const scrollElement = scrollRef.current;
-
-    scrollElement.addEventListener("mouseenter", stopScrolling);
-    scrollElement.addEventListener("mouseleave", startScrolling);
-
-    return () => {
-      stopScrolling();
-      scrollElement.removeEventListener("mouseenter", stopScrolling);
-      scrollElement.removeEventListener("mouseleave", startScrolling);
-    };
-  }, []);
-
-  const combinedData = [...dummyData, ...dummyData];
 
   return (
-    <section className="max-w-full overflow-hidden" ref={scrollRef}>
-      <div className="relative flex gap-8 whitespace-nowrap w-fit">
+    <section
+      className="max-w-full overflow-hidden"
+      ref={scrollRef}
+      onMouseLeave={() => setIsSwiping(false)}
+      onMouseUp={() => setIsSwiping(false)}
+      onMouseMove={handleMouseMove}
+    >
+      <div
+        className="relative flex gap-3 md:gap-8 -left-10 whitespace-nowrap min-w-fit scroll-smooth"
+        onMouseDown={handleMouseDown}
+      >
         {combinedData.map((influencer, index) => (
           <article
             key={index}
-            className="group relative aspect-square w-52 md:w-72 lg:w-80 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-300 ease-in-out"
+            className={`group relative aspect-square w-32 md:w-48 lg:w-60 rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-300 ease-in-out`}
           >
             <img src={influencer.photo} alt={influencer.name} />
             <div className="p-4 absolute left-0 bottom-0 w-full bg-primary-dark/70 opacity-0 group-hover:opacity-100 transition-all duration-300">

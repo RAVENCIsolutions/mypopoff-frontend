@@ -1,4 +1,4 @@
-import "@/app/(public)/globals.scss";
+import "@/app/globals.scss";
 import Link from "next/link";
 
 export const metadata = {

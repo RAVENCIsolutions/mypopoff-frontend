@@ -1,4 +1,4 @@
-import "@/app/(public)/globals.scss";
+import "@/app/globals.scss";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import userStore from "@/stores/UserStore";

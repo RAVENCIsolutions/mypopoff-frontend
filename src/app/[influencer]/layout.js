@@ -1,4 +1,4 @@
-import "../(public)/globals.scss";
+import "../globals.scss";
 
 export default function InfluencerLayout({ children }) {
   return (
