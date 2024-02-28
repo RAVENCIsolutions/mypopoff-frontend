@@ -47,15 +47,15 @@ const CustomisePage = observer(() => {
       const selectedLayoutIndex = Math.max(
         0,
         LayoutsLookup.findIndex(
-          (layout) => layout.id === userStore.userData.page_layout,
-        ),
+          (layout) => layout.id === userStore.userData.page_layout
+        )
       );
 
       const selectedButtonIndex = Math.max(
         0,
         ButtonsLookup.findIndex(
-          (button) => button.id === userStore.userData.button_style,
-        ),
+          (button) => button.id === userStore.userData.button_style
+        )
       );
 
       setSelectedLayout(selectedLayoutIndex);
@@ -68,10 +68,10 @@ const CustomisePage = observer(() => {
   }, [loaded]);
 
   return (
-    <section className="w-full h-full rounded-lg">
-      <div className="flex flex-col w-full h-full text-primary-dark dark:text-primary-light">
+    <section className="w-full max-h-full overflow-hidden sm:rounded-lg">
+      <div className="flex flex-col w-full max-h-full text-primary-dark dark:text-primary-light">
         <section
-          className={`px-2 xs:px-3 py-5 sm:p-6 pb-2 lg:pb-8 flex justify-between items-center w-full border-b-2 border-secondary-dark/20`}
+          className={`px-2 xs:px-3 py-5 sm:p-6 flex justify-between items-center w-full border-b-2 border-secondary-dark/20`}
         >
           <h1 className="text-xl font-bold">Customise</h1>
           {saving ? (
@@ -111,7 +111,7 @@ const CustomisePage = observer(() => {
         </section>
 
         {loaded && !isLoading ? (
-          <section className="px-2 xs:px-3 py-5 sm:p-6 w-full min-h-full bg-dashboard-secondary-light dark:bg-dashboard-secondary-dark sm:overflow-y-auto">
+          <section className="p-3 sm:p-6 pb-6 sm:pb-10 w-full h-full bg-dashboard-secondary-light dark:bg-dashboard-secondary-dark overflow-y-auto">
             <h2 className={`text-lg`}>Choose a layout:</h2>
             <article
               className={`mt-2 mb-10 px-2 pt-6 pb-8 xs:px-4 grid grid-cols-2 2xs:grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4 bg-primary-light/80 dark:bg-dashboard-secondary-light/20 rounded-lg xs:rounded-xl shadow-md shadow-dashboard-primary-dark/10`}
@@ -131,13 +131,13 @@ const CustomisePage = observer(() => {
                     if (LayoutsLookup[index].id === "layout-10") {
                       setSelectedButton(
                         ButtonsLookup.findIndex(
-                          (item) => item.id === "button-04",
-                        ),
+                          (item) => item.id === "button-04"
+                        )
                       );
                     } else {
                       selectedButton ===
                         ButtonsLookup.findIndex(
-                          (item) => item.id === "button-04",
+                          (item) => item.id === "button-04"
                         ) && setSelectedButton(0);
                     }
                   }}
@@ -197,7 +197,7 @@ const CustomisePage = observer(() => {
 
             <h2 className={`text-lg`}>Choose customisations:</h2>
             <article
-              className={`mt-2 mb-10 px-2 pt-6 pb-8 xs:px-4 flex flex-col gap-4 bg-primary-light/80 dark:bg-dashboard-secondary-light/20 rounded-lg xs:rounded-xl shadow-md shadow-dashboard-primary-dark/10`}
+              className={`mt-2 px-2 pt-6 pb-8 xs:px-4 flex flex-col gap-4 bg-primary-light/80 dark:bg-dashboard-secondary-light/20 rounded-lg xs:rounded-xl shadow-md shadow-dashboard-primary-dark/10`}
             >
               <div className={`flex flex-col justify-start gap-2`}>
                 <h4 className={`text-sm font-bold`}>Landing Page Image:</h4>
@@ -263,7 +263,7 @@ const CustomisePage = observer(() => {
                       )}
                     </div>
                   );
-                },
+                }
               )}
 
               {/* Colours from Button Style */}
@@ -283,10 +283,9 @@ const CustomisePage = observer(() => {
                       customisation={customisation}
                     />
                   </div>
-                ),
+                )
               )}
             </article>
-            <div className={`hidden md:block mb-24`}></div>
           </section>
         ) : (
           <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>

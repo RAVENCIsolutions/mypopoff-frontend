@@ -1,9 +1,14 @@
 import "@/app/globals.scss";
-import { ClerkProvider } from "@clerk/nextjs";
+
+import { useClerk } from "@clerk/nextjs";
 
 import userStore from "@/stores/UserStore";
 import Providers from "@/providers/Providers";
 import DashboardNavigation from "@/components/DashboardNavigation";
+import NavBar from "@/components/NavBar";
+import { CgLogOff } from "react-icons/cg";
+import DarkModeToggle from "@/components/DarkModeToggle";
+import LogOffButton from "@/components/LogOffButton";
 
 export const metadata = {
   title: "Dashboard | My Pop Off",
@@ -13,31 +18,40 @@ export const metadata = {
 
 export default function MeLayout({ children }) {
   return (
-    <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-      afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
-      afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}
-    >
-      <html lang="en" suppressHydrationWarning>
-        <head>
-          <link rel="stylesheet" href="https://use.typekit.net/oya4ufz.css" />
-        </head>
-        <body className="flex flex-col md:flex-row items-stretch w-full h-auto md:h-screen bg-primary-light dark:bg-primary-dark">
-          <Providers>
-            <section
-              className={`md:fixed p-4 md:pl-6 md:py-6 md:1/5 lg:w-1/6 relative w-full md:h-screen`}
-            >
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="stylesheet" href="https://use.typekit.net/oya4ufz.css" />
+      </head>
+      <body className="flex flex-col items-stretch w-full h-auto sm:h-screen max-h-screen bg-primary-light dark:bg-primary-dark overflow-hidden">
+        <Providers>
+          <NavBar />
+          <div
+            className={`h-full pt-2 sm:pb-6 flex sm:flex-row flex-col justify-start sm:justify-between sm:items-stretch overflow-hidden`}
+          >
+            <section className={`py-2 px-4 md:pl-6 w-full sm:w-auto`}>
               <DashboardNavigation />
             </section>
 
-            <section className="md:absolute right-0 md:ml-6 md:px-6 md:py-6 flex flex-col md:w-4/5 lg:w-5/6 h-full">
-              <main className="w-full min-h-full bg-dashboard-secondary-light dark:bg-dashboard-primary-dark rounded-none md:rounded-3xl shadow-xl shadow-black/5 lg:shadow-black/20 sm:overflow-hidden">
-                {children}
-              </main>
-            </section>
-          </Providers>
-        </body>
-      </html>
-    </ClerkProvider>
+            <main className="flex-grow sm:mr-4 flex justify-stretch sm:w-11/12 lg:w-5/6 h-full bg-dashboard-secondary-light dark:bg-dashboard-primary-dark rounded-none sm:rounded-3xl shadow-xl shadow-black/5 lg:shadow-black/20 overflow-hidden">
+              {children}
+            </main>
+          </div>
+
+          {/* Bottom Bar */}
+          <section
+            className={`relative py-2 px-4 left-0 bottom-0 flex justify-between items-center w-full bg-dashboard-primary-dark`}
+          >
+            <LogOffButton />
+            <article className="">
+              <DarkModeToggle
+                size={"s"}
+                textInLight="#f7f5f3"
+                textInDark="#f7f5f3"
+              />
+            </article>
+          </section>
+        </Providers>
+      </body>
+    </html>
   );
 }
