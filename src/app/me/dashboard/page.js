@@ -8,9 +8,9 @@ export const metadata = {
 
 export default function Dashboard() {
   return (
-    <section className="w-full rounded-lg">
+    <section className="w-full sm:rounded-lg">
       <div className="flex flex-row w-full h-full text-primary-dark dark:text-primary-light">
-        <section className="p-5 md:p-6 w-full h-full rounded-sm bg-dashboard-primary-light dark:bg-dashboard-primary-dark">
+        <section className="p-5 md:p-6 w-full h-full rounded-sm">
           <h2 className="mb-2 md:mb-4 pb-2 md:pb-4 text-xl w-full border-b-2 border-secondary-dark/20">
             Dashboard
           </h2>
