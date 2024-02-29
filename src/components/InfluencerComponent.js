@@ -11,8 +11,6 @@ const InfluencerComponent = (props) => {
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const router = useRouter();
-
   useEffect(() => {
     const { username } = props;
 

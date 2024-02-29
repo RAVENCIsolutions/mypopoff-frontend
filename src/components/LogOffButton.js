@@ -2,18 +2,18 @@
 
 import { useClerk } from "@clerk/nextjs";
 import userStore from "@/stores/UserStore";
+
 import { CgLogOff } from "react-icons/cg";
 
 const LogOffButton = () => {
+  const { signOut } = useClerk();
   return (
     <article
       className="cursor-pointer"
       onClick={async () => {
-        useClerk()
-          .signOut()
-          .then(async () => {
-            await userStore.logoutUser();
-          });
+        await signOut().then(async () => {
+          await userStore.logoutUser();
+        });
       }}
     >
       <p

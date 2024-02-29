@@ -41,6 +41,12 @@ module.exports = {
         "dashboard-secondary-light": "#D5D0CA",
         "dashboard-primary-dark": "#383532",
         "dashboard-secondary-dark": "#2A2826",
+
+        info: "#1E89D8",
+
+        warning: "#F9B71B",
+
+        danger: "#B72127",
       },
       fontFamily: {
         sans: ["agenda", "sans-serif"],

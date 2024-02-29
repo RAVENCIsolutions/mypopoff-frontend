@@ -1,7 +1,6 @@
 "use client";
 
 import { SignUp, useUser } from "@clerk/nextjs";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Register() {

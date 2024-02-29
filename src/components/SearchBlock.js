@@ -1,11 +1,10 @@
 ﻿"use client";
 
 import { useEffect, useState } from "react";
-import { exploreAll, searchAll } from "@/utility/dbUtils";
-import Link from "next/link";
+import { exploreAll } from "@/utility/dbUtils";
 import { LuSearch } from "react-icons/lu";
 import useWindowWidth from "@/hooks/useWindowWidth";
-import { categories } from "@/data/CustomisationData";
+// import { categories } from "@/data/CustomisationData";
 import { CircularProgress, Stack } from "@mui/material";
 import ExploreSingle from "@/components/ExploreSingle";
 
@@ -14,12 +13,11 @@ const SearchBlock = () => {
 
   const [search, setSearch] = useState("");
   const [searching, setSearching] = useState(false);
-  const [showSearchButton, setShowSearchButton] = useState(false);
 
   const windowWidth = useWindowWidth();
   const [placeholder, setPlaceholder] = useState("");
   const [inputAlignment, setInputAlignment] = useState("text-center");
-  const [categoryArray, setCategoryArray] = useState([]);
+  // const [categoryArray, setCategoryArray] = useState([]);
 
   const handleSearch = (term) => {
     setSearching(true);
@@ -28,23 +26,51 @@ const SearchBlock = () => {
       term = term.toLowerCase();
 
       exploreAll().then((data) => {
-        const searchResults = data.filter((item) => {
+        let finalResults = [];
+
+        const entireTerm = data.filter((item) => {
+          const inUsername = item.username.toLowerCase().includes(term);
           const inBio = item.bio.toLowerCase().includes(term);
           const inCategory = item.category.toLowerCase().includes(term);
           const inTags = item.tags.some((tag) =>
-            tag.toLowerCase().includes(term),
+            tag.toLowerCase().includes(term)
           );
 
-          return inBio || inCategory || inTags;
+          return inUsername || inBio || inCategory || inTags;
         });
 
-        setData(searchResults);
+        finalResults = [...finalResults, ...entireTerm];
+
+        const termsArray = term.split(/\w+/g);
+
+        const anyTerm = data.filter((item) => {
+          const inUsername = termsArray.some((word) =>
+            item.username.toLowerCase().includes(word)
+          );
+          const inBio = termsArray.some((word) =>
+            item.bio.toLowerCase().includes(word)
+          );
+          const inCategory = termsArray.some((word) =>
+            item.category.toLowerCase().includes(word)
+          );
+          const inTags = termsArray.some((word) =>
+            item.tags.some((tag) => tag.toLowerCase().includes(word))
+          );
+
+          return (
+            !finalResults.includes(item) &&
+            (inUsername || inBio || inCategory || inTags)
+          );
+        });
+
+        finalResults = [...finalResults, ...anyTerm];
+        setData(finalResults);
       });
     }
 
-    setTimeout(() => {
-      setSearching(false);
-    }, 500);
+    setSearching(false);
+    // setTimeout(() => {
+    // }, 500);
   };
 
   useEffect(() => {
@@ -59,8 +85,8 @@ const SearchBlock = () => {
 
   useEffect(() => {
     // Get Random Categories
-    const shuffled = categories.sort(() => Math.random() - 0.5);
-    setCategoryArray(shuffled.slice(0, 5));
+    // const shuffled = categories.sort(() => Math.random() - 0.5);
+    // setCategoryArray(shuffled.slice(0, 5));
   }, []);
 
   return (

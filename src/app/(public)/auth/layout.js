@@ -2,25 +2,18 @@ import Link from "next/link";
 import { CgCoffee } from "react-icons/cg";
 import { Skeleton } from "@mui/material";
 import { ClerkLoading, ClerkLoaded } from "@clerk/nextjs";
+import MPOLetterMark from "@/components/MPOLetterMark";
 
 export const metadata = {
   title: "Start your free Pop Off journey!",
   description:
-      "Register a new Pop Off account for free or sign in and customise!",
+    "Register a new Pop Off account for free or sign in and customise!",
 };
 
 export default function AuthLayout({ children }) {
   return (
     // <main className="flex flex-col items-center justify-start overflow-hidden">
     <main className="flex flex-col items-center justify-start h-screen min-h-fit">
-      <nav className="relative my-10 px-5 md:px-14 flex items-center w-full max-w-windowed">
-        <div className="md:absolute flex flex-row items-center justify-between top-1/2 left-5 md:left-1/2 -translate-y-1/2 md:-translate-x-1/2 w-full md:w-auto z-40">
-          <p className="text-lg text-action dark:text-action font-bold font-display">
-            <Link href="/">My Pop Off</Link>
-          </p>
-        </div>
-      </nav>
-
       <section className="py-10 flex flex-col flex-grow flex items-center justify-center">
         <ClerkLoading>
           <article className="pt-9 pb-12 px-8 w-auth max-w-full min-h-auth bg-white rounded-2xl shadow-2xl shadow-black/50">
