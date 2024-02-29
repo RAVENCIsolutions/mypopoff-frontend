@@ -7,6 +7,7 @@ import useWindowWidth from "@/hooks/useWindowWidth";
 // import { categories } from "@/data/CustomisationData";
 import { CircularProgress, Stack } from "@mui/material";
 import ExploreSingle from "@/components/ExploreSingle";
+import { StopWords } from "@/data/StopWords";
 
 const SearchBlock = () => {
   const [data, setData] = useState([]);
@@ -41,20 +42,28 @@ const SearchBlock = () => {
 
         finalResults = [...finalResults, ...entireTerm];
 
-        const termsArray = term.split(/\w+/g);
+        const termsArray = term.match(/\w+/g);
+        const filteredList = termsArray.filter(
+          (word) => !StopWords.includes(word)
+        );
 
         const anyTerm = data.filter((item) => {
-          const inUsername = termsArray.some((word) =>
+          const inUsername = filteredList.some((word) =>
             item.username.toLowerCase().includes(word)
           );
-          const inBio = termsArray.some((word) =>
+          const inBio = filteredList.some((word) =>
             item.bio.toLowerCase().includes(word)
           );
-          const inCategory = termsArray.some((word) =>
+          const inCategory = filteredList.some((word) =>
             item.category.toLowerCase().includes(word)
           );
-          const inTags = termsArray.some((word) =>
+          const inTags = filteredList.some((word) =>
             item.tags.some((tag) => tag.toLowerCase().includes(word))
+          );
+
+          console.log(item);
+          console.log(
+            `Username: ${inUsername}, Bio: ${inBio}, Category: ${inCategory}, Tags: ${inTags}`
           );
 
           return (
