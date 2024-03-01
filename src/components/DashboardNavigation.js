@@ -52,8 +52,6 @@ const DashboardNavigation = observer(() => {
     },
   ];
 
-  // const bottomLinks = [];
-
   useEffect(() => {
     const handleUser = async () => {
       return await userStore.loadUserData(user.id);
@@ -67,15 +65,15 @@ const DashboardNavigation = observer(() => {
   }, [user, isSignedIn, isLoaded]);
 
   return (
-    <nav className="mb-4 sm:mb-0 flex flex-col h-full text-primary-dark dark:text-primary-light font-light">
-      <section className="flex-grow flex flex-row sm:flex-col justify-between h-auto sm:h-full">
+    <nav className="mb-4 sm:mb-0 py-2 sm:py-5 px-5 md:pl-6 flex flex-col h-auto sm:h-full w-full sm:w-auto text-primary-dark dark:text-primary-light font-light">
+      <section className="flex-grow h-auto sm:h-full">
         <ul className="relative flex flex-row sm:flex-col justify-between sm:justify-start sm:gap-8 w-full">
           {topLinks.map((link, index) => (
             <Link
               key={index}
               href={link.route}
               className={
-                `flex-grow flex justify-center sm:justify-start items-center gap-3 hover:text-action` +
+                `flex justify-center sm:justify-start items-center gap-3 hover:text-action` +
                 " transition-all duration-300" +
                 (pathname === link.route ? " active" : "")
               }

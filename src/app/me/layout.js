@@ -20,11 +20,11 @@ export default function MeLayout({ children }) {
         <div
           className={`h-full pt-2 sm:pb-6 flex sm:flex-row flex-col justify-start sm:justify-between sm:items-stretch overflow-hidden`}
         >
-          <section className={`py-2 px-4 md:pl-6 w-full sm:w-auto`}>
-            <DashboardNavigation />
-          </section>
+          {/*<section className={`py-2 px-4 md:pl-6 w-full sm:w-auto`}>*/}
+          <DashboardNavigation />
+          {/*</section>*/}
 
-          <main className="flex-grow sm:mr-4 flex justify-stretch sm:w-11/12 lg:w-5/6 h-full bg-dashboard-primary-light dark:bg-dashboard-primary-dark rounded-none sm:rounded-3xl shadow-xl shadow-black/5 lg:shadow-black/20 overflow-hidden">
+          <main className="flex-grow sm:mr-4 flex justify-stretch sm:w-11/12 lg:w-5/6 h-full bg-dashboard-primary-light dark:bg-dashboard-primary-dark rounded-none sm:rounded-3xl shadow-xl shadow-black/25 overflow-hidden">
             {children}
           </main>
         </div>

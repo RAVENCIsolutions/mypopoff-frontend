@@ -7,8 +7,8 @@ export default function CookiesPolicy() {
     <main className="mx-auto flex flex-col items-start justify-start overflow-hidden w-full max-w-windowed">
       <NavBar />
 
-      <section className="px-5 lg:px-14 text-primary-dark dark:text-primary-light/80">
-        <h1 className="mb-8 leading-tight font-bold text-primary-dark dark:text-primary-light text-center md:text-left text-xl md:text-4xl">
+      <section className="px-5 md:px-10 text-primary-dark dark:text-primary-light/80">
+        <h1 className="my-6 leading-tight font-bold text-primary-dark dark:text-primary-light text-left text-2xl md:text-4xl">
           Cookie Policy
         </h1>
         <p className="text-base md:text-lg mb-4">
