@@ -24,8 +24,9 @@ const defaultUser = {
   },
 
   avatar_url: "",
-
   images: "",
+
+  public: true,
 
   links: [],
 };

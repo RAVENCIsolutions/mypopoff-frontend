@@ -37,7 +37,7 @@ const SearchBlock = () => {
             tag.toLowerCase().includes(term)
           );
 
-          return inUsername || inBio || inCategory || inTags;
+          return item.public && (inUsername || inBio || inCategory || inTags);
         });
 
         finalResults = [...finalResults, ...entireTerm];
@@ -61,12 +61,8 @@ const SearchBlock = () => {
             item.tags.some((tag) => tag.toLowerCase().includes(word))
           );
 
-          console.log(item);
-          console.log(
-            `Username: ${inUsername}, Bio: ${inBio}, Category: ${inCategory}, Tags: ${inTags}`
-          );
-
           return (
+            item.public &&
             !finalResults.includes(item) &&
             (inUsername || inBio || inCategory || inTags)
           );
@@ -100,7 +96,7 @@ const SearchBlock = () => {
 
   return (
     <section
-      className={`my-4 md:-7 mx-auto px-5 md:px-10 w-full max-w-windowed`}
+      className={`my-4 md:my-7 mx-auto px-5 md:px-10 w-full max-w-windowed`}
     >
       <article className={`mb-5 md:mb-0 mx-auto relative w-full max-w-lg`}>
         <input
@@ -141,14 +137,17 @@ const SearchBlock = () => {
           </Stack>
         </article>
       ) : (
-        <section
-          className={`relative my-4 md:my-14 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6`}
-        >
-          {data &&
-            data.map((user, index) => (
+        data && (
+          <section
+            className={`relative ${
+              data.length > 0 && "my-4 md:my-14"
+            } grid grid-cols-1 3xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 2xs:gap-4 xs:gap-6`}
+          >
+            {data.map((user, index) => (
               <ExploreSingle theUser={user} key={`search-user-${index}`} />
             ))}
-        </section>
+          </section>
+        )
       )}
     </section>
   );

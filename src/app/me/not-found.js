@@ -12,7 +12,7 @@ export default function NotFound() {
   }, []);
 
   return (
-    <main className={``}>
+    <main>
       <section className="p-5 md:p-6 w-full h-full rounded-sm">
         <h1 className={`mb-4 text-2xl font-bold`}>Oops!</h1>
         <p className={`text-base`}>
