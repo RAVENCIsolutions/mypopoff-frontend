@@ -14,9 +14,9 @@ export default function AuthLayout({ children }) {
   return (
     // <main className="flex flex-col items-center justify-start overflow-hidden">
     <main className="flex flex-col items-center justify-start h-screen min-h-fit">
-      <section className="py-10 flex flex-col flex-grow flex items-center justify-center">
+      <section className="py-10 flex flex-col items-center justify-start sm:justify-center w-full h-full">
         <ClerkLoading>
-          <article className="pt-9 pb-12 px-8 w-auth max-w-full min-h-auth bg-white rounded-2xl shadow-2xl shadow-black/50">
+          <article className="pt-9 pb-12 px-8 w-full bg-white rounded-2xl shadow-2xl shadow-black/50">
             <Skeleton
               className="mb-2"
               variant="rectangular"
@@ -57,13 +57,22 @@ export default function AuthLayout({ children }) {
         <ClerkLoaded>{children}</ClerkLoaded>
       </section>
 
-      <footer className="py-4 flex justify-center gap-2 text-secondary-light w-full">
-        Start Getting Noticed
+      <footer
+        className={`my-4 sm:mt-0 flex flex-col 2xs:flex-row items-center gap-2 min-w-fit`}
+      >
+        <p className={`text-sm text-secondary-dark dark:text-secondary-light`}>
+          Start Getting Noticed
+        </p>
         <CgCoffee
-          size={20}
-          className="text-secondary-light hover:text-action transition-all duration-200"
+          size={18}
+          className="text-secondary-dark dark:text-secondary-light hover:text-action hover:dark:text-action transition-all duration-200"
         />
-        My Pop Off
+        <Link
+          href={"/"}
+          className={`text-sm text-secondary-dark dark:text-secondary-light hover:text-action`}
+        >
+          My Pop Off
+        </Link>
       </footer>
     </main>
   );

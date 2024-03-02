@@ -24,14 +24,25 @@ const Footer = () => {
       </section>
 
       <section className="pt-4 flex flex-col-reverse sm:flex-row items-center justify-between border-t-[1.5px] border-secondary-dark dark:border-secondary-light">
-        <p className="flex gap-2 text-sm text-secondary-dark dark:text-secondary-light min-w-fit">
-          Start Getting Noticed
+        <article
+          className={`mt-4 sm:mt-0 flex flex-col 2xs:flex-row items-center gap-2 min-w-fit`}
+        >
+          <p
+            className={`text-sm text-secondary-dark dark:text-secondary-light`}
+          >
+            Start Getting Noticed
+          </p>
           <CgCoffee
             size={18}
             className="text-secondary-dark dark:text-secondary-light hover:text-action hover:dark:text-action transition-all duration-200"
           />
-          <Link href={"/"}>My Pop Off</Link>
-        </p>
+          <Link
+            href={"/"}
+            className={`text-sm text-secondary-dark dark:text-secondary-light hover:text-action`}
+          >
+            My Pop Off
+          </Link>
+        </article>
         <ul className="pb-6 sm:pb-0 flex flex-col xs:flex-row justify-between sm:justify-end gap-4 sm:gap-10 w-full font-medium text-secondary-dark dark:text-secondary-light text-center">
           <li className="cursor-pointer hover:text-primary-dark dark:hover:text-primary-light transition-all duration-300">
             <Link href="/privacy-policy">Privacy</Link>

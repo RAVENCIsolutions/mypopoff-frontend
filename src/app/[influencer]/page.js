@@ -10,6 +10,8 @@ import Layout07 from "@/templates/layout-07";
 import Layout08 from "@/templates/layout-08";
 import Layout09 from "@/templates/layout-09";
 import Layout10 from "@/templates/layout-10";
+import MPOLetterMark from "@/components/MPOLetterMark";
+import Link from "next/link";
 
 export const fetchCache = "force-no-store";
 
@@ -37,6 +39,7 @@ export default async function Page({ params }) {
 
   await getData(params.influencer).then((data) => {
     userData = data;
+
     layoutLookup["layout-01"] = <Layout01 userData={data} />;
     layoutLookup["layout-02"] = <Layout02 userData={data} />;
     layoutLookup["layout-03"] = <Layout03 userData={data} />;
@@ -49,6 +52,30 @@ export default async function Page({ params }) {
     layoutLookup["layout-10"] = <Layout10 userData={data} />;
   });
 
-  return layoutLookup[userData.page_layout];
+  return userData.public ? (
+    layoutLookup[userData.page_layout]
+  ) : (
+    <main>
+      <article
+        className={`flex items-center justify-center min-w-full min-h-dvh bg-primary-dark`}
+      >
+        <section className={`text-center text-primary-light`}>
+          <MPOLetterMark
+            width={80}
+            className={`mx-auto mb-10 fill-primary-light`}
+          />
+          <h1 className={`text-2xl font-bold`}>
+            It looks like this Pop Off is private.
+          </h1>
+          <p className={`text-lg`}>
+            Try another?{" "}
+            <Link href={`/explore`} className={`text-action underline`}>
+              Explore some here.
+            </Link>
+          </p>
+        </section>
+      </article>
+    </main>
+  );
   // return layoutLookup["layout-06"];
 }

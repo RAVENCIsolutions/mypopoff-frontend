@@ -9,6 +9,10 @@ const removeLeadingHash = (value) => {
   return value.replace(/^#/, "");
 };
 
+const addLeadingHash = (value) => {
+  return value[0] === "#" ? value : `#${value}`;
+};
+
 const isValidHex = (value) => {
   return /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.test(value);
 };
@@ -80,6 +84,7 @@ const makePastel = (colors = []) => {
 
 export {
   removeLeadingHash,
+  addLeadingHash,
   isValidHex,
   handleHex,
   generateRandomColor,

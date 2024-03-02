@@ -42,6 +42,8 @@ module.exports = {
         "dashboard-primary-dark": "#383532",
         "dashboard-secondary-dark": "#2A2826",
 
+        success: "#53B831",
+
         info: "#1E89D8",
 
         warning: "#F9B71B",
@@ -78,9 +80,6 @@ module.exports = {
       maxWidth: {
         windowed: "1200px",
         squeezed: "1000px",
-      },
-      minHeight: {
-        auth: "342px",
       },
       boxShadow: {
         neobrutalism: "4px 6px 0 black",

@@ -25,7 +25,7 @@ const ExploreBlock = () => {
 
   return (
     <section
-      className={`my-4 md:-7 mx-auto px-5 md:px-10 w-full max-w-windowed`}
+      className={`my-4 md:-7 mx-auto px-3 xs:px-5 md:px-10 w-full max-w-windowed`}
     >
       {loading ? (
         <article className={`flex flex-col items-center justify-center gap-4`}>
@@ -38,14 +38,22 @@ const ExploreBlock = () => {
         </article>
       ) : (
         <>
-          <h2 className={`text-2xl font-bold`}>Influencers You Might Love</h2>
+          <h2 className={`text-lg 3xs:text-xl xs:text-2xl font-bold`}>
+            Influencers You Might Love
+          </h2>
           <section
-            className={`relative my-4 md:my-7 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6`}
+            className={`relative my-4 md:my-7 grid grid-cols-1 3xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 2xs:gap-4 xs:gap-6`}
           >
             {data &&
-              data.map((user, index) => (
-                <ExploreSingle theUser={user} key={`explore-user-${index}`} />
-              ))}
+              data.map(
+                (user, index) =>
+                  user.public && (
+                    <ExploreSingle
+                      theUser={user}
+                      key={`explore-user-${index}`}
+                    />
+                  )
+              )}
           </section>
         </>
       )}

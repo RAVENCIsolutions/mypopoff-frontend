@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { CgCloseR, CgMenuBoxed } from "react-icons/cg";
 import Link from "next/link";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { BiSolidUser, BiSolidUserCircle } from "react-icons/bi";
+import { useEffect, useState } from "react";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+
+import { CgCloseR, CgMenuBoxed } from "react-icons/cg";
+import { BiSolidUserCircle } from "react-icons/bi";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -16,7 +17,7 @@ const NavBar = () => {
   }, [menuOpen]);
 
   return (
-    <nav className="relative my-4 md:my-7 mx-auto px-5 md:px-10 flex items-center justify-between w-full max-w-windowed">
+    <nav className="relative my-4 md:my-auto md:mt-7 md:mb-4 mx-auto px-5 md:px-10 flex items-center justify-between w-full max-w-windowed">
       {menuOpen ? (
         <div
           className="block xs:hidden absolute -top-10 left-0 w-screen h-screen bg-primary-light/50 dark:bg-primary-dark/50 z-20"

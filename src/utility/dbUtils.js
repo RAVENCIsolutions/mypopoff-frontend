@@ -22,7 +22,7 @@ const fetchUsername = async (value) => {
   const { data, error } = await supabase
     .from(usersTable)
     .select(
-      "username, bio, category, otherCategory, tags, page_layout, button_style, palette, links, images",
+      "username, bio, category, otherCategory, tags, page_layout, button_style, palette, links, images, public"
     )
     .eq("username", value)
     .single();
@@ -63,7 +63,7 @@ const updateUser = async (id, dataToSave) => {
 
 const uploadImage = async (id, file) => {
   const uploadFilename = `${id}_${generateRandomString(10)}_${btoa(
-    file.name.toString(),
+    file.name.toString()
   )}.${file.extension}`;
 
   const { data, error } = await supabase.storage
@@ -80,7 +80,7 @@ const uploadImage = async (id, file) => {
 
 const uploadAvatar = async (id, file) => {
   const uploadFilename = `${id}_${generateRandomString(10)}_${btoa(
-    file.name.toString(),
+    file.name.toString()
   )}.${file.extension}`;
 
   const { data, error } = await supabase.storage
@@ -112,7 +112,7 @@ const searchAll = async (value) => {
     searchWords
       .map(
         (word) =>
-          `(bio.ilike.%${word}%, category.ilike.%${word}%, tags::text ilike '%${word}%')`,
+          `(bio.ilike.%${word}%, category.ilike.%${word}%, tags::text ilike '%${word}%')`
       )
       .join(",") +
     `or(bio.ilike.%${value}%, category.ilike.%${value}%, tags::text ilike '%${value}%)'`;
