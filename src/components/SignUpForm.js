@@ -9,7 +9,6 @@ import { useSignUp } from "@clerk/nextjs";
 import AuthText from "@/components/AuthText";
 import AuthPassword from "@/components/AuthPassword";
 import AuthUsername from "@/components/AuthUsername";
-import { isUsernameAvailable } from "@/utility/authUtils";
 import { usernameExists } from "@/utility/dbUtils";
 import { CircularProgress, Stack } from "@mui/material";
 
@@ -18,8 +17,11 @@ const SignUpForm = () => {
 
   // States
   const [checkingUsername, setCheckingUsername] = useState(false);
+  const [checkingEmail, setCheckingEmail] = useState(false);
   const [usernameTimeout, setUsernameTimeout] = useState(null);
-  const [readyToSignUp, setReadyToSignUp] = useState(false);
+  const [passwordTimeout, setPasswordTimeout] = useState(null);
+
+  const [verificationCode, setVerificationCode] = useState("");
 
   const [formData, setFormData] = useState({
     username: "",
@@ -56,7 +58,7 @@ const SignUpForm = () => {
     }));
   };
 
-  const handleLogin = async (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
 
     // if (!isLoaded) return;
@@ -74,26 +76,22 @@ const SignUpForm = () => {
     // }
   };
 
+  const handleVerify = async () => {
+    if (!isLoaded) return;
+
+    try {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        verifyCode: verificationCode,
+      });
+    } catch (error) {}
+  };
+
   useEffect(() => {
     if (usernameTimeout) {
       clearTimeout(usernameTimeout);
     }
 
-    setCheckingUsername(true);
-
     const newTimeout = setTimeout(async () => {
-      // if (!formData.username) {
-      //   setError({
-      //     ...error,
-      //     username: {
-      //       level: 5,
-      //       message: "Usernames can't be empty",
-      //     },
-      //   });
-      //
-      //   return false;
-      // }
-
       if (formData.username.length > 0 && formData.username.length < 4) {
         setError({
           ...error,
@@ -118,7 +116,6 @@ const SignUpForm = () => {
     }, 1000);
 
     setUsernameTimeout(newTimeout);
-    setCheckingUsername(false);
 
     return () => {
       clearTimeout(newTimeout);
@@ -142,7 +139,7 @@ const SignUpForm = () => {
     formData.username.length < 4 ||
     formData.email.length < 6 ||
     error.username.level > 1 ||
-    error.email.level > 0;
+    error.email.level > 1;
 
   return isLoaded ? (
     <div
