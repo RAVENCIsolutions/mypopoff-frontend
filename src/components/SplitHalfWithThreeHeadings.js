@@ -13,8 +13,11 @@
         />
         <div className={`flex flex-col gap-10`}>
           {blocks &&
-            blocks.map((block) => (
-              <div className={`flex flex-col items-start gap-2`}>
+            blocks.map((block, index) => (
+              <div
+                key={`block-${index}`}
+                className={`flex flex-col items-start gap-2`}
+              >
                 {block.icon}
                 <h3>{block.title || "Sub-Heading"}</h3>
                 <p className="font-light text-secondary-light dark:text-secondary-dark">
