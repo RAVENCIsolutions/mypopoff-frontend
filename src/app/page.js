@@ -2,7 +2,6 @@ import NavBar from "@/components/NavBar";
 import HeroSection from "@/components/HeroSection";
 import InfluencerSection from "@/components/InfluencerSection";
 import SplitThirdSection from "@/components/SplitThirdSection";
-import ThreeColSection from "@/components/ThreeColSection";
 import CallToActionSection from "@/components/CallToActionSection";
 import Footer from "@/components/Footer";
 import SplitHalfSection from "@/components/SplitHalfSection";
