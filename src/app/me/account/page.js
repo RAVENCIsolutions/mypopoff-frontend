@@ -15,7 +15,6 @@ import PopOffTextArea from "@/components/PopOffTextArea";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { usernameExists } from "@/utility/dbUtils";
-import { users } from "@clerk/nextjs/api";
 
 const AccountPage = observer(() => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -53,14 +52,6 @@ const AccountPage = observer(() => {
   };
 
   const { user, isSignedIn, isLoaded } = useUser();
-
-  const handleAvatarSelect = (event) => {
-    const file = event.target.files[0];
-
-    if (file) {
-      setSelectedAvatar(file);
-    }
-  };
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);

@@ -148,32 +148,32 @@ const InfluencerSection = ({ data }) => {
 
 const dummyData = [
   {
-    photo: "/images/influencer-01.png",
+    photo: "/images/influencer01.png",
     name: "Gardenism",
     category: "Lifestyle",
   },
   {
-    photo: "/images/influencer-02.png",
+    photo: "/images/influencer02.png",
     name: "TheCallumShow",
     category: "Entertainment",
   },
   {
-    photo: "/images/influencer-03.png",
+    photo: "/images/influencer03.png",
     name: "Travelover",
     category: "Travel",
   },
   {
-    photo: "/images/influencer-04.png",
+    photo: "/images/influencer04.png",
     name: "FoundationAndLips",
     category: "Beauty",
   },
   {
-    photo: "/images/influencer-05.png",
+    photo: "/images/influencer05.png",
     name: "StreetArtiste",
     category: "Creative",
   },
   {
-    photo: "/images/influencer-06.png",
+    photo: "/images/influencer06.png",
     name: "DEVolish",
     category: "Technology",
   },
