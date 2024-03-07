@@ -35,10 +35,20 @@ const NavBar = () => {
       >
         <ul className="mt-0 xs:mt-0 flex flex-col xs:flex-row gap-6">
           <li>
-            <Link href={`/`}>Home</Link>
+            <Link
+              href={`/`}
+              className={`hover:text-action  transition-all duration-300`}
+            >
+              Home
+            </Link>
           </li>
           <li>
-            <Link href={`/explore`}>Explore</Link>
+            <Link
+              href={`/explore`}
+              className={`hover:text-action  transition-all duration-300`}
+            >
+              Explore
+            </Link>
           </li>
         </ul>
 
@@ -63,14 +73,14 @@ const NavBar = () => {
               <li>
                 <Link
                   href="/auth/login"
-                  className="font-normal hover:font-bold transition-all duration-300"
+                  className={`hover:text-action  transition-all duration-300`}
                 >
                   Login
                 </Link>
               </li>
               <li>
                 <Link
-                  className="py-2 px-4 bg-action rounded-full font-medium text-primary-dark"
+                  className={`py-2 px-4 bg-action hover:bg-primary-dark hover:dark:bg-primary-light rounded-full font-medium text-primary-light dark:text-primary-dark hover:text-action hover:dark:text-action transition-all duration-300`}
                   href="/auth/register"
                 >
                   Register
