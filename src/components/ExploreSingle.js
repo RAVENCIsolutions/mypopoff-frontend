@@ -9,9 +9,14 @@ const ExploreSingle = ({ theUser }) => {
     >
       <div className={`w-full h-full rounded-b-3xl overflow-hidden`}>
         {theUser.images && (
-          <img
+          <Image
             src={theUser.images}
-            className={`rounded-b-3xl aspect-square object-cover`}
+            alt={theUser.username}
+            blurDataURL={"/images/avatar-placeholder.jpg"}
+            placeholder={"blur"}
+            width={500}
+            height={500}
+            className={`rounded-b-3xl aspect-square object-cover object-center`}
           />
         )}
       </div>

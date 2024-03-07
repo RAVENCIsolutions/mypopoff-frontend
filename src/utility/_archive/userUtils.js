@@ -1,5 +1,5 @@
 import { defaultUser } from "@/data/defaultUser";
-import supabase from "@/config/Supbase";
+import { supabase } from "@/config/Supbase";
 
 const userKeyInLocalStorage = "userData";
 const userTable = process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE;

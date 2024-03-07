@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
@@ -15,8 +13,6 @@ import { ButtonsLookup } from "@/data/ButtonsLookup";
 import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
-  const { username, bio, links, palette } = userData;
-
   const cards = [
     {
       title: "About Me",
@@ -53,7 +49,7 @@ const Layout05 = ({ previewWindow = false, userData = defaultUser }) => {
                 link.public &&
                 ButtonsLookup[
                   getButtonStyleIndex(userData.button_style)
-                ].component(link.url, link.title, palette, index)
+                ].component(link.url, link.title, userData.palette, index)
               );
             })}
         </section>

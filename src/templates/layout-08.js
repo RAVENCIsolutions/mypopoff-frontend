@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
@@ -28,7 +26,7 @@ const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
           className={`px-6 md:px-20 flex flex-col justify-between items-center max-h-full overflow-y-auto`}
         >
           <h1
-            className="font-bold text-xl md:text-4xl text-center tracking-wide"
+            className="font-bold font-barlowCondensed text-xl md:text-4xl text-center tracking-wide"
             style={{ color: userData.palette.mainText }}
           >
             @{userData.username}

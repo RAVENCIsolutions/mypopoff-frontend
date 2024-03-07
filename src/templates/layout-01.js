@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
@@ -7,7 +5,6 @@ import {
 } from "react-icons/bi";
 
 import Link from "next/link";
-import { observer } from "mobx-react";
 
 import {
   getButtonStyleIndex,
@@ -15,7 +12,6 @@ import {
 } from "@/utility/generalUtils";
 import { defaultUser } from "@/data/defaultUser";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
-import { useEffect } from "react";
 
 const Layout01 = ({
   previewWindow = false,

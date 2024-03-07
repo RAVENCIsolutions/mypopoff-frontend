@@ -4,24 +4,23 @@ import MPOLetterMark from "@/components/MPOLetterMark";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useSignUp } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { CircularProgress, Stack } from "@mui/material";
+
+import { usernameExists } from "@/utility/dbUtils";
 
 import AuthText from "@/components/AuthText";
 import AuthPassword from "@/components/AuthPassword";
 import AuthUsername from "@/components/AuthUsername";
-import { usernameExists } from "@/utility/dbUtils";
-import { CircularProgress, Stack } from "@mui/material";
+import { supabase } from "@/config/Supbase";
 
 const SignUpForm = () => {
-  const { isLoaded, signUp } = useSignUp();
-
   // States
   const [checkingUsername, setCheckingUsername] = useState(false);
-  const [checkingEmail, setCheckingEmail] = useState(false);
   const [usernameTimeout, setUsernameTimeout] = useState(null);
-  const [passwordTimeout, setPasswordTimeout] = useState(null);
 
   const [verificationCode, setVerificationCode] = useState("");
+  const [readyToSignUp, setReadyToSignUp] = useState(false);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -49,6 +48,8 @@ const SignUpForm = () => {
     2: "text-danger",
   };
 
+  const router = useRouter();
+
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
 
@@ -61,28 +62,29 @@ const SignUpForm = () => {
   const handleSignUp = async (event) => {
     event.preventDefault();
 
-    // if (!isLoaded) return;
+    try {
+      const result = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          emailRedirectTo: `${location.origin}/auth/callback`,
+        },
+      });
 
-    // try {
-    //   const result = await signIn.create({
-    //     identifier: formData.email,
-    //     password: formData.password,
-    //   });
-    // } catch (error) {
-    //   setError({
-    //     level: error.code,
-    //     message: error.message,
-    //   });
-    // }
+      router.refresh();
+    } catch (error) {
+      setError({
+        level: error.code,
+        message: error.message,
+      });
+    }
   };
 
   const handleVerify = async () => {
-    if (!isLoaded) return;
-
     try {
-      const completeSignUp = await signUp.attemptEmailAddressVerification({
-        verifyCode: verificationCode,
-      });
+      // const completeSignUp = await signUp.attemptEmailAddressVerification({
+      //   verifyCode: verificationCode,
+      // });
     } catch (error) {}
   };
 
@@ -141,7 +143,7 @@ const SignUpForm = () => {
     error.username.level > 1 ||
     error.email.level > 1;
 
-  return isLoaded ? (
+  return (
     <div
       className={`p-5 sm:p-8 w-full xs:max-w-sm bg-white rounded-none xs:rounded-2xl shadow-xl shadow-primary-dark/5`}
     >
@@ -150,11 +152,13 @@ const SignUpForm = () => {
       >
         <Link href={"/"} className={`mb-4`}>
           <MPOLetterMark
-            className={`w-12 fill-primary-dark dark:fill-primary-light hover:fill-action transition-all duration-300`}
+            className={`w-12 fill-primary-dark hover:fill-action transition-all duration-300`}
           />
         </Link>
 
-        <h1 className={`text-2xl font-bold text-center`}>Welcome!</h1>
+        <h1 className={`text-2xl font-bold text-center text-primary-dark`}>
+          Welcome!
+        </h1>
         <p className={`text-base text-center text-primary-dark/50`}>
           Let's get you signed up.
         </p>
@@ -218,7 +222,7 @@ const SignUpForm = () => {
           Register
         </button>
       </form>
-      <p className={`mt-8 text-sm font-light text-center`}>
+      <p className={`mt-8 text-sm font-light text-center text-primary-dark/70`}>
         Already have an account?{" "}
         <Link
           href={"/auth/login"}
@@ -228,6 +232,6 @@ const SignUpForm = () => {
         </Link>
       </p>
     </div>
-  ) : null;
+  );
 };
 export default SignUpForm;

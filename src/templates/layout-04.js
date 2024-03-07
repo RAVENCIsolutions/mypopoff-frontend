@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
@@ -17,14 +15,15 @@ import {
 } from "@/utility/generalUtils";
 
 const Layout04 = ({ previewWindow = false, userData = defaultUser }) => {
-  const { username, bio, links, palette } = userData;
-
   return (
     <main
       className={`relative ${
         previewWindow ? "pt-12 pb-4 min-h-full" : "py-6 min-h-screen"
       } flex flex-col justify-between h-fit`}
-      style={{ backgroundColor: palette.background, color: palette.mainText }}
+      style={{
+        backgroundColor: userData.palette.background,
+        color: userData.palette.mainText,
+      }}
     >
       <section className="mx-auto px-4 flex flex-col justify-center items-center text-center">
         <h1
@@ -39,7 +38,7 @@ const Layout04 = ({ previewWindow = false, userData = defaultUser }) => {
           className={`${
             previewWindow ? "text-base" : "text-sm md:text-xl"
           } max-w-xs font-calluna font-light text-center`}
-          style={{ color: palette.subText }}
+          style={{ color: userData.palette.subText }}
         >
           {userData.bio}
         </p>
@@ -59,7 +58,7 @@ const Layout04 = ({ previewWindow = false, userData = defaultUser }) => {
               link.public &&
               ButtonsLookup[
                 getButtonStyleIndex(userData.button_style)
-              ].component(link.url, link.title, palette, index)
+              ].component(link.url, link.title, userData.palette, index)
             );
           })}
       </section>
@@ -79,10 +78,10 @@ const Layout04 = ({ previewWindow = false, userData = defaultUser }) => {
         {/*<section className="flex flex-row gap-4">*/}
         {/*  <BiLogoFacebookCircle*/}
         {/*    size={24}*/}
-        {/*    style={{ color: palette.subText }}*/}
+        {/*    style={{ color: userData.palette.subText }}*/}
         {/*  />*/}
-        {/*  <BiLogoInstagramAlt size={24} style={{ color: palette.subText }} />*/}
-        {/*  <BiLogoTwitch size={24} style={{ color: palette.subText }} />*/}
+        {/*  <BiLogoInstagramAlt size={24} style={{ color: userData.palette.subText }} />*/}
+        {/*  <BiLogoTwitch size={24} style={{ color: userData.palette.subText }} />*/}
         {/*</section>*/}
         Copyright © {new Date().getFullYear()}.{" "}
         <Link href={"/"}>My Pop Off</Link>

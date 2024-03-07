@@ -38,7 +38,7 @@ const AuthUsername = ({
 
   return (
     <FormField className={`w-full`}>
-      <label htmlFor="email" className={`text-sm font-light`}>
+      <label htmlFor="email" className={`text-sm font-light text-primary-dark`}>
         {label}
       </label>
       <FormInput

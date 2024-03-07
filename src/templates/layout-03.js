@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
@@ -7,15 +5,12 @@ import {
 } from "react-icons/bi";
 
 import Link from "next/link";
-import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout03 = ({ previewWindow = false, userData = defaultUser }) => {
-  const { username, bio, links, palette } = userData;
-
   return (
     <main
       className={`relative ${
@@ -37,15 +32,15 @@ const Layout03 = ({ previewWindow = false, userData = defaultUser }) => {
             className={`font-bold ${
               previewWindow ? "text-2xl" : "text-2xl md:text-4xl"
             } text-center `}
-            style={{ color: palette.mainText }}
+            style={{ color: userData.palette.mainText }}
           >
-            @{userData.username}
+            {userData.username}
           </h1>
           <p
             className={`mb-8 max-w-lg ${
               previewWindow ? "text-base" : "text-base md:text-xl"
             }`}
-            style={{ color: palette.subText }}
+            style={{ color: userData.palette.subText }}
           >
             {userData.bio}
           </p>
@@ -63,7 +58,7 @@ const Layout03 = ({ previewWindow = false, userData = defaultUser }) => {
                   link.public &&
                   ButtonsLookup[
                     getButtonStyleIndex(userData.button_style)
-                  ].component(link.url, link.title, palette, index)
+                  ].component(link.url, link.title, userData.palette, index)
                 );
               })}
           </section>

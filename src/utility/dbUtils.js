@@ -1,5 +1,4 @@
-﻿import supabase from "@/config/Supbase";
-import { users } from "@clerk/nextjs/api";
+﻿import { supabase } from "@/config/Supbase";
 import { generateRandomString } from "@/utility/generalUtils";
 
 const usersTable = process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE;
@@ -99,7 +98,8 @@ const exploreAll = async () => {
   const { data, error } = await supabase
     .from(usersTable)
     .select()
-    .neq("username", "");
+    .neq("username", "")
+    .is("public", true);
 
   if (error) return false;
   return data;

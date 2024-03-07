@@ -2,12 +2,15 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 import { CgCloseR, CgMenuBoxed } from "react-icons/cg";
 import { BiSolidUserCircle } from "react-icons/bi";
 
+import { useRavenci } from "@/providers/RavenciContext";
+
 const NavBar = () => {
+  const { isSignedIn } = useRavenci();
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -40,37 +43,41 @@ const NavBar = () => {
         </ul>
 
         <ul className="mb-0 flex flex-col xs:flex-row items-start xs:items-center gap-6 text-primary-dark dark:text-primary-light">
-          <SignedIn>
-            <li>
-              <Link href={"/me"}>
-                <div className={`hidden xs:block`}>
-                  <BiSolidUserCircle className={`text-action`} size={32} />
-                </div>
-                <div className={`block xs:hidden`}>
-                  <p className={`font-bold text-action`}>My Dashboard</p>
-                </div>
-              </Link>
-            </li>
-          </SignedIn>
-
-          <SignedOut>
-            <li>
-              <Link
-                href="/auth/login"
-                className="font-normal hover:font-bold transition-all duration-300"
-              >
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="py-2 px-4 bg-action rounded-full font-medium text-primary-dark"
-                href="/auth/register"
-              >
-                Register
-              </Link>
-            </li>
-          </SignedOut>
+          {isSignedIn ? (
+            <>
+              {/* Authenticated */}
+              <li>
+                <Link href={"/me"}>
+                  <div className={`hidden xs:block`}>
+                    <BiSolidUserCircle className={`text-action`} size={32} />
+                  </div>
+                  <div className={`block xs:hidden`}>
+                    <p className={`font-bold text-action`}>My Dashboard</p>
+                  </div>
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              {/* Not Authenticated */}
+              <li>
+                <Link
+                  href="/auth/login"
+                  className="font-normal hover:font-bold transition-all duration-300"
+                >
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="py-2 px-4 bg-action rounded-full font-medium text-primary-dark"
+                  href="/auth/register"
+                >
+                  Register
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
 

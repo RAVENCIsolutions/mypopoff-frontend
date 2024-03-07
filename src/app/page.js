@@ -1,14 +1,16 @@
 import NavBar from "@/components/NavBar";
-import HeroSection from "@/components/HeroSection";
-import InfluencerSection from "@/components/InfluencerSection";
-import SplitThirdSection from "@/components/SplitThirdSection";
-import CallToActionSection from "@/components/CallToActionSection";
-import Footer from "@/components/Footer";
-import SplitHalfSection from "@/components/SplitHalfSection";
-import SplitHalfWithThreeHeadings from "@/components/SplitHalfWithThreeHeadings";
+
 import { FaGoogle } from "react-icons/fa";
 import { IoSpeedometer } from "react-icons/io5";
 import { BsGraphUpArrow } from "react-icons/bs";
+
+import HeroSection from "@/components/HeroSection";
+import SplitHalfSection from "@/components/SplitHalfSection";
+import InfluencerSection from "@/components/InfluencerSection";
+import SplitThirdSection from "@/components/SplitThirdSection";
+import CallToActionSection from "@/components/CallToActionSection";
+import SplitHalfWithThreeHeadings from "@/components/SplitHalfWithThreeHeadings";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "The link in bio tool with a bang | My Pop Off",

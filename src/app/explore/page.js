@@ -1,7 +1,8 @@
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
-import ExploreBlock from "@/components/ExploreBlock";
+
 import SearchBlock from "@/components/SearchBlock";
+import ExploreBlock from "@/components/ExploreBlock";
 
 export const metadata = {
   title: "Explore | My Pop Off",

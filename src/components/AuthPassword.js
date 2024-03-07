@@ -20,7 +20,7 @@ const FormInput = styled.input`
 `;
 
 const AuthPassword = ({
-  label = "label",
+  label = "Password",
   name = "",
   value,
   onChange,
@@ -35,8 +35,11 @@ const AuthPassword = ({
 
   return (
     <FormField className={`group w-full`}>
-      <label htmlFor="password" className={`text-sm font-light`}>
-        Password
+      <label
+        htmlFor="password"
+        className={`text-sm font-light text-primary-dark`}
+      >
+        {label}
       </label>
       <section className={`relative w-full`}>
         <FormInput
@@ -96,9 +99,9 @@ const AuthPassword = ({
         <MdOutlineLock
           className={`absolute top-1/2 left-2 -translate-y-1/2 ${
             value.length > 0
-              ? "text-primary-dark"
-              : "text-primary-dark/50 group-hover:text-primary-dark"
-          }`}
+              ? "text-primary-dark dark:text-primary-light"
+              : "text-primary-dark/50 dark:text-primary-light/50 group-hover:text-primary-dark group-hover:dark:text-primary-light"
+          } transition-all duration-300`}
         />
       </section>
       <section className={`my-1 flex gap-1`}>

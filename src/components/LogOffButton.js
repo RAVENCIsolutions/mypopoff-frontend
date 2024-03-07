@@ -4,16 +4,18 @@ import { useClerk } from "@clerk/nextjs";
 import userStore from "@/stores/UserStore";
 
 import { CgLogOff } from "react-icons/cg";
+import { supabase } from "@/config/Supbase";
+import { useRouter } from "next/navigation";
 
 const LogOffButton = () => {
-  const { signOut } = useClerk();
+  const router = useRouter();
+
   return (
     <article
       className="cursor-pointer"
       onClick={async () => {
-        await signOut().then(async () => {
-          await userStore.logoutUser();
-        });
+        await supabase.auth.signOut();
+        router.refresh();
       }}
     >
       <p

@@ -1,12 +1,11 @@
 import "./globals.scss";
-import { ClerkProvider } from "@clerk/nextjs";
+
 import Providers from "@/providers/Providers";
+import { RavenciProvider } from "@/providers/RavenciContext";
 
 const RootLayout = ({ children }) => {
   return (
-    <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-    >
+    <RavenciProvider>
       <html lang="en" suppressHydrationWarning>
         <head>
           <link rel="stylesheet" href="https://use.typekit.net/oya4ufz.css" />
@@ -34,7 +33,7 @@ const RootLayout = ({ children }) => {
           <Providers>{children}</Providers>
         </body>
       </html>
-    </ClerkProvider>
+    </RavenciProvider>
   );
 };
 

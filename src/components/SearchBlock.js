@@ -1,13 +1,14 @@
 ﻿"use client";
 
 import { useEffect, useState } from "react";
-import { exploreAll } from "@/utility/dbUtils";
+
 import { LuSearch } from "react-icons/lu";
-import useWindowWidth from "@/hooks/useWindowWidth";
-// import { categories } from "@/data/CustomisationData";
 import { CircularProgress, Stack } from "@mui/material";
-import ExploreSingle from "@/components/ExploreSingle";
+
 import { StopWords } from "@/data/StopWords";
+import { exploreAll } from "@/utility/dbUtils";
+import useWindowWidth from "@/hooks/useWindowWidth";
+import ExploreSingle from "@/components/ExploreSingle";
 
 const SearchBlock = () => {
   const [data, setData] = useState([]);
@@ -18,7 +19,6 @@ const SearchBlock = () => {
   const windowWidth = useWindowWidth();
   const [placeholder, setPlaceholder] = useState("");
   const [inputAlignment, setInputAlignment] = useState("text-center");
-  // const [categoryArray, setCategoryArray] = useState([]);
 
   const handleSearch = (term) => {
     setSearching(true);

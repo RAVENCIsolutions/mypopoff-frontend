@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
@@ -14,8 +12,6 @@ import { ButtonsLookup } from "@/data/ButtonsLookup";
 import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout09 = ({ previewWindow = false, userData = defaultUser }) => {
-  const { username, bio, links, palette } = userData;
-
   return (
     <main
       className={`flex flex-col items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-primary-dark bg-cover bg-center`}
@@ -26,13 +22,13 @@ const Layout09 = ({ previewWindow = false, userData = defaultUser }) => {
       <section className="pt-8 pb-0 flex flex-col items-center justify-center rounded-xl w-5/6 max-w-3xl h-max bg-white/60 text-center gap-6 z-10 overflow-hidden">
         <h1
           className="font-bold uppercase text-xl md:text-5xl text-center"
-          style={{ color: palette.mainText }}
+          style={{ color: userData.palette.mainText }}
         >
           @{userData.username}
         </h1>
         <p
           className="mb-2 text-base md:text-xl max-w-xs"
-          style={{ color: palette.subText }}
+          style={{ color: userData.palette.subText }}
         >
           {userData.bio}
         </p>
@@ -50,7 +46,7 @@ const Layout09 = ({ previewWindow = false, userData = defaultUser }) => {
                 link.public &&
                 ButtonsLookup[
                   getButtonStyleIndex(userData.button_style)
-                ].component(link.url, link.title, palette, index)
+                ].component(link.url, link.title, userData.palette, index)
               );
             })}
         </article>
