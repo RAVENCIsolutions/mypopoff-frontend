@@ -7,6 +7,9 @@ import { useRouter } from "next/navigation";
 
 import { supabase } from "@/config/Supbase";
 import MPOLetterMark from "@/components/MPOLetterMark";
+import { FaCheck } from "react-icons/fa";
+import { PiWarningBold } from "react-icons/pi";
+import { MdOutlineDangerous } from "react-icons/md";
 
 const FormField = styled.fieldset`
   display: flex;
@@ -35,15 +38,20 @@ const LoginForm = () => {
     message: "",
   });
 
-  const errorCode = {
-    1: "text-warning",
-    2: "text-danger",
+  const errorCodes = {
+    1: "bg-warning/10 text-warning",
+    2: "bg-danger/10 text-danger",
   };
 
   const router = useRouter();
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
+
+    setError({
+      level: 0,
+      message: "",
+    });
 
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -54,18 +62,26 @@ const LoginForm = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    try {
-      const result = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
 
-      router.refresh();
-    } catch (error) {
+    router.refresh();
+
+    console.log(data);
+
+    if (error) {
       setError({
-        level: error.code,
+        level: 2,
         message: error.message,
       });
+
+      return;
+    }
+
+    console.log(await supabase.auth.getSession());
+    if (formData.remember) {
     }
   };
 
@@ -139,6 +155,24 @@ const LoginForm = () => {
             }`}
           />
         </FormField>
+
+        {error.level > 0 && (
+          <p
+            className={`p-2 flex items-center gap-1 text-xs ${
+              errorCodes[error.level]
+            } `}
+          >
+            {error.level === 1 ? (
+              <FaCheck size={10} />
+            ) : error.level < 5 ? (
+              <PiWarningBold size={15} />
+            ) : (
+              error.level === 5 && <MdOutlineDangerous size={15} />
+            )}
+            {error.message}
+          </p>
+        )}
+
         <article
           className={`flex flex-col-reverse xs:flex-row justify-between gap-4 w-full`}
         >
@@ -177,10 +211,7 @@ const LoginForm = () => {
         </p>
         <button
           className={`cursor-pointer disabled:cursor-auto p-3 bg-action hover:bg-action/80 disabled:bg-gray-400 rounded-md focus:shadow-xl shadow-primary-dark/30 outline-none text-xs font-bold uppercase text-white disabled:text-white/70 transition-all duration-300`}
-          onClick={(event) => {
-            event.preventDefault();
-            console.log("Touch");
-          }}
+          onClick={handleLogin}
           disabled={isDisabled}
         >
           Login

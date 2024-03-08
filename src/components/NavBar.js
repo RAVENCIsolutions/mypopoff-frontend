@@ -6,11 +6,7 @@ import { useEffect, useState } from "react";
 import { CgCloseR, CgMenuBoxed } from "react-icons/cg";
 import { BiSolidUserCircle } from "react-icons/bi";
 
-import { useRavenci } from "@/providers/RavenciContext";
-
-const NavBar = () => {
-  const { isSignedIn } = useRavenci();
-
+const NavBar = ({ session }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -20,7 +16,7 @@ const NavBar = () => {
   }, [menuOpen]);
 
   return (
-    <nav className="relative my-4 md:my-auto md:mt-7 md:mb-4 mx-auto px-5 md:px-10 flex items-center justify-between w-full max-w-windowed">
+    <nav className="relative my-4 md:my-auto md:mt-7 md:mb-4 mx-auto px-5 flex items-center justify-between w-full">
       {menuOpen ? (
         <div
           className="block xs:hidden absolute -top-10 left-0 w-screen h-screen bg-primary-light/50 dark:bg-primary-dark/50 z-20"
@@ -53,7 +49,7 @@ const NavBar = () => {
         </ul>
 
         <ul className="mb-0 flex flex-col xs:flex-row items-start xs:items-center gap-6 text-primary-dark dark:text-primary-light">
-          {isSignedIn ? (
+          {session ? (
             <>
               {/* Authenticated */}
               <li>

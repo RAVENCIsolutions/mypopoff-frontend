@@ -1,42 +1,28 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-
-import { observer } from "mobx-react";
 import { LinearProgress, Stack } from "@mui/material";
 
 import { getFromLocalStorage } from "@/utility/localStorageUtils";
 import userStore from "@/stores/UserStore";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-const Me = observer(() => {
-  const { loaded } = userStore;
+const Me = async () => {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  const { user, isSignedIn, isLoaded } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    const handleUserRedirection = async () => {
-      if (isSignedIn) {
-        const lastPage = getFromLocalStorage("lastPage") || "/me/dashboard";
-        router.push(lastPage);
-      }
-    };
-
-    handleUserRedirection().then(() => {});
-  }, [user, isSignedIn, isLoaded]);
+  const { data, userError } = await supabase
+    .from(process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE)
+    .select("username")
+    .eq("uid", session.user.id)
+    .single();
 
   return (
     <main className="w-full h-full rounded-lg">
       <div className="flex flex-row w-full h-full text-primary-dark dark:text-primary-light">
         <section className="p-5 md:p-6 w-full h-full rounded-sm bg-dashboard-primary-light dark:bg-dashboard-primary-dark">
-          <h2 className="mb-2 md:mb-2 pb-2 md:pb-4 text-xl w-full">
-            Welcome
-            {loaded && userStore.userData.username
-              ? ` ${userStore.userData.username}`
-              : ""}
-            !
+          <h2 className="mb-2 md:mb-2 pb-2 md:pb-4 w-full text-lg">
+            Welcome{data ? ` ${data.username}` : null}!
           </h2>
           <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
             <LinearProgress color="inherit" />
@@ -45,6 +31,6 @@ const Me = observer(() => {
       </div>
     </main>
   );
-});
+};
 
 export default Me;

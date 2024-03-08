@@ -145,7 +145,7 @@ const CustomisePage = observer(() => {
                     }
                   }}
                 >
-                  <Image
+                  <img
                     src={item.selector}
                     alt={item.title}
                     width={80}

@@ -63,7 +63,7 @@ const SignUpForm = () => {
     event.preventDefault();
 
     try {
-      const result = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -71,21 +71,22 @@ const SignUpForm = () => {
         },
       });
 
+      if (error) {
+        console.log(error);
+      }
+
       router.refresh();
+
+      if (data) {
+        // Ask to check email for verification
+      }
+      console.log(data);
     } catch (error) {
       setError({
         level: error.code,
         message: error.message,
       });
     }
-  };
-
-  const handleVerify = async () => {
-    try {
-      // const completeSignUp = await signUp.attemptEmailAddressVerification({
-      //   verifyCode: verificationCode,
-      // });
-    } catch (error) {}
   };
 
   useEffect(() => {
@@ -213,10 +214,7 @@ const SignUpForm = () => {
 
         <button
           className={`cursor-pointer disabled:cursor-auto p-3 bg-action hover:bg-action/80 disabled:bg-gray-400 rounded-md focus:shadow-xl shadow-primary-dark/30 outline-none text-xs font-bold uppercase text-white disabled:text-white/70 transition-all duration-300`}
-          onClick={(event) => {
-            event.preventDefault();
-            console.log("Touch");
-          }}
+          onClick={handleSignUp}
           disabled={isDisabled}
         >
           Register

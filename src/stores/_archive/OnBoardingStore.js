@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { OnboardingLayouts } from "@/data/OnboardingLayouts";
+import { LayoutsLookup } from "@/data/LayoutsLookup";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 
 class OnBoardingStore {
@@ -51,7 +51,7 @@ class OnBoardingStore {
   };
 
   updateLayout = (id) => {
-    this.onBoardingCurrent.pageLayout = OnboardingLayouts[id].id;
+    this.onBoardingCurrent.pageLayout = LayoutsLookup[id].id;
   };
 
   updateButtonStyle = (id) => {
@@ -63,17 +63,17 @@ class OnBoardingStore {
   };
 
   resetColours = () => {
-    const layoutIndex = OnboardingLayouts.findIndex(
-      (layout) => layout.id === onBoardingStore.onBoardingCurrent.pageLayout,
+    const layoutIndex = LayoutsLookup.findIndex(
+      (layout) => layout.id === onBoardingStore.onBoardingCurrent.pageLayout
     );
 
     const buttonIndex = ButtonsLookup.findIndex(
-      (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle,
+      (button) => button.id === onBoardingStore.onBoardingCurrent.buttonStyle
     );
 
     this.onBoardingCurrent.palette = {};
     this.onBoardingCurrent.palette = {
-      ...OnboardingLayouts[layoutIndex].colours,
+      ...LayoutsLookup[layoutIndex].colours,
       ...ButtonsLookup[buttonIndex].colours,
     };
   };

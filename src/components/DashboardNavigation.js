@@ -1,23 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import { observer } from "mobx-react";
-import { useClerk, useUser } from "@clerk/nextjs";
 
 import { CgPerformance, CgUser, CgWebsite } from "react-icons/cg";
 import { RiPaletteLine } from "react-icons/ri";
 
 import "@/app/me/dashboard.scss";
-import userStore from "@/stores/UserStore";
 import { ImCog } from "react-icons/im";
 
-const DashboardNavigation = observer(() => {
+const DashboardNavigation = () => {
   const pathname = usePathname();
-
-  const { user, isSignedIn, isLoaded } = useUser();
 
   const topLinks = [
     {
@@ -52,20 +45,8 @@ const DashboardNavigation = observer(() => {
     },
   ];
 
-  useEffect(() => {
-    const handleUser = async () => {
-      return await userStore.loadUserData(user.id);
-    };
-
-    if (isSignedIn) {
-      handleUser().then((data) => {
-        userStore.completeLoad();
-      });
-    }
-  }, [user, isSignedIn, isLoaded]);
-
   return (
-    <nav className="mb-4 sm:mb-0 py-2 sm:py-5 px-5 md:pl-6 flex flex-col h-auto sm:h-full w-full sm:w-auto text-primary-dark dark:text-primary-light font-light">
+    <nav className="mb-4 sm:mb-0 py-2 sm:py-5 flex flex-col h-auto sm:h-full w-full sm:w-auto text-primary-dark dark:text-primary-light font-light">
       <section className="flex-grow h-auto sm:h-full">
         <ul className="relative flex flex-row sm:flex-col justify-between sm:justify-start sm:gap-8 w-full">
           {topLinks.map((link, index) => (
@@ -86,6 +67,6 @@ const DashboardNavigation = observer(() => {
       </section>
     </nav>
   );
-});
+};
 
 export default DashboardNavigation;

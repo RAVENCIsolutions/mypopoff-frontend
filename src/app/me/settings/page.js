@@ -5,15 +5,10 @@ import { useUser } from "@clerk/nextjs";
 import { CircularProgress, Switch, Stack } from "@mui/material";
 
 import userStore from "@/stores/UserStore";
-import { LayoutsLookup } from "@/data/LayoutsLookup";
-import { ButtonsLookup } from "@/data/ButtonsLookup";
 import { uploadAvatar, uploadImage } from "@/utility/dbUtils";
 import { getFromLocalStorage } from "@/utility/localStorageUtils";
 
 export default function SettingsPage() {
-  const [changed, setChanged] = useState(true);
-  const [socialMediaLinks, setSocialMediaLinks] = useState([]);
-
   const [saving, setSaving] = useState(false);
 
   const [makePublic, setMakePublic] = useState(false);

@@ -9,7 +9,7 @@ const fetchUser = async (id) => {
   const { data, error } = await supabase
     .from(usersTable)
     .select()
-    .eq("clerk_user_id", id)
+    .eq("uid", id)
     .single();
 
   if (error) return false;
@@ -43,7 +43,7 @@ const usernameExists = async (value) => {
 const createUser = async (id, saveData) => {
   const { data, error } = await supabase
     .from(usersTable)
-    .insert({ ...saveData, clerk_user_id: id })
+    .insert({ ...saveData, uid: id })
     .select();
 
   if (error) return false;
@@ -52,10 +52,13 @@ const createUser = async (id, saveData) => {
 };
 
 const updateUser = async (id, dataToSave) => {
+  console.log("Saving");
+  console.log(dataToSave);
+
   const { error } = await supabase
     .from(usersTable)
     .update({ ...dataToSave })
-    .eq("clerk_user_id", id);
+    .eq("uid", id);
 
   return !error;
 };

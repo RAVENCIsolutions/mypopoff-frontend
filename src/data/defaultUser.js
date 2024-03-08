@@ -1,5 +1,5 @@
 const defaultUser = {
-  clerk_user_id: null,
+  uid: null,
 
   username: "",
 

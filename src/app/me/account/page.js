@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
 import { observer } from "mobx-react";
 import { CircularProgress, LinearProgress, Stack } from "@mui/material";
 
@@ -18,7 +17,6 @@ import { usernameExists } from "@/utility/dbUtils";
 
 const AccountPage = observer(() => {
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedAvatar, setSelectedAvatar] = useState(null);
 
   const [username, setUsername] = useState("");
   const [checkingUsername, setCheckingUsername] = useState(true);
@@ -50,8 +48,6 @@ const AccountPage = observer(() => {
     1: <ImCross size={8} color={"#DB2B20"} />,
     2: <FaCheck size={10} color={"#c68a4e"} />,
   };
-
-  const { user, isSignedIn, isLoaded } = useUser();
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
@@ -133,7 +129,7 @@ const AccountPage = observer(() => {
         setOtherCategoryValue(data ? data.otherCategory : "");
 
         const threshold = Object.keys(progressColours).findLast(
-          (key) => userStore.userData.bio.length >= key,
+          (key) => userStore.userData.bio.length >= key
         );
 
         setBioProgressColour(progressColours[threshold] || "#5FD378");
@@ -274,11 +270,11 @@ const AccountPage = observer(() => {
                   rows={5}
                   onChange={(e) => {
                     const threshold = Object.keys(progressColours).findLast(
-                      (key) => e.target.value.length >= key,
+                      (key) => e.target.value.length >= key
                     );
 
                     setBioProgressColour(
-                      progressColours[threshold] || "#5FD378",
+                      progressColours[threshold] || "#5FD378"
                     );
 
                     userStore.setUserData({ ...userData, bio: e.target.value });
@@ -302,7 +298,7 @@ const AccountPage = observer(() => {
                     // styles={{ @apply text-action}}
                     value={Math.min(
                       ((userData.bio.length || 0) * 100) / maxBioLength,
-                      100,
+                      100
                     )}
                   />
                 </div>
@@ -348,7 +344,7 @@ const AccountPage = observer(() => {
                         value={userData.otherCategory}
                         onChange={(event) => {
                           setOtherCategoryValue(
-                            event.target.value.replace(/[^a-zA-Z]/g, ""),
+                            event.target.value.replace(/[^a-zA-Z]/g, "")
                           );
 
                           userStore.setUserData({

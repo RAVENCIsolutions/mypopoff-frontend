@@ -1,46 +1,10 @@
-﻿"use client";
+﻿import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import userStore from "@/stores/UserStore";
+import { defaultUser } from "@/data/defaultUser";
+import { createUser, fetchUser } from "@/utility/dbUtils";
 
-import { supabase } from "@/config/Supbase";
-
-const RavenciContext = createContext();
-
-export const RavenciProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const getSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      setUser(session ? await supabase.auth.getUser() : null);
-    };
-
-    getSession().then(() => setIsLoaded(true));
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session ? supabase.auth.getUser() : null);
-      }
-    );
-
-    return () => {
-      authListener?.subscription.unsubscribe;
-    };
-  }, []);
-
-  const value = {
-    user,
-    isLoaded,
-    isSignedIn: !!user,
-  };
-
-  return (
-    <RavenciContext.Provider value={value}>{children}</RavenciContext.Provider>
-  );
+export const RavenciProvider = async ({ children }) => {
+  return <>{children}</>;
 };
-
-export const useRavenci = () => useContext(RavenciContext);

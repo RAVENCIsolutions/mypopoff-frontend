@@ -1,41 +1,73 @@
 import { makeAutoObservable } from "mobx";
+
 import { defaultUser } from "@/data/defaultUser";
-import { LayoutsLookup } from "@/data/LayoutsLookup";
-import { ButtonsLookup } from "@/data/ButtonsLookup";
+import { uploadImage, uploadAvatar, updateUser } from "@/utility/dbUtils";
 
 class OnboardingStore {
   userData = defaultUser;
+  avatar = null;
+  image = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  updateValue(key, value) {
-    this.userData[key] = value;
-  }
-
-  updateColour(key, colour) {
-    this.userData.palette[key] = colour;
-  }
-
-  updateLayout = (id) => {
-    this.userData.page_layout = LayoutsLookup[id].id;
+  setUserData = (userData) => {
+    this.userData = userData;
   };
 
-  resetColours = () => {
-    const layoutIndex = LayoutsLookup.findIndex(
-      (layout) => layout.id === this.userData.page_layout,
-    );
+  updateUserData = (newData) => {
+    this.userData = { ...this.userData, ...newData };
+  };
 
-    const buttonIndex = ButtonsLookup.findIndex(
-      (button) => button.id === this.userData.button_style,
-    );
+  setAvatar = (avatar) => {
+    this.avatar = avatar;
+  };
 
-    this.userData.palette = {};
-    this.userData.palette = {
-      ...LayoutsLookup[layoutIndex].colours,
-      ...ButtonsLookup[buttonIndex].colours,
-    };
+  setImage = (image) => {
+    this.image = image;
+  };
+
+  uploadAvatar = async (id) => {
+    if (!this.avatar) return false;
+
+    const file = this.avatar;
+
+    await uploadAvatar(id, file).then((data) => {
+      this.userData.avatar_url =
+        process.env.NEXT_PUBLIC_SUPABASE_AVATARS_LINK + data.path;
+
+      this.avatar = null;
+    });
+  };
+
+  uploadImage = async (id) => {
+    if (!this.image) return false;
+
+    const file = this.image;
+
+    await uploadImage(id, file).then((data) => {
+      this.userData.images =
+        process.env.NEXT_PUBLIC_SUPABASE_IMAGES_LINK + data.path;
+
+      this.image = null;
+    });
+  };
+
+  saveProgress = async () => {
+    if (this.avatar) await this.uploadAvatar(this.userData.uid);
+    if (this.image) await this.uploadImage(this.userData.uid);
+    await updateUser(this.userData.uid, this.userData);
+
+    const sessionData = sessionStorage.getItem("userData");
+
+    if (sessionData) {
+      sessionStorage.setItem("userData", JSON.stringify(this.userData));
+
+      localStorage.removeItem("userData");
+    } else {
+      localStorage.setItem("userData", JSON.stringify(this.userData));
+    }
   };
 }
 

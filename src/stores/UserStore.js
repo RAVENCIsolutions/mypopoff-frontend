@@ -1,16 +1,12 @@
-import { makeAutoObservable, runInAction, toJS } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { defaultUser } from "@/data/defaultUser";
 
 import { createUser, fetchUser, updateUser } from "@/utility/dbUtils";
-import {
-  removeFromLocalStorage,
-  saveToLocalStorage,
-} from "@/utility/localStorageUtils";
+import { saveToLocalStorage } from "@/utility/localStorageUtils";
 
 class UserStore {
   // initialise user data
   userData = defaultUser;
-  loaded = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -25,31 +21,13 @@ class UserStore {
     if (this.userData.tags === null) this.userData.tags = [];
   };
 
-  completeLoad = () => {
-    this.loaded = true;
-  };
-
-  resetUserData = () => {
-    this.userData = defaultUser;
-    this.fixUserData();
-  };
-
-  setUser = (id) => {
-    this.userData.clerk_user_id = id;
-  };
-
   setUserData = (userData) => {
-    runInAction(() => {
-      this.userData = userData;
-      this.fixUserData();
-      saveToLocalStorage("userData", userData);
-    });
+    this.userData = userData;
+    this.fixUserData();
   };
 
   setPalette = (palette) => {
     this.userData.palette = palette;
-
-    saveToLocalStorage("userData", this.userData);
   };
 
   loadUserData = async (id) => {
@@ -77,13 +55,8 @@ class UserStore {
   saveUserData = async () => {
     this.fixUserData();
 
-    await updateUser(this.userData.clerk_user_id, this.userData);
+    await updateUser(this.userData.uid, this.userData);
     saveToLocalStorage("userData", this.userData);
-  };
-
-  logoutUser = async () => {
-    removeFromLocalStorage("userData");
-    this.resetUserData();
   };
 
   addLink = async (link) => {
