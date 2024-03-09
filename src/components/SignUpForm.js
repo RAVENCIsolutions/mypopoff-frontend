@@ -19,7 +19,6 @@ const SignUpForm = () => {
   const [checkingUsername, setCheckingUsername] = useState(false);
   const [usernameTimeout, setUsernameTimeout] = useState(null);
 
-  const [verificationCode, setVerificationCode] = useState("");
   const [readyToSignUp, setReadyToSignUp] = useState(false);
 
   const [formData, setFormData] = useState({

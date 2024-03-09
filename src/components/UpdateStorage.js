@@ -6,7 +6,11 @@ import userStore from "@/stores/UserStore";
 import { defaultUser } from "@/data/defaultUser";
 import { createUser, fetchUser } from "@/utility/dbUtils";
 import { verifyUserData } from "@/utility/generalUtils";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+import {
+  getFromStorage,
+  removeFromStorage,
+  saveToStorage,
+} from "@/utility/localStorageUtils";
 import onboardingStore from "@/stores/OnboardingStore";
 
 const UpdateStorage = ({ session }) => {
@@ -52,6 +56,9 @@ const UpdateStorage = ({ session }) => {
         // Return user data
         return currentUserData;
       } else {
+        removeFromStorage("userData");
+        removeFromStorage("lastFetch");
+
         // Return false
         return false;
       }

@@ -212,7 +212,7 @@ const LoginForm = () => {
             </label>
           </fieldset>
           <Link
-            href={"/"}
+            href={"/auth/forgot-password"}
             className={`text-sm text-primary-dark hover:text-action underline transition-all duration-300`}
           >
             Forgot Password?
