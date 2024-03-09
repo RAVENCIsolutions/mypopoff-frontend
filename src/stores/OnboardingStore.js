@@ -1,10 +1,21 @@
+import { defaultUser } from "@/data/defaultUser";
 import { makeAutoObservable } from "mobx";
 
-import { defaultUser } from "@/data/defaultUser";
-import { uploadImage, uploadAvatar, updateUser } from "@/utility/dbUtils";
+import { verifyUserData } from "@/utility/generalUtils";
+import {
+  uploadImage,
+  uploadAvatar,
+  updateUser,
+  createUser,
+  fetchUser,
+} from "@/utility/dbUtils";
+import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 
 class OnboardingStore {
-  userData = defaultUser;
+  // initialise user data
+  userData = {};
+  readyForOnboarding = false;
+
   avatar = null;
   image = null;
 
@@ -12,12 +23,37 @@ class OnboardingStore {
     makeAutoObservable(this);
   }
 
+  initialiseUser = async (id) => {
+    let getData = getFromStorage("userData");
+
+    if (!getData || !verifyUserData(getData)) {
+      await this.loadUserData(id);
+    } else {
+      const getLastFetch =
+        getFromStorage("lastFetch", sessionStorage, false) ||
+        new Date().getTime();
+      if (new Date().getTime() - getLastFetch > 1000 * 60 * 5) {
+        await this.loadUserData(id);
+      } else {
+        this.userData = getData;
+      }
+    }
+  };
+
+  updateUserData = (updateValue) => {
+    this.userData = { ...this.userData, ...updateValue };
+  };
+
   setUserData = (userData) => {
     this.userData = userData;
   };
 
-  updateUserData = (newData) => {
-    this.userData = { ...this.userData, ...newData };
+  addToPalette = (palette) => {
+    this.userData.palette = { ...this.userData.palette, ...palette };
+  };
+
+  setPalette = (palette) => {
+    this.userData.palette = palette;
   };
 
   setAvatar = (avatar) => {
@@ -28,7 +64,7 @@ class OnboardingStore {
     this.image = image;
   };
 
-  uploadAvatar = async (id) => {
+  pushAvatar = async (id) => {
     if (!this.avatar) return false;
 
     const file = this.avatar;
@@ -41,7 +77,7 @@ class OnboardingStore {
     });
   };
 
-  uploadImage = async (id) => {
+  pushImage = async (id) => {
     if (!this.image) return false;
 
     const file = this.image;
@@ -54,20 +90,33 @@ class OnboardingStore {
     });
   };
 
+  createNewUser = async (id, data) => {
+    await createUser(id, data).then((data) => {
+      this.userData = data;
+      return true;
+    });
+  };
+
+  loadUserData = async (id) => {
+    await fetchUser(id).then(async (data) => {
+      if (data) {
+        this.userData = data;
+      } else {
+        await this.createNewUser(id, { ...defaultUser }).then(() => true);
+      }
+    });
+
+    saveToStorage("lastFetch", new Date().getTime(), sessionStorage);
+  };
+
   saveProgress = async () => {
-    if (this.avatar) await this.uploadAvatar(this.userData.uid);
-    if (this.image) await this.uploadImage(this.userData.uid);
-    await updateUser(this.userData.uid, this.userData);
+    if (this.avatar) await this.pushAvatar(this.userData.uid);
+    if (this.image) await this.pushImage(this.userData.uid);
 
-    const sessionData = sessionStorage.getItem("userData");
-
-    if (sessionData) {
-      sessionStorage.setItem("userData", JSON.stringify(this.userData));
-
-      localStorage.removeItem("userData");
-    } else {
-      localStorage.setItem("userData", JSON.stringify(this.userData));
-    }
+    await updateUser(this.userData.uid, this.userData).then(() => {
+      saveToStorage("userData", this.userData);
+      saveToStorage("lastFetch", new Date().getTime(), sessionStorage);
+    });
   };
 }
 

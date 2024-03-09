@@ -1,7 +1,6 @@
 import "./globals.scss";
 
 import Providers from "@/providers/Providers";
-import { RavenciProvider } from "@/providers/RavenciContext";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import UpdateStorage from "@/components/UpdateStorage";

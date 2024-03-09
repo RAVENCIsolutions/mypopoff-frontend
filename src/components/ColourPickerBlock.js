@@ -14,10 +14,12 @@ import {
 } from "@/utility/colourUtils";
 
 import userStore from "@/stores/UserStore";
+import onBoardingStore from "@/stores/OnboardingStore";
 
 import { FaSlackHash } from "react-icons/fa";
+import { defaultUser } from "@/data/defaultUser";
 
-const ColourPickerBlock = observer(({ customisation }) => {
+const ColourPickerBlock = observer(({ customisation, store }) => {
   const [showPicker, setShowPicker] = useState(false);
   const [pickerColour, setPickerColour] = useState("");
   const [inputColour, setInputColour] = useState("");
@@ -25,17 +27,15 @@ const ColourPickerBlock = observer(({ customisation }) => {
   const [inputTimeout, setInputTimeout] = useState(null);
   const [checkingInput, setCheckingInput] = useState(false);
 
+  const [userData, setUserData] = useState(
+    store === "onBoardingStore" ? onBoardingStore.userData : userStore.userData
+  );
+
   const ref = useRef(null);
 
-  const { userData } = userStore;
-
-  const addToPalette = (key, value) => {
-    const newPalette = {
-      ...userData.palette,
-      [key]: value,
-    };
-
-    userStore.setPalette(newPalette);
+  const addColour = (key, value) => {
+    const useStore = store === "onBoardingStore" ? onBoardingStore : userStore;
+    useStore.addToPalette({ [key]: value });
   };
 
   const setColor = (value) => {
@@ -49,7 +49,7 @@ const ColourPickerBlock = observer(({ customisation }) => {
       if (isValidHex(newHex)) {
         setInputColour(newHex);
         setPickerColour(newHex);
-        addToPalette(customisation, newHex);
+        addColour(customisation, newHex);
       } else {
         setInputColour(userData.palette[customisation]);
         setPickerColour(userData.palette[customisation]);
@@ -67,10 +67,13 @@ const ColourPickerBlock = observer(({ customisation }) => {
   });
 
   useEffect(() => {
-    if (userData) {
-      setInputColour(userData.palette[customisation]);
-      setPickerColour(userData.palette[customisation]);
-    }
+    const useStore = store === "onBoardingStore" ? onBoardingStore : userStore;
+    const useColour =
+      customisation in useStore.userData.palette
+        ? useStore.userData.palette[customisation]
+        : defaultUser.palette[customisation];
+
+    setColor(useColour);
   }, []);
 
   useEffect(() => {
@@ -135,7 +138,7 @@ const ColourPickerBlock = observer(({ customisation }) => {
               setPickerColour(newColour);
               setInputColour(newColour);
 
-              addToPalette(customisation, newColour);
+              addColour(customisation, newColour);
             }}
           />
         </div>

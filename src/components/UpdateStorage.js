@@ -5,85 +5,86 @@ import { useEffect } from "react";
 import userStore from "@/stores/UserStore";
 import { defaultUser } from "@/data/defaultUser";
 import { createUser, fetchUser } from "@/utility/dbUtils";
-
-const verifyData = (data) => {
-  if (typeof data !== "object" || data === null) return false;
-
-  const checks = [
-    { key: "uid", type: "string" },
-    { key: "username", type: "string" },
-    { key: "bio", type: "string" },
-    { key: "tagline", type: "string" },
-    { key: "category", type: "string" },
-    { key: "otherCategory", type: "string" },
-    { key: "tags", type: "object" },
-    { key: "onboarding_complete", type: "boolean" },
-    { key: "page_layout", type: "string" },
-    { key: "button_style", type: "string" },
-    { key: "palette", type: "object" },
-    { key: "avatar_url", type: "string" },
-    { key: "images", type: "string" },
-    { key: "public", type: "boolean" },
-    { key: "links", type: "object" },
-  ];
-
-  for (const check of checks) {
-    const value = data[check.key];
-
-    if (typeof value !== check.type) return false;
-  }
-
-  return true;
-};
+import { verifyUserData } from "@/utility/generalUtils";
+import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+import onboardingStore from "@/stores/OnboardingStore";
 
 const UpdateStorage = ({ session }) => {
   useEffect(() => {
     const runCheck = async () => {
       if (session) {
-        // 1. check if a user row exists for account
-        const userExists = await fetchUser(session.user.id);
-        let newUser = null;
+        const userID = session.user.id;
+        let currentUserData = null;
 
-        // 1a. if no user, create a new user row
-        if (!userExists) {
-          newUser = await createUser(session.user.id, {
-            ...defaultUser,
-          });
-        }
+        // 0. Check first if a data exists in Storage
+        const lastFetch = getFromStorage("lastFetch", sessionStorage, false);
 
-        // 1b. if found user, go to 2
-        // 2. check if a userData item exists in sessionStorage or localStorage
-        let userData =
-          sessionStorage.getItem("userData") ||
-          localStorage.getItem("userData") ||
-          null;
+        // 0a. If not, or last fetch is more than 5 minutes old, load data from database
+        if (!lastFetch || new Date().getTime() - lastFetch > 1000 * 60 * 5) {
+          // 1. check if a user row exists for account
+          const data = await fetchUser(userID);
 
-        if (!userData || !verifyData(JSON.parse(userData))) {
-          sessionStorage.removeItem("userData");
-          localStorage.removeItem("userData");
-          userData = null;
-        }
+          // 1a. If not, create a new user row
+          if (!data) {
+            currentUserData = await createUser(userID, defaultUser);
 
-        if (userData === null) {
-          // 2a. if neither, create a new userData item in sessionStorage
-          sessionStorage.setItem(
-            "userData",
-            JSON.stringify(userExists || newUser || defaultUser)
+            // 1b. if yes, load data
+          } else {
+            currentUserData = data;
+          }
+
+          // Save data to Storage
+          saveToStorage("userData", currentUserData);
+
+          // Update last fetch
+          saveToStorage(
+            "lastFetch",
+            new Date().getTime(),
+            sessionStorage,
+            false
           );
 
-          userData = JSON.parse(sessionStorage.getItem("userData"));
+          // 0b. If yes, load data from Storage
+        } else {
+          currentUserData = getFromStorage("userData");
         }
 
-        // 2b. if yes, go to 3
-        // 3. load the user data from sessionStorage or localStorage to MobX Store
-        return userData;
+        // Return user data
+        return currentUserData;
+      } else {
+        // Return false
+        return false;
       }
     };
 
+    // Run check
     runCheck().then((result) => {
-      userStore.setUserData(result);
+      if (result) {
+        userStore.setUserData(
+          typeof result === "string" ? JSON.parse(result) : result
+        );
+      } else {
+        userStore.setUserData({});
+      }
+
+      onboardingStore.readyForOnboarding = true;
     });
   }, [session]);
+
+  useEffect(() => {
+    if (localStorage.getItem("userData")) {
+      const handleStorageChange = (event) => {
+        if (event.storageArea === localStorage && event.key === "userData") {
+          const getData = getFromStorage("userData", localStorage);
+          userStore.setUserData(getData);
+        }
+      };
+
+      window.addEventListener("storage", handleStorageChange);
+
+      return () => window.removeEventListener("storage", handleStorageChange);
+    }
+  }, []);
 };
 
 export default UpdateStorage;

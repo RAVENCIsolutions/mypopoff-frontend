@@ -14,7 +14,7 @@ import { LayoutsLookup } from "@/data/LayoutsLookup";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 
 import ColourPickerBlock from "@/components/ColourPickerBlock";
-import { getFromLocalStorage } from "@/utility/localStorageUtils";
+import { getFromStorage } from "@/utility/localStorageUtils";
 
 const CustomisePage = observer(() => {
   const [selectedLayout, setSelectedLayout] = useState(0);
@@ -45,7 +45,7 @@ const CustomisePage = observer(() => {
 
   useEffect(() => {
     if (loaded) {
-      console.log(getFromLocalStorage("userData"));
+      console.log(getFromStorage("userData"));
 
       const selectedLayoutIndex = Math.max(
         0,

@@ -40,7 +40,7 @@ const OnboardingTwo = () => {
 
   return (
     <section
-      className={`p-6 flex flex-col items-center gap-6 bg-white rounded-3xl w-full`}
+      className={`p-6 flex flex-col items-center gap-6 bg-white rounded-none sm:rounded-3xl w-full`}
     >
       <div className={`flex flex-col items-center justify-start gap-2`}>
         <h4 className={`text-sm font-bold`}>Your Avatar:</h4>
@@ -83,11 +83,11 @@ const OnboardingTwo = () => {
         />
       </div>
 
-      <article className="mx-auto flex flex-col items-center gap-3 w-full max-w-md">
+      <article className="mx-auto flex flex-col items-center gap-3 w-full">
         <h4 className="mt-2 text-base font-bold text-center md:text-left">
           Which category best suits your PopOff?
         </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-stretch flex-wrap">
+        <div className="grid grid-cols-1 sm:grid-cols-2 items-start justify-stretch flex-wrap">
           {categories.map((category, index) => (
             <PopOffChip
               key={index}

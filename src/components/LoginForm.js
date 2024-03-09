@@ -10,6 +10,8 @@ import MPOLetterMark from "@/components/MPOLetterMark";
 import { FaCheck } from "react-icons/fa";
 import { PiWarningBold } from "react-icons/pi";
 import { MdOutlineDangerous } from "react-icons/md";
+import { createUser, fetchUser } from "@/utility/dbUtils";
+import { defaultUser } from "@/data/defaultUser";
 
 const FormField = styled.fieldset`
   display: flex;
@@ -67,10 +69,6 @@ const LoginForm = () => {
       password: formData.password,
     });
 
-    router.refresh();
-
-    console.log(data);
-
     if (error) {
       setError({
         level: 2,
@@ -80,9 +78,30 @@ const LoginForm = () => {
       return;
     }
 
-    console.log(await supabase.auth.getSession());
-    if (formData.remember) {
+    sessionStorage.removeItem("userData");
+    localStorage.removeItem("userData");
+
+    const userExists = await fetchUser(data.session.user.id);
+
+    let newUser = null;
+
+    // 1a. if no user, create a new user row
+    if (!userExists) {
+      newUser = await createUser(data.session.user.id, {
+        ...defaultUser,
+      });
     }
+
+    //
+    const userData = userExists || newUser || defaultUser;
+
+    if (formData.remember) {
+      localStorage.setItem("userData", JSON.stringify(userData));
+    } else {
+      sessionStorage.setItem("userData", userData);
+    }
+
+    router.refresh();
   };
 
   const isDisabled = !formData.email || !formData.password;

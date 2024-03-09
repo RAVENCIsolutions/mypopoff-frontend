@@ -10,14 +10,10 @@ import {
   getButtonStyleIndex,
   getContrastLuminance,
 } from "@/utility/generalUtils";
-import { defaultUser } from "@/data/defaultUser";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
+import userStore from "@/stores/UserStore";
 
-const Layout01 = ({
-  previewWindow = false,
-  userData = defaultUser,
-  buttonStyle = 0,
-}) => {
+const Layout01 = ({ previewWindow = false, userData }) => {
   return (
     <main
       className={`${

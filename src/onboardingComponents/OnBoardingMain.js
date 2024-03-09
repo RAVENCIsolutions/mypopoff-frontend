@@ -16,10 +16,16 @@ import PrevButton from "@/onboardingComponents/PrevButton";
 import OnboardingSteps from "@/onboardingComponents/OnboardingSteps";
 import onBoardingStore from "@/stores/OnboardingStore";
 import { defaultUser } from "@/data/defaultUser";
+import { updateUser } from "@/utility/dbUtils";
+import CompleteButton from "@/onboardingComponents/CompleteButton";
+import { useRouter } from "next/navigation";
+import { saveToStorage } from "@/utility/localStorageUtils";
 
 const OnBoardingMain = observer(() => {
-  const [activeIndex, setActiveIndex] = useState(2);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [saving, setSaving] = useState(false);
+
+  const router = useRouter();
 
   const pageContainer = useRef(null);
 
@@ -39,7 +45,7 @@ const OnBoardingMain = observer(() => {
     {
       id: "page-three",
       index: `03`,
-      title: `Page Style`,
+      title: `Styling`,
       component: <OnboardingThree />,
     },
     {
@@ -102,16 +108,14 @@ const OnBoardingMain = observer(() => {
     const storageData =
       typeof findData === "string" ? JSON.parse(findData) : findData;
 
-    onBoardingStore.setUserData(storageData);
+    onBoardingStore.setUserData({ ...storageData });
 
     pageContainer.current.style.left = "0px";
     pageContainer.current.style.opacity = "1";
   }, []);
 
   return (
-    <main
-      className={`mx-auto mt-6 flex flex-col items-center w-full max-w-2xl`}
-    >
+    <div className={`mx-auto mt-6 flex flex-col items-center w-full max-w-2xl`}>
       <OnboardingSteps pages={onBoardingPages} active={activeIndex} />
 
       <section
@@ -126,19 +130,62 @@ const OnBoardingMain = observer(() => {
           activeIndex > 0 ? "sm:justify-between" : "justify-center"
         } gap-4 w-full`}
       >
-        {!saving && <SkipButton />}
+        {activeIndex > 0 && activeIndex < onBoardingPages.length - 1 && (
+          <>
+            {!saving && (
+              <SkipButton
+                onClick={async () => {
+                  const getUser =
+                    JSON.parse(sessionStorage.getItem("userData")) ||
+                    JSON.parse(localStorage.getItem("userData")) ||
+                    null;
 
+                  if (getUser)
+                    await updateUser(getUser.uid, {
+                      ...getUser,
+                      onboarding_complete: true,
+                    });
+                }}
+              />
+            )}
+          </>
+        )}
         {activeIndex > 0 && (
           <div className={`flex flex-col items-center gap-1 w-full sm:w-auto`}>
             <PrevButton onClick={prevPage} />
           </div>
         )}
 
-        <div className={`flex flex-col items-center gap-1 w-full sm:w-auto`}>
-          <NextButton onClick={nextPage} saving={saving} />
-        </div>
+        {activeIndex < onBoardingPages.length - 1 ? (
+          <div className={`flex flex-col items-center gap-1 w-full sm:w-auto`}>
+            <NextButton onClick={nextPage} saving={saving} />
+          </div>
+        ) : (
+          <div className={`flex flex-col items-center gap-1 w-full sm:w-auto`}>
+            <CompleteButton
+              onClick={async () => {
+                const getUser =
+                  JSON.parse(sessionStorage.getItem("userData")) ||
+                  JSON.parse(localStorage.getItem("userData")) ||
+                  null;
+
+                const saveData = {
+                  ...getUser,
+                  onboarding_complete: true,
+                };
+
+                if (getUser) {
+                  await updateUser(getUser.uid, saveData);
+                  saveToStorage("userData", saveData);
+                }
+
+                router.push("/me/dashboard");
+              }}
+            />
+          </div>
+        )}
       </section>
-    </main>
+    </div>
   );
 });
 

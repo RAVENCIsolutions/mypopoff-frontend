@@ -1,13 +1,28 @@
-﻿const getFromLocalStorage = (key) => {
-  return JSON.parse(localStorage.getItem(key));
+﻿const checkWhichStorage = (key) => {
+  if (localStorage.getItem(key)) {
+    return localStorage;
+  } else {
+    return sessionStorage;
+  }
 };
 
-const saveToLocalStorage = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value));
+const getFromStorage = (key, storage = null, parse = true) => {
+  const item = storage
+    ? storage.getItem(key)
+    : checkWhichStorage(key).getItem(key);
+  return parse ? JSON.parse(item) : item;
 };
 
-const removeFromLocalStorage = (key) => {
+const saveToStorage = (key, value, storage = null, stringify = true) => {
+  const item = stringify ? JSON.stringify(value) : value;
+  storage
+    ? storage.setItem(key, item)
+    : checkWhichStorage(key).setItem(key, item);
+};
+
+const removeFromStorage = (key) => {
+  sessionStorage.removeItem(key);
   localStorage.removeItem(key);
 };
 
-export { getFromLocalStorage, saveToLocalStorage, removeFromLocalStorage };
+export { checkWhichStorage, getFromStorage, saveToStorage, removeFromStorage };

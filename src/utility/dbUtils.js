@@ -13,16 +13,13 @@ const fetchUser = async (id) => {
     .single();
 
   if (error) return false;
-
   return data;
 };
 
 const fetchUsername = async (value) => {
   const { data, error } = await supabase
     .from(usersTable)
-    .select(
-      "username, bio, category, otherCategory, tags, page_layout, button_style, palette, links, images, public"
-    )
+    .select()
     .eq("username", value)
     .single();
 
@@ -44,7 +41,8 @@ const createUser = async (id, saveData) => {
   const { data, error } = await supabase
     .from(usersTable)
     .insert({ ...saveData, uid: id })
-    .select();
+    .select()
+    .single();
 
   if (error) return false;
 
@@ -52,9 +50,6 @@ const createUser = async (id, saveData) => {
 };
 
 const updateUser = async (id, dataToSave) => {
-  console.log("Saving");
-  console.log(dataToSave);
-
   const { error } = await supabase
     .from(usersTable)
     .update({ ...dataToSave })

@@ -6,7 +6,7 @@ import { CircularProgress, Switch, Stack } from "@mui/material";
 
 import userStore from "@/stores/UserStore";
 import { uploadAvatar, uploadImage } from "@/utility/dbUtils";
-import { getFromLocalStorage } from "@/utility/localStorageUtils";
+import { getFromStorage } from "@/utility/localStorageUtils";
 
 export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
@@ -33,7 +33,7 @@ export default function SettingsPage() {
   };
 
   useEffect(() => {
-    setMakePublic(getFromLocalStorage("userData").public);
+    setMakePublic(getFromStorage("userData").public);
   }, []);
 
   return (

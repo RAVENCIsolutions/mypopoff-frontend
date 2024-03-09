@@ -19,10 +19,7 @@ const OnboardingFive = observer((props) => {
       <h1 className={`mb-6 text-2xl sm:text-4xl font-bold`}>
         🎉 That's it! 🎉
       </h1>
-      <h2 className={`text-base sm:text-xl`}>
-        Just adding some finishing touches and you'll be redirected to your new
-        dashboard.
-      </h2>
+      <h2 className={`text-base sm:text-xl`}>You're all done for now.</h2>
     </section>
   );
 });

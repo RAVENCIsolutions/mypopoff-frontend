@@ -1,6 +1,36 @@
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 import userStore from "@/stores/UserStore";
 
+const verifyUserData = (data) => {
+  if (typeof data !== "object" || data === null) return false;
+
+  const checks = [
+    { key: "uid", type: "string" },
+    { key: "username", type: "string" },
+    { key: "bio", type: "string" },
+    { key: "tagline", type: "string" },
+    { key: "category", type: "string" },
+    { key: "otherCategory", type: "string" },
+    { key: "tags", type: "object" },
+    { key: "page_layout", type: "string" },
+    { key: "button_style", type: "string" },
+    { key: "palette", type: "object" },
+    { key: "avatar_url", type: "string" },
+    { key: "images", type: "string" },
+    { key: "links", type: "object" },
+    { key: "onboarding_complete", type: "boolean" },
+    { key: "public", type: "boolean" },
+  ];
+
+  for (const check of checks) {
+    const value = data[check.key];
+
+    if (typeof value !== check.type) return false;
+  }
+
+  return true;
+};
+
 const normaliseUrl = (url) => {
   // Remove protocol (http or https) and www if present
   url = url.replace(/^https?:\/\//, "");
@@ -41,14 +71,14 @@ const getCookie = (name) => {
 const getPageTitle = async (url) => {
   try {
     const response = await fetch(
-      `https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&cx=${process.env.NEXT_PUBLIC_GOOGLE_CX}&q=${url}`,
+      `https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&cx=${process.env.NEXT_PUBLIC_GOOGLE_CX}&q=${url}`
     );
 
     const data = await response.json();
 
     if (data.items && data.items.length > 0) {
       const matchLink = data.items.find(
-        (item) => normaliseUrl(item.link) === normaliseUrl(url),
+        (item) => normaliseUrl(item.link) === normaliseUrl(url)
       );
       return matchLink
         ? decodeHtmlEntities(stripHtmlTags(matchLink.title))
@@ -116,6 +146,7 @@ const ensureHttp = (url) => {
 };
 
 export {
+  verifyUserData,
   getCookie,
   getPageTitle,
   hexToRGB,

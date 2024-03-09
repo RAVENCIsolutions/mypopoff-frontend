@@ -1,16 +1,12 @@
 const defaultUser = {
-  uid: null,
-
+  uid: "",
   username: "",
-
   bio: "",
   tagline: "",
 
   category: "",
   otherCategory: "",
   tags: [],
-
-  onboarding_complete: false,
 
   page_layout: "layout-01",
   button_style: "button-01",
@@ -26,9 +22,10 @@ const defaultUser = {
   avatar_url: "",
   images: "",
 
-  public: true,
-
   links: [],
+
+  onboarding_complete: false,
+  public: true,
 };
 
 export { defaultUser };

@@ -1,40 +1,83 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react";
+import { LayoutsLookup } from "@/data/LayoutsLookup";
+import ColourPickerBlock from "@/components/ColourPickerBlock";
+import onBoardingStore from "@/stores/OnboardingStore";
+import { ButtonsLookup } from "@/data/ButtonsLookup";
 
 const OnBoardingFour = observer((props) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedLayout, setSelectedLayout] = useState(0);
+  const [selectedButton, setSelectedButton] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    console.log(onBoardingStore.userData);
+
+    const selectedLayoutIndex = Math.max(
+      0,
+      LayoutsLookup.findIndex(
+        (layout) => layout.id === onBoardingStore.userData.page_layout
+      )
+    );
+
+    const selectedButtonIndex = Math.max(
+      0,
+      ButtonsLookup.findIndex(
+        (button) => button.id === onBoardingStore.userData.button_style
+      )
+    );
+
+    setSelectedLayout(selectedLayoutIndex);
+    setSelectedButton(selectedButtonIndex);
+  }, []);
 
   return (
-    <section
-      className={`p-6 grid grid-cols-5 gap-7 bg-white rounded-3xl w-full`}
-    >
-      {props.pageLayouts &&
-        props.pageLayouts.map((layout, index) => (
-          <article
-            key={`page-layout-${index}`}
-            className={`group cursor-pointer relative rounded-2xl ${
-              activeIndex === index
-                ? "shadow-lg shadow-black/20"
-                : "hover:shadow-lg shadow-black/20"
-            } aspect-[12/23] transition-all duration-300`}
-            onClick={() => setActiveIndex(index)}
-          >
+    <section className={`p-6 flex flex-col gap-4 bg-white rounded-3xl w-full`}>
+      {Object.keys(LayoutsLookup[selectedLayout].colours).map(
+        (customisation, index) => {
+          return (
             <div
-              className={`absolute ${
-                activeIndex === index
-                  ? "border-[2px] border-action"
-                  : "border-[1px] hover:border-dashboard-secondary-dark"
-              } rounded-2xl w-full h-full transition-all duration-300`}
-            ></div>
-            <img
-              className={`p-2 h-full rounded-2xl aspect-[12/23]`}
-              src={layout.layoutImage}
-              alt={layout.layoutTitle}
+              key={`layout-customisation-${customisation}-${index}`}
+              className={`flex flex-col justify-start gap-2`}
+            >
+              {customisation !== "image" && (
+                <>
+                  <h4 className={`text-sm font-bold`}>
+                    {LayoutsLookup[selectedLayout].colours[customisation][1]}:
+                  </h4>
+                  <ColourPickerBlock
+                    label={onBoardingStore.userData.palette[customisation]}
+                    customisation={customisation}
+                    store={"onBoardingStore"}
+                  />
+                </>
+              )}
+            </div>
+          );
+        }
+      )}
+
+      {/* Colours from Button Style */}
+      {Object.keys(ButtonsLookup[selectedButton].colours).map(
+        (customisation, index) => (
+          <div
+            key={`button-customisation-${index}`}
+            className={`flex flex-col justify-start gap-2`}
+          >
+            <h4 className={`text-sm font-bold`}>
+              {ButtonsLookup[selectedButton].colours[customisation][1]} Colour:
+            </h4>
+
+            <ColourPickerBlock
+              label={onBoardingStore.userData.palette[customisation]}
+              customisation={customisation}
+              store={"onBoardingStore"}
             />
-          </article>
-        ))}
+          </div>
+        )
+      )}
     </section>
   );
 });
