@@ -19,7 +19,7 @@ import { defaultUser } from "@/data/defaultUser";
 import { updateUser } from "@/utility/dbUtils";
 import CompleteButton from "@/onboardingComponents/CompleteButton";
 import { useRouter } from "next/navigation";
-import { saveToStorage } from "@/utility/localStorageUtils";
+import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 
 const OnBoardingMain = observer(() => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -62,6 +62,22 @@ const OnBoardingMain = observer(() => {
     },
   ];
 
+  const endOnboarding = async () => {
+    const getUser = getFromStorage("userData");
+
+    const saveData = {
+      ...getUser,
+      onboarding_complete: true,
+    };
+
+    if (getUser) {
+      await updateUser(getUser.uid, saveData);
+      saveToStorage("userData", saveData);
+    }
+
+    router.push("/me/dashboard");
+  };
+
   const prevPage = () => {
     pageContainer.current.style.left = "200px";
     pageContainer.current.style.opacity = "0";
@@ -96,20 +112,6 @@ const OnBoardingMain = observer(() => {
   };
 
   useEffect(() => {
-    let findData =
-      sessionStorage.getItem("userData") ||
-      localStorage.getItem("userData") ||
-      null;
-
-    if (!findData) {
-      findData = { ...defaultUser };
-    }
-
-    const storageData =
-      typeof findData === "string" ? JSON.parse(findData) : findData;
-
-    onBoardingStore.setUserData({ ...storageData });
-
     pageContainer.current.style.left = "0px";
     pageContainer.current.style.opacity = "1";
   }, []);
@@ -133,20 +135,7 @@ const OnBoardingMain = observer(() => {
         {activeIndex > 0 && activeIndex < onBoardingPages.length - 1 && (
           <>
             {!saving && (
-              <SkipButton
-                onClick={async () => {
-                  const getUser =
-                    JSON.parse(sessionStorage.getItem("userData")) ||
-                    JSON.parse(localStorage.getItem("userData")) ||
-                    null;
-
-                  if (getUser)
-                    await updateUser(getUser.uid, {
-                      ...getUser,
-                      onboarding_complete: true,
-                    });
-                }}
-              />
+              <SkipButton onClick={async () => await endOnboarding()} />
             )}
           </>
         )}
@@ -162,26 +151,7 @@ const OnBoardingMain = observer(() => {
           </div>
         ) : (
           <div className={`flex flex-col items-center gap-1 w-full sm:w-auto`}>
-            <CompleteButton
-              onClick={async () => {
-                const getUser =
-                  JSON.parse(sessionStorage.getItem("userData")) ||
-                  JSON.parse(localStorage.getItem("userData")) ||
-                  null;
-
-                const saveData = {
-                  ...getUser,
-                  onboarding_complete: true,
-                };
-
-                if (getUser) {
-                  await updateUser(getUser.uid, saveData);
-                  saveToStorage("userData", saveData);
-                }
-
-                router.push("/me/dashboard");
-              }}
-            />
+            <CompleteButton onClick={async () => await endOnboarding()} />
           </div>
         )}
       </section>

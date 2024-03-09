@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { LayoutsLookup } from "@/data/LayoutsLookup";
 import onBoardingStore from "@/stores/OnboardingStore";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
-import Image from "next/image";
-import userStore from "@/stores/UserStore";
 
 const OnboardingThree = () => {
   const [activeIndex, setActiveIndex] = useState(0);

@@ -4,13 +4,31 @@ import { observer } from "mobx-react";
 import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
+import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+import { updateUser } from "@/utility/dbUtils";
 
 const OnboardingFive = observer((props) => {
   const router = useRouter();
 
+  const endOnboarding = async () => {
+    const getUser = getFromStorage("userData");
+
+    const saveData = {
+      ...getUser,
+      onboarding_complete: true,
+    };
+
+    if (getUser) {
+      await updateUser(getUser.uid, saveData);
+      saveToStorage("userData", saveData);
+    }
+
+    router.push("/me/dashboard");
+  };
+
   useEffect(() => {
-    setTimeout(() => {
-      router.push("/me/dashboard");
+    setTimeout(async () => {
+      await endOnboarding();
     }, 4000);
   }, []);
 

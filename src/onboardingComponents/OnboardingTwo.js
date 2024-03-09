@@ -12,10 +12,8 @@ const OnboardingTwo = () => {
   const [otherCategoryValue, setOtherCategoryValue] = useState("");
 
   const [chosenImage, setChosenImage] = useState(null);
-  const [chosenFile, setChosenFile] = useState(null);
 
   const fileRef = useRef(null);
-  const userData = onBoardingStore.userData;
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
@@ -26,11 +24,11 @@ const OnboardingTwo = () => {
   };
 
   useEffect(() => {
-    if (userData.category === "Other..")
-      setOtherCategoryValue(userData.otherCategory);
+    if (onBoardingStore.userData.category === "Other..")
+      setOtherCategoryValue(onBoardingStore.userData.otherCategory);
 
     const getCategory = categories.findIndex(
-      (category) => userData.category === category.name
+      (category) => onBoardingStore.userData.category === category.name
     );
 
     if (getCategory !== -1) {
@@ -47,10 +45,10 @@ const OnboardingTwo = () => {
         <img
           src={
             chosenImage ||
-            userData.avatar_url ||
+            onBoardingStore.userData.avatar_url ||
             "/images/avatar-placeholder.jpg"
           }
-          alt={"Landing Page Image"}
+          alt={"Avatar Image"}
           className={`w-20 h-20 border border-primary-dark/20 rounded-full object-cover shadow-xl shadow-primary-dark/10 overflow-hidden transition-all duration-300`}
           onClick={() => fileRef.current.click()}
         />

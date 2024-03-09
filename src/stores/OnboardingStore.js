@@ -42,14 +42,17 @@ class OnboardingStore {
 
   updateUserData = (updateValue) => {
     this.userData = { ...this.userData, ...updateValue };
+    saveToStorage("userData", this.userData);
   };
 
   setUserData = (userData) => {
     this.userData = userData;
+    saveToStorage("userData", this.userData);
   };
 
   addToPalette = (palette) => {
     this.userData.palette = { ...this.userData.palette, ...palette };
+    saveToStorage("userData", this.userData);
   };
 
   setPalette = (palette) => {
@@ -73,6 +76,7 @@ class OnboardingStore {
       this.userData.avatar_url =
         process.env.NEXT_PUBLIC_SUPABASE_AVATARS_LINK + data.path;
 
+      saveToStorage("userData", this.userData);
       this.avatar = null;
     });
   };
@@ -86,6 +90,7 @@ class OnboardingStore {
       this.userData.images =
         process.env.NEXT_PUBLIC_SUPABASE_IMAGES_LINK + data.path;
 
+      saveToStorage("userData", this.userData);
       this.image = null;
     });
   };
@@ -93,30 +98,29 @@ class OnboardingStore {
   createNewUser = async (id, data) => {
     await createUser(id, data).then((data) => {
       this.userData = data;
-      return true;
+      saveToStorage("userData", data);
     });
   };
 
   loadUserData = async (id) => {
-    await fetchUser(id).then(async (data) => {
-      if (data) {
-        this.userData = data;
-      } else {
-        await this.createNewUser(id, { ...defaultUser }).then(() => true);
-      }
-    });
-
-    saveToStorage("lastFetch", new Date().getTime(), sessionStorage);
+    const data = await fetchUser(id);
+    if (data) {
+      this.userData = data;
+      saveToStorage("userData", data);
+      saveToStorage("lastFetch", new Date().getTime(), sessionStorage);
+    } else {
+      await this.createNewUser(id, { ...defaultUser });
+      saveToStorage("lastFetch", new Date().getTime(), sessionStorage);
+    }
   };
 
   saveProgress = async () => {
     if (this.avatar) await this.pushAvatar(this.userData.uid);
     if (this.image) await this.pushImage(this.userData.uid);
 
-    await updateUser(this.userData.uid, this.userData).then(() => {
-      saveToStorage("userData", this.userData);
-      saveToStorage("lastFetch", new Date().getTime(), sessionStorage);
-    });
+    await updateUser(this.userData.uid, this.userData);
+    saveToStorage("userData", this.userData);
+    saveToStorage("lastFetch", new Date().getTime(), sessionStorage);
   };
 }
 
