@@ -12,6 +12,7 @@ import { PiWarningBold } from "react-icons/pi";
 import { MdOutlineDangerous } from "react-icons/md";
 import { createUser, fetchUser } from "@/utility/dbUtils";
 import { defaultUser } from "@/data/defaultUser";
+import userStore from "@/stores/UserStore";
 
 const FormField = styled.fieldset`
   display: flex;
@@ -81,25 +82,13 @@ const LoginForm = () => {
     sessionStorage.removeItem("userData");
     localStorage.removeItem("userData");
 
-    const userExists = await fetchUser(data.session.user.id);
-
-    let newUser = null;
-
-    // 1a. if no user, create a new user row
-    if (!userExists) {
-      newUser = await createUser(data.session.user.id, {
-        ...defaultUser,
-      });
-    }
-
-    //
-    const userData = userExists || newUser || defaultUser;
-
     if (formData.remember) {
-      localStorage.setItem("userData", JSON.stringify(userData));
+      localStorage.setItem("userData", JSON.stringify(defaultUser));
     } else {
-      sessionStorage.setItem("userData", userData);
+      sessionStorage.setItem("userData", JSON.stringify(defaultUser));
     }
+
+    await userStore.loadUserData(data.session.user.id);
 
     router.refresh();
   };

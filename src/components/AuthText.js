@@ -23,6 +23,7 @@ const AuthText = ({
   name = "",
   value,
   onChange,
+  type = "text",
   error = {},
 }) => {
   const errorCodes = {
@@ -34,13 +35,13 @@ const AuthText = ({
 
   return (
     <FormField className={`w-full`}>
-      <label htmlFor="email" className={`text-sm font-light text-primary-dark`}>
+      <label htmlFor={name} className={`text-sm font-light text-primary-dark`}>
         {label}
       </label>
       <FormInput
         id={name}
         name={name}
-        type="text"
+        type={type}
         value={value}
         onChange={onChange}
         className={`border-[1px] focus:shadow-xl shadow-primary-dark/30 ${

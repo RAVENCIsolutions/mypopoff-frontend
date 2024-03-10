@@ -128,19 +128,19 @@ const AuthPassword = ({
               isLongEnough ? "text-primary-dark" : "text-primary-dark/50"
             }
           >
-            - Is at least 8 characters long
+            - (required) Is at least 8 characters long
           </li>
           <li
             className={hasCases ? "text-primary-dark" : "text-primary-dark/50"}
           >
-            - Have uppercase and lowercase letters
+            - (required) Have uppercase and lowercase letters
           </li>
           <li
             className={
               hasNumbers ? "text-primary-dark" : "text-primary-dark/50"
             }
           >
-            - Have at least 1 number
+            - (required) Have at least 1 number
           </li>
           <li
             className={

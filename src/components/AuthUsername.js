@@ -50,7 +50,7 @@ const AuthUsername = ({
         className={`w-full border-[1px] focus:shadow-xl shadow-primary-dark/30 ${
           error.level > 1
             ? "border-danger"
-            : value.length > 0
+            : value.length === 1
             ? "border-action"
             : "border-black/15 hover:border-action focus:border-action"
         } transition-all duration-300`}

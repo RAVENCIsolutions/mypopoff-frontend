@@ -11,13 +11,13 @@ export const metadata = {
 
 export default function AuthLayout({ children }) {
   return (
-    <main className="flex flex-col items-center justify-start h-screen min-h-fit">
-      <section className="py-10 flex flex-col items-center justify-start sm:justify-center w-full h-full">
+    <main className="flex flex-col items-center justify-between min-h-screen">
+      <section className="my-10 flex flex-col items-center justify-start sm:justify-center w-full">
         {children}
       </section>
 
       <footer
-        className={`my-4 sm:mt-0 flex flex-col 2xs:flex-row items-center gap-2 min-w-fit`}
+        className={`my-4 sm:mt-0 flex flex-col 2xs:flex-row items-center justify-center gap-2 w-full`}
       >
         <p className={`text-sm text-secondary-dark dark:text-secondary-light`}>
           Start Getting Noticed

@@ -24,7 +24,7 @@ const LinksList = observer(({ setProcessing }) => {
     if (index === 0) return;
 
     const newOrder = reorder(userStore.userData.links, index, index - 1);
-    await userStore.resetLinkList(newOrder).then();
+    await userStore.resetLinkList(newOrder);
   };
 
   // Move Link Down one Spot
@@ -32,7 +32,7 @@ const LinksList = observer(({ setProcessing }) => {
     if (index === userStore.userData.links.length - 1) return;
 
     const newOrder = reorder(userStore.userData.links, index, index + 1);
-    await userStore.resetLinkList(newOrder).then();
+    await userStore.resetLinkList(newOrder);
   };
 
   useEffect(() => {

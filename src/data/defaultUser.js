@@ -26,6 +26,8 @@ const defaultUser = {
 
   onboarding_complete: false,
   public: true,
+
+  extras: {},
 };
 
 export { defaultUser };
