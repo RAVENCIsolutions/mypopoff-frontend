@@ -51,14 +51,17 @@ class UserStore {
 
   setUserData = (userData) => {
     this.userData = userData;
+    saveToStorage("userData", this.userData);
   };
 
   addToPalette = (palette) => {
     this.userData.palette = { ...this.userData.palette, ...palette };
+    saveToStorage("userData", this.userData);
   };
 
   setPalette = (palette) => {
     this.userData.palette = palette;
+    saveToStorage("userData", this.userData);
   };
 
   setAvatar = (avatar) => {

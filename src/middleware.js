@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export async function middleware(request) {
+  if (request.url.includes("/images/") || request.url.includes("/fonts")) {
+    return NextResponse.next();
+  }
+
   const supabase = createServerComponentClient({ cookies });
   const {
     data: { session },

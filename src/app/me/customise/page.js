@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 
 import { observer } from "mobx-react";
@@ -24,19 +23,8 @@ const CustomisePage = observer(() => {
   const [chosenImage, setChosenImage] = useState(null);
   const [chosenFile, setChosenFile] = useState(null);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  const { user } = useUser();
-
-  const { loaded } = userStore;
-
-  const completeSave = (dataToSave) => {
-    userStore.setUserData({
-      ...userStore.userData,
-      ...dataToSave,
-    });
-
-    userStore.saveUserData(user.id).then((r) => {
+  const completeSave = async () => {
+    await userStore.saveUserData().then(() => {
       setTimeout(() => {
         setSaving(false);
       }, 500);
@@ -44,9 +32,11 @@ const CustomisePage = observer(() => {
   };
 
   useEffect(() => {
-    if (loaded) {
-      console.log(getFromStorage("userData"));
-
+    if (
+      userStore.userData &&
+      userStore.userData.page_layout &&
+      userStore.userData.button_style
+    ) {
       const selectedLayoutIndex = Math.max(
         0,
         LayoutsLookup.findIndex(
@@ -63,12 +53,8 @@ const CustomisePage = observer(() => {
 
       setSelectedLayout(selectedLayoutIndex);
       setSelectedButton(selectedButtonIndex);
-
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
     }
-  }, [loaded]);
+  }, [userStore.userData]);
 
   return (
     <section className="w-full max-h-full overflow-hidden sm:rounded-lg">
@@ -87,25 +73,12 @@ const CustomisePage = observer(() => {
               onClick={async () => {
                 setSaving(true);
 
-                const toSave = {};
+                console.log(userStore.userData);
+                console.log(userStore.image);
 
-                toSave.page_layout = LayoutsLookup[selectedLayout].id;
-                toSave.button_style = ButtonsLookup[selectedButton].id;
+                await completeSave();
 
-                // cleanPalette();
-
-                if (chosenImage) {
-                  uploadImage(user.id, chosenFile).then((data) => {
-                    toSave.images =
-                      process.env.NEXT_PUBLIC_SUPABASE_IMAGES_LINK + data.path;
-
-                    completeSave(toSave);
-                  });
-
-                  setChosenImage(null);
-                } else {
-                  completeSave(toSave);
-                }
+                setSaving(false);
               }}
             >
               Save<span className={`hidden xs:inline-block ml-1`}>Changes</span>
@@ -113,7 +86,7 @@ const CustomisePage = observer(() => {
           )}
         </section>
 
-        {loaded && !isLoading ? (
+        {userStore.userData && userStore.userData.palette ? (
           <section className="p-3 sm:p-6 pb-6 sm:pb-10 w-full h-full bg-dashboard-secondary-light dark:bg-dashboard-secondary-dark overflow-y-auto">
             <h2 className={`text-lg`}>Choose a layout:</h2>
             <article
@@ -128,16 +101,21 @@ const CustomisePage = observer(() => {
                       : "opacity-30 hover:opacity-100"
                   } transition-all duration-300`}
                   onClick={() => {
+                    userStore.updateUserData({
+                      page_layout: LayoutsLookup[index].id,
+                    });
                     setSelectedLayout(index);
 
                     // Layout-10 and Button-04 are exclusive to each other
                     if (LayoutsLookup[index].id === "layout-10") {
+                      userStore.updateUserData({ button_style: "button-04" });
                       setSelectedButton(
                         ButtonsLookup.findIndex(
                           (item) => item.id === "button-04"
                         )
                       );
                     } else {
+                      userStore.updateUserData({ button_style: "button-01" });
                       selectedButton ===
                         ButtonsLookup.findIndex(
                           (item) => item.id === "button-04"
@@ -145,7 +123,7 @@ const CustomisePage = observer(() => {
                     }
                   }}
                 >
-                  <img
+                  <Image
                     src={item.selector}
                     alt={item.title}
                     width={80}
@@ -179,6 +157,9 @@ const CustomisePage = observer(() => {
                     "hidden"
                   } transition-all duration-300`}
                   onClick={() => {
+                    userStore.updateUserData({
+                      button_style: ButtonsLookup[index].id,
+                    });
                     setSelectedButton(index);
                   }}
                 >
@@ -232,7 +213,7 @@ const CustomisePage = observer(() => {
                         setChosenImage(reader.result);
                       };
 
-                      setChosenFile(file);
+                      userStore.setImage(file);
 
                       reader.readAsDataURL(file);
                     }}
