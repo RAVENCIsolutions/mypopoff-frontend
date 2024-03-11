@@ -36,55 +36,61 @@ const LinksList = observer(({ setProcessing }) => {
   };
 
   useEffect(() => {
-    setProcessing(false);
-  }, []);
+    if (userStore.userData && userStore.userData.links) {
+      setProcessing(false);
+    } else {
+      setProcessing(true);
+    }
+  }, [userStore.userData]);
 
   return (
     <div className={`flex flex-col gap-4`}>
-      {userStore.userData.links.map((link, index) => (
-        <article
-          className="relative flex flex-row items-center justify-start"
-          key={link.id}
-        >
-          <section className="mr-2 py-4 flex flex-col gap-10">
-            <button
-              className={`${
-                index === 0 ? "opacity-0" : "opacity-100"
-              } transition-all duration-300`}
-              disabled={index === 0}
-              onClick={() => moveUp(index)}
-              title="Move Link Up"
-            >
-              <BsArrowUpSquare
-                size={20}
-                className="text-dashboard-secondary-dark/70 hover:text-primary-dark dark:text-dashboard-secondary-light/60 hover:dark:text-primary-light transition-all duration-300"
-              />
-            </button>
-            {/*<p className="text-2xl text-center">{index}</p>*/}
-            <button
-              className={`${
-                index === userStore.userData.links.length - 1
-                  ? "opacity-0"
-                  : "opacity-100"
-              } hover:shadow-xl shadow-black/50 transition-all duration-300`}
-              disabled={index === userStore.userData.links.length - 1}
-              onClick={() => moveDown(index)}
-              title="Move Link Down"
-            >
-              <BsArrowDownSquare
-                size={20}
-                className="text-dashboard-secondary-dark/70 hover:text-primary-dark dark:text-dashboard-secondary-light/60 hover:dark:text-primary-light transition-all duration-300"
-              />
-            </button>
-          </section>
-          <LinkBlock
-            id={link.id}
-            title={link.title}
-            url={link.url}
-            isPublic={link.public}
-          />
-        </article>
-      ))}
+      {userStore.userData &&
+        userStore.userData.links &&
+        userStore.userData.links.map((link, index) => (
+          <article
+            className="relative flex flex-row items-center justify-start"
+            key={link.id}
+          >
+            <section className="mr-2 py-4 flex flex-col gap-10">
+              <button
+                className={`${
+                  index === 0 ? "opacity-0" : "opacity-100"
+                } transition-all duration-300`}
+                disabled={index === 0}
+                onClick={() => moveUp(index)}
+                title="Move Link Up"
+              >
+                <BsArrowUpSquare
+                  size={20}
+                  className="text-dashboard-secondary-dark/70 hover:text-primary-dark dark:text-dashboard-secondary-light/60 hover:dark:text-primary-light transition-all duration-300"
+                />
+              </button>
+              {/*<p className="text-2xl text-center">{index}</p>*/}
+              <button
+                className={`${
+                  index === userStore.userData.links.length - 1
+                    ? "opacity-0"
+                    : "opacity-100"
+                } hover:shadow-xl shadow-black/50 transition-all duration-300`}
+                disabled={index === userStore.userData.links.length - 1}
+                onClick={() => moveDown(index)}
+                title="Move Link Down"
+              >
+                <BsArrowDownSquare
+                  size={20}
+                  className="text-dashboard-secondary-dark/70 hover:text-primary-dark dark:text-dashboard-secondary-light/60 hover:dark:text-primary-light transition-all duration-300"
+                />
+              </button>
+            </section>
+            <LinkBlock
+              id={link.id}
+              title={link.title}
+              url={link.url}
+              isPublic={link.public}
+            />
+          </article>
+        ))}
     </div>
   );
 });

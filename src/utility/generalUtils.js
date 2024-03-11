@@ -1,7 +1,8 @@
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 import userStore from "@/stores/UserStore";
+import { defaultUser } from "@/data/defaultUser";
 
-const verifyUserData = (data) => {
+const verifyUserData = (data, fix = true) => {
   if (typeof data !== "object" || data === null) return false;
 
   const checks = [
@@ -20,15 +21,23 @@ const verifyUserData = (data) => {
     { key: "links", type: "object" },
     { key: "onboarding_complete", type: "boolean" },
     { key: "public", type: "boolean" },
+    { key: "extras", type: "object" },
   ];
 
   for (const check of checks) {
     const value = data[check.key];
 
-    if (typeof value !== check.type) return false;
+    if (!value || typeof value !== check.type) {
+      console.log(check.key);
+      if (fix) {
+        data[check.key] = defaultUser[check.key];
+      } else {
+        return false;
+      }
+    }
   }
 
-  return true;
+  return data;
 };
 
 const normaliseUrl = (url) => {

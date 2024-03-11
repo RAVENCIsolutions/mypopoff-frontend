@@ -43,6 +43,10 @@ class UserStore {
     this.userData = { ...this.userData, ...updateValue };
   };
 
+  updateExtras = (updateValue) => {
+    this.userData.extras = { ...this.userData.extras, ...updateValue };
+  };
+
   setUserData = (userData) => {
     this.userData = userData;
   };

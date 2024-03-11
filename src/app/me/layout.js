@@ -30,17 +30,19 @@ export default async function MeLayout({ children }) {
     .single();
 
   return (
-    <div className="flex flex-col items-stretch w-full h-screen max-h-screen bg-primary-light dark:bg-primary-dark overflow-hidden">
+    // flex flex-col justify-between w-full h-full max-h-screen bg-primary-light dark:bg-primary-dark overflow-hidden
+    <div className={`flex flex-col justify-between h-dvh max-h-dvh`}>
       <Providers>
         <NavBar session={session} />
         <div
-          className={`h-full pt-2 sm:pb-6 flex sm:flex-row flex-col justify-start sm:justify-between sm:items-stretch overflow-hidden`}
+          // flex-grow pt-2 sm:pb-6 flex flex-row justify-start sm:justify-between sm:items-stretch overflow-hidden
+          className={`flex-grow pt-2 sm:pb-6 flex flex-col sm:flex-row sm:max-h-full sm:overflow-hidden`}
         >
           <section className={`py-2 px-5 md:pr-8 w-full sm:w-auto`}>
             <DashboardNavigation />
           </section>
 
-          <main className="flex-grow sm:mr-4 flex justify-stretch sm:w-11/12 lg:w-5/6 h-full bg-dashboard-primary-light dark:bg-dashboard-primary-dark rounded-none sm:rounded-3xl shadow-xl shadow-black/25 overflow-hidden">
+          <main className="flex-grow sm:mr-4 flex justify-stretch sm:w-11/12 lg:w-5/6 h-full bg-dashboard-primary-light dark:bg-dashboard-primary-dark rounded-none sm:rounded-3xl shadow-xl shadow-black/25">
             {children}
           </main>
         </div>

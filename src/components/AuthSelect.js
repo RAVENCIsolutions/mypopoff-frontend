@@ -49,6 +49,7 @@ const AuthSelect = ({
                 isFocused ? "border-action" : ""
               }`
             ),
+          menuList: () => classNames(`h-40 2xs:h-32 overflow-y-auto`),
         }}
         isSearchable={autoComplete}
       />

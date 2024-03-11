@@ -20,7 +20,7 @@ const MyLinks = observer(() => {
   }
 
   return (
-    <article className="w-full max-h-full overflow-hidden sm:rounded-lg">
+    <article className="relative w-full max-h-full overflow-hidden sm:rounded-lg">
       {processing ? (
         <div className={`absolute top-3 right-4`}>
           <Stack sx={{ color: "grey.500" }} spacing={2}>

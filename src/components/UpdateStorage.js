@@ -67,6 +67,9 @@ const UpdateStorage = ({ session }) => {
     // Run check
     runCheck().then((result) => {
       if (result) {
+        result = verifyUserData(result);
+        console.log(result);
+
         userStore.setUserData(
           typeof result === "string" ? JSON.parse(result) : result
         );
