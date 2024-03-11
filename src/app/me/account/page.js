@@ -17,6 +17,9 @@ import { usernameExists } from "@/utility/dbUtils";
 
 const AccountPage = observer(() => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const [loadOnce, setLoadOnce] = useState(false);
 
   const [username, setUsername] = useState("");
   const [checkingUsername, setCheckingUsername] = useState(true);
@@ -50,11 +53,26 @@ const AccountPage = observer(() => {
   };
 
   const handleSelectCategory = (category) => {
-    setSelectedCategory(category);
+    const activeCategories = selectedCategories;
+    const thisCategory = categories[category].name;
+
+    if (activeCategories.includes(thisCategory)) {
+      activeCategories.splice(activeCategories.indexOf(thisCategory), 1);
+    } else {
+      activeCategories.push(thisCategory);
+    }
+
+    if (!activeCategories.includes("Other..")) setOtherCategoryValue("");
+
+    userStore.updateUserData({ categories: [...activeCategories] });
+    setSelectedCategories([...activeCategories]);
+
     userStore.setUserData({
       ...userData,
-      category: categories[category].name,
-      otherCategory: category < categories.length - 1 ? "" : otherCategoryValue,
+      categories: activeCategories,
+      otherCategory: activeCategories.includes("Other..")
+        ? otherCategoryValue
+        : "",
     });
   };
 
@@ -111,31 +129,27 @@ const AccountPage = observer(() => {
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      if (user && isSignedIn) {
-        return await userStore.loadUserData(user.id);
-      }
-    };
+    if (!loadOnce && userStore.userData) {
+      const data = userStore.userData;
 
-    loadData().then((data) => {
-      setUsername(data ? data.username : "");
+      setUsername(data.username ? data.username : "");
+      const updatedCategoryList = [];
 
-      let foundCat;
+      selectedCategories.map((category) => {
+        updatedCategoryList.push(category);
+      });
 
-      if (data && data.category.length > 0) {
-        foundCat = categories.findIndex((cat) => cat.name === data.category);
+      if (!selectedCategories.includes("Other..")) setOtherCategoryValue("");
 
-        setSelectedCategory(foundCat);
-        setOtherCategoryValue(data ? data.otherCategory : "");
-
+      if (userData.bio) {
         const threshold = Object.keys(progressColours).findLast(
           (key) => userStore.userData.bio.length >= key
         );
 
         setBioProgressColour(progressColours[threshold] || "#5FD378");
       }
-    });
-  }, [user, isSignedIn, isLoaded]);
+    }
+  }, [userStore.userData]);
 
   useEffect(() => {
     setCheckingUsername(true);
@@ -162,7 +176,7 @@ const AccountPage = observer(() => {
           className={`px-2 xs:px-3 py-5 sm:p-6 pb-2 lg:pb-4 flex justify-between items-center w-full border-b-2 border-secondary-dark/20`}
         >
           <h1 className="text-xl font-bold">My Account</h1>
-          {isLoaded ? (
+          {userStore.userData ? (
             saving ? (
               <Stack sx={{ color: "grey.500" }} spacing={2}>
                 <CircularProgress color="inherit" size={15} />
@@ -172,7 +186,7 @@ const AccountPage = observer(() => {
                 className={`px-4 py-1 bg-action rounded-full text-primary-light transition-all duration-300 ${
                   changed ? "opacity-100" : "opacity-50"
                 }`}
-                onClick={() => {
+                onClick={async () => {
                   if (usernameError.status === 2) {
                     userStore.setUserData({ ...userData, username: username });
                   }
@@ -184,12 +198,25 @@ const AccountPage = observer(() => {
 
                   setSaving(true);
 
-                  userStore.saveUserData(user.id).then((r) => {
-                    setTimeout(() => {
-                      setSaving(false);
-                      setUsername(userStore.userData.username);
-                    }, 500);
-                  });
+                  try {
+                    userStore.updateUserData({
+                      username: username,
+                      categories: [...selectedCategories],
+                      otherCategory:
+                        selectedCategory < categories.length - 1
+                          ? ""
+                          : otherCategoryValue,
+                    });
+
+                    await userStore.saveUserData().then((r) => {
+                      setTimeout(() => {
+                        setSaving(false);
+                        setUsername(userStore.userData.username);
+                      }, 500);
+                    });
+                  } catch (e) {
+                    setSaving(false);
+                  }
                 }}
               >
                 Save Changes
@@ -197,12 +224,11 @@ const AccountPage = observer(() => {
             )
           ) : null}
         </section>
-        {isLoaded ? null : (
+        {!userStore.userData ? (
           <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
             <LinearProgress color="inherit" />
           </Stack>
-        )}
-        {isLoaded && (
+        ) : (
           <section className="px-2 xs:px-3 py-5 sm:p-6 w-full min-h-full bg-dashboard-secondary-light dark:bg-dashboard-secondary-dark sm:overflow-y-auto">
             <section
               className={`relative px-2 pt-6 pb-8 xs:px-4 flex flex-col md:flex-row gap-4 sm:gap-8 w-full bg-primary-light/80 dark:bg-dashboard-secondary-light/20 rounded-lg xs:rounded-xl shadow-md shadow-dashboard-primary-dark/10`}
@@ -214,7 +240,7 @@ const AccountPage = observer(() => {
                   {/*</h4>*/}
 
                   <h4 className="text-sm xs:text-base md:text-xl font-semibold">
-                    mypopoff.netlify.com/
+                    {process.env.NEXT_PUBLIC_HOME_ROUTE}
                   </h4>
                   <PopOffInput
                     name="username"
@@ -266,7 +292,7 @@ const AccountPage = observer(() => {
                 <PopOffTextArea
                   name="bio"
                   label="your bio description"
-                  value={userData.bio}
+                  value={userData.bio || ""}
                   rows={5}
                   onChange={(e) => {
                     const threshold = Object.keys(progressColours).findLast(
@@ -277,14 +303,14 @@ const AccountPage = observer(() => {
                       progressColours[threshold] || "#5FD378"
                     );
 
-                    userStore.setUserData({ ...userData, bio: e.target.value });
+                    userStore.updateUserData({ bio: e.target.value });
                   }}
                 />
                 <div
                   className={`py-1 flex justify-end items-center gap-2 transition-all duration-500`}
                 >
                   <p className={`text-sm text-right`}>
-                    {userData.bio.length || 0} / {maxBioLength}
+                    {userData.bio && (userData.bio.length || 0 / maxBioLength)}
                   </p>
                   <CircularProgress
                     variant="determinate"
@@ -292,14 +318,22 @@ const AccountPage = observer(() => {
                     thickness={6}
                     style={{
                       color: bioProgressColour,
-                      width: userData.bio.length === 0 ? 0 : "18px",
+                      width: userData.bio
+                        ? userData.bio.length === 0
+                          ? 0
+                          : "18px"
+                        : 0,
                       transition: "all 0.3s ease",
                     }}
                     // styles={{ @apply text-action}}
-                    value={Math.min(
-                      ((userData.bio.length || 0) * 100) / maxBioLength,
-                      100
-                    )}
+                    value={
+                      userData.bio
+                        ? Math.min(
+                            ((userData.bio.length || 0) * 100) / maxBioLength,
+                            100
+                          )
+                        : 0
+                    }
                   />
                 </div>
               </article>
@@ -323,7 +357,7 @@ const AccountPage = observer(() => {
             >
               <article className="mx-auto flex flex-col gap-3 w-full">
                 <h4 className="text-base text-center md:text-left">
-                  Which category best suits your PopOff?
+                  Which categories best suits your PopOff?
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-stretch flex-wrap">
                   {categories.map((category, index) => (
@@ -331,12 +365,12 @@ const AccountPage = observer(() => {
                       key={index}
                       label={category.name}
                       icon={category.icon(index, selectedCategory)}
-                      selected={selectedCategory === index}
+                      selected={selectedCategories.includes(category.name)}
                       onClick={() => handleSelectCategory(index)}
                     />
                   ))}
 
-                  {selectedCategory === categories.length - 1 && (
+                  {selectedCategories.includes("Other..") && (
                     <div className={`my-3`}>
                       <PopOffInput
                         name="otherCategory"
@@ -365,7 +399,7 @@ const AccountPage = observer(() => {
                 <h4 className="text-base text-center md:text-left">
                   How about adding some tags?
                 </h4>
-                {userData.tags.length > 0 && (
+                {userData.tags && userData.tags.length > 0 && (
                   <div className={`mb-2 flex flex-wrap gap-2`}>
                     {userData.tags.map((tag, index) => (
                       <div

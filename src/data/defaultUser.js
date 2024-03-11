@@ -4,7 +4,7 @@ const defaultUser = {
   bio: "",
   tagline: "",
 
-  category: "",
+  categories: [],
   otherCategory: "",
   tags: [],
 

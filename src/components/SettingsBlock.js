@@ -14,16 +14,16 @@ import country from "country-list-js";
 
 const SettingsBlock = observer(({ setReady }) => {
   const [makePublic, setMakePublic] = useState(false);
+  const [loadOnce, setLoadOnce] = useState(false);
 
   const [chosenImage, setChosenImage] = useState(null);
 
   const [formData, setFormData] = useState({
-    name: "",
-    age: "",
-    country: "",
-    gender: "",
-    phone: "",
-    city: "",
+    name: userStore.userData.name || "",
+    gender: userStore.userData.gender || "",
+    country: userStore.userData.country || "",
+    city: userStore.userData.city || "",
+    phone: userStore.userData.phone || "",
   });
 
   const handleChange = (e) => {
@@ -32,6 +32,21 @@ const SettingsBlock = observer(({ setReady }) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    if (!loadOnce && userStore.userData && userStore.userData.extras) {
+      setFormData({
+        ...formData,
+        name: userStore.userData.extras.name,
+        gender: userStore.userData.extras.gender,
+        country: userStore.userData.extras.country,
+        city: userStore.userData.extras.city,
+        phone: userStore.userData.extras.phone,
+      });
+
+      setLoadOnce(true);
+    }
+  }, [userStore.userData]);
 
   useEffect(() => {
     if (
@@ -59,8 +74,8 @@ const SettingsBlock = observer(({ setReady }) => {
             }
             size="small"
             onClick={() => {
-              setMakePublic(!makePublic);
               userStore.updateUserData({ public: !makePublic });
+              setMakePublic(!makePublic);
             }}
           ></Switch>
         </article>

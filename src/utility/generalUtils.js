@@ -10,7 +10,7 @@ const verifyUserData = (data, fix = true) => {
     { key: "username", type: "string" },
     { key: "bio", type: "string" },
     { key: "tagline", type: "string" },
-    { key: "category", type: "string" },
+    { key: "categories", type: "object" },
     { key: "otherCategory", type: "string" },
     { key: "tags", type: "object" },
     { key: "page_layout", type: "string" },
@@ -28,7 +28,6 @@ const verifyUserData = (data, fix = true) => {
     const value = data[check.key];
 
     if (!value || typeof value !== check.type) {
-      console.log(check.key);
       if (fix) {
         data[check.key] = defaultUser[check.key];
       } else {
