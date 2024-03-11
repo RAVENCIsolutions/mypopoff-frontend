@@ -62,18 +62,21 @@ const AccountPage = observer(() => {
       activeCategories.push(thisCategory);
     }
 
-    if (!activeCategories.includes("Other..")) setOtherCategoryValue("");
+    let thisOtherCategory = "";
 
-    userStore.updateUserData({ categories: [...activeCategories] });
-    setSelectedCategories([...activeCategories]);
+    if (!activeCategories.includes("Other..")) {
+      thisOtherCategory = "";
+    } else {
+      thisOtherCategory = otherCategoryValue;
+    }
 
-    userStore.setUserData({
-      ...userData,
-      categories: activeCategories,
-      otherCategory: activeCategories.includes("Other..")
-        ? otherCategoryValue
-        : "",
+    userStore.updateUserData({
+      categories: [...activeCategories],
+      otherCategory: thisOtherCategory,
     });
+
+    setOtherCategoryValue(thisOtherCategory);
+    setSelectedCategories([...activeCategories]);
   };
 
   const verifyUsername = async () => {
@@ -129,17 +132,19 @@ const AccountPage = observer(() => {
   };
 
   useEffect(() => {
-    if (!loadOnce && userStore.userData) {
+    if (
+      !loadOnce &&
+      userStore.userData &&
+      userStore.userData.username &&
+      userStore.userData.categories
+    ) {
       const data = userStore.userData;
 
       setUsername(data.username ? data.username : "");
-      const updatedCategoryList = [];
+      setSelectedCategories(userStore.userData.categories || []);
 
-      selectedCategories.map((category) => {
-        updatedCategoryList.push(category);
-      });
-
-      if (!selectedCategories.includes("Other..")) setOtherCategoryValue("");
+      if (!userStore.userData.categories.includes("Other.."))
+        setOtherCategoryValue("");
 
       if (userData.bio) {
         const threshold = Object.keys(progressColours).findLast(
@@ -148,6 +153,8 @@ const AccountPage = observer(() => {
 
         setBioProgressColour(progressColours[threshold] || "#5FD378");
       }
+
+      setLoadOnce(true);
     }
   }, [userStore.userData]);
 
@@ -202,10 +209,9 @@ const AccountPage = observer(() => {
                     userStore.updateUserData({
                       username: username,
                       categories: [...selectedCategories],
-                      otherCategory:
-                        selectedCategory < categories.length - 1
-                          ? ""
-                          : otherCategoryValue,
+                      otherCategory: selectedCategories.includes("Other..")
+                        ? otherCategoryValue
+                        : "",
                     });
 
                     await userStore.saveUserData().then((r) => {
@@ -364,7 +370,10 @@ const AccountPage = observer(() => {
                     <PopOffChip
                       key={index}
                       label={category.name}
-                      icon={category.icon(index, selectedCategory)}
+                      icon={category.icon(
+                        index,
+                        selectedCategories.includes(category.name)
+                      )}
                       selected={selectedCategories.includes(category.name)}
                       onClick={() => handleSelectCategory(index)}
                     />
@@ -375,14 +384,13 @@ const AccountPage = observer(() => {
                       <PopOffInput
                         name="otherCategory"
                         label="Other Category*"
-                        value={userData.otherCategory}
+                        value={otherCategoryValue}
                         onChange={(event) => {
                           setOtherCategoryValue(
                             event.target.value.replace(/[^a-zA-Z]/g, "")
                           );
 
-                          userStore.setUserData({
-                            ...userData,
+                          userStore.updateUserData({
                             otherCategory: event.target.value,
                           });
                         }}

@@ -41,10 +41,12 @@ class UserStore {
 
   updateUserData = (updateValue) => {
     this.userData = { ...this.userData, ...updateValue };
+    saveToStorage("userData", this.userData);
   };
 
   updateExtras = (updateValue) => {
     this.userData.extras = { ...this.userData.extras, ...updateValue };
+    saveToStorage("userData", this.userData);
   };
 
   setUserData = (userData) => {

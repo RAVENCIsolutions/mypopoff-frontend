@@ -6,9 +6,12 @@ import PopOffChip from "@/components/PopOffChip";
 import PopOffInput from "@/components/PopOffInput";
 import { categories } from "@/data/CustomisationData";
 import onBoardingStore from "@/stores/OnboardingStore";
+import userStore from "@/stores/UserStore";
 
 const OnboardingTwo = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [loadOnce, setLoadOnce] = useState(false);
+
+  const [selectedCategories, setSelectedCategories] = useState(null);
   const [otherCategoryValue, setOtherCategoryValue] = useState("");
 
   const [chosenImage, setChosenImage] = useState(null);
@@ -16,25 +19,46 @@ const OnboardingTwo = () => {
   const fileRef = useRef(null);
 
   const handleSelectCategory = (category) => {
-    setSelectedCategory(category);
+    const activeCategories = selectedCategories;
+    const thisCategory = categories[category].name;
+
+    if (activeCategories.includes(thisCategory)) {
+      activeCategories.splice(activeCategories.indexOf(thisCategory), 1);
+    } else {
+      activeCategories.push(thisCategory);
+    }
+
+    let thisOtherCategory = "";
+
+    if (!activeCategories.includes("Other..")) {
+      thisOtherCategory = "";
+    } else {
+      thisOtherCategory = otherCategoryValue;
+    }
+
     onBoardingStore.updateUserData({
-      category: categories[category].name,
-      otherCategory: category < categories.length - 1 ? "" : otherCategoryValue,
+      categories: [...activeCategories],
+      otherCategory: thisOtherCategory,
     });
+
+    setOtherCategoryValue(thisOtherCategory);
+    setSelectedCategories([...activeCategories]);
   };
 
   useEffect(() => {
-    if (onBoardingStore.userData.category === "Other..")
-      setOtherCategoryValue(onBoardingStore.userData.otherCategory);
+    if (
+      !loadOnce &&
+      onBoardingStore.userData &&
+      onBoardingStore.userData.categories
+    ) {
+      setSelectedCategories(userStore.userData.categories || []);
 
-    const getCategory = categories.findIndex(
-      (category) => onBoardingStore.userData.category === category.name
-    );
+      if (!userStore.userData.categories.includes("Other.."))
+        setOtherCategoryValue("");
 
-    if (getCategory !== -1) {
-      setSelectedCategory(getCategory);
+      setLoadOnce(true);
     }
-  }, []);
+  }, [onBoardingStore.userData]);
 
   return (
     <section

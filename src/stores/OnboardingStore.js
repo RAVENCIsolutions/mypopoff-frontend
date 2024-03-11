@@ -57,6 +57,7 @@ class OnboardingStore {
 
   setPalette = (palette) => {
     this.userData.palette = palette;
+    saveToStorage("userData", this.userData);
   };
 
   setAvatar = (avatar) => {
