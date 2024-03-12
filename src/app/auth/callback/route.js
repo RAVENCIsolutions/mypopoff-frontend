@@ -13,9 +13,11 @@ export async function GET(request) {
     await supabase.auth
       .exchangeCodeForSession(code)
       .then()
-      .catch((error) => {});
+      .catch((error) => {
+        return NextResponse.redirect(`${requestUrl.origin}`);
+      });
   }
 
   // URL to redirect to after sign in process completes
-  return NextResponse.redirect(`${requestUrl.origin}/me/dashboard`);
+  return NextResponse.redirect(`${requestUrl.origin}`);
 }
