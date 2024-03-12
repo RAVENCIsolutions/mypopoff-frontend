@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function AuthLayout({ children }) {
   return (
-    <main className="flex flex-col items-center justify-between min-h-screen">
+    <main className="flex flex-col items-center justify-between min-h-dvh">
       <section className="my-10 flex flex-col items-center justify-start sm:justify-center w-full">
         {children}
       </section>
