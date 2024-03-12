@@ -80,8 +80,6 @@ const SignUpForm = () => {
 
     setReadyToSignUp(false);
 
-    console.log(formData);
-
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: type === "checkbox" ? checked : value,
