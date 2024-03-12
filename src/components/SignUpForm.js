@@ -95,7 +95,7 @@ const SignUpForm = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: `${location.origin}/auth/callback`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_HOME_ROUTE}/auth/callback`,
         },
       });
 
