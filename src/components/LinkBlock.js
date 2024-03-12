@@ -12,11 +12,11 @@ import userStore from "@/stores/UserStore";
 import { ensureHttp } from "@/utility/generalUtils";
 
 const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
-  const [blockLink, setBlockLink] = useState(url.toString());
-  const [blockTitle, setBlockTitle] = useState(title.toString());
+  const [blockLink, setBlockLink] = useState(url.toString() || "");
+  const [blockTitle, setBlockTitle] = useState(title.toString() || "");
 
-  const [previousLink, setPreviousLink] = useState(url.toString());
-  const [previousTitle, setPreviousTitle] = useState(title.toString());
+  const [previousLink, setPreviousLink] = useState(url.toString() || "");
+  const [previousTitle, setPreviousTitle] = useState(title.toString() || "");
 
   const [makePublic, setMakePublic] = useState(isPublic);
 
