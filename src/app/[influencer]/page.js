@@ -1,59 +1,66 @@
-import { fetchUsername } from "@/utility/dbUtils";
-import { notFound, useParams } from "next/navigation";
-import Layout01 from "@/templates/layout-01";
-import Layout02 from "@/templates/layout-02";
-import Layout03 from "@/templates/layout-03";
-import Layout04 from "@/templates/layout-04";
-// import Layout05 from "@/templates/layout-05";
-// import Layout06 from "@/templates/layout-06";
-import Layout07 from "@/templates/layout-07";
-import Layout08 from "@/templates/layout-08";
-import Layout09 from "@/templates/layout-09";
-import Layout10 from "@/templates/layout-10";
-import MPOLetterMark from "@/components/MPOLetterMark";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+
+import MPOLetterMark from "@/components/MPOLetterMark";
 
 export const fetchCache = "force-no-store";
 
-async function getData(username) {
-  const userData = await fetchUsername(username);
+const Layout01 = dynamic(() => import("@/templates/layout-01"));
+const Layout02 = dynamic(() => import("@/templates/layout-02"));
+const Layout03 = dynamic(() => import("@/templates/layout-03"));
+const Layout04 = dynamic(() => import("@/templates/layout-04"));
+// const Layout05 = dynamic(() => import("@/templates/layout-05"));
+// const Layout06 = dynamic(() => import("@/templates/layout-06"));
+const Layout07 = dynamic(() => import("@/templates/layout-07"));
+const Layout08 = dynamic(() => import("@/templates/layout-08"));
+const Layout09 = dynamic(() => import("@/templates/layout-09"));
+const Layout10 = dynamic(() => import("@/templates/layout-10"));
 
-  if (!userData) {
+const layoutComponents = {
+  "layout-01": Layout01,
+  "layout-02": Layout02,
+  "layout-03": Layout03,
+  "layout-04": Layout04,
+  // 'layout-05' : Layout05,
+  // 'layout-06' : Layout06,
+  "layout-07": Layout07,
+  "layout-08": Layout08,
+  "layout-09": Layout09,
+  "layout-10": Layout10,
+};
+
+export async function Data(username) {
+  const supabase = createServerComponentClient({ cookies });
+  const { data: user, error } = await supabase
+    .from("users")
+    .select()
+    .eq("username", username)
+    .single();
+
+  if (!user || error) {
     notFound();
   }
 
-  return userData;
+  return user;
 }
 
-export async function generateMetadata({ params }) {
-  const { username } = await getData(params.influencer);
+export async function generateMetadata({ params: { influencer } }) {
+  const user = await Data(influencer);
 
   return {
-    title: `@${username} | My Pop Off`,
+    title: `@${user.username} | My Pop Off`,
   };
 }
 
-export default async function Page({ params }) {
-  let userData = {};
-  const layoutLookup = {};
+export default async function Page({ params: { influencer } }) {
+  const data = await Data(influencer);
+  const LayoutComponent = layoutComponents[data.page_layout || "layout-01"];
 
-  await getData(params.influencer).then((data) => {
-    userData = data;
-
-    layoutLookup["layout-01"] = <Layout01 userData={data} />;
-    layoutLookup["layout-02"] = <Layout02 userData={data} />;
-    layoutLookup["layout-03"] = <Layout03 userData={data} />;
-    layoutLookup["layout-04"] = <Layout04 userData={data} />;
-    // layoutLookup["layout-05"] = <Layout05 userData={data} />;
-    // layoutLookup["layout-06"] = <Layout06 userData={data} />;
-    layoutLookup["layout-07"] = <Layout07 userData={data} />;
-    layoutLookup["layout-08"] = <Layout08 userData={data} />;
-    layoutLookup["layout-09"] = <Layout09 userData={data} />;
-    layoutLookup["layout-10"] = <Layout10 userData={data} />;
-  });
-
-  return userData.public ? (
-    layoutLookup[userData.page_layout]
+  return data.public ? (
+    <LayoutComponent userData={data} />
   ) : (
     <main>
       <article
@@ -77,5 +84,4 @@ export default async function Page({ params }) {
       </article>
     </main>
   );
-  // return layoutLookup["layout-06"];
 }

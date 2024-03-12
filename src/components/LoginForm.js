@@ -1,11 +1,18 @@
 ﻿"use client";
 
-import MPOLetterMark from "@/components/MPOLetterMark";
+import Link from "next/link";
 import { useState } from "react";
 import styled from "@emotion/styled";
-import { useSignIn } from "@clerk/nextjs";
-import { Checkbox, FormControlLabel } from "@mui/material";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { supabase } from "@/config/Supbase";
+import MPOLetterMark from "@/components/MPOLetterMark";
+import { FaCheck } from "react-icons/fa";
+import { PiWarningBold } from "react-icons/pi";
+import { MdOutlineDangerous } from "react-icons/md";
+import { defaultUser } from "@/data/defaultUser";
+import userStore from "@/stores/UserStore";
+import { removeFromStorage } from "@/utility/localStorageUtils";
 
 const FormField = styled.fieldset`
   display: flex;
@@ -23,8 +30,6 @@ const FormInput = styled.input`
 `;
 
 const LoginForm = () => {
-  const { isLoaded, signIn } = useSignIn();
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -36,13 +41,20 @@ const LoginForm = () => {
     message: "",
   });
 
-  const errorCode = {
-    1: "text-warning",
-    2: "text-danger",
+  const errorCodes = {
+    1: "bg-warning/10 text-warning",
+    2: "bg-danger/10 text-danger",
   };
+
+  const router = useRouter();
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
+
+    setError({
+      level: 0,
+      message: "",
+    });
 
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -53,24 +65,36 @@ const LoginForm = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    if (!isLoaded) return;
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
 
-    try {
-      const result = await signIn.create({
-        identifier: formData.email,
-        password: formData.password,
-      });
-    } catch (error) {
+    if (error) {
       setError({
-        level: error.code,
+        level: 2,
         message: error.message,
       });
+
+      return;
     }
+
+    removeFromStorage("userData");
+
+    if (formData.remember) {
+      localStorage.setItem("userData", JSON.stringify(defaultUser));
+    } else {
+      sessionStorage.setItem("userData", JSON.stringify(defaultUser));
+    }
+
+    await userStore.loadUserData(data.session.user.id);
+
+    router.refresh();
   };
 
   const isDisabled = !formData.email || !formData.password;
 
-  return isLoaded ? (
+  return (
     <div
       className={`p-5 sm:p-8 w-full xs:max-w-sm bg-white rounded-none xs:rounded-2xl shadow-xl shadow-primary-dark/5`}
     >
@@ -79,27 +103,29 @@ const LoginForm = () => {
       >
         <Link href={"/"} className={`mb-4`}>
           <MPOLetterMark
-            className={`w-12 fill-primary-dark dark:fill-primary-light hover:fill-action transition-all duration-300`}
+            className={`w-12 fill-primary-dark hover:fill-action transition-all duration-300`}
           />
         </Link>
 
-        <h1 className={`text-2xl font-bold text-center`}>Welcome Back</h1>
+        <h1 className={`text-2xl font-bold text-center text-primary-dark`}>
+          Welcome Back
+        </h1>
         <p className={`text-base text-center text-primary-dark/50`}>
           Please enter your details to sign in.
         </p>
-        <p>{signIn.status}</p>
       </article>
-
       {/* Or */}
       {/*<article className={`flex items-center w-full`}>*/}
       {/*  <div className={`flex-grow h-[1.25px] bg-secondary-dark/20`}></div>*/}
       {/*  <p className={`px-3 text-sm font-bold text-secondary-dark/40`}>OR</p>*/}
       {/*  <div className={`flex-grow h-[1.25px] bg-secondary-dark/20`}></div>*/}
       {/*</article>*/}
-
       <form action="" className={`mt-6 flex flex-col gap-4 w-full`}>
         <FormField className={`w-full`}>
-          <label htmlFor="email" className={`text-sm font-light`}>
+          <label
+            htmlFor="email"
+            className={`text-sm font-light text-primary-dark`}
+          >
             Email address
           </label>
           <FormInput
@@ -117,7 +143,10 @@ const LoginForm = () => {
         </FormField>
 
         <FormField className={`w-full`}>
-          <label htmlFor="password" className={`text-sm font-light`}>
+          <label
+            htmlFor="password"
+            className={`text-sm font-light text-primary-dark`}
+          >
             Password
           </label>
           <FormInput
@@ -133,6 +162,24 @@ const LoginForm = () => {
             }`}
           />
         </FormField>
+
+        {error.level > 0 && (
+          <p
+            className={`p-2 flex items-center gap-1 text-xs ${
+              errorCodes[error.level]
+            } `}
+          >
+            {error.level === 1 ? (
+              <FaCheck size={10} />
+            ) : error.level < 5 ? (
+              <PiWarningBold size={15} />
+            ) : (
+              error.level === 5 && <MdOutlineDangerous size={15} />
+            )}
+            {error.message}
+          </p>
+        )}
+
         <article
           className={`flex flex-col-reverse xs:flex-row justify-between gap-4 w-full`}
         >
@@ -147,13 +194,13 @@ const LoginForm = () => {
             />
             <label
               htmlFor="remember"
-              className={`cursor-pointer text-sm font-light`}
+              className={`cursor-pointer text-sm font-light text-primary-dark`}
             >
               Remember me
             </label>
           </fieldset>
           <Link
-            href={"/"}
+            href={"/auth/forgot-password"}
             className={`text-sm text-primary-dark hover:text-action underline transition-all duration-300`}
           >
             Forgot Password?
@@ -171,16 +218,13 @@ const LoginForm = () => {
         </p>
         <button
           className={`cursor-pointer disabled:cursor-auto p-3 bg-action hover:bg-action/80 disabled:bg-gray-400 rounded-md focus:shadow-xl shadow-primary-dark/30 outline-none text-xs font-bold uppercase text-white disabled:text-white/70 transition-all duration-300`}
-          onClick={(event) => {
-            event.preventDefault();
-            console.log("Touch");
-          }}
+          onClick={handleLogin}
           disabled={isDisabled}
         >
           Login
         </button>
       </form>
-      <p className={`mt-8 text-sm font-light text-center`}>
+      <p className={`mt-8 text-sm font-light text-center text-primary-dark/70`}>
         Don't have an account yet?{" "}
         <Link
           href={"/auth/register"}
@@ -190,6 +234,6 @@ const LoginForm = () => {
         </Link>
       </p>
     </div>
-  ) : null;
+  );
 };
 export default LoginForm;

@@ -15,8 +15,6 @@ import { ButtonsLookup } from "@/data/ButtonsLookup";
 import { getButtonStyleIndex } from "@/utility/generalUtils";
 
 const Layout06 = ({ previewWindow = false, userData = defaultUser }) => {
-  const { username, bio, links, palette } = userData;
-
   const scrollRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(true);
   const [scrollingForwards, setScrollingForwards] = useState(true);
@@ -78,7 +76,7 @@ const Layout06 = ({ previewWindow = false, userData = defaultUser }) => {
                   link.public &&
                   ButtonsLookup[
                     getButtonStyleIndex(userData.button_style)
-                  ].component(link.url, link.title, palette, index)
+                  ].component(link.url, link.title, userData.palette, index)
                 );
               })}
           </article>

@@ -1,5 +1,4 @@
-﻿import supabase from "@/config/Supbase";
-import { users } from "@clerk/nextjs/api";
+﻿import { supabase } from "@/config/Supbase";
 import { generateRandomString } from "@/utility/generalUtils";
 
 const usersTable = process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE;
@@ -10,20 +9,17 @@ const fetchUser = async (id) => {
   const { data, error } = await supabase
     .from(usersTable)
     .select()
-    .eq("clerk_user_id", id)
+    .eq("uid", id)
     .single();
 
   if (error) return false;
-
   return data;
 };
 
 const fetchUsername = async (value) => {
   const { data, error } = await supabase
     .from(usersTable)
-    .select(
-      "username, bio, category, otherCategory, tags, page_layout, button_style, palette, links, images, public"
-    )
+    .select()
     .eq("username", value)
     .single();
 
@@ -44,8 +40,9 @@ const usernameExists = async (value) => {
 const createUser = async (id, saveData) => {
   const { data, error } = await supabase
     .from(usersTable)
-    .insert({ ...saveData, clerk_user_id: id })
-    .select();
+    .insert({ ...saveData, uid: id })
+    .select()
+    .single();
 
   if (error) return false;
 
@@ -56,7 +53,7 @@ const updateUser = async (id, dataToSave) => {
   const { error } = await supabase
     .from(usersTable)
     .update({ ...dataToSave })
-    .eq("clerk_user_id", id);
+    .eq("uid", id);
 
   return !error;
 };
@@ -99,7 +96,8 @@ const exploreAll = async () => {
   const { data, error } = await supabase
     .from(usersTable)
     .select()
-    .neq("username", "");
+    .neq("username", "")
+    .is("public", true);
 
   if (error) return false;
   return data;

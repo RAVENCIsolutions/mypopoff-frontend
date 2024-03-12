@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
@@ -17,8 +15,6 @@ import {
 } from "@/utility/generalUtils";
 
 const Layout07 = ({ previewWindow = false, userData = defaultUser }) => {
-  const { username, bio, links, palette } = userData;
-
   return (
     <main
       className="relative py-4 flex items-center justify-stretch w-full min-h-screen h-full"
@@ -50,7 +46,7 @@ const Layout07 = ({ previewWindow = false, userData = defaultUser }) => {
                 link.public &&
                 ButtonsLookup[
                   getButtonStyleIndex(userData.button_style)
-                ].component(link.url, link.title, palette, index)
+                ].component(link.url, link.title, userData.palette, index)
               );
             })}
         </article>
@@ -64,7 +60,7 @@ const Layout07 = ({ previewWindow = false, userData = defaultUser }) => {
       </section>
 
       <footer
-        className="fixed px-4 md:px-16 bottom-3 flex flex-col 3xs:flex-row gap-1 w-full text-base"
+        className="absolute px-4 md:px-16 bottom-3 flex flex-col 3xs:flex-row gap-1 w-full text-base"
         style={{
           color: getContrastLuminance(userData.palette.background),
           opacity: 0.5,

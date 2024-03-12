@@ -1,16 +1,12 @@
 const defaultUser = {
-  clerk_user_id: null,
-
+  uid: "",
   username: "",
-
   bio: "",
   tagline: "",
 
-  category: "",
+  categories: [],
   otherCategory: "",
   tags: [],
-
-  onboarding_complete: false,
 
   page_layout: "layout-01",
   button_style: "button-01",
@@ -26,9 +22,12 @@ const defaultUser = {
   avatar_url: "",
   images: "",
 
+  links: [],
+
+  onboarding_complete: false,
   public: true,
 
-  links: [],
+  extras: {},
 };
 
 export { defaultUser };

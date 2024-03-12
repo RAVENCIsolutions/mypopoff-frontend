@@ -21,8 +21,9 @@ const FormInput = styled.input`
 const AuthText = ({
   label = "label",
   name = "",
-  value,
+  value = "",
   onChange,
+  type = "text",
   error = {},
 }) => {
   const errorCodes = {
@@ -34,17 +35,17 @@ const AuthText = ({
 
   return (
     <FormField className={`w-full`}>
-      <label htmlFor="email" className={`text-sm font-light`}>
+      <label htmlFor={name} className={`text-sm font-light text-primary-dark`}>
         {label}
       </label>
       <FormInput
         id={name}
         name={name}
-        type="text"
+        type={type}
         value={value}
         onChange={onChange}
         className={`border-[1px] focus:shadow-xl shadow-primary-dark/30 ${
-          error.level > 1
+          error && error.level > 1
             ? "border-danger"
             : value.length > 0
             ? "border-action"

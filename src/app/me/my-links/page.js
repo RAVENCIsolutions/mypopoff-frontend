@@ -13,8 +13,6 @@ import { CircularProgress, Skeleton, Stack } from "@mui/material";
 const MyLinks = observer(() => {
   const [processing, setProcessing] = useState(true);
 
-  const { loaded } = userStore;
-
   const skeletonList = [];
 
   for (let x = 0; x < 4; x++) {
@@ -22,7 +20,7 @@ const MyLinks = observer(() => {
   }
 
   return (
-    <article className="w-full max-h-full overflow-hidden sm:rounded-lg">
+    <article className="relative w-full max-h-full overflow-hidden sm:rounded-lg">
       {processing ? (
         <div className={`absolute top-3 right-4`}>
           <Stack sx={{ color: "grey.500" }} spacing={2}>
@@ -45,7 +43,6 @@ const MyLinks = observer(() => {
             <h3 className="mt-2 text-lg w-full">Existing Links</h3>
 
             {processing &&
-              !loaded &&
               skeletonList.map((item, index) => (
                 <section
                   key={`list-${item}-${index}`}

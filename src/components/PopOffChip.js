@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import styled from "@emotion/styled";
 
 const Chip = styled.div``;
 
 const PopOffChip = (props) => {
-  const [hover, setHover] = useState(false);
-
   return (
     <Chip
       className={`cursor-pointer my-1.5 mx-1 py-1 px-3 flex items-center gap-2 border-[1px] rounded-full transition-all duration-300

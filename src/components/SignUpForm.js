@@ -4,28 +4,54 @@ import MPOLetterMark from "@/components/MPOLetterMark";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useSignUp } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { CircularProgress, Stack } from "@mui/material";
+
+import { supabase } from "@/config/Supbase";
+import { createUser, usernameExists } from "@/utility/dbUtils";
 
 import AuthText from "@/components/AuthText";
 import AuthPassword from "@/components/AuthPassword";
 import AuthUsername from "@/components/AuthUsername";
-import { isUsernameAvailable } from "@/utility/authUtils";
-import { usernameExists } from "@/utility/dbUtils";
-import { CircularProgress, Stack } from "@mui/material";
+import AuthSelect from "@/components/AuthSelect";
+
+import { defaultUser } from "@/data/defaultUser";
+import { ageBrackets, genders } from "@/data/PersonalData";
+
+import country from "country-list-js";
 
 const SignUpForm = () => {
-  const { isLoaded, signUp } = useSignUp();
-
   // States
   const [checkingUsername, setCheckingUsername] = useState(false);
   const [usernameTimeout, setUsernameTimeout] = useState(null);
+
+  const [countryData, setCountryData] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  const [isLongEnough, setIsLongEnough] = useState(false);
+  const [hasCases, setHasCases] = useState(false);
+  const [hasNumbers, setHasNumbers] = useState(false);
+
+  const [signingUp, setSigningUp] = useState(false);
+  const [completeSignUp, setCompleteSignUp] = useState(false);
+
   const [readyToSignUp, setReadyToSignUp] = useState(false);
 
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+
+    name: "",
+    age: "",
+    country: "",
+    gender: "",
+    phone: "",
+    city: "",
   });
+
+  const [selectedGender, setSelectedGender] = useState("");
 
   const [error, setError] = useState({
     username: {
@@ -47,8 +73,14 @@ const SignUpForm = () => {
     2: "text-danger",
   };
 
+  const router = useRouter();
+
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
+
+    setReadyToSignUp(false);
+
+    console.log(formData);
 
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -56,22 +88,50 @@ const SignUpForm = () => {
     }));
   };
 
-  const handleLogin = async (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
+    setSigningUp(true);
 
-    // if (!isLoaded) return;
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          emailRedirectTo: `${location.origin}/auth/callback`,
+        },
+      });
 
-    // try {
-    //   const result = await signIn.create({
-    //     identifier: formData.email,
-    //     password: formData.password,
-    //   });
-    // } catch (error) {
-    //   setError({
-    //     level: error.code,
-    //     message: error.message,
-    //   });
-    // }
+      if (error) {
+      }
+
+      if (data) {
+        const newUser = {
+          ...defaultUser,
+          uid: data.user.id,
+          username: formData.username,
+          extras: {
+            name: formData.name,
+            age: formData.age,
+            gender: formData.gender,
+            country: formData.country,
+            city: formData.city,
+            phone: formData.phone,
+          },
+        };
+
+        await createUser(data.user.id, newUser);
+
+        setSigningUp(false);
+        setCompleteSignUp(true);
+      }
+    } catch (error) {
+      setError({
+        level: error.code,
+        message: error.message,
+      });
+    }
+
+    router.refresh();
   };
 
   useEffect(() => {
@@ -79,21 +139,7 @@ const SignUpForm = () => {
       clearTimeout(usernameTimeout);
     }
 
-    setCheckingUsername(true);
-
     const newTimeout = setTimeout(async () => {
-      // if (!formData.username) {
-      //   setError({
-      //     ...error,
-      //     username: {
-      //       level: 5,
-      //       message: "Usernames can't be empty",
-      //     },
-      //   });
-      //
-      //   return false;
-      // }
-
       if (formData.username.length > 0 && formData.username.length < 4) {
         setError({
           ...error,
@@ -103,22 +149,18 @@ const SignUpForm = () => {
           },
         });
       } else if (formData.username.length > 3) {
-        usernameExists(formData.username).then((found) =>
-          setError({
-            ...error,
-            username: {
-              level: found ? 5 : 1,
-              message: found
-                ? "Username already taken"
-                : "Username is available",
-            },
-          })
-        );
+        const found = await usernameExists(formData.username);
+        setError({
+          ...error,
+          username: {
+            level: found ? 5 : 1,
+            message: found ? "Username already taken" : "Username is available",
+          },
+        });
       }
     }, 1000);
 
     setUsernameTimeout(newTimeout);
-    setCheckingUsername(false);
 
     return () => {
       clearTimeout(newTimeout);
@@ -126,25 +168,40 @@ const SignUpForm = () => {
   }, [formData.username]);
 
   useEffect(() => {
+    // check password, username and email validity
     if (
-      formData.password.length < 8 ||
-      formData.username.length < 4 ||
-      formData.email.length < 6 ||
-      error.username.level > 0 ||
-      error.email.level > 0
+      isLongEnough &&
+      hasCases &&
+      hasNumbers &&
+      formData.username.length > 3 &&
+      formData.email.length > 5 &&
+      error.username.level < 2 &&
+      error.email.level < 1 &&
+      formData.name.length > 0 &&
+      formData.age.length > 0 &&
+      formData.country.length > 0 &&
+      formData.gender.length > 0
     ) {
+      setReadyToSignUp(true);
+    } else {
       setReadyToSignUp(false);
     }
-  }, [formData]);
+  }, [formData, error]);
 
-  const isDisabled =
-    formData.password.length < 8 ||
-    formData.username.length < 4 ||
-    formData.email.length < 6 ||
-    error.username.level > 1 ||
-    error.email.level > 0;
+  useEffect(() => {
+    const getCountries = country
+      .names()
+      .sort()
+      .map((item) => ({
+        label: item,
+        value: item,
+      }));
+    setCountryData(getCountries);
 
-  return isLoaded ? (
+    setLoading(false);
+  }, []);
+
+  return (
     <div
       className={`p-5 sm:p-8 w-full xs:max-w-sm bg-white rounded-none xs:rounded-2xl shadow-xl shadow-primary-dark/5`}
     >
@@ -153,11 +210,13 @@ const SignUpForm = () => {
       >
         <Link href={"/"} className={`mb-4`}>
           <MPOLetterMark
-            className={`w-12 fill-primary-dark dark:fill-primary-light hover:fill-action transition-all duration-300`}
+            className={`w-12 fill-primary-dark hover:fill-action transition-all duration-300`}
           />
         </Link>
 
-        <h1 className={`text-2xl font-bold text-center`}>Welcome!</h1>
+        <h1 className={`text-2xl font-bold text-center text-primary-dark`}>
+          Welcome!
+        </h1>
         <p className={`text-base text-center text-primary-dark/50`}>
           Let's get you signed up.
         </p>
@@ -169,68 +228,184 @@ const SignUpForm = () => {
       {/*  <p className={`px-3 text-sm font-bold text-secondary-dark/40`}>OR</p>*/}
       {/*  <div className={`flex-grow h-[1.25px] bg-secondary-dark/20`}></div>*/}
       {/*</article>*/}
+      {completeSignUp ? (
+        <section className={`mt-6`}>
+          <p
+            className={`text-sm text-center text-primary-dark/80 font-bold italic`}
+          >
+            Please check your email to complete sign up.
+          </p>
+        </section>
+      ) : (
+        <>
+          {loading ? (
+            <section className={`m-4 flex items-center justify-center`}>
+              <Stack sx={{ color: "#c68a4e" }} spacing={2}>
+                <CircularProgress color="inherit" size={20} />
+              </Stack>
+            </section>
+          ) : (
+            <section className={`mt-6 flex flex-col gap-4 w-full`}>
+              <article className={`relative`}>
+                <AuthUsername
+                  label={`Username*`}
+                  name={`username`}
+                  value={formData.username}
+                  error={error.username}
+                  onChange={(event) => {
+                    setError({
+                      ...error,
+                      username: {
+                        level: 0,
+                        message: "",
+                      },
+                    });
+                    handleChange(event);
+                  }}
+                />
+                {checkingUsername && (
+                  <Stack
+                    className={`mt-2`}
+                    sx={{ color: "grey.500" }}
+                    spacing={2}
+                  >
+                    <CircularProgress color="inherit" size={15} />
+                  </Stack>
+                )}
+              </article>
+              <AuthText
+                label={`Email address*`}
+                name={`email`}
+                value={formData.email}
+                error={error.email}
+                onChange={handleChange}
+              />
+              <AuthPassword
+                label={`Password*`}
+                name={`password`}
+                value={formData.password}
+                error={error.password}
+                onChange={(event) => {
+                  handleChange(event);
 
-      <form action="" className={`mt-6 flex flex-col gap-4 w-full`}>
-        <article className={`relative`}>
-          <AuthUsername
-            label={`Username`}
-            name={`username`}
-            value={formData.username}
-            error={error.username}
-            onChange={(event) => {
-              setError({
-                ...error,
-                username: {
-                  level: 0,
-                  message: "",
-                },
-              });
-              handleChange(event);
-            }}
-          />
-          {checkingUsername && (
-            <Stack className={`mt-2`} sx={{ color: "grey.500" }} spacing={2}>
-              <CircularProgress color="inherit" size={15} />
-            </Stack>
+                  const newValue = event.target.value;
+
+                  const hasUppercase = /[A-Z]/.test(newValue);
+                  const hasLowercase = /[a-z]/.test(newValue);
+                  const hasNumber = /\d/.test(newValue);
+
+                  if (newValue.length > 7) {
+                    setIsLongEnough(true);
+                  } else setIsLongEnough(false);
+
+                  if (hasUppercase && hasLowercase) {
+                    setHasCases(true);
+                  } else setHasCases(false);
+
+                  if (hasNumber) {
+                    setHasNumbers(true);
+                  } else setHasNumbers(false);
+                }}
+              />
+              <AuthText
+                label={`Name*`}
+                name={`name`}
+                value={formData.name}
+                error={error.name}
+                onChange={handleChange}
+              />
+
+              <AuthSelect
+                label={"Age*"}
+                name={"age"}
+                value={countryData.find(
+                  (option) => option.value === formData.age
+                )}
+                onChange={(choice) =>
+                  setFormData({ ...formData, age: choice.value })
+                }
+                options={ageBrackets}
+              />
+              <AuthSelect
+                label={`Gender*`}
+                name={`gender`}
+                value={genders.find(
+                  (option) => option.value === selectedGender
+                )}
+                options={genders}
+                onChange={(choice) => {
+                  setSelectedGender(choice.value);
+
+                  if (choice.value === "Other") {
+                    setFormData({ ...formData, gender: "" });
+                  } else {
+                    setFormData({ ...formData, gender: choice.value });
+                  }
+                }}
+                autoComplete={true}
+              />
+              {selectedGender === "Other" && (
+                <AuthText
+                  label={`Please specify Other Gender*`}
+                  name={`other-gender`}
+                  value={formData.gender}
+                  onChange={(event) =>
+                    setFormData({ ...formData, gender: event.target.value })
+                  }
+                />
+              )}
+              <AuthSelect
+                label={`Country*`}
+                name={`country`}
+                value={countryData.find(
+                  (option) => option.value === formData.country
+                )}
+                options={countryData}
+                onChange={(choice) =>
+                  setFormData({ ...formData, country: choice.value })
+                }
+                autoComplete={true}
+              />
+              <AuthText
+                label={`City`}
+                name={`city`}
+                value={formData.city}
+                error={error.city}
+                onChange={handleChange}
+              />
+              <AuthText
+                label={`Phone`}
+                name={`phone`}
+                type={"tel"}
+                value={formData.phone}
+                error={error.phone}
+                onChange={handleChange}
+              />
+
+              <button
+                className={`cursor-pointer disabled:cursor-auto p-3 bg-action hover:bg-action/80 disabled:bg-gray-400 rounded-md focus:shadow-xl shadow-primary-dark/30 outline-none text-xs font-bold uppercase text-white disabled:text-white/70 transition-all duration-300`}
+                onClick={handleSignUp}
+                disabled={!readyToSignUp || signingUp}
+              >
+                {signingUp ? "Signing You Up ..." : "Register"}
+              </button>
+            </section>
           )}
-        </article>
 
-        <AuthText
-          label={`Email address`}
-          name={`email`}
-          value={formData.email}
-          error={error.email}
-          onChange={handleChange}
-        />
-        <AuthPassword
-          label={`Password`}
-          name={`password`}
-          value={formData.password}
-          error={error.password}
-          onChange={handleChange}
-        />
-
-        <button
-          className={`cursor-pointer disabled:cursor-auto p-3 bg-action hover:bg-action/80 disabled:bg-gray-400 rounded-md focus:shadow-xl shadow-primary-dark/30 outline-none text-xs font-bold uppercase text-white disabled:text-white/70 transition-all duration-300`}
-          onClick={(event) => {
-            event.preventDefault();
-            console.log("Touch");
-          }}
-          disabled={isDisabled}
-        >
-          Register
-        </button>
-      </form>
-      <p className={`mt-8 text-sm font-light text-center`}>
-        Already have an account?{" "}
-        <Link
-          href={"/auth/login"}
-          className={`font-normal text-primary-dark hover:text-action transition-all duration-300`}
-        >
-          Login
-        </Link>
-      </p>
+          <p
+            className={`mt-8 text-sm font-light text-center text-primary-dark/70`}
+          >
+            Already have an account?{" "}
+            <Link
+              href={"/auth/login"}
+              className={`font-normal text-primary-dark hover:text-action transition-all duration-300`}
+            >
+              Login
+            </Link>
+          </p>
+        </>
+      )}
     </div>
-  ) : null;
+  );
 };
 export default SignUpForm;

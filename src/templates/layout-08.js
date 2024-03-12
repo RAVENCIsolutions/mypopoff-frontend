@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
@@ -18,17 +16,17 @@ import {
 const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
   return (
     <main
-      className={`flex items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-blue-900 bg-cover bg-center overflow-hidden`}
+      className={`flex flex-col items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-blue-900 bg-cover bg-center overflow-hidden`}
       style={{
         backgroundImage: `url(${userData.images || ""})`,
       }}
     >
-      <section className="pt-8 pb-14 flex flex-col items-center justify-center w-5/6 max-w-3xl h-full bg-white/90 text-center gap-6 z-10">
+      <section className="relative pt-8 pb-14 flex flex-col items-center justify-center w-5/6 max-w-3xl h-full bg-white/90 text-center gap-6 z-10">
         <article
           className={`px-6 md:px-20 flex flex-col justify-between items-center max-h-full overflow-y-auto`}
         >
           <h1
-            className="font-bold text-xl md:text-4xl text-center tracking-wide"
+            className="font-bold font-barlowCondensed text-xl md:text-4xl text-center tracking-wide"
             style={{ color: userData.palette.mainText }}
           >
             @{userData.username}
@@ -73,18 +71,17 @@ const Layout08 = ({ previewWindow = false, userData = defaultUser }) => {
           {/*  />*/}
           {/*</section>*/}
         </article>
+        <footer
+          className="absolute bottom-3 text-base font-semibold text-blue-900/80 z-20"
+          style={{
+            color: getContrastLuminance(userData.palette.background),
+            opacity: 0.5,
+          }}
+        >
+          Copyright © {new Date().getFullYear()}.{" "}
+          <Link href={"/"}>My Pop Off</Link>
+        </footer>
       </section>
-
-      <footer
-        className="absolute bottom-3 text-base font-semibold text-blue-900/80 z-20"
-        style={{
-          color: getContrastLuminance(userData.palette.background),
-          opacity: 0.5,
-        }}
-      >
-        Copyright © {new Date().getFullYear()}.{" "}
-        <Link href={"/"}>My Pop Off</Link>
-      </footer>
     </main>
   );
 };

@@ -1,89 +1,142 @@
-import { makeAutoObservable, runInAction, toJS } from "mobx";
 import { defaultUser } from "@/data/defaultUser";
+import { makeAutoObservable } from "mobx";
 
-import { createUser, fetchUser, updateUser } from "@/utility/dbUtils";
+import { verifyUserData } from "@/utility/generalUtils";
 import {
-  removeFromLocalStorage,
-  saveToLocalStorage,
-} from "@/utility/localStorageUtils";
+  createUser,
+  fetchUser,
+  updateUser,
+  uploadAvatar,
+  uploadImage,
+} from "@/utility/dbUtils";
+import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 
 class UserStore {
   // initialise user data
-  userData = defaultUser;
-  loaded = false;
+  userData = {};
+
+  ready = false;
+
+  avatar = null;
+  image = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  fixUserData = () => {
-    if (this.userData.username === null) this.userData.username = "";
-    if (this.userData.bio === null) this.userData.bio = "";
-    if (this.userData.tagline === null) this.userData.tagline = "";
-    if (this.userData.category === null) this.userData.category = "";
-    if (this.userData.links === null) this.userData.links = [];
-    if (this.userData.tags === null) this.userData.tags = [];
+  initialiseUser = async (id) => {
+    let getData = getFromStorage("userData");
+
+    if (!getData || !verifyUserData(getData)) {
+      await this.loadUserData(id);
+    } else {
+      const getLastFetch =
+        getFromStorage("lastFetch", sessionStorage, false) ||
+        new Date().getTime();
+      if (new Date().getTime() - getLastFetch > 1000 * 60 * 5) {
+        await this.loadUserData(id);
+      } else {
+        this.userData = getData;
+      }
+    }
   };
 
-  completeLoad = () => {
-    this.loaded = true;
+  setReady = () => {
+    this.ready = true;
   };
 
-  resetUserData = () => {
-    this.userData = defaultUser;
-    this.fixUserData();
+  updateUserData = (updateValue) => {
+    this.userData = { ...this.userData, ...updateValue };
+    saveToStorage("userData", this.userData);
   };
 
-  setUser = (id) => {
-    this.userData.clerk_user_id = id;
+  updateExtras = (updateValue) => {
+    this.userData.extras = { ...this.userData.extras, ...updateValue };
+    saveToStorage("userData", this.userData);
   };
 
   setUserData = (userData) => {
-    runInAction(() => {
-      this.userData = userData;
-      this.fixUserData();
-      saveToLocalStorage("userData", userData);
-    });
+    this.userData = userData;
+    saveToStorage("userData", this.userData);
+  };
+
+  addToPalette = (palette) => {
+    this.userData.palette = { ...this.userData.palette, ...palette };
+    saveToStorage("userData", this.userData);
   };
 
   setPalette = (palette) => {
     this.userData.palette = palette;
+    saveToStorage("userData", this.userData);
+  };
 
-    saveToLocalStorage("userData", this.userData);
+  setAvatar = (avatar) => {
+    this.avatar = avatar;
+  };
+
+  setImage = (image) => {
+    this.image = image;
+  };
+
+  pushAvatar = async (id) => {
+    if (!this.avatar) return false;
+
+    const file = this.avatar;
+
+    await uploadAvatar(id, file).then((data) => {
+      this.userData.avatar_url =
+        process.env.NEXT_PUBLIC_SUPABASE_AVATARS_LINK + data.path;
+
+      saveToStorage("userData", this.userData);
+      this.avatar = null;
+    });
+  };
+
+  pushImage = async (id) => {
+    if (!this.image) return false;
+
+    const file = this.image;
+
+    await uploadImage(id, file).then((data) => {
+      this.userData.images =
+        process.env.NEXT_PUBLIC_SUPABASE_IMAGES_LINK + data.path;
+
+      saveToStorage("userData", this.userData);
+      this.image = null;
+    });
+  };
+
+  createNewUser = async (id, data) => {
+    await createUser(id, data).then((data) => {
+      this.userData = data;
+      saveToStorage("userData", data);
+      return data;
+    });
   };
 
   loadUserData = async (id) => {
-    const userData = await fetchUser(id);
+    await fetchUser(id).then((data) => {
+      if (data) {
+        console.log(data);
+        this.userData = data;
+        saveToStorage("userData", data);
+        saveToStorage("lastFetch", new Date().getTime(), sessionStorage, false);
 
-    if (userData) {
-      this.fixUserData();
-      this.setUserData(userData);
-      return userData;
-    } else {
-      await this.createUserData(id, { ...defaultUser, clerk_user_id: id });
-    }
-  };
-
-  createUserData = async (id, data) => {
-    const userData = await createUser(id, data);
-
-    this.fixUserData();
-
-    if (userData) {
-      await this.loadUserData(id);
-    }
+        return data;
+      } else {
+        this.createNewUser(id, { ...defaultUser });
+      }
+    });
   };
 
   saveUserData = async () => {
-    this.fixUserData();
+    if (this.avatar) await this.pushAvatar(this.userData.uid);
+    if (this.image) await this.pushImage(this.userData.uid);
 
-    await updateUser(this.userData.clerk_user_id, this.userData);
-    saveToLocalStorage("userData", this.userData);
-  };
-
-  logoutUser = async () => {
-    removeFromLocalStorage("userData");
-    this.resetUserData();
+    await updateUser(this.userData.uid, this.userData).then(() => {
+      saveToStorage("userData", this.userData);
+      saveToStorage("lastFetch", new Date().getTime(), sessionStorage, false);
+    });
   };
 
   addLink = async (link) => {
@@ -92,8 +145,7 @@ class UserStore {
     if (this.userData.links === null) this.userData.links = [];
     this.userData.links.push(newLink);
 
-    await updateUser(this.userData.clerk_user_id, this.userData);
-    saveToLocalStorage("userData", this.userData);
+    await this.saveUserData();
   };
 
   removeLink = async (id) => {
@@ -101,27 +153,23 @@ class UserStore {
 
     this.userData.links.splice(idInList, 1);
 
-    await updateUser(this.userData.clerk_user_id, this.userData);
-    saveToLocalStorage("userData", this.userData);
+    await this.saveUserData();
   };
 
   updateLink = async (linkId, linkData) => {
-    this.userData.links = this.userData.links.map((link) => {
-      if (link.id === linkId) {
-        return { ...link, ...linkData };
-      }
-      return link;
-    });
+    const idInList = this.userData.links.findIndex(
+      (link) => link.id === linkId
+    );
 
-    await updateUser(this.userData.clerk_user_id, this.userData);
-    saveToLocalStorage("userData", this.userData);
+    this.userData.links[idInList] = { ...linkData };
+
+    await this.saveUserData();
   };
 
   resetLinkList = async (linkList) => {
     this.userData.links = linkList;
 
-    await updateUser(this.userData.clerk_user_id, this.userData);
-    saveToLocalStorage("userData", this.userData);
+    await this.saveUserData();
   };
 }
 

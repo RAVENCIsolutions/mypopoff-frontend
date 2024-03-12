@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*",
+      },
+    ],
+  },
   async redirects() {
     return [
       {
@@ -30,6 +38,11 @@ const nextConfig = {
       {
         source: "/sign-up",
         destination: "/auth/register",
+        permanent: true,
+      },
+      {
+        source: "/me",
+        destination: "/me/dashboard",
         permanent: true,
       },
       {

@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BiLogoFacebookCircle,
   BiLogoInstagramAlt,
@@ -18,16 +16,14 @@ import {
 
 const Layout10 = observer(
   ({ previewWindow = false, userData = defaultUser }) => {
-    const { username, bio, links, palette } = userData;
-
     return (
       <main
         className={`${
           previewWindow
-            ? "px-2 py-20 flex-col justify-between gap-8"
-            : "px-2 sm:px-10 py-10 min-h-screen justify-center"
-        } items-center flex h-fit`}
-        style={{ backgroundColor: palette.background }}
+            ? "px-2 py-20 flex-col min-h-full"
+            : "px-2 sm:px-10 py-10 min-h-screen"
+        } relative justify-center items-center flex h-fit`}
+        style={{ backgroundColor: userData.palette.background }}
       >
         <article
           className={`${
@@ -35,16 +31,19 @@ const Layout10 = observer(
               ? "mx-auto w-10/12 p-3"
               : "w-10/12 max-w-sm p-3 md:p-10"
           } flex flex-col items-center border-2 border-black rounded-xl`}
-          style={{ backgroundColor: palette.middleGround }}
+          style={{ backgroundColor: userData.palette.middleGround }}
         >
           <section className="mb-8">
             <h2
               className={`font-black text-xl md:text-3xl text-center tracking-wide`}
-              style={{ color: palette.mainText }}
+              style={{ color: userData.palette.mainText }}
             >
               @{userData.username}
             </h2>
-            <h1 className="text-base" style={{ color: palette.subText }}>
+            <h1
+              className="text-base"
+              style={{ color: userData.palette.subText }}
+            >
               {userData.bio}
             </h1>
           </section>
@@ -62,7 +61,7 @@ const Layout10 = observer(
                     link.public &&
                     ButtonsLookup[
                       getButtonStyleIndex(userData.button_style)
-                    ].component(link.url, link.title, palette, index)
+                    ].component(link.url, link.title, userData.palette, index)
                   );
                 })}
             </article>
@@ -79,9 +78,7 @@ const Layout10 = observer(
           {/*</section>*/}
         </article>
         <footer
-          className={`${
-            previewWindow ? "relative" : "absolute"
-          } bottom-3 text-sm`}
+          className={`absolute bottom-3 text-sm`}
           style={{
             color: getContrastLuminance(userData.palette.background),
             opacity: 0.5,
@@ -92,7 +89,7 @@ const Layout10 = observer(
         </footer>
       </main>
     );
-  },
+  }
 );
 
 export default Layout10;

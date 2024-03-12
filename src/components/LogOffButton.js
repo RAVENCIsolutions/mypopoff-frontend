@@ -1,19 +1,22 @@
 ﻿"use client";
 
-import { useClerk } from "@clerk/nextjs";
-import userStore from "@/stores/UserStore";
-
 import { CgLogOff } from "react-icons/cg";
+import { useRouter } from "next/navigation";
+import { removeFromStorage } from "@/utility/localStorageUtils";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const LogOffButton = () => {
-  const { signOut } = useClerk();
+  const router = useRouter();
+
   return (
     <article
       className="cursor-pointer"
       onClick={async () => {
-        await signOut().then(async () => {
-          await userStore.logoutUser();
-        });
+        const supabase = createClientComponentClient();
+        await supabase.auth.signOut();
+        removeFromStorage("userData");
+        removeFromStorage("lastFetch");
+        router.refresh();
       }}
     >
       <p

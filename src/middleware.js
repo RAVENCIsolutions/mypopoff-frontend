@@ -1,21 +1,45 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
-export default authMiddleware({
-  // publicRoutes: [
-  //   "/",
-  //   "/explore",
-  //   "/privacy-policy",
-  //   "/terms-of-service",
-  //   "/cookies-policy",
-  //   "/colour-wheel-test",
-  //   "/support",
-  // ],
-  publicRoutes: (req) => !req.url.includes("/me"),
-});
+export async function middleware(request) {
+  if (request.url.includes("/images/") || request.url.includes("/fonts")) {
+    return NextResponse.next();
+  }
 
-export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
-};
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session) {
+    try {
+      if (request.url.includes("/auth"))
+        return NextResponse.redirect(new URL("/me/dashboard", request.url));
+
+      // Check if onboarding is complete
+      const { data, error } = await supabase
+        .from(process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE)
+        .select("onboarding_complete")
+        .eq("uid", session.user.id)
+        .single();
+
+      if (request.url.includes("/me")) {
+        if (!data.onboarding_complete)
+          return NextResponse.redirect(new URL("/onboarding", request.url));
+      }
+
+      if (request.url.includes("/onboarding")) {
+        if (data.onboarding_complete) {
+          return NextResponse.redirect(new URL("/me/dashboard", request.url));
+        }
+      }
+    } catch (e) {
+      const { error } = await supabase.auth.signOut();
+    }
+  } else {
+    if (request.url.includes("/me") || request.url.includes("/onboarding")) {
+      return NextResponse.redirect(new URL("/auth/login", request.url));
+    }
+  }
+}

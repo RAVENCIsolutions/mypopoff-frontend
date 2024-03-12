@@ -1,24 +1,33 @@
 import NavBar from "@/components/NavBar";
-import HeroSection from "@/components/HeroSection";
-import InfluencerSection from "@/components/InfluencerSection";
-import SplitThirdSection from "@/components/SplitThirdSection";
-import CallToActionSection from "@/components/CallToActionSection";
-import Footer from "@/components/Footer";
-import SplitHalfSection from "@/components/SplitHalfSection";
-import SplitHalfWithThreeHeadings from "@/components/SplitHalfWithThreeHeadings";
+
 import { FaGoogle } from "react-icons/fa";
 import { IoSpeedometer } from "react-icons/io5";
 import { BsGraphUpArrow } from "react-icons/bs";
+
+import HeroSection from "@/components/HeroSection";
+import SplitHalfSection from "@/components/SplitHalfSection";
+import InfluencerSection from "@/components/InfluencerSection";
+import SplitThirdSection from "@/components/SplitThirdSection";
+import CallToActionSection from "@/components/CallToActionSection";
+import SplitHalfWithThreeHeadings from "@/components/SplitHalfWithThreeHeadings";
+import Footer from "@/components/Footer";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 export const metadata = {
   title: "The link in bio tool with a bang | My Pop Off",
   description: "Search, browse and create your Pop off landing page for free!",
 };
 
-export default function Home() {
+export default async function Home() {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
   return (
     <main className="flex flex-col items-center justify-start overflow-hidden">
-      <NavBar />
+      <NavBar session={session} />
       <HeroSection
         title="The world's most creative influencers in one place"
         subtitle="Discover. Connect. Be Inspired."

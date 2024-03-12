@@ -1,5 +1,5 @@
 import "../globals.scss";
 
 export default function InfluencerLayout({ children }) {
-  return <body>{children}</body>;
+  return <body suppressHydrationWarning>{children}</body>;
 }

@@ -1,10 +1,15 @@
 import "@/app/globals.scss";
 
+import { cookies } from "next/headers";
+
 import Providers from "@/providers/Providers";
-import DashboardNavigation from "@/components/DashboardNavigation";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+
 import NavBar from "@/components/NavBar";
-import DarkModeToggle from "@/components/DarkModeToggle";
 import LogOffButton from "@/components/LogOffButton";
+import DashboardNavigation from "@/components/DashboardNavigation";
+
+import DarkModeToggle from "@/components/DarkModeToggle";
 
 export const metadata = {
   title: "Dashboard | My Pop Off",
@@ -12,19 +17,26 @@ export const metadata = {
     "Create and manage your own Pop Off with our easy to use dashboard.",
 };
 
-export default function MeLayout({ children }) {
-  return (
-    <div className="flex flex-col items-stretch w-full h-screen max-h-screen bg-primary-light dark:bg-primary-dark overflow-hidden">
-      <Providers>
-        <NavBar />
-        <div
-          className={`h-full pt-2 sm:pb-6 flex sm:flex-row flex-col justify-start sm:justify-between sm:items-stretch overflow-hidden`}
-        >
-          {/*<section className={`py-2 px-4 md:pl-6 w-full sm:w-auto`}>*/}
-          <DashboardNavigation />
-          {/*</section>*/}
+export default async function MeLayout({ children }) {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-          <main className="flex-grow sm:mr-4 flex justify-stretch sm:w-11/12 lg:w-5/6 h-full bg-dashboard-primary-light dark:bg-dashboard-primary-dark rounded-none sm:rounded-3xl shadow-xl shadow-black/25 overflow-hidden">
+  return (
+    // flex flex-col justify-between w-full h-full max-h-screen bg-primary-light dark:bg-primary-dark overflow-hidden
+    <div className={`flex flex-col justify-between h-dvh max-h-dvh`}>
+      <Providers>
+        <NavBar session={session} />
+        <div
+          // flex-grow pt-2 sm:pb-6 flex flex-row justify-start sm:justify-between sm:items-stretch overflow-hidden
+          className={`flex-grow pt-2 sm:pb-6 flex flex-col sm:flex-row sm:max-h-full sm:overflow-hidden`}
+        >
+          <section className={`py-2 px-5 md:pr-8 w-full sm:w-auto`}>
+            <DashboardNavigation />
+          </section>
+
+          <main className="flex-grow sm:mr-4 flex justify-stretch sm:w-11/12 lg:w-5/6 h-full bg-dashboard-primary-light dark:bg-dashboard-primary-dark rounded-none sm:rounded-3xl shadow-xl shadow-black/25">
             {children}
           </main>
         </div>

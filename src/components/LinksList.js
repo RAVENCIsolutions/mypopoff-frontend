@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
 import { observer } from "mobx-react";
 
 import { BsArrowDownSquare, BsArrowUpSquare } from "react-icons/bs";
@@ -10,10 +9,6 @@ import userStore from "@/stores/UserStore";
 import LinkBlock from "@/components/LinkBlock";
 
 const LinksList = observer(({ setProcessing }) => {
-  const { user, isSignedIn, isLoaded } = useUser();
-
-  const { loaded } = userStore;
-
   // Function to reorder list
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -29,7 +24,7 @@ const LinksList = observer(({ setProcessing }) => {
     if (index === 0) return;
 
     const newOrder = reorder(userStore.userData.links, index, index - 1);
-    await userStore.resetLinkList(newOrder).then();
+    await userStore.resetLinkList(newOrder);
   };
 
   // Move Link Down one Spot
@@ -37,18 +32,21 @@ const LinksList = observer(({ setProcessing }) => {
     if (index === userStore.userData.links.length - 1) return;
 
     const newOrder = reorder(userStore.userData.links, index, index + 1);
-    await userStore.resetLinkList(newOrder).then();
+    await userStore.resetLinkList(newOrder);
   };
 
   useEffect(() => {
-    if (isSignedIn && loaded) {
+    if (userStore.userData && userStore.userData.links) {
       setProcessing(false);
+    } else {
+      setProcessing(true);
     }
-  }, [user, isSignedIn, isLoaded, loaded]);
+  }, [userStore.userData]);
 
   return (
     <div className={`flex flex-col gap-4`}>
-      {loaded &&
+      {userStore.userData &&
+        userStore.userData.links &&
         userStore.userData.links.map((link, index) => (
           <article
             className="relative flex flex-row items-center justify-start"
