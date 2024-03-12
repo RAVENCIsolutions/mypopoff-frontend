@@ -15,12 +15,9 @@ import PrevButton from "@/onboardingComponents/PrevButton";
 
 import OnboardingSteps from "@/onboardingComponents/OnboardingSteps";
 import onBoardingStore from "@/stores/OnboardingStore";
-import { defaultUser } from "@/data/defaultUser";
-import { updateUser } from "@/utility/dbUtils";
 import CompleteButton from "@/onboardingComponents/CompleteButton";
 import { useRouter } from "next/navigation";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
-import userStore from "@/stores/UserStore";
+import { getFromStorage } from "@/utility/localStorageUtils";
 
 const OnBoardingMain = observer(() => {
   const [activeIndex, setActiveIndex] = useState(0);
