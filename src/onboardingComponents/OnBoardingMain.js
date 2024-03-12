@@ -3,19 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 
-import OnboardingOne from "@/onboardingComponents/OnboardingOne";
-import OnboardingTwo from "@/onboardingComponents/OnboardingTwo";
-import OnboardingThree from "@/onboardingComponents/OnBoardingThree";
-import OnBoardingFour from "@/onboardingComponents/OnBoardingFour";
-import OnboardingFive from "@/onboardingComponents/OnboardingFive";
+import OnboardingOne from "./OnboardingOne";
+import OnboardingTwo from "./OnboardingTwo";
+import OnboardingThree from "./OnBoardingThree";
+import OnBoardingFour from "./OnBoardingFour";
+import OnboardingFive from "./OnboardingFive";
 
-import SkipButton from "@/onboardingComponents/SkipButton";
-import NextButton from "@/onboardingComponents/NextButton";
-import PrevButton from "@/onboardingComponents/PrevButton";
+import SkipButton from "./SkipButton";
+import NextButton from "./NextButton";
+import PrevButton from "./PrevButton";
 
-import OnboardingSteps from "@/onboardingComponents/OnboardingSteps";
+import OnboardingSteps from "./OnboardingSteps";
 import onBoardingStore from "@/stores/OnboardingStore";
-import CompleteButton from "@/onboardingComponents/CompleteButton";
+import CompleteButton from "./CompleteButton";
 import { useRouter } from "next/navigation";
 import { getFromStorage } from "@/utility/localStorageUtils";
 
