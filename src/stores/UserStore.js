@@ -161,7 +161,10 @@ class UserStore {
       (link) => link.id === linkId
     );
 
-    this.userData.links[idInList] = { ...linkData };
+    this.userData.links[idInList] = {
+      ...this.userData.links[idInList],
+      ...linkData,
+    };
 
     await this.saveUserData();
   };
