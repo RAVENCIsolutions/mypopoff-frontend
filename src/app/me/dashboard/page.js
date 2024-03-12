@@ -13,6 +13,8 @@ export default async function Dashboard() {
     .eq("uid", session.user.id)
     .single();
 
+  console.log(user);
+
   return (
     <section className="w-full sm:rounded-lg">
       <div className="flex flex-row w-full h-full text-primary-dark dark:text-primary-light">
