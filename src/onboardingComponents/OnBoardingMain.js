@@ -5,17 +5,17 @@ import { observer } from "mobx-react";
 
 import OnboardingOne from "./OnboardingOne";
 import OnboardingTwo from "./OnboardingTwo";
-import OnboardingThree from "./OnBoardingThree";
-import OnBoardingFour from "./OnBoardingFour";
-import OnboardingFive from "./OnboardingFive";
+import OnboardingThree from "@/onboardingComponents/OnboardingThree";
+import OnBoardingFour from "@/onboardingComponents/OnboardingFour";
+import OnboardingFive from "@/onboardingComponents/OnboardingFive";
 
-import SkipButton from "./SkipButton";
-import NextButton from "./NextButton";
-import PrevButton from "./PrevButton";
+import SkipButton from "@/onboardingComponents/SkipButton";
+import NextButton from "@/onboardingComponents/NextButton";
+import PrevButton from "@/onboardingComponents/PrevButton";
 
-import OnboardingSteps from "./OnboardingSteps";
+import OnboardingSteps from "@/onboardingComponents/OnboardingSteps";
 import onBoardingStore from "@/stores/OnboardingStore";
-import CompleteButton from "./CompleteButton";
+import CompleteButton from "@/onboardingComponents/CompleteButton";
 import { useRouter } from "next/navigation";
 import { getFromStorage } from "@/utility/localStorageUtils";
 
