@@ -16,7 +16,7 @@ import { ImCross } from "react-icons/im";
 import { usernameExists } from "@/utility/dbUtils";
 
 const AccountPage = observer(() => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   const [loadOnce, setLoadOnce] = useState(false);

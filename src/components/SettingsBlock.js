@@ -7,10 +7,6 @@ import { Switch } from "@mui/material";
 
 import userStore from "@/stores/UserStore";
 import AuthText from "@/components/AuthText";
-import AuthSelect from "@/components/AuthSelect";
-
-import { ageBrackets, genders } from "@/data/PersonalData";
-import country from "country-list-js";
 
 const SettingsBlock = observer(({ setReady }) => {
   const [makePublic, setMakePublic] = useState(false);
@@ -26,13 +22,6 @@ const SettingsBlock = observer(({ setReady }) => {
     phone: userStore.userData.phone || "",
   });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   useEffect(() => {
     if (!loadOnce && userStore.userData && userStore.userData.extras) {
       setFormData({
@@ -43,6 +32,8 @@ const SettingsBlock = observer(({ setReady }) => {
         city: userStore.userData.extras.city,
         phone: userStore.userData.extras.phone,
       });
+
+      setMakePublic(userStore.userData.public);
 
       setLoadOnce(true);
     }
@@ -69,9 +60,7 @@ const SettingsBlock = observer(({ setReady }) => {
         <article className={`mt-4 flex justify-between sm:indent-4`}>
           <p className={`text-sm`}>Make my landing page public</p>
           <Switch
-            checked={
-              userStore.userData && (userStore.userData.public || makePublic)
-            }
+            checked={makePublic}
             size="small"
             onClick={() => {
               userStore.updateUserData({ public: !makePublic });
@@ -118,7 +107,6 @@ const SettingsBlock = observer(({ setReady }) => {
             multiple={false}
             onChange={(e) => {
               const file = e.target.files[0];
-              let paletteImage = "";
               if (!file) {
                 setChosenImage(null);
                 return;
@@ -140,7 +128,7 @@ const SettingsBlock = observer(({ setReady }) => {
       >
         <h4 className={`text-base font-bold uppercase`}>Private Details</h4>
         {userStore.userData && userStore.userData.extras && (
-          <div className={`mt-2 mb-5 grid grid-cols-1 2xs:grid-cols-2 gap-4`}>
+          <div className={`mt-2 mb-5 grid grid-cols-1 xs:grid-cols-2 gap-4`}>
             <AuthText
               label={`Name*`}
               name={`name`}

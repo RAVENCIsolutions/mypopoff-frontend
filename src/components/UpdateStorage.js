@@ -12,52 +12,42 @@ import {
   saveToStorage,
 } from "@/utility/localStorageUtils";
 import onboardingStore from "@/stores/OnboardingStore";
+import { supabase } from "@/config/Supbase";
 
 const UpdateStorage = ({ session }) => {
   useEffect(() => {
     const runCheck = async () => {
+      let currentUserData = null;
+
       if (session) {
         const userID = session.user.id;
-        let currentUserData = null;
 
         // 0. Check first if a data exists in Storage
+        const fromStorage = getFromStorage("userData");
         const lastFetch = getFromStorage("lastFetch", sessionStorage, false);
 
-        // 0a. If not, or last fetch is more than 5 minutes old, load data from database
-        if (!lastFetch || new Date().getTime() - lastFetch > 1000 * 60 * 5) {
+        // 0a. Verify storage data
+        const verified = verifyUserData(fromStorage, false);
+
+        // 0a. Found in Storage. How long since last fetch?
+        const timeSinceLastFetch = new Date().getTime() - lastFetch;
+        const maxTime = 1000 * 60 * 5;
+
+        // 0a. Not found in Storage.
+        if (!fromStorage || !verified || timeSinceLastFetch > maxTime) {
           // 1. check if a user row exists for account
           const data = await fetchUser(userID);
 
-          // 1a. If not, create a new user row
-          if (!data) {
-            currentUserData = await createUser(userID, defaultUser);
-
-            // 1b. if yes, load data
-          } else {
-            currentUserData = data;
-          }
-
-          // Save data to Storage
-          saveToStorage("userData", currentUserData);
-
-          // Update last fetch
-          saveToStorage(
-            "lastFetch",
-            new Date().getTime(),
-            sessionStorage,
-            false
-          );
-
-          // 0b. If yes, load data from Storage
+          if (data) return data;
+          return await createUser(userID, defaultUser);
         } else {
-          currentUserData = getFromStorage("userData");
+          return fromStorage;
         }
-
-        // Return user data
-        return currentUserData;
       } else {
         removeFromStorage("userData");
         removeFromStorage("lastFetch");
+
+        await supabase.auth.signOut();
 
         // Return false
         return false;
@@ -67,16 +57,13 @@ const UpdateStorage = ({ session }) => {
     // Run check
     runCheck().then((result) => {
       if (result) {
-        result = verifyUserData(result);
-        console.log(result);
-
-        userStore.setUserData(
-          typeof result === "string" ? JSON.parse(result) : result
-        );
+        userStore.setUserData(result);
+        if (!result.onboarding_complete) onboardingStore.setUserData(result);
       } else {
-        userStore.setUserData({});
+        userStore.setUserData(defaultUser);
       }
 
+      userStore.ready = true;
       onboardingStore.readyForOnboarding = true;
     });
   }, [session]);

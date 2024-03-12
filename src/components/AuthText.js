@@ -21,7 +21,7 @@ const FormInput = styled.input`
 const AuthText = ({
   label = "label",
   name = "",
-  value,
+  value = "",
   onChange,
   type = "text",
   error = {},
@@ -45,7 +45,7 @@ const AuthText = ({
         value={value}
         onChange={onChange}
         className={`border-[1px] focus:shadow-xl shadow-primary-dark/30 ${
-          error.level > 1
+          error && error.level > 1
             ? "border-danger"
             : value.length > 0
             ? "border-action"

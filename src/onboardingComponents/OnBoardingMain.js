@@ -20,6 +20,7 @@ import { updateUser } from "@/utility/dbUtils";
 import CompleteButton from "@/onboardingComponents/CompleteButton";
 import { useRouter } from "next/navigation";
 import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+import userStore from "@/stores/UserStore";
 
 const OnBoardingMain = observer(() => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -65,15 +66,8 @@ const OnBoardingMain = observer(() => {
   const endOnboarding = async () => {
     const getUser = getFromStorage("userData");
 
-    const saveData = {
-      ...getUser,
-      onboarding_complete: true,
-    };
-
-    if (getUser) {
-      await updateUser(getUser.uid, saveData);
-      saveToStorage("userData", saveData);
-    }
+    onBoardingStore.updateUserData({ ...getUser, onboarding_complete: true });
+    await onBoardingStore.saveProgress().then(() => setSaving(false));
 
     router.push("/me/dashboard");
   };

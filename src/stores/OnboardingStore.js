@@ -120,7 +120,6 @@ class OnboardingStore {
     if (this.image) await this.pushImage(this.userData.uid);
 
     await updateUser(this.userData.uid, this.userData);
-    saveToStorage("userData", this.userData);
     saveToStorage("lastFetch", new Date().getTime(), sessionStorage);
   };
 }

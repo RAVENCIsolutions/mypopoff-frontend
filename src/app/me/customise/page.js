@@ -115,15 +115,19 @@ const CustomisePage = observer(() => {
                         )
                       );
                     } else {
-                      userStore.updateUserData({ button_style: "button-01" });
-                      selectedButton ===
+                      if (
+                        selectedButton ===
                         ButtonsLookup.findIndex(
                           (item) => item.id === "button-04"
-                        ) && setSelectedButton(0);
+                        )
+                      ) {
+                        userStore.updateUserData({ button_style: "button-01" });
+                        setSelectedButton(0);
+                      }
                     }
                   }}
                 >
-                  <Image
+                  <img
                     src={item.selector}
                     alt={item.title}
                     width={80}
@@ -163,7 +167,7 @@ const CustomisePage = observer(() => {
                     setSelectedButton(index);
                   }}
                 >
-                  <Image
+                  <img
                     key={`button-selector-${index}`}
                     src={item.selector}
                     alt={item.title}

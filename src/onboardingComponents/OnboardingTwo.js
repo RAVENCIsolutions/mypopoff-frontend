@@ -11,7 +11,7 @@ import userStore from "@/stores/UserStore";
 const OnboardingTwo = () => {
   const [loadOnce, setLoadOnce] = useState(false);
 
-  const [selectedCategories, setSelectedCategories] = useState(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [otherCategoryValue, setOtherCategoryValue] = useState("");
 
   const [chosenImage, setChosenImage] = useState(null);
@@ -114,13 +114,16 @@ const OnboardingTwo = () => {
             <PopOffChip
               key={index}
               label={category.name}
-              icon={category.icon(index, selectedCategory)}
-              selected={selectedCategory === index}
+              icon={category.icon(
+                index,
+                selectedCategories.includes(category.name)
+              )}
+              selected={selectedCategories.includes(category.name)}
               onClick={() => handleSelectCategory(index)}
             />
           ))}
 
-          {selectedCategory === categories.length - 1 && (
+          {selectedCategories.includes("Other..") && (
             <div className={`my-3`}>
               <PopOffInput
                 name="otherCategory"

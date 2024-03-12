@@ -13,7 +13,6 @@ export async function middleware(request) {
   } = await supabase.auth.getSession();
 
   if (session) {
-    console.log(session);
     try {
       if (request.url.includes("/auth"))
         return NextResponse.redirect(new URL("/me/dashboard", request.url));

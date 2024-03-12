@@ -23,12 +23,6 @@ export default async function MeLayout({ children }) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  const { data, userError } = await supabase
-    .from(process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE)
-    .select("username")
-    .eq("uid", session.user.id)
-    .single();
-
   return (
     // flex flex-col justify-between w-full h-full max-h-screen bg-primary-light dark:bg-primary-dark overflow-hidden
     <div className={`flex flex-col justify-between h-dvh max-h-dvh`}>

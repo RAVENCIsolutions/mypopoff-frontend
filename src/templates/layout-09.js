@@ -14,7 +14,7 @@ import { getButtonStyleIndex } from "@/utility/generalUtils";
 const Layout09 = ({ previewWindow = false, userData = defaultUser }) => {
   return (
     <main
-      className={`flex flex-col items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-primary-dark bg-cover bg-center`}
+      className={`relative flex flex-col items-center justify-center h-screen min-h-fit bg-stone-700 font-barlowCondensed text-primary-dark bg-cover bg-center`}
       style={{
         backgroundImage: `url(${userData.images || ""})`,
       }}

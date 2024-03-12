@@ -60,7 +60,7 @@ const Layout07 = ({ previewWindow = false, userData = defaultUser }) => {
       </section>
 
       <footer
-        className="fixed px-4 md:px-16 bottom-3 flex flex-col 3xs:flex-row gap-1 w-full text-base"
+        className="absolute px-4 md:px-16 bottom-3 flex flex-col 3xs:flex-row gap-1 w-full text-base"
         style={{
           color: getContrastLuminance(userData.palette.background),
           opacity: 0.5,

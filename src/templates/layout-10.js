@@ -20,9 +20,9 @@ const Layout10 = observer(
       <main
         className={`${
           previewWindow
-            ? "px-2 py-20 flex-col justify-between gap-8"
-            : "px-2 sm:px-10 py-10 min-h-screen justify-center"
-        } items-center flex h-fit`}
+            ? "px-2 py-20 flex-col min-h-full"
+            : "px-2 sm:px-10 py-10 min-h-screen"
+        } relative justify-center items-center flex h-fit`}
         style={{ backgroundColor: userData.palette.background }}
       >
         <article
@@ -78,9 +78,7 @@ const Layout10 = observer(
           {/*</section>*/}
         </article>
         <footer
-          className={`${
-            previewWindow ? "relative" : "absolute"
-          } bottom-3 text-sm`}
+          className={`absolute bottom-3 text-sm`}
           style={{
             color: getContrastLuminance(userData.palette.background),
             opacity: 0.5,

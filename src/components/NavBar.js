@@ -48,7 +48,7 @@ const NavBar = ({ session }) => {
   }, [menuOpen]);
 
   return (
-    <nav className="relative my-4 md:my-auto md:mt-7 md:mb-4 mx-auto px-5 flex items-center justify-between w-full z-10">
+    <nav className="relative my-4 md:my-auto md:mt-7 md:mb-4 mx-auto px-5 flex items-center justify-between w-full z-50">
       {menuOpen && (
         <div
           className="block xs:hidden absolute -top-10 left-0 w-screen h-screen bg-primary-light/50 dark:bg-primary-dark/50 z-20"
@@ -61,7 +61,7 @@ const NavBar = ({ session }) => {
           (menuOpen ? "translate-y-0" : "-translate-y-full xs:translate-y-0")
         }
       >
-        <ul className="mt-0 xs:mt-0 flex flex-col xs:flex-row gap-3">
+        <ul className="mt-0 xs:mt-0 flex flex-col xs:flex-row gap-3 sm:gap-6">
           <li>
             <Link
               href={`/`}
@@ -81,10 +81,10 @@ const NavBar = ({ session }) => {
         </ul>
 
         <div
-          className={`block xs:hidden h-[1px] w-full bg-primary-dark/30`}
+          className={`block xs:hidden h-[1px] w-full bg-primary-dark/30 dark:bg-primary-light/30`}
         ></div>
 
-        <ul className="mb-0 flex flex-col xs:flex-row items-start xs:items-center gap-3 w-full xs:w-auto text-primary-dark dark:text-primary-light">
+        <ul className="mb-0 flex flex-col xs:flex-row items-start xs:items-center gap-3 sm:gap-6 w-full xs:w-auto text-primary-dark dark:text-primary-light">
           {session ? (
             <>
               {/* Authenticated */}
@@ -96,7 +96,7 @@ const NavBar = ({ session }) => {
                   <BiSolidUserCircle className={`text-action`} size={32} />
                 </div>
                 <section
-                  className={`p-0 xs:p-4 relative xs:absolute flex flex-col items-start gap-3 xs:top-10 right-0 w-full xs:w-auto rounded-lg bg-transparent xs:bg-white transition-all duration-300 ${
+                  className={`p-0 xs:p-4 relative xs:absolute flex flex-col items-start gap-3 xs:top-10 right-0 w-full xs:w-auto rounded-lg bg-transparent xs:bg-white xs:dark:bg-black transition-all duration-300 ${
                     openAccountsMenu ? "block" : "block xs:hidden xs:z-50"
                   }`}
                 >
@@ -115,7 +115,7 @@ const NavBar = ({ session }) => {
                   ))}
 
                   <div
-                    className={`justify-self-stretch h-[1px] w-full bg-primary-dark/30`}
+                    className={`justify-self-stretch h-[1px] w-full bg-primary-dark/30 dark:bg-primary-light/30`}
                   ></div>
 
                   <article

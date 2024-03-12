@@ -10,9 +10,9 @@ import MPOLetterMark from "@/components/MPOLetterMark";
 import { FaCheck } from "react-icons/fa";
 import { PiWarningBold } from "react-icons/pi";
 import { MdOutlineDangerous } from "react-icons/md";
-import { createUser, fetchUser } from "@/utility/dbUtils";
 import { defaultUser } from "@/data/defaultUser";
 import userStore from "@/stores/UserStore";
+import { removeFromStorage } from "@/utility/localStorageUtils";
 
 const FormField = styled.fieldset`
   display: flex;
@@ -79,8 +79,7 @@ const LoginForm = () => {
       return;
     }
 
-    sessionStorage.removeItem("userData");
-    localStorage.removeItem("userData");
+    removeFromStorage("userData");
 
     if (formData.remember) {
       localStorage.setItem("userData", JSON.stringify(defaultUser));

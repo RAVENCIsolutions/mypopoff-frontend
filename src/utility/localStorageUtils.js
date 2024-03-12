@@ -10,7 +10,15 @@ const getFromStorage = (key, storage = null, parse = true) => {
   const item = storage
     ? storage.getItem(key)
     : checkWhichStorage(key).getItem(key);
-  return parse ? JSON.parse(item) : item;
+
+  try {
+    if (typeof item == "string") return JSON.parse(item);
+    if (typeof item == "object") return item;
+  } catch (err) {
+    removeFromStorage(key);
+  }
+
+  return null;
 };
 
 const saveToStorage = (key, value, storage = null, stringify = true) => {

@@ -15,6 +15,8 @@ class UserStore {
   // initialise user data
   userData = {};
 
+  ready = false;
+
   avatar = null;
   image = null;
 
@@ -37,6 +39,10 @@ class UserStore {
         this.userData = getData;
       }
     }
+  };
+
+  setReady = () => {
+    this.ready = true;
   };
 
   updateUserData = (updateValue) => {
@@ -104,21 +110,23 @@ class UserStore {
     await createUser(id, data).then((data) => {
       this.userData = data;
       saveToStorage("userData", data);
-      return true;
+      return data;
     });
   };
 
   loadUserData = async (id) => {
-    await fetchUser(id).then(async (data) => {
+    await fetchUser(id).then((data) => {
       if (data) {
+        console.log(data);
         this.userData = data;
         saveToStorage("userData", data);
+        saveToStorage("lastFetch", new Date().getTime(), sessionStorage, false);
+
+        return data;
       } else {
-        await this.createNewUser(id, { ...defaultUser }).then(() => true);
+        this.createNewUser(id, { ...defaultUser });
       }
     });
-
-    saveToStorage("lastFetch", new Date().getTime(), sessionStorage, false);
   };
 
   saveUserData = async () => {
