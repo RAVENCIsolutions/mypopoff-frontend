@@ -201,7 +201,7 @@ const SignUpForm = () => {
 
   return (
     <div
-      className={`p-5 sm:p-8 w-full xs:max-w-sm bg-white rounded-none xs:rounded-2xl shadow-xl shadow-primary-dark/5`}
+      className={`px-3 2xs:px-5 py-12 sm:p-8 w-full xs:max-w-md h-fit bg-white rounded-none xs:rounded-2xl shadow-xl shadow-primary-dark/5 overflow-y-auto sm:overflow-y-visible`}
     >
       <article
         className={`pb-4 flex flex-col items-center w-full border-b-[1.25px] border-secondary-dark/20`}

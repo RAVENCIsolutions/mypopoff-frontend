@@ -50,7 +50,7 @@ const AuthSelect = ({
               }`
             ),
           menuList: () =>
-            classNames(`h-40 2xs:h-32 dark:text-primary-dark overflow-y-auto`),
+            classNames(`h-48 sm:h-32 dark:text-primary-dark overflow-y-auto`),
         }}
         isSearchable={autoComplete}
       />
