@@ -38,7 +38,6 @@ const RootLayout = async ({ children }) => {
       </head>
 
       <body className={`bg-primary-light dark:bg-primary-dark`}>
-        <UpdateStorage session={session} />
         <Providers>{children}</Providers>
       </body>
     </html>

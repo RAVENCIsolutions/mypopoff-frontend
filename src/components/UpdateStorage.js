@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 
-import userStore from "@/stores/UserStore";
 import { defaultUser } from "@/data/defaultUser";
 import { createUser, fetchUser } from "@/utility/dbUtils";
 import { verifyUserData } from "@/utility/generalUtils";
@@ -23,9 +22,6 @@ const UpdateStorage = ({ session }) => {
         // 0. Check first if a data exists in Storage
         const fromStorage = getFromStorage("userData");
         const storedLoginSession = getFromStorage("loginSession");
-
-        if (!storedLoginSession || !storedLoginSession.lastFetch)
-          processLogOut().then();
 
         // 0a. Verify storage data
         const verified = verifyUserData(fromStorage, false);

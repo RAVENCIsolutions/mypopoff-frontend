@@ -10,6 +10,7 @@ import LogOffButton from "@/components/LogOffButton";
 import DashboardNavigation from "@/components/DashboardNavigation";
 
 import DarkModeToggle from "@/components/DarkModeToggle";
+import UpdateStorage from "@/components/UpdateStorage";
 
 export const metadata = {
   title: "Dashboard | My Pop Off",
@@ -27,6 +28,8 @@ export default async function MeLayout({ children }) {
     // flex flex-col justify-between w-full h-full max-h-screen bg-primary-light dark:bg-primary-dark overflow-hidden
     <div className={`flex flex-col justify-between h-dvh max-h-dvh`}>
       <Providers>
+        <UpdateStorage session={session} />
+
         <NavBar session={session} />
         <div
           // flex-grow pt-2 sm:pb-6 flex flex-row justify-start sm:justify-between sm:items-stretch overflow-hidden

@@ -20,13 +20,12 @@ const LinksPageBlock = ({ session }) => {
       const storedUserData = getFromStorage("userData");
       const storedLoginSession = getFromStorage("loginSession");
 
-      if (!storedLoginSession) processLogOut().then();
+      let tempLinks = [];
 
       if (!storedUserData) {
         console.log("No user data found");
-        processLogOut().then();
       } else {
-        const tempLinks = getFromStorage("userData").links;
+        tempLinks = getFromStorage("userData").links;
 
         tempLinks.map((link) => {
           if (!link.id) {

@@ -11,8 +11,7 @@ import { FaCheck } from "react-icons/fa";
 import { PiWarningBold } from "react-icons/pi";
 import { MdOutlineDangerous } from "react-icons/md";
 import { defaultUser } from "@/data/defaultUser";
-import userStore from "@/stores/UserStore";
-import { removeFromStorage } from "@/utility/localStorageUtils";
+import { saveToStorage } from "@/utility/localStorageUtils";
 import { processLogin } from "@/utility/userUtils";
 
 const FormField = styled.fieldset`
@@ -66,24 +65,35 @@ const LoginForm = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: formData.email,
-      password: formData.password,
-    });
+    try {
+      saveToStorage("userData", defaultUser);
+      saveToStorage("loginSession", {
+        rememberMe: false,
+        lastLogin: new Date().getTime(),
+        lastModified: new Date().getTime(),
+        lastFetch: new Date().getTime(),
+      });
 
-    if (error) {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      const { data: user } = await supabase
+        .from("users")
+        .select()
+        .eq("uid", data.user.id)
+        .single();
+
+      processLogin(user, formData.remember);
+
+      router.refresh();
+    } catch (error) {
       setError({
         level: 2,
         message: error.message,
       });
-
-      return;
     }
-
-    removeFromStorage("userData");
-    processLogin(data, formData.remember);
-
-    router.refresh();
   };
 
   const isDisabled = !formData.email || !formData.password;

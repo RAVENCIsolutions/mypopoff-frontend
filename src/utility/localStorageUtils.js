@@ -47,6 +47,8 @@ const USER_DATA_KEY = "userData";
 const LOGIN_SESSION_KEY = "loginSession";
 
 const getFromStorage = (key) => {
+  if (typeof window === "undefined" || !window.localStorage) return null;
+
   const item = localStorage.getItem(key);
 
   try {
@@ -69,74 +71,4 @@ const removeFromStorage = (key) => {
   localStorage.removeItem(key);
 };
 
-const getLoginSession = () => {
-  return getFromStorage(LOGIN_SESSION_KEY);
-};
-
-const setLoginSession = (rememberMe, lastLogin, lastModified, lastFetch) => {
-  saveToStorage(LOGIN_SESSION_KEY, {
-    rememberMe,
-    lastLogin,
-    lastModified,
-    lastFetch,
-  });
-};
-
-const updateLastLogin = () => {
-  const lastLogin = new Date().getTime();
-  const loginSessionData = getFromStorage(LOGIN_SESSION_KEY);
-
-  saveToStorage(LOGIN_SESSION_KEY, { ...loginSessionData, lastLogin });
-};
-
-const updateLastModified = () => {
-  const lastModified = new Date().getTime();
-  const loginSessionData = getFromStorage(LOGIN_SESSION_KEY);
-
-  saveToStorage(LOGIN_SESSION_KEY, { ...loginSessionData, lastModified });
-};
-
-const updateLastFetch = () => {
-  const lastFetch = new Date().getTime();
-  const loginSessionData = getFromStorage(LOGIN_SESSION_KEY);
-
-  saveToStorage(LOGIN_SESSION_KEY, { ...loginSessionData, lastFetch });
-};
-
-const timeSinceLastLogin = () => {
-  const loginSessionData = getFromStorage(LOGIN_SESSION_KEY);
-  const now = new Date().getTime();
-  const lastLogin = loginSessionData ? loginSessionData.lastLogin : 0;
-
-  return now - lastLogin;
-};
-
-const timeSinceLastModified = () => {
-  const loginSessionData = getFromStorage(LOGIN_SESSION_KEY);
-  const now = new Date().getTime();
-  const lastModified = loginSessionData ? loginSessionData.lastModified : 0;
-
-  return now - lastModified;
-};
-
-const timeSinceLastFetch = () => {
-  const loginSessionData = getFromStorage(LOGIN_SESSION_KEY);
-  const now = new Date().getTime();
-  const lastFetch = loginSessionData ? loginSessionData.lastFetch : 0;
-
-  return now - lastFetch;
-};
-
-export {
-  getFromStorage,
-  saveToStorage,
-  removeFromStorage,
-  getLoginSession,
-  setLoginSession,
-  updateLastLogin,
-  updateLastModified,
-  updateLastFetch,
-  timeSinceLastLogin,
-  timeSinceLastModified,
-  timeSinceLastFetch,
-};
+export { getFromStorage, saveToStorage, removeFromStorage };

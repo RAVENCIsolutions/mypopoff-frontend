@@ -3,10 +3,9 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
-import { getLoginSession, getFromStorage } from "@/utility/localStorageUtils";
+import { getFromStorage } from "@/utility/localStorageUtils";
 import { processLogOut } from "@/utility/userUtils";
 import { defaultUser } from "@/data/defaultUser";
-import { fetchUser } from "@/utility/dbUtils";
 
 const Layout01 = dynamic(() => import("@/templates/layout-01"));
 const Layout02 = dynamic(() => import("@/templates/layout-02"));
@@ -40,20 +39,20 @@ const LayoutComponentWrapper = ({ session = null }) => {
     const storedLoginSession = getFromStorage("loginSession");
 
     if (session) {
-      if (!storedLoginSession) processLogOut().then();
+      if (storedLoginSession) {
+        const timeSinceLastModified =
+          new Date().getTime() - storedLoginSession.lastModified;
+        const timeSinceLastModifiedInHours =
+          timeSinceLastModified / (1000 * 60 * 60);
 
-      const timeSinceLastModified =
-        new Date().getTime() - storedLoginSession.lastModified;
-      const timeSinceLastModifiedInHours =
-        timeSinceLastModified / (1000 * 60 * 60);
-
-      if (!storedLoginSession.rememberMe) {
-        if (timeSinceLastModifiedInHours > 0.5) processLogOut().then();
+        if (!storedLoginSession.rememberMe) {
+          if (timeSinceLastModifiedInHours > 0.5) processLogOut().then();
+        }
       }
 
       if (!storedUserData) {
         console.log("No user data found");
-        processLogOut().then();
+        setUserData(defaultUser);
       } else {
         setUserData(storedUserData);
       }
@@ -62,7 +61,12 @@ const LayoutComponentWrapper = ({ session = null }) => {
 
   const LayoutComponent = layoutComponents[userData.page_layout || "layout-01"];
 
-  return <LayoutComponent userData={userData} previewWindow={true} />;
+  return (
+    <LayoutComponent
+      userData={getFromStorage("userData") || userData}
+      previewWindow={true}
+    />
+  );
 };
 
 export default LayoutComponentWrapper;

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import LayoutComponentWrapper from "@/components/LayoutComponentWrapper";
+import UpdateStorage from "@/components/UpdateStorage";
 
 export default async function Dashboard() {
   const supabase = await createServerComponentClient({ cookies });
@@ -18,18 +19,6 @@ export default async function Dashboard() {
           <article className={`h-full overflow-y-auto`}>
             <LayoutComponentWrapper session={session} />
           </article>
-
-          {/*<p className={`text-base`}>*/}
-          {/*  Start by{" "}*/}
-          {/*  <Link href={`/me/my-links`} className={`text-action`}>*/}
-          {/*    adding links*/}
-          {/*  </Link>{" "}*/}
-          {/*  or how about{" "}*/}
-          {/*  <Link href={`/me/customise`} className={`text-action`}>*/}
-          {/*    customising*/}
-          {/*  </Link>{" "}*/}
-          {/*  your Pop Off landing page.*/}
-          {/*</p>*/}
         </section>
       </div>
     </section>

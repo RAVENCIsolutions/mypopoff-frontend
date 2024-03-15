@@ -12,8 +12,9 @@ import {
 } from "@/utility/generalUtils";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 import userStore from "@/stores/UserStore";
+import { defaultUser } from "@/data/defaultUser";
 
-const Layout01 = ({ previewWindow = false, userData }) => {
+const Layout01 = ({ previewWindow = false, userData = defaultUser }) => {
   return (
     <main
       className={`${
@@ -21,7 +22,7 @@ const Layout01 = ({ previewWindow = false, userData }) => {
       } flex flex-col items-center justify-between`}
       style={{
         minHeight: previewWindow ? "100%" : "100vh",
-        backgroundColor: userData.palette.background,
+        backgroundColor: userData.palette.background || "#000000",
       }}
     >
       {/* Image */}
@@ -40,13 +41,13 @@ const Layout01 = ({ previewWindow = false, userData }) => {
           />
           <p
             className={`font-bold text-xl text-center tracking-wide uppercase`}
-            style={{ color: userData.palette.mainText }}
+            style={{ color: userData.palette.mainText || "#000000" }}
           >
             @{userData.username && userData.username}
           </p>
           <p
             className="text-base text-center"
-            style={{ color: userData.palette.subText }}
+            style={{ color: userData.palette.subText || "#000000" }}
           >
             {userData.bio && userData.bio}
           </p>
