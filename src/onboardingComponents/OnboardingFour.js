@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { observer } from "mobx-react";
+
 import { LayoutsLookup } from "@/data/LayoutsLookup";
-import ColourPickerBlock from "@/components/ColourPickerBlock";
-import onBoardingStore from "@/stores/OnboardingStore";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 
-const OnBoardingFour = observer((props) => {
+import { uploadImage } from "@/utility/dbUtils";
+import ColourPickerBlock from "@/components/ColourPickerBlock";
+import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+
+const OnBoardingFour = ({ session }) => {
   const [selectedLayout, setSelectedLayout] = useState(0);
   const [selectedButton, setSelectedButton] = useState(0);
 
@@ -16,19 +18,19 @@ const OnBoardingFour = observer((props) => {
   const fileRef = useRef(null);
 
   useEffect(() => {
-    console.log(onBoardingStore.userData);
+    const storedUserData = getFromStorage("userData");
 
     const selectedLayoutIndex = Math.max(
       0,
       LayoutsLookup.findIndex(
-        (layout) => layout.id === onBoardingStore.userData.page_layout
+        (layout) => layout.id === storedUserData.page_layout
       )
     );
 
     const selectedButtonIndex = Math.max(
       0,
       ButtonsLookup.findIndex(
-        (button) => button.id === onBoardingStore.userData.button_style
+        (button) => button.id === storedUserData.button_style
       )
     );
 
@@ -43,7 +45,7 @@ const OnBoardingFour = observer((props) => {
         <img
           src={
             chosenImage ||
-            onBoardingStore.userData.images ||
+            getFromStorage("userData").images ||
             "/images/avatar-placeholder.jpg"
           }
           alt={"Landing Page Image"}
@@ -59,7 +61,7 @@ const OnBoardingFour = observer((props) => {
           className={`hidden`}
           accept={"image/*"}
           multiple={false}
-          onChange={(e) => {
+          onChange={async (e) => {
             const file = e.target.files[0];
 
             if (!file) {
@@ -72,7 +74,18 @@ const OnBoardingFour = observer((props) => {
               setChosenImage(reader.result);
             };
 
-            onBoardingStore.setImage(file);
+            const userData = getFromStorage("userData");
+
+            await uploadImage(session.user.id, file)
+              .then((data) => {
+                userData.images =
+                  process.env.NEXT_PUBLIC_SUPABASE_IMAGES_LINK + data.path;
+
+                saveToStorage("userData", userData);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
 
             reader.readAsDataURL(file);
           }}
@@ -92,9 +105,22 @@ const OnBoardingFour = observer((props) => {
                     {LayoutsLookup[selectedLayout].colours[customisation][1]}:
                   </h4>
                   <ColourPickerBlock
-                    label={onBoardingStore.userData.palette[customisation]}
-                    customisation={customisation}
-                    store={"onBoardingStore"}
+                    customisation={
+                      LayoutsLookup[selectedLayout].colours[customisation]
+                    }
+                    onChange={(newColour) => {
+                      const userData = getFromStorage("userData");
+
+                      const newPalette = {
+                        ...userData.palette,
+                        [customisation]: newColour,
+                      };
+
+                      saveToStorage("userData", {
+                        ...userData,
+                        palette: newPalette,
+                      });
+                    }}
                   />
                 </>
               )}
@@ -115,15 +141,28 @@ const OnBoardingFour = observer((props) => {
             </h4>
 
             <ColourPickerBlock
-              label={onBoardingStore.userData.palette[customisation]}
-              customisation={customisation}
-              store={"onBoardingStore"}
+              customisation={
+                ButtonsLookup[selectedLayout].colours[customisation]
+              }
+              onChange={(newColour) => {
+                const userData = getFromStorage("userData");
+
+                const newPalette = {
+                  ...userData.palette,
+                  [customisation]: newColour,
+                };
+
+                saveToStorage("userData", {
+                  ...userData,
+                  palette: newPalette,
+                });
+              }}
             />
           </div>
         )
       )}
     </section>
   );
-});
+};
 
 export default OnBoardingFour;

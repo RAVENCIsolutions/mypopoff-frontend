@@ -1,7 +1,12 @@
 import OnBoardingMain from "@/onboardingComponents/OnBoardingMain";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-const OnBoardingPage = () => {
-  return <OnBoardingMain />;
-};
+export default async function OnBoardingPage() {
+  const supabase = await createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-export default OnBoardingPage;
+  return <OnBoardingMain session={session} />;
+}

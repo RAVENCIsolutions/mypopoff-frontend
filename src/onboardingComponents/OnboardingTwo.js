@@ -5,12 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import PopOffChip from "@/components/PopOffChip";
 import PopOffInput from "@/components/PopOffInput";
 import { categories } from "@/data/CustomisationData";
-import onBoardingStore from "@/stores/OnboardingStore";
-import userStore from "@/stores/UserStore";
+import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+import { uploadAvatar } from "@/utility/dbUtils";
 
-const OnboardingTwo = () => {
-  const [loadOnce, setLoadOnce] = useState(false);
-
+const OnboardingTwo = ({ session }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [otherCategoryValue, setOtherCategoryValue] = useState("");
 
@@ -36,29 +34,25 @@ const OnboardingTwo = () => {
       thisOtherCategory = otherCategoryValue;
     }
 
-    onBoardingStore.updateUserData({
-      categories: [...activeCategories],
-      otherCategory: thisOtherCategory,
-    });
+    const userData = getFromStorage("userData");
+    userData.categories = [...activeCategories];
+    userData.otherCategory = thisOtherCategory;
 
-    setOtherCategoryValue(thisOtherCategory);
+    saveToStorage("userData", userData);
+
     setSelectedCategories([...activeCategories]);
+    setOtherCategoryValue(thisOtherCategory);
   };
 
   useEffect(() => {
-    if (
-      !loadOnce &&
-      onBoardingStore.userData &&
-      onBoardingStore.userData.categories
-    ) {
-      setSelectedCategories(userStore.userData.categories || []);
+    const storedUserData = getFromStorage("userData");
 
-      if (!userStore.userData.categories.includes("Other.."))
-        setOtherCategoryValue("");
+    setSelectedCategories(storedUserData.categories || []);
 
-      setLoadOnce(true);
+    if (!storedUserData.categories.includes("Other..")) {
+      setOtherCategoryValue("");
     }
-  }, [onBoardingStore.userData]);
+  }, []);
 
   return (
     <section
@@ -69,7 +63,7 @@ const OnboardingTwo = () => {
         <img
           src={
             chosenImage ||
-            onBoardingStore.userData.avatar_url ||
+            getFromStorage("userData").avatar_url ||
             "/images/avatar-placeholder.jpg"
           }
           alt={"Avatar Image"}
@@ -85,7 +79,7 @@ const OnboardingTwo = () => {
           className={`hidden`}
           accept={"image/*"}
           multiple={false}
-          onChange={(e) => {
+          onChange={async (e) => {
             const file = e.target.files[0];
 
             if (!file) {
@@ -98,7 +92,18 @@ const OnboardingTwo = () => {
               setChosenImage(reader.result);
             };
 
-            onBoardingStore.setAvatar(file);
+            const userData = getFromStorage("userData");
+
+            await uploadAvatar(session.user.id, file)
+              .then((data) => {
+                userData.avatar_url =
+                  process.env.NEXT_PUBLIC_SUPABASE_AVATARS_LINK + data.path;
+
+                saveToStorage("userData", userData);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
 
             reader.readAsDataURL(file);
           }}
@@ -128,15 +133,16 @@ const OnboardingTwo = () => {
               <PopOffInput
                 name="otherCategory"
                 label="Other Category*"
-                value={onBoardingStore.userData.otherCategory}
+                value={otherCategoryValue}
                 onChange={(event) => {
                   setOtherCategoryValue(
                     event.target.value.replace(/[^a-zA-Z]/g, "")
                   );
 
-                  onBoardingStore.updateUserData({
-                    otherCategory: event.target.value,
-                  });
+                  const userData = getFromStorage("userData");
+                  userData.otherCategory = event.target.value;
+
+                  saveToStorage("userData", userData);
                 }}
               />
             </div>

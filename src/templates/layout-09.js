@@ -5,7 +5,6 @@ import {
 } from "react-icons/bi";
 
 import Link from "next/link";
-import { observer } from "mobx-react";
 
 import { defaultUser } from "@/data/defaultUser";
 import { ButtonsLookup } from "@/data/ButtonsLookup";

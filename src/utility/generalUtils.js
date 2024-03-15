@@ -111,13 +111,15 @@ const hexToRGB = (hex) => {
 };
 
 const getContrastLuminance = (hex) => {
+  if (!hex) return;
+
   // Remove preceding # if present
-  hex = hex.replace("#", "");
+  const test = hex[0] === "#" ? hex.substring(1) : hex;
 
   // Convert hex to RGB Values
-  const red = parseInt(hex.substring(0, 2), 16);
-  const green = parseInt(hex.substring(2, 4), 16);
-  const blue = parseInt(hex.substring(4, 6), 16);
+  const red = parseInt(test.substring(0, 2), 16);
+  const green = parseInt(test.substring(2, 4), 16);
+  const blue = parseInt(test.substring(4, 6), 16);
 
   // Calculate YIQ (Luminance)
   const yiq = (red * 299 + green * 587 + blue * 114) / 1000;

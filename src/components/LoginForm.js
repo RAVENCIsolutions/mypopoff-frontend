@@ -13,6 +13,7 @@ import { MdOutlineDangerous } from "react-icons/md";
 import { defaultUser } from "@/data/defaultUser";
 import userStore from "@/stores/UserStore";
 import { removeFromStorage } from "@/utility/localStorageUtils";
+import { processLogin } from "@/utility/userUtils";
 
 const FormField = styled.fieldset`
   display: flex;
@@ -80,14 +81,7 @@ const LoginForm = () => {
     }
 
     removeFromStorage("userData");
-
-    if (formData.remember) {
-      localStorage.setItem("userData", JSON.stringify(defaultUser));
-    } else {
-      sessionStorage.setItem("userData", JSON.stringify(defaultUser));
-    }
-
-    await userStore.loadUserData(data.session.user.id);
+    processLogin(data, formData.remember);
 
     router.refresh();
   };

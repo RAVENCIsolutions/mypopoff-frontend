@@ -41,7 +41,6 @@ export const LayoutsLookup = [
       "/images/onboarding/layout03_iii.png",
     ],
     colours: {
-      image: ["", "Background Image"],
       mainText: ["#f7f5f3", "Username Colour"],
       subText: ["#f7f5f3", "Bio Colour"],
     },

@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 
-import { observer } from "mobx-react";
-
 import { FaTimesCircle } from "react-icons/fa";
 import { BsCardHeading, BsLink45Deg } from "react-icons/bs";
 
 import { ensureHttp, generateId } from "@/utility/generalUtils";
 import userStore from "@/stores/UserStore";
+import { updateUser } from "@/utility/dbUtils";
+import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 
-const NewLinkBlock = observer(({ processing, setProcessing }) => {
+const NewLinkBlock = ({ session, userLinks = [], setUserLinks }) => {
+  const [processing, setProcessing] = useState(false);
+
   const [showNew, setShowNew] = useState(false);
   const [newLink, setNewLink] = useState("");
   const [newLinkTitle, setNewLinkTitle] = useState("");
@@ -18,8 +20,6 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
 
   const [urlError, setUrlError] = useState("");
   const [titleError, setTitleError] = useState("");
-
-  const userLinks = userStore.userData.links || [];
 
   const showBlock = (links = []) => {
     setShowNew(true);
@@ -43,8 +43,6 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
   };
 
   const addLink = async () => {
-    setProcessing(true);
-
     let urlIsValid = true,
       titleIsValid = true;
 
@@ -62,7 +60,6 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
     }
 
     if (!urlIsValid || !titleIsValid) {
-      setProcessing(false);
       return false;
     }
 
@@ -71,19 +68,35 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
 
     const newId = generateId(
       5,
-      userLinks.length > 0 ? userLinks.map((link) => link.id) : [],
+      userLinks.length > 0 ? userLinks.map((link) => link.id) : []
     );
 
-    await userStore.addLink({
-      id: newId,
-      url: ensureHttp(newLink),
-      title: newLinkTitle,
-    });
+    const newLinksArray = [
+      ...userLinks,
+      { id: newId, url: ensureHttp(newLink), title: newLinkTitle },
+    ];
+
+    const saveData = {
+      ...getFromStorage("userData"),
+      links: newLinksArray,
+    };
+
+    await updateUser(session.user.id, saveData)
+      .then(() => {
+        saveToStorage("userData", {
+          ...getFromStorage("userData"),
+          ...saveData,
+        });
+
+        setUserLinks(newLinksArray);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
     setNewLink("");
     setNewLinkTitle("");
     setShowNew(false);
-
-    setProcessing(false);
   };
 
   return (
@@ -165,6 +178,6 @@ const NewLinkBlock = observer(({ processing, setProcessing }) => {
       )}
     </article>
   );
-});
+};
 
 export default NewLinkBlock;

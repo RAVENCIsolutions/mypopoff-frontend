@@ -1,6 +1,5 @@
 "use client";
 
-import { observer } from "mobx-react";
 import { HexColorPicker } from "react-colorful";
 import { useEffect, useRef, useState } from "react";
 import { CircularProgress, Stack } from "@mui/material";
@@ -17,42 +16,31 @@ import userStore from "@/stores/UserStore";
 import onBoardingStore from "@/stores/OnboardingStore";
 
 import { FaSlackHash } from "react-icons/fa";
-import { defaultUser } from "@/data/defaultUser";
 
-const ColourPickerBlock = observer(({ customisation, store }) => {
+const ColourPickerBlock = ({ customisation, onChange }) => {
   const [showPicker, setShowPicker] = useState(false);
-  const [pickerColour, setPickerColour] = useState("");
-  const [inputColour, setInputColour] = useState("");
+  const [pickerColour, setPickerColour] = useState(customisation[0]);
+  const [inputColour, setInputColour] = useState(customisation[0]);
 
   const [inputTimeout, setInputTimeout] = useState(null);
   const [checkingInput, setCheckingInput] = useState(false);
 
-  const [userData, setUserData] = useState(
-    store === "onBoardingStore" ? onBoardingStore.userData : userStore.userData
-  );
-
   const ref = useRef(null);
-
-  const addColour = (key, value) => {
-    const useStore = store === "onBoardingStore" ? onBoardingStore : userStore;
-    useStore.addToPalette({ [key]: value });
-  };
 
   const setColor = (value) => {
     setCheckingInput(true);
 
-    const newHex = handleHex(value)
-      ? addLeadingHash(handleHex(value))
-      : addLeadingHash(value);
+    const newHex = addLeadingHash(handleHex(value));
 
     setTimeout(() => {
       if (isValidHex(newHex)) {
         setInputColour(newHex);
         setPickerColour(newHex);
-        addColour(customisation, newHex);
+
+        onChange(newHex);
       } else {
-        setInputColour(userData.palette[customisation]);
-        setPickerColour(userData.palette[customisation]);
+        setInputColour(customisation[0]);
+        setPickerColour(customisation[0]);
       }
 
       setCheckingInput(false);
@@ -67,22 +55,15 @@ const ColourPickerBlock = observer(({ customisation, store }) => {
   });
 
   useEffect(() => {
-    const useStore = store === "onBoardingStore" ? onBoardingStore : userStore;
-    const useColour =
-      customisation in useStore.userData.palette
-        ? useStore.userData.palette[customisation]
-        : defaultUser.palette[customisation];
-
-    setColor(useColour);
-  }, []);
-
-  useEffect(() => {
     return () => clearTimeout(inputTimeout);
   }, []);
 
   return (
-    <article className="flex flex-col items-start w-fit text-dashboard-primary-dark dark:text-dashboard-primary-light/80">
-      <section className={`mb-2 flex items-center gap-2`} ref={ref}>
+    <article
+      className="flex flex-col items-start w-fit text-dashboard-primary-dark dark:text-dashboard-primary-light/80"
+      ref={ref}
+    >
+      <section className={`mb-2 flex items-center gap-2`}>
         <div
           className={`block w-8 h-8 rounded-full border-2 border-dashboard-primary-dark shadow-lg shadow-primary-dark/10`}
           style={{
@@ -99,7 +80,7 @@ const ColourPickerBlock = observer(({ customisation, store }) => {
             value={removeLeadingHash(inputColour)}
             maxLength={6}
             onChange={(event) => {
-              setInputColour(event.target.value);
+              setInputColour(event.target.value.replace("#", ""));
 
               if (inputTimeout) clearTimeout(inputTimeout);
 
@@ -137,14 +118,12 @@ const ColourPickerBlock = observer(({ customisation, store }) => {
             onChange={(newColour) => {
               setPickerColour(newColour);
               setInputColour(newColour);
-
-              addColour(customisation, newColour);
             }}
           />
         </div>
       )}
     </article>
   );
-});
+};
 
 export default ColourPickerBlock;

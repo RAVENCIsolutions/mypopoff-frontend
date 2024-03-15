@@ -7,11 +7,16 @@ import { BsCardHeading, BsLink45Deg } from "react-icons/bs";
 
 import Switch from "@mui/material/Switch";
 
-import { observer } from "mobx-react";
-import userStore from "@/stores/UserStore";
 import { ensureHttp } from "@/utility/generalUtils";
 
-const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
+const LinkBlock = ({
+  id,
+  title,
+  url,
+  isPublic = true,
+  initialList = [],
+  updateList,
+}) => {
   const [blockLink, setBlockLink] = useState(url.toString() || "");
   const [blockTitle, setBlockTitle] = useState(title.toString() || "");
 
@@ -37,6 +42,27 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
       linkRef.current && linkRef.current.focus();
     }
   }, [editLink]);
+
+  const updateLink = async (linkId, linkData) => {
+    const idInList = initialList.findIndex((link) => link.id === linkId);
+
+    if (idInList === -1) return;
+
+    const updatedLink = { ...initialList[idInList], ...linkData };
+
+    const newList = [...initialList];
+
+    newList[idInList] = updatedLink;
+
+    await updateList(newList);
+  };
+
+  const removeLink = async () => {
+    const idInList = initialList.findIndex((link) => link.id === id);
+    const newList = initialList.toSpliced(idInList, 1);
+
+    await updateList(newList);
+  };
 
   return (
     <section className="flex-grow flex flex-col overflow-x-clip">
@@ -80,7 +106,7 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
                 <button
                   className="p-2 flex justify-center rounded-full hover:bg-primary-dark dark:hover:bg-primary-light hover:text-primary-light hover:dark:text-primary-dark transition-all duration-300"
                   onClick={async () => {
-                    await userStore.updateLink(id, { title: blockTitle });
+                    await updateLink(id, { title: blockTitle });
                     setPreviousTitle(blockTitle);
                     setEditTitle(false);
                   }}
@@ -142,7 +168,7 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
                   className="p-2 flex justify-center rounded-full hover:bg-primary-dark dark:hover:bg-primary-light hover:text-primary-light hover:dark:text-primary-dark transition-all duration-300"
                   onClick={async () => {
                     const fixedLink = ensureHttp(blockLink);
-                    await userStore.updateLink(id, {
+                    await updateLink(id, {
                       url: fixedLink,
                     });
                     setBlockLink(fixedLink);
@@ -177,7 +203,7 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
             <button
               className="p-2 flex justify-center rounded-full bg-transparent hover:bg-primary-dark hover:dark:bg-dashboard-primary-light hover:text-dashboard-primary-light hover:dark:text-dashboard-primary-dark transition-all duration-300"
               title="Delete Link"
-              onClick={async () => await userStore.removeLink(id)}
+              onClick={async () => removeLink(id)}
             >
               <FaTrashAlt size={15} />
             </button>
@@ -203,7 +229,7 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
               checked={makePublic}
               size={"small"}
               onChange={async () => {
-                await userStore.updateLink(id, { public: !makePublic });
+                await updateLink(id, { public: !makePublic });
                 setMakePublic(!makePublic);
               }}
             />
@@ -212,6 +238,6 @@ const LinkBlock = observer(({ id, title, url, isPublic = true }) => {
       </div>
     </section>
   );
-});
+};
 
 export default LinkBlock;

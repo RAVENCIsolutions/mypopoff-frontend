@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { LayoutsLookup } from "@/data/LayoutsLookup";
-import onBoardingStore from "@/stores/OnboardingStore";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
+import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 
 const OnboardingThree = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -12,44 +12,52 @@ const OnboardingThree = () => {
 
   const handleLayoutSelect = (index) => {
     setActiveIndex(index);
-    onBoardingStore.setUserData({
-      ...onBoardingStore.userData,
-      page_layout: LayoutsLookup[index].id,
-    });
+
+    const userData = getFromStorage("userData");
+    userData.page_layout = LayoutsLookup[index].id;
 
     // Layout-10 and Button-04 are exclusive to each other
     if (LayoutsLookup[index].id === "layout-10") {
       setSelectedButton(
         ButtonsLookup.findIndex((item) => item.id === "button-04")
       );
+      userData.button_style = "button-04";
     } else {
-      selectedButton ===
-        ButtonsLookup.findIndex((item) => item.id === "button-04") &&
+      if (
+        selectedButton ===
+        ButtonsLookup.findIndex((item) => item.id === "button-04")
+      ) {
         setSelectedButton(0);
+        userData.button_style = "button-01";
+      }
     }
+
+    saveToStorage("userData", userData);
   };
 
   const handleButtonSelect = (index) => {
     setSelectedButton(index);
 
-    onBoardingStore.setUserData({
-      ...onBoardingStore.userData,
-      button_style: ButtonsLookup[index].id,
-    });
+    const userData = getFromStorage("userData");
+    userData.button_style = ButtonsLookup[index].id;
+
+    saveToStorage("userData", userData);
   };
 
   useEffect(() => {
+    const storedUserData = getFromStorage("userData");
+
     const selectedLayoutIndex = Math.max(
       0,
       LayoutsLookup.findIndex(
-        (layout) => layout.id === onBoardingStore.userData.page_layout
+        (layout) => layout.id === storedUserData.page_layout
       )
     );
 
     const selectedButtonIndex = Math.max(
       0,
       ButtonsLookup.findIndex(
-        (button) => button.id === onBoardingStore.userData.button_style
+        (button) => button.id === storedUserData.button_style
       )
     );
 

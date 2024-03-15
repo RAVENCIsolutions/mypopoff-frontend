@@ -3,7 +3,9 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
-import { getFromStorage } from "@/utility/localStorageUtils";
+import { getLoginSession, getFromStorage } from "@/utility/localStorageUtils";
+import { processLogOut } from "@/utility/userUtils";
+import { defaultUser } from "@/data/defaultUser";
 
 const Layout01 = dynamic(() => import("@/templates/layout-01"));
 const Layout02 = dynamic(() => import("@/templates/layout-02"));
@@ -29,14 +31,20 @@ const layoutComponents = {
   "layout-10": Layout10,
 };
 
-const LayoutComponentWrapper = ({ initialUserData }) => {
-  const [userData, setUserData] = useState(initialUserData);
+const LayoutComponentWrapper = ({ session = null }) => {
+  const [userData, setUserData] = useState(defaultUser);
 
   useEffect(() => {
     const storedUserData = getFromStorage("userData");
+    const storedLoginSession = getFromStorage("loginSession");
 
-    if (storedUserData) {
-      setUserData(storedUserData);
+    if (session) {
+      if (!storedLoginSession) processLogOut().then();
+
+      if (!storedUserData) {
+      } else {
+        setUserData(storedUserData);
+      }
     }
   }, []);
 

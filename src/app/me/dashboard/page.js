@@ -1,17 +1,13 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import LayoutComponentWrapper from "@/components/LayoutComponentWrapper";
+import { getLoginSession } from "@/utility/dataUtils";
 
 export default async function Dashboard() {
   const supabase = await createServerComponentClient({ cookies });
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  const { data: user } = await supabase
-    .from(process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE)
-    .select()
-    .eq("uid", session.user.id)
-    .single();
 
   return (
     <section className="w-full sm:rounded-lg">
@@ -21,7 +17,7 @@ export default async function Dashboard() {
             Dashboard
           </h2>
           <article className={`h-full overflow-y-auto`}>
-            <LayoutComponentWrapper initialUserData={user} />
+            <LayoutComponentWrapper session={session} />
           </article>
 
           {/*<p className={`text-base`}>*/}

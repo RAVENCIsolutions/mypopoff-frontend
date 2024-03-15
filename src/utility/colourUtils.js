@@ -6,6 +6,8 @@
 } from "@/utility/colourConversions";
 
 const removeLeadingHash = (value) => {
+  if (!value) return;
+
   return value.replace(/^#/, "");
 };
 

@@ -1,7 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { observer } from "mobx-react";
 
 import OnboardingOne from "./OnboardingOne";
 import OnboardingTwo from "./OnboardingTwo";
@@ -14,12 +14,11 @@ import NextButton from "@/onboardingComponents/NextButton";
 import PrevButton from "@/onboardingComponents/PrevButton";
 
 import OnboardingSteps from "@/onboardingComponents/OnboardingSteps";
-import onBoardingStore from "@/stores/OnboardingStore";
 import CompleteButton from "@/onboardingComponents/CompleteButton";
-import { useRouter } from "next/navigation";
-import { getFromStorage } from "@/utility/localStorageUtils";
+import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+import { updateUser } from "@/utility/dbUtils";
 
-const OnBoardingMain = observer(() => {
+const OnBoardingMain = ({ session }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [saving, setSaving] = useState(false);
 
@@ -38,19 +37,19 @@ const OnBoardingMain = observer(() => {
       id: "page-two",
       index: `02`,
       title: `Info`,
-      component: <OnboardingTwo />,
+      component: <OnboardingTwo session={session} />,
     },
     {
       id: "page-three",
       index: `03`,
       title: `Styling`,
-      component: <OnboardingThree />,
+      component: <OnboardingThree session={session} />,
     },
     {
       id: "page-four",
       index: `04`,
       title: `Colours`,
-      component: <OnBoardingFour />,
+      component: <OnBoardingFour session={session} />,
     },
     {
       id: "page-five",
@@ -62,9 +61,25 @@ const OnBoardingMain = observer(() => {
 
   const endOnboarding = async () => {
     const getUser = getFromStorage("userData");
+    const saveData = {
+      ...getUser,
+      onboarding_complete: true,
+    };
 
-    onBoardingStore.updateUserData({ ...getUser, onboarding_complete: true });
-    await onBoardingStore.saveProgress().then(() => setSaving(false));
+    await updateUser(session.user.id, saveData)
+      .then(() => {
+        saveToStorage("userData", {
+          ...getFromStorage("userData"),
+          ...saveData,
+        });
+
+        setTimeout(() => {
+          setSaving(false);
+        }, 500);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
 
     router.push("/me/dashboard");
   };
@@ -86,7 +101,23 @@ const OnBoardingMain = observer(() => {
 
   const nextPage = async () => {
     setSaving(true);
-    await onBoardingStore.saveProgress().then(() => setSaving(false));
+
+    const saveData = getFromStorage("userData");
+
+    await updateUser(session.user.id, saveData)
+      .then(() => {
+        saveToStorage("userData", {
+          ...getFromStorage("userData"),
+          ...saveData,
+        });
+
+        setTimeout(() => {
+          setSaving(false);
+        }, 500);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
 
     pageContainer.current.style.left = "-200px";
     pageContainer.current.style.opacity = "0";
@@ -148,6 +179,6 @@ const OnBoardingMain = observer(() => {
       </section>
     </div>
   );
-});
+};
 
 export default OnBoardingMain;
