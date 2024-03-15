@@ -19,6 +19,11 @@ const LinksList = ({ session, userLinks = [], setUserLinks }) => {
           ...getFromStorage("userData"),
           ...saveData,
         });
+
+        const loginSession = getFromStorage("loginSession");
+        loginSession.lastModified = new Date().getTime();
+
+        saveToStorage("loginSession", loginSession);
       })
       .catch((e) => {
         console.log(e);
@@ -39,6 +44,11 @@ const LinksList = ({ session, userLinks = [], setUserLinks }) => {
           ...getFromStorage("userData"),
           ...saveData,
         });
+
+        const loginSession = getFromStorage("loginSession");
+        loginSession.lastModified = new Date().getTime();
+
+        saveToStorage("loginSession", loginSession);
 
         setUserLinks(newOrder);
       })

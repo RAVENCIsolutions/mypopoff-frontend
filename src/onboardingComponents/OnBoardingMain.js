@@ -73,6 +73,11 @@ const OnBoardingMain = ({ session }) => {
           ...saveData,
         });
 
+        const loginSession = getFromStorage("loginSession");
+        loginSession.lastModified = new Date().getTime();
+
+        saveToStorage("loginSession", loginSession);
+
         setTimeout(() => {
           setSaving(false);
         }, 500);
@@ -110,6 +115,11 @@ const OnBoardingMain = ({ session }) => {
           ...getFromStorage("userData"),
           ...saveData,
         });
+
+        const loginSession = getFromStorage("loginSession");
+        loginSession.lastModified = new Date().getTime();
+
+        saveToStorage("loginSession", loginSession);
 
         setTimeout(() => {
           setSaving(false);

@@ -11,26 +11,28 @@ import {
   removeFromStorage,
   saveToStorage,
 } from "@/utility/localStorageUtils";
-import onboardingStore from "@/stores/OnboardingStore";
-import { supabase } from "@/config/Supbase";
+
+import { processLogOut } from "@/utility/userUtils";
 
 const UpdateStorage = ({ session }) => {
   useEffect(() => {
     const runCheck = async () => {
-      let currentUserData = null;
-
       if (session) {
         const userID = session.user.id;
 
         // 0. Check first if a data exists in Storage
         const fromStorage = getFromStorage("userData");
-        const lastFetch = getFromStorage("lastFetch", sessionStorage, false);
+        const storedLoginSession = getFromStorage("loginSession");
+
+        if (!storedLoginSession || !storedLoginSession.lastFetch)
+          processLogOut().then();
 
         // 0a. Verify storage data
         const verified = verifyUserData(fromStorage, false);
 
         // 0a. Found in Storage. How long since last fetch?
-        const timeSinceLastFetch = new Date().getTime() - lastFetch;
+        const timeSinceLastFetch =
+          new Date().getTime() - storedLoginSession.lastFetch;
         const maxTime = 1000 * 60 * 5;
 
         // 0a. Not found in Storage.
@@ -45,9 +47,9 @@ const UpdateStorage = ({ session }) => {
         }
       } else {
         removeFromStorage("userData");
-        removeFromStorage("lastFetch");
+        removeFromStorage("loginSession");
 
-        await supabase.auth.signOut();
+        processLogOut().then();
 
         // Return false
         return false;
@@ -57,31 +59,16 @@ const UpdateStorage = ({ session }) => {
     // Run check
     runCheck().then((result) => {
       if (result) {
-        userStore.setUserData(result);
-        if (!result.onboarding_complete) onboardingStore.setUserData(result);
-      } else {
-        userStore.setUserData(defaultUser);
-      }
+        saveToStorage("userData", result);
 
-      userStore.ready = true;
-      onboardingStore.readyForOnboarding = true;
+        const storedLoginSession = getFromStorage("loginSession");
+        storedLoginSession.lastFetch = new Date().getTime();
+        saveToStorage("loginSession", storedLoginSession);
+      } else {
+        processLogOut().then();
+      }
     });
   }, [session]);
-
-  useEffect(() => {
-    if (localStorage.getItem("userData")) {
-      const handleStorageChange = (event) => {
-        if (event.storageArea === localStorage && event.key === "userData") {
-          const getData = getFromStorage("userData", localStorage);
-          userStore.setUserData(getData);
-        }
-      };
-
-      window.addEventListener("storage", handleStorageChange);
-
-      return () => window.removeEventListener("storage", handleStorageChange);
-    }
-  }, []);
 };
 
 export default UpdateStorage;

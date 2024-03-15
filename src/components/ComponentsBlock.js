@@ -71,6 +71,11 @@ const ComponentsBlock = ({ session }) => {
           ...saveData,
         });
 
+        const loginSession = getFromStorage("loginSession");
+        loginSession.lastModified = new Date().getTime();
+
+        saveToStorage("loginSession", loginSession);
+
         setTimeout(() => {
           setSaving(false);
         }, 500);
@@ -80,6 +85,19 @@ const ComponentsBlock = ({ session }) => {
       });
   };
 
+  const tryFetch = async () => {
+    const { data, error } = await supabase
+      .from("users")
+      .select()
+      .eq("uid", session.user.id)
+      .single();
+
+    if (error) return false;
+
+    setUserData(data);
+    return true;
+  };
+
   useEffect(() => {
     if (session) {
       const storedUserData = getFromStorage("userData");
@@ -87,8 +105,18 @@ const ComponentsBlock = ({ session }) => {
 
       if (!storedLoginSession) processLogOut().then();
 
+      const timeSinceLastModified =
+        new Date().getTime() - storedLoginSession.lastModified;
+      const timeSinceLastModifiedInHours =
+        timeSinceLastModified / (1000 * 60 * 60);
+
+      if (!storedLoginSession.rememberMe) {
+        if (timeSinceLastModifiedInHours > 0.5) processLogOut().then();
+      }
+
       if (!storedUserData) {
-        console.log("No stored user data");
+        console.log("No user data found");
+        processLogOut().then();
       } else {
         setChosenImage(verifyData("images", storedUserData.images));
 

@@ -23,6 +23,7 @@ const LinksPageBlock = ({ session }) => {
       if (!storedLoginSession) processLogOut().then();
 
       if (!storedUserData) {
+        console.log("No user data found");
         processLogOut().then();
       } else {
         const tempLinks = getFromStorage("userData").links;

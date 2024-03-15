@@ -95,6 +95,11 @@ const NewLinkBlock = ({ session, userLinks = [], setUserLinks }) => {
           ...saveData,
         });
 
+        const loginSession = getFromStorage("loginSession");
+        loginSession.lastModified = new Date().getTime();
+
+        saveToStorage("loginSession", loginSession);
+
         setUserLinks(newLinksArray);
         setProcessing(false);
       })

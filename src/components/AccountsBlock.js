@@ -59,8 +59,18 @@ const AccountsBlock = ({ session }) => {
 
       if (!storedLoginSession) processLogOut().then();
 
+      const timeSinceLastModified =
+        new Date().getTime() - storedLoginSession.lastModified;
+      const timeSinceLastModifiedInHours =
+        timeSinceLastModified / (1000 * 60 * 60);
+
+      if (!storedLoginSession.rememberMe) {
+        if (timeSinceLastModifiedInHours > 0.5) processLogOut().then();
+      }
+
       if (!storedUserData) {
-        console.log("No stored user data");
+        console.log("No user data found");
+        processLogOut().then();
       } else {
         setUsername(storedUserData.username);
         setBio(storedUserData.bio);
@@ -119,6 +129,11 @@ const AccountsBlock = ({ session }) => {
             ...getFromStorage("userData"),
             ...saveData,
           });
+
+          const loginSession = getFromStorage("loginSession");
+          loginSession.lastModified = new Date().getTime();
+
+          saveToStorage("loginSession", loginSession);
 
           setTimeout(() => {
             setSaving(false);

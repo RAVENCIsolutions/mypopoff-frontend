@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getLoginSession, getFromStorage } from "@/utility/localStorageUtils";
 import { processLogOut } from "@/utility/userUtils";
 import { defaultUser } from "@/data/defaultUser";
+import { fetchUser } from "@/utility/dbUtils";
 
 const Layout01 = dynamic(() => import("@/templates/layout-01"));
 const Layout02 = dynamic(() => import("@/templates/layout-02"));
@@ -41,7 +42,18 @@ const LayoutComponentWrapper = ({ session = null }) => {
     if (session) {
       if (!storedLoginSession) processLogOut().then();
 
+      const timeSinceLastModified =
+        new Date().getTime() - storedLoginSession.lastModified;
+      const timeSinceLastModifiedInHours =
+        timeSinceLastModified / (1000 * 60 * 60);
+
+      if (!storedLoginSession.rememberMe) {
+        if (timeSinceLastModifiedInHours > 0.5) processLogOut().then();
+      }
+
       if (!storedUserData) {
+        console.log("No user data found");
+        processLogOut().then();
       } else {
         setUserData(storedUserData);
       }
