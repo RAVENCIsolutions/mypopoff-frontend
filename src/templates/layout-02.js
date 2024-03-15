@@ -17,16 +17,18 @@ const Layout02 = ({ previewWindow = false, userData = defaultUser }) => {
   return (
     <main
       className={`${
-        previewWindow ? "block pb-2" : "block md:grid min-h-screen"
-      } grid-cols-2 items-center justify-center font-proximaNova`}
+        previewWindow ? "h-full overflow-hidden" : "min-h-screen"
+      } block md:grid grid-cols-2 items-center justify-center font-proximaNova`}
       style={{
         backgroundColor: userData.palette.background,
       }}
     >
       {/* Image */}
-      <section className={previewWindow ? "h-[50vh]" : "h-[50vh] md:h-full"}>
+      <section
+        className={previewWindow ? "h-[50%] md:h-full" : "h-[50vh] md:h-full"}
+      >
         <img
-          className="mb-3 w-full h-full bg-dashboard-primary-dark object-cover object-top object-center"
+          className="mb-3 w-full h-full bg-dashboard-primary-dark object-cover object-center"
           src={userData.images || ""}
           alt={userData.username || ""}
         />
@@ -34,7 +36,9 @@ const Layout02 = ({ previewWindow = false, userData = defaultUser }) => {
 
       <section
         className={`${
-          previewWindow ? "py-4" : "py-6 md:pt-0 h-[50vh] md:h-full max-w-lg"
+          previewWindow
+            ? "py-4 h-[50%] md:h-full"
+            : "py-6 md:pt-0 h-[50vh] md:h-full max-w-lg"
         } mx-auto relative flex flex-col justify-between md:justify-center items-center gap-8 w-full overflow-y-auto`}
       >
         <article
@@ -93,8 +97,8 @@ const Layout02 = ({ previewWindow = false, userData = defaultUser }) => {
 
         <footer
           className={`${
-            !previewWindow && "md:absolute"
-          } bottom-3 justify-self-end text-center text-xs`}
+            previewWindow ? "" : ""
+          } md:absolute bottom-3 justify-self-end text-center text-xs`}
           style={{
             color: getContrastLuminance(userData.palette.background),
             opacity: 0.5,

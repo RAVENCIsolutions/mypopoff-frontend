@@ -1,7 +1,6 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import LayoutComponentWrapper from "@/components/LayoutComponentWrapper";
-import { getLoginSession } from "@/utility/dataUtils";
 
 export default async function Dashboard() {
   const supabase = await createServerComponentClient({ cookies });

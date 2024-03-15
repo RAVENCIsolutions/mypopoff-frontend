@@ -66,6 +66,8 @@ const NewLinkBlock = ({ session, userLinks = [], setUserLinks }) => {
     setUrlError("");
     setTitleError("");
 
+    setProcessing(true);
+
     const newId = generateId(
       5,
       userLinks.length > 0 ? userLinks.map((link) => link.id) : []
@@ -73,7 +75,12 @@ const NewLinkBlock = ({ session, userLinks = [], setUserLinks }) => {
 
     const newLinksArray = [
       ...userLinks,
-      { id: newId, url: ensureHttp(newLink), title: newLinkTitle },
+      {
+        id: newId,
+        url: ensureHttp(newLink),
+        title: newLinkTitle,
+        public: true,
+      },
     ];
 
     const saveData = {
@@ -89,6 +96,7 @@ const NewLinkBlock = ({ session, userLinks = [], setUserLinks }) => {
         });
 
         setUserLinks(newLinksArray);
+        setProcessing(false);
       })
       .catch((e) => {
         console.log(e);
@@ -97,6 +105,7 @@ const NewLinkBlock = ({ session, userLinks = [], setUserLinks }) => {
     setNewLink("");
     setNewLinkTitle("");
     setShowNew(false);
+    setProcessing(false);
   };
 
   return (
