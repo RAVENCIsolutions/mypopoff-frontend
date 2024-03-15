@@ -258,7 +258,17 @@ const SignUpForm = () => {
                         message: "",
                       },
                     });
-                    handleChange(event);
+
+                    const sanitisedValue = event.target.value.replace(
+                      /[^a-zA-Z0-9-]/g,
+                      ""
+                    );
+                    setReadyToSignUp(false);
+
+                    setFormData({
+                      ...formData,
+                      username: sanitisedValue,
+                    });
                   }}
                 />
                 {checkingUsername && (
