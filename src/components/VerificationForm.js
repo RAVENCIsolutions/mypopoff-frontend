@@ -3,10 +3,8 @@
 import MPOLetterMark from "@/components/MPOLetterMark";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CircularProgress, Stack } from "@mui/material";
-
-import { usernameExists } from "@/utility/dbUtils";
 
 import AuthText from "@/components/AuthText";
 import AuthPassword from "@/components/AuthPassword";
