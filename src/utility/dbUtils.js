@@ -31,10 +31,9 @@ const usernameExists = async (value) => {
   const { data, error } = await supabase
     .from(usersTable)
     .select()
-    .eq("username", value)
-    .single();
+    .ilike("username", value.toLowerCase());
 
-  return !error;
+  return data.length > 0;
 };
 
 const createUser = async (id, saveData) => {
