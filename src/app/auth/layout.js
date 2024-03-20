@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function AuthLayout({ children }) {
   return (
-    <main className="relative pb-10 xs:py-10 min-h-dvh">
+    <main className="relative pb-10 xs:py-10 min-h-screen h-full">
       <section className="mx-auto mb-10 px-3 xs:px-5 py-12 w-full xs:max-w-md bg-white xs:rounded-2xl shadow-xl shadow-primary-dark/5">
         {children}
       </section>
