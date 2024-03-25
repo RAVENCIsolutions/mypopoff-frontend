@@ -1,9 +1,9 @@
 import "./globals.scss";
 
+import { cookies } from "next/headers";
+
 import Providers from "@/providers/Providers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import UpdateStorage from "@/components/UpdateStorage";
 
 const RootLayout = async ({ children }) => {
   // Get Session from Supabase
