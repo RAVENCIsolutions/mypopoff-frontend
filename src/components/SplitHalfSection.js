@@ -13,7 +13,7 @@ const SplitHalfSection = ({ heading, body, callToAction }) => {
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci"}
         </p>
         <Link href="/explore">
-          <button className="mt-10 md:mt-20 px-8 md:px-10 lg:px-12 py-3 md:py-4T lg:py-6 bg-action hover:bg-action/90 rounded-full text-white dark:text-primary-dark text-lg md:text-xl lg:text-2xl font-medium duration-300 transition-all">
+          <button className="mt-10 md:mt-20 px-8 md:px-10 lg:px-12 py-3 md:py-4T lg:py-6 bg-action hover:bg-primary-dark hover:dark:bg-primary-light rounded-full text-primary-light dark:text-primary-dark hover:text-action hover:dark:text-action text-lg md:text-xl lg:text-2xl font-medium duration-300 transition-all">
             {callToAction || "Call to action"}
           </button>
         </Link>

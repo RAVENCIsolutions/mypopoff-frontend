@@ -18,7 +18,7 @@ const SplitThirdSection = ({
         </h4>
 
         <Link
-          className="hidden md:block mt-20 px-8 lg:px-12 py-2 lg:py-3 bg-action hover:bg-action/90 self-start rounded-full text-white dark:text-primary-dark text-xl lg:text-2xl font-medium duration-300 transition-all"
+          className="hidden md:block mt-20 px-8 lg:px-12 py-2 lg:py-3 bg-action hover:bg-primary-dark hover:dark:bg-primary-light self-start rounded-full text-primary-light dark:text-primary-dark hover:text-action hover:dark:text-action text-xl lg:text-2xl font-medium duration-300 transition-all"
           href={"/auth/register"}
         >
           {callToAction || "Start Creating!"}
@@ -30,7 +30,7 @@ const SplitThirdSection = ({
       </article>
 
       <Link
-        className="block md:hidden mt-4 px-8 lg:px-12 py-3 bg-action hover:bg-action/90 self-center rounded-full text-white dark:text-primary-dark text-lg font-medium duration-300 transition-all"
+        className="block md:hidden mt-4 px-8 lg:px-12 py-3 bg-action hover:bg-primary-dark hover:dark:bg-primary-light self-center rounded-full text-primary-light dark:text-primary-dark hover:text-action hover:dark:text-action text-lg font-medium duration-300 transition-all"
         href={"/auth/register"}
       >
         {callToAction || "Start Creating!"}

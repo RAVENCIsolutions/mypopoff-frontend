@@ -6,13 +6,6 @@ import Providers from "@/providers/Providers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const RootLayout = async ({ children }) => {
-  // Get Session from Supabase
-  const supabase = createServerComponentClient({ cookies });
-  const {
-    data: { session },
-    error,
-  } = await supabase.auth.getSession();
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

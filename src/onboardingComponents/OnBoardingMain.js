@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import OnboardingOne from "./OnboardingOne";
@@ -23,6 +23,7 @@ const OnBoardingMain = ({ session }) => {
   const [saving, setSaving] = useState(false);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const pageContainer = useRef(null);
 
@@ -142,6 +143,12 @@ const OnBoardingMain = ({ session }) => {
       pageContainer.current.style.opacity = "1";
     }, 600);
   };
+
+  useEffect(() => {
+    if (searchParams.get("verification") === "success") {
+      // Verification successful
+    }
+  }, [router]);
 
   useEffect(() => {
     pageContainer.current.style.left = "0px";

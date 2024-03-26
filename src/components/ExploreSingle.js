@@ -55,7 +55,7 @@ const ExploreSingle = ({ theUser }) => {
             >
               {theUser.category === "Other.."
                 ? theUser.otherCategory
-                : theUser.category}
+                : theUser.categories[0]}
             </p>
           </div>
         </section>

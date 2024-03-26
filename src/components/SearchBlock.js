@@ -9,6 +9,8 @@ import { StopWords } from "@/data/StopWords";
 import { exploreAll } from "@/utility/dbUtils";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import ExploreSingle from "@/components/ExploreSingle";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const SearchBlock = () => {
   const [data, setData] = useState([]);
@@ -20,63 +22,92 @@ const SearchBlock = () => {
   const [placeholder, setPlaceholder] = useState("");
   const [inputAlignment, setInputAlignment] = useState("text-center");
 
-  const handleSearch = (term) => {
+  // Constants
+  const supabase = createClientComponentClient();
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleSearch = async (term) => {
     setSearching(true);
 
     if (term.length > 2) {
-      term = term.toLowerCase();
-
-      exploreAll().then((data) => {
-        let finalResults = [];
-
-        const entireTerm = data.filter((item) => {
-          const inUsername = item.username.toLowerCase().includes(term);
-          const inBio = item.bio.toLowerCase().includes(term);
-          const inCategory = item.category.toLowerCase().includes(term);
-          const inTags = item.tags.some((tag) =>
-            tag.toLowerCase().includes(term)
-          );
-
-          return item.public && (inUsername || inBio || inCategory || inTags);
-        });
-
-        finalResults = [...finalResults, ...entireTerm];
-
-        const termsArray = term.match(/\w+/g);
-        const filteredList = termsArray.filter(
-          (word) => !StopWords.includes(word)
+      const { data, error } = await supabase
+        .from("users")
+        .select()
+        .or(
+          `username.ilike.%${term}%, bio.ilike.%${term}%, otherCategory.ilike.%${term}%, categories_text.ilike.%${term}%, tags_text.ilike.%${term}%`
         );
 
-        const anyTerm = data.filter((item) => {
-          const inUsername = filteredList.some((word) =>
-            item.username.toLowerCase().includes(word)
-          );
-          const inBio = filteredList.some((word) =>
-            item.bio.toLowerCase().includes(word)
-          );
-          const inCategory = filteredList.some((word) =>
-            item.category.toLowerCase().includes(word)
-          );
-          const inTags = filteredList.some((word) =>
-            item.tags.some((tag) => tag.toLowerCase().includes(word))
-          );
+      if (error) {
+        console.error(`Search error: ${error.message}`);
+        return;
+      }
 
-          return (
-            item.public &&
-            !finalResults.includes(item) &&
-            (inUsername || inBio || inCategory || inTags)
-          );
-        });
+      console.log(data);
 
-        finalResults = [...finalResults, ...anyTerm];
-        setData(finalResults);
-      });
+      setData(data);
+
+      // exploreAll().then((data) => {
+      //   let finalResults = [];
+      //
+      //   const entireTerm = data.filter((item) => {
+      //     const inUsername = item.username.toLowerCase().includes(term);
+      //     const inBio = item.bio.toLowerCase().includes(term);
+      //     const inCategory = item.category.toLowerCase().includes(term);
+      //     const inTags = item.tags.some((tag) =>
+      //       tag.toLowerCase().includes(term)
+      //     );
+      //
+      //     return item.public && (inUsername || inBio || inCategory || inTags);
+      //   });
+      //
+      //   finalResults = [...finalResults, ...entireTerm];
+      //
+      //   const termsArray = term.match(/\w+/g);
+      //   const filteredList = termsArray.filter(
+      //     (word) => !StopWords.includes(word)
+      //   );
+      //
+      //   const anyTerm = data.filter((item) => {
+      //     const inUsername = filteredList.some((word) =>
+      //       item.username.toLowerCase().includes(word)
+      //     );
+      //     const inBio = filteredList.some((word) =>
+      //       item.bio.toLowerCase().includes(word)
+      //     );
+      //     const inCategory = filteredList.some((word) =>
+      //       item.category.toLowerCase().includes(word)
+      //     );
+      //     const inTags = filteredList.some((word) =>
+      //       item.tags.some((tag) => tag.toLowerCase().includes(word))
+      //     );
+      //
+      //     return (
+      //       item.public &&
+      //       !finalResults.includes(item) &&
+      //       (inUsername || inBio || inCategory || inTags)
+      //     );
+      //   });
+      //
+      //   finalResults = [...finalResults, ...anyTerm];
+      //   setData(finalResults);
+      // });
     }
 
     setSearching(false);
-    // setTimeout(() => {
-    // }, 500);
   };
+
+  useEffect(() => {
+    const preSearch = searchParams.get("search");
+
+    if (preSearch) {
+      setSearch(preSearch);
+      handleSearch(preSearch).then();
+    } else {
+      setSearch("");
+    }
+  }, []);
 
   useEffect(() => {
     if (windowWidth < 360) {
@@ -104,9 +135,13 @@ const SearchBlock = () => {
           placeholder={placeholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          onKeyDown={(e) => {
+          onKeyDown={async (e) => {
             if (e.key === "Enter") {
-              handleSearch(search);
+              if (pathname !== "/explore") {
+                router.push(`/explore?search=${search}`);
+              } else {
+                await handleSearch(search);
+              }
             }
           }}
           className={`px-4 2xs:px-8 py-1.5 w-full bg-dashboard-primary-dark/5 dark:bg-dashboard-primary-light/40 rounded-full shadow-none hover:shadow-xl focus:shadow-xl shadow-primary-dark/15 ${inputAlignment} outline-none transition-all duration-300 z-10`}
@@ -115,7 +150,13 @@ const SearchBlock = () => {
           size={22}
           className={`cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 hover:scale-110 transition-all duration-300 z-10`}
           title={`Search`}
-          onClick={() => handleSearch(search)}
+          onClick={async () => {
+            if (pathname !== "/explore") {
+              router.push(`/explore?search=${search}`);
+            } else {
+              await handleSearch(search);
+            }
+          }}
         />
       </article>
       {/*<article className={`mt-5 mb-10 hidden md:flex justify-center gap-2`}>*/}

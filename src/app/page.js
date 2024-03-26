@@ -13,6 +13,7 @@ import SplitHalfWithThreeHeadings from "@/components/SplitHalfWithThreeHeadings"
 import Footer from "@/components/Footer";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import SearchBlock from "@/components/SearchBlock";
 
 export const metadata = {
   title: "The link in bio tool with a bang | My Pop Off",
@@ -28,6 +29,9 @@ export default async function Home() {
   return (
     <main className="flex flex-col items-center justify-start overflow-hidden">
       <NavBar session={session} />
+
+      <SearchBlock />
+
       <HeroSection
         title="The world's most creative influencers in one place"
         subtitle="Discover. Connect. Be Inspired."
