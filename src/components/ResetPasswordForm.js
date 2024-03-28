@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 
 import styled from "@emotion/styled";
@@ -10,7 +10,6 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import AuthPassword from "@/components/AuthPassword";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdDangerous, MdOutlineLock } from "react-icons/md";
-import { processLogOut } from "@/utility/userUtils";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const FormField = styled.fieldset`
@@ -56,7 +55,7 @@ const ResetPasswordForm = () => {
   }, [formData]);
 
   return (
-    <>
+    <Suspense>
       <article
         className={`pb-4 flex flex-col items-center w-full border-b-[1.25px] border-secondary-dark/20`}
       >
@@ -207,7 +206,7 @@ const ResetPasswordForm = () => {
           </article>
         </>
       )}
-    </>
+    </Suspense>
   );
 };
 
