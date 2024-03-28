@@ -18,6 +18,8 @@ export async function middleware(request) {
       .select()
       .eq("uid", session.user.id);
 
+    console.log("Here So Far");
+
     if (user) {
       try {
         const nonPrivate = [
@@ -47,7 +49,8 @@ export async function middleware(request) {
           }
         }
       } catch (e) {
-        const { error } = await supabase.auth.signOut();
+        console.log("yep here");
+        // const { error } = await supabase.auth.signOut();
       }
     }
   } else {
