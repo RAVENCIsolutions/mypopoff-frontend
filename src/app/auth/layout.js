@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { CgCoffee } from "react-icons/cg";
 import { Skeleton } from "@mui/material";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Start your free Pop Off journey!",
@@ -13,7 +14,7 @@ export default function AuthLayout({ children }) {
   return (
     <main className="relative py-20 min-h-screen h-full">
       <section className="mx-auto mb-10 px-3 xs:px-5 py-12 w-full xs:max-w-md bg-white xs:rounded-2xl shadow-xl shadow-primary-dark/5">
-        {children}
+        <Suspense>{children}</Suspense>
       </section>
 
       <footer

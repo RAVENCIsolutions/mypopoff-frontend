@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -110,7 +110,7 @@ const LoginForm = () => {
   const isDisabled = !formData.email || !formData.password;
 
   return (
-    <Suspense>
+    <>
       {verified && (
         <div
           className={`py-3 px-5 fixed top-0 left-0 w-full grid place-items-center bg-primary-dark dark:bg-primary-light text-primary-light dark:text-primary-dark text-xs xs:text-sm text-center font-bold italic z-50`}
@@ -270,7 +270,7 @@ const LoginForm = () => {
           Sign Up
         </Link>
       </p>
-    </Suspense>
+    </>
   );
 };
 export default LoginForm;

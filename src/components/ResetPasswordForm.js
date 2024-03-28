@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import styled from "@emotion/styled";
@@ -55,7 +55,7 @@ const ResetPasswordForm = () => {
   }, [formData]);
 
   return (
-    <Suspense>
+    <>
       <article
         className={`pb-4 flex flex-col items-center w-full border-b-[1.25px] border-secondary-dark/20`}
       >
@@ -206,7 +206,7 @@ const ResetPasswordForm = () => {
           </article>
         </>
       )}
-    </Suspense>
+    </>
   );
 };
 
