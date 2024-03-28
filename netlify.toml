@@ -1,0 +1,5 @@
+[[headers]]
+# Apply to /me/dashboard
+for = "/me/dashboard"
+[headers.values]
+Cache-Control = "no-store"
