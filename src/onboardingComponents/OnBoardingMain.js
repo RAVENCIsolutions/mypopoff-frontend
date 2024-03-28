@@ -20,6 +20,7 @@ import { updateLastModified } from "@/utility/localStorageUtils";
 import CompleteButton from "./CompleteButton";
 
 import { FaTimesCircle } from "react-icons/fa";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const OnBoardingMain = ({ session, data }) => {
   // States
@@ -149,11 +150,19 @@ const OnBoardingMain = ({ session, data }) => {
   };
 
   useEffect(() => {
-    if (searchParams.get("verification") === "success") {
-      // Verification successful
-      setVerified(true);
-    }
-  }, [router]);
+    const code = searchParams.get("code");
+    const supabase = createClientComponentClient();
+
+    const attemptVerification = async () => {
+      const { user, error } = await supabase.auth.exchangeCodeForSession(code);
+
+      if (error) console.error(`Error with verification: `, error);
+
+      if (user) setVerified(true);
+    };
+
+    if (code) attemptVerification().then();
+  }, []);
 
   useEffect(() => {
     pageContainer.current.style.left = "0px";
