@@ -95,7 +95,7 @@ const SignUpForm = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_HOME_ROUTE}onboarding`,
+          emailRedirectTo: `https://mypopoff.netlify.app/onboarding?verification=success`,
         },
       });
 
