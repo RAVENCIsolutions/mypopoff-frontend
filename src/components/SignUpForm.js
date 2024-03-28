@@ -19,6 +19,8 @@ import { ageBrackets, genders } from "@/data/PersonalData";
 
 import country from "country-list-js";
 import { CircularProgress, Stack } from "@mui/material";
+import { CallingCodes } from "@/data/CallingCodes";
+import AuthPhone from "@/components/AuthPhone";
 
 const SignUpForm = () => {
   // States
@@ -376,17 +378,17 @@ const SignUpForm = () => {
                 error={error.city}
                 onChange={handleChange}
               />
-              <AuthText
+
+              <AuthPhone
                 label={`Phone`}
                 name={`phone`}
                 type={"tel"}
                 value={formData.phone}
-                error={error.phone}
-                onChange={handleChange}
+                onChange={(value) => setFormData({ ...formData, phone: value })}
               />
 
               <button
-                className={`cursor-pointer disabled:cursor-auto p-3 bg-action hover:bg-action/80 disabled:bg-gray-400 rounded-md focus:shadow-xl shadow-primary-dark/30 outline-none text-xs font-bold uppercase text-white disabled:text-white/70 transition-all duration-300`}
+                className={`cursor-pointer disabled:cursor-auto mt-2 p-3 bg-action hover:bg-action/80 disabled:bg-gray-400 rounded-md focus:shadow-xl shadow-primary-dark/30 outline-none text-xs font-bold uppercase text-white disabled:text-white/70 transition-all duration-300`}
                 onClick={handleSignUp}
                 disabled={!readyToSignUp || signingUp}
               >
