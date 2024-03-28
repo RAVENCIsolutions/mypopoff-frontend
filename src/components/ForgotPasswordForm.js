@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 
 import MPOLetterMark from "@/components/MPOLetterMark";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { CircularProgress, Stack } from "@mui/material";
 
 const FormField = styled.fieldset`
   display: flex;
@@ -25,15 +26,20 @@ const FormInput = styled.input`
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
+  const [processing, setProcessing] = useState(false);
   const [completeReset, setCompleteReset] = useState(false);
 
   const handleReset = async () => {
     const supabase = createClientComponentClient();
 
+    setProcessing(true);
+
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `https://mypopoff.netlify.app/auth/reset-password`,
     });
+
     setCompleteReset(true);
+    setProcessing(false);
   };
 
   return (
@@ -86,12 +92,18 @@ const ForgotPasswordForm = () => {
             </FormField>
 
             <button
-              className={`cursor-pointer disabled:cursor-auto p-3 bg-action hover:bg-action/80 disabled:bg-gray-400 rounded-md focus:shadow-xl shadow-primary-dark/30 outline-none text-xs font-bold uppercase text-white disabled:text-white/70 transition-all duration-300`}
+              className={`cursor-pointer flex justify-center disabled:cursor-auto p-3 bg-action hover:bg-action/80 disabled:bg-gray-400 rounded-md focus:shadow-xl shadow-primary-dark/30 outline-none text-xs font-bold uppercase text-white disabled:text-white/70 transition-all duration-300`}
               onClick={() => {
                 if (email.length > 5) handleReset().then();
               }}
             >
-              Reset Password
+              {processing ? (
+                <Stack sx={{ margin: "0 auto", color: "#ffffff" }} spacing={2}>
+                  <CircularProgress color="inherit" size={15} />
+                </Stack>
+              ) : (
+                <>Reset Password</>
+              )}
             </button>
           </div>
           <p

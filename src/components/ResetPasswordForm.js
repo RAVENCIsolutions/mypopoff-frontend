@@ -37,13 +37,15 @@ const ResetPasswordForm = () => {
     password: "",
     password_confirmation: "",
   });
-  const [showError, setShowError] = useState(false);
+  const [showError, setShowError] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [readyToSignUp, setReadyToSignUp] = useState(false);
   const [isLongEnough, setIsLongEnough] = useState(false);
   const [hasCases, setHasCases] = useState(false);
   const [hasNumbers, setHasNumbers] = useState(false);
+
   const [expired, setExpired] = useState(searchParams.get("error"));
+  const [resetSuccess, setResetSuccess] = useState(false);
 
   useEffect(() => {
     // check password, username and email validity
@@ -84,6 +86,19 @@ const ResetPasswordForm = () => {
             </Link>
           </p>
         </section>
+      ) : resetSuccess ? (
+        <section className={`mt-6`}>
+          <p className={`text-base text-center text-primary-dark/80`}>
+            🎉 Congrats! 🎉
+          </p>
+          <p className={`text-base text-center text-primary-dark/80`}>
+            You can now{" "}
+            <Link href={"/auth/login"} className={`text-action font-bold`}>
+              login
+            </Link>{" "}
+            with your new password!
+          </p>
+        </section>
       ) : (
         <>
           <article className={`mt-6 flex flex-col gap-4 w-full`}>
@@ -92,7 +107,7 @@ const ResetPasswordForm = () => {
               name={`password`}
               value={formData.password}
               onChange={(event) => {
-                setShowError(false);
+                setShowError("");
                 setReadyToSignUp(false);
 
                 const newValue = event.target.value;
@@ -134,7 +149,7 @@ const ResetPasswordForm = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   value={formData.password_confirmation}
                   onChange={(event) => {
-                    setShowError(false);
+                    setShowError("");
 
                     setFormData({
                       ...formData,
@@ -177,15 +192,18 @@ const ResetPasswordForm = () => {
               disabled={!readyToSignUp}
               onClick={async () => {
                 if (formData.password !== formData.password_confirmation) {
-                  setShowError(true);
+                  setShowError("Passwords don't match. Try again.");
                 } else {
                   const { data, resetData, error } =
                     await supabase.auth.updateUser({
                       password: formData.password,
                     });
 
-                  if (resetData) console.log(resetData);
-                  if (error) console.log(error);
+                  if (resetData) {
+                    setResetSuccess(true);
+                  }
+
+                  if (error) setShowError(error.message);
                 }
               }}
             >
