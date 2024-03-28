@@ -26,11 +26,9 @@ const OnBoardingMain = ({ session, data }) => {
   // States
   const [activeIndex, setActiveIndex] = useState(0);
   const [saving, setSaving] = useState(false);
-  const [verified, setVerified] = useState(false);
 
   // Variables
   const router = useRouter();
-  const searchParams = useSearchParams();
   const pageContainer = useRef(null);
 
   const [userData, setUserData] = useState(data);
@@ -150,43 +148,12 @@ const OnBoardingMain = ({ session, data }) => {
   };
 
   useEffect(() => {
-    const code = searchParams.get("code");
-    const supabase = createClientComponentClient();
-
-    const attemptVerification = async () => {
-      const { user, error } = await supabase.auth.exchangeCodeForSession(code);
-
-      if (error) console.error(`Error with verification: `, error);
-
-      if (user) setVerified(true);
-    };
-
-    if (code) attemptVerification().then();
-  }, []);
-
-  useEffect(() => {
     pageContainer.current.style.left = "0px";
     pageContainer.current.style.opacity = "1";
   }, []);
 
   return (
     <div className={`mx-auto mt-6 grid grid-cols-1 w-full max-w-2xl`}>
-      {verified && (
-        <div
-          className={`py-3 px-5 fixed top-0 w-full grid place-items-center bg-primary-dark dark:bg-primary-light text-primary-light dark:text-primary-dark font-bold italic z-50`}
-        >
-          Nice! Your email address has been verified! ✅
-          <div
-            className={`absolute top-1/2 -translate-y-1/2 right-2`}
-            onClick={() => setVerified(false)}
-          >
-            <FaTimesCircle
-              className={`cursor-pointer text-primary-light dark:text-primary-dark opacity-50 hover:opacity-100 transition-all duration-300`}
-            />
-          </div>
-        </div>
-      )}
-
       <OnboardingSteps pages={onBoardingPages} active={activeIndex} />
 
       <section

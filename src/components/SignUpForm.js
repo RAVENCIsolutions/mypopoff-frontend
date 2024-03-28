@@ -97,7 +97,7 @@ const SignUpForm = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: `https://mypopoff.netlify.app/onboarding?verification=success`,
+          emailRedirectTo: `https://mypopoff.netlify.app/auth/login?verification=success`,
         },
       });
 
@@ -127,8 +127,6 @@ const SignUpForm = () => {
         message: error.message,
       });
     }
-
-    router.refresh();
   };
 
   useEffect(() => {

@@ -1,13 +1,13 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { supabase } from "@/config/Supbase";
 import MPOLetterMark from "@/components/MPOLetterMark";
-import { FaCheck, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaCheck, FaEye, FaEyeSlash, FaTimesCircle } from "react-icons/fa";
 import { PiWarningBold } from "react-icons/pi";
 import { MdOutlineDangerous } from "react-icons/md";
 import { defaultUser } from "@/data/defaultUser";
@@ -18,6 +18,7 @@ import {
   updateRememberMe,
 } from "@/utility/localStorageUtils";
 import { processLogin } from "@/utility/userUtils";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const FormField = styled.fieldset`
   display: flex;
@@ -36,6 +37,7 @@ const FormInput = styled.input`
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [verified, setVerified] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -53,6 +55,7 @@ const LoginForm = () => {
   };
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -88,10 +91,42 @@ const LoginForm = () => {
     }
   };
 
+  useEffect(() => {
+    const code = searchParams.get("code");
+    const verification = searchParams.get("verification");
+    const supabase = createClientComponentClient();
+
+    const attemptVerification = async () => {
+      const { user, error } = await supabase.auth.exchangeCodeForSession(code);
+
+      if (error) console.error(`Error with verification: `, error);
+
+      if (user) setVerified(true);
+    };
+
+    if (code) attemptVerification().then();
+  }, []);
+
   const isDisabled = !formData.email || !formData.password;
 
   return (
     <>
+      {verified && (
+        <div
+          className={`py-3 px-5 fixed top-0 left-0 w-full grid place-items-center bg-primary-dark dark:bg-primary-light text-primary-light dark:text-primary-dark text-xs xs:text-sm text-center font-bold italic z-50`}
+        >
+          Nice! Your email address has been verified! ✅
+          <div
+            className={`absolute top-1/2 -translate-y-1/2 right-2`}
+            onClick={() => setVerified(false)}
+          >
+            <FaTimesCircle
+              className={`cursor-pointer text-primary-light dark:text-primary-dark opacity-50 hover:opacity-100 transition-all duration-300`}
+            />
+          </div>
+        </div>
+      )}
+
       <article
         className={`pb-4 flex flex-col items-center w-full border-b-[1.25px] border-secondary-dark/20`}
       >
