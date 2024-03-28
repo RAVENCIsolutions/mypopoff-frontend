@@ -4,61 +4,53 @@ import { useEffect, useState } from "react";
 
 import { LayoutsLookup } from "@/data/LayoutsLookup";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 
-const OnboardingThree = () => {
+const OnboardingThree = ({ session, data, setData }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedButton, setSelectedButton] = useState(0);
 
   const handleLayoutSelect = (index) => {
-    setActiveIndex(index);
+    const progressData = data;
 
-    const userData = getFromStorage("userData");
-    userData.page_layout = LayoutsLookup[index].id;
+    setActiveIndex(index);
+    progressData.page_layout = LayoutsLookup[index].id;
 
     // Layout-10 and Button-04 are exclusive to each other
     if (LayoutsLookup[index].id === "layout-10") {
       setSelectedButton(
         ButtonsLookup.findIndex((item) => item.id === "button-04")
       );
-      userData.button_style = "button-04";
+
+      progressData.button_style = "button-04";
     } else {
       if (
         selectedButton ===
         ButtonsLookup.findIndex((item) => item.id === "button-04")
       ) {
         setSelectedButton(0);
-        userData.button_style = "button-01";
+        progressData.button_style = "button-01";
       }
     }
 
-    saveToStorage("userData", userData);
+    setData(progressData);
   };
 
   const handleButtonSelect = (index) => {
+    const progressData = data;
+
     setSelectedButton(index);
-
-    const userData = getFromStorage("userData");
-    userData.button_style = ButtonsLookup[index].id;
-
-    saveToStorage("userData", userData);
+    progressData.button_style = ButtonsLookup[index].id;
   };
 
   useEffect(() => {
-    const storedUserData = getFromStorage("userData");
-
     const selectedLayoutIndex = Math.max(
       0,
-      LayoutsLookup.findIndex(
-        (layout) => layout.id === storedUserData.page_layout
-      )
+      LayoutsLookup.findIndex((layout) => layout.id === data.page_layout)
     );
 
     const selectedButtonIndex = Math.max(
       0,
-      ButtonsLookup.findIndex(
-        (button) => button.id === storedUserData.button_style
-      )
+      ButtonsLookup.findIndex((button) => button.id === data.button_style)
     );
 
     setActiveIndex(selectedLayoutIndex);

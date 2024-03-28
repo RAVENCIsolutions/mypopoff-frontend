@@ -7,11 +7,16 @@ import { useRouter } from "next/navigation";
 
 import { supabase } from "@/config/Supbase";
 import MPOLetterMark from "@/components/MPOLetterMark";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaEye, FaEyeSlash } from "react-icons/fa";
 import { PiWarningBold } from "react-icons/pi";
 import { MdOutlineDangerous } from "react-icons/md";
 import { defaultUser } from "@/data/defaultUser";
-import { saveToStorage } from "@/utility/localStorageUtils";
+import {
+  saveToStorage,
+  updateLastModified,
+  updateLastSession,
+  updateRememberMe,
+} from "@/utility/localStorageUtils";
 import { processLogin } from "@/utility/userUtils";
 
 const FormField = styled.fieldset`
@@ -30,6 +35,7 @@ const FormInput = styled.input`
 `;
 
 const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -66,26 +72,12 @@ const LoginForm = () => {
     event.preventDefault();
 
     try {
-      saveToStorage("userData", defaultUser);
-      saveToStorage("loginSession", {
-        rememberMe: false,
-        lastLogin: new Date().getTime(),
-        lastModified: new Date().getTime(),
-        lastFetch: new Date().getTime(),
-      });
-
       const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
       });
 
-      const { data: user } = await supabase
-        .from("users")
-        .select()
-        .eq("uid", data.user.id)
-        .single();
-
-      processLogin(user, formData.remember);
+      processLogin(formData.remember);
 
       router.refresh();
     } catch (error) {
@@ -151,18 +143,26 @@ const LoginForm = () => {
           >
             Password
           </label>
-          <FormInput
-            id={`password`}
-            name={`password`}
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            className={`border-[1px] focus:shadow-xl shadow-primary-dark/30 ${
-              error.level > 0
-                ? "border-danger"
-                : "border-black/15 hover:border-action focus:border-action"
-            }`}
-          />
+          <div className={`relative w-full`}>
+            <FormInput
+              id={`password`}
+              name={`password`}
+              type={showPassword ? "text" : "password"}
+              value={formData.password}
+              onChange={handleChange}
+              className={`w-full border-[1px] focus:shadow-xl shadow-primary-dark/30 ${
+                error.level > 0
+                  ? "border-danger"
+                  : "border-black/15 hover:border-action focus:border-action"
+              }`}
+            />
+            <div
+              className={`cursor-pointer absolute top-1/2 -translate-y-1/2 right-4`}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+            </div>
+          </div>
         </FormField>
 
         {error.level > 0 && (

@@ -7,60 +7,76 @@ import { createUser, fetchUser } from "@/utility/dbUtils";
 import { verifyUserData } from "@/utility/generalUtils";
 import {
   getFromStorage,
+  getLatestModified,
+  getLatestSession,
+  getRememberMe,
   removeFromStorage,
   saveToStorage,
 } from "@/utility/localStorageUtils";
 
 import { processLogOut } from "@/utility/userUtils";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const UpdateStorage = ({ session }) => {
+  const supabase = createClientComponentClient();
+
   useEffect(() => {
     const runCheck = async () => {
       if (session) {
         const userID = session.user.id;
 
-        // 0. Check first if a data exists in Storage
-        const fromStorage = getFromStorage("userData");
-        const storedLoginSession = getFromStorage("loginSession");
+        // 0. Attempt to get user data
+        const user = await supabase
+          .from("users")
+          .select()
+          .eq("uid", userID)
+          .single();
 
-        // 0a. Verify storage data
-        const verified = verifyUserData(fromStorage, false);
+        // 0a. If user not found, process logout
+        if (!user) processLogOut().then();
 
-        // 0a. Found in Storage. How long since last fetch?
-        const timeSinceLastFetch =
-          new Date().getTime() - storedLoginSession.lastFetch;
-        const maxTime = 1000 * 60 * 5;
+        // 0b. Verify storage data
+        const verifiedUser = verifyUserData(user, true);
 
-        // 0a. Not found in Storage.
-        if (!fromStorage || !verified || timeSinceLastFetch > maxTime) {
-          // 1. check if a user row exists for account
-          const data = await fetchUser(userID);
+        // 1. Found Data. How long since latest login and modification?
+        const remember = getRememberMe();
+        const latestSession = getLatestSession();
+        const lastModified = getLatestModified();
 
-          if (data) return data;
-          return await createUser(userID, defaultUser);
-        } else {
-          return fromStorage;
+        // 1a. No login session. Process logout
+        if (!latestSession) processLogOut().then();
+
+        // 1b. Login session found. How long since latest login and modification?
+        if (latestSession) {
+          const timeSinceLastLogin = new Date().getTime() - latestSession;
+          const timeSinceLastLoginInHours =
+            timeSinceLastLogin / (1000 * 60 * 60);
+
+          const timeSinceLastModified = new Date().getTime() - lastModified;
+          const timeSinceLastModifiedInHours =
+            timeSinceLastModified / (1000 * 60 * 60);
+
+          // 1c. Asked to Remember? Keep. Otherwise, if inactive for over 0.5, logout
+          if (!remember) {
+            if (
+              timeSinceLastLoginInHours > 0.5 &&
+              timeSinceLastModifiedInHours > 0.5
+            )
+              processLogOut().then();
+          }
         }
+
+        // 2. All is in order
+        return verifiedUser;
       } else {
-        removeFromStorage("userData");
-        removeFromStorage("loginSession");
-
         processLogOut().then();
-
-        // Return false
         return false;
       }
     };
 
     // Run check
     runCheck().then((result) => {
-      if (result) {
-        saveToStorage("userData", result);
-
-        const storedLoginSession = getFromStorage("loginSession");
-        storedLoginSession.lastFetch = new Date().getTime();
-        saveToStorage("loginSession", storedLoginSession);
-      } else {
+      if (!result) {
         processLogOut().then();
       }
     });

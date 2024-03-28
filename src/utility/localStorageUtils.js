@@ -1,50 +1,6 @@
-﻿// const checkWhichStorage = (key) => {
-//   if (localStorage.getItem(key)) {
-//     return localStorage;
-//   } else {
-//     return sessionStorage;
-//   }
-// };
-//
-// const getFromStorage = (key, storage = null, parse = true) => {
-//   const item = storage
-//     ? storage.getItem(key)
-//     : checkWhichStorage(key).getItem(key);
-//
-//   try {
-//     if (typeof item == "string") return JSON.parse(item);
-//     if (typeof item == "object") return item;
-//   } catch (err) {
-//     removeFromStorage(key);
-//   }
-//
-//   return null;
-// };
-//
-// const saveToStorage = (key, value, storage = null, stringify = true) => {
-//   const item = stringify ? JSON.stringify(value) : value;
-//   storage
-//     ? storage.setItem(key, item)
-//     : checkWhichStorage(key).setItem(key, item);
-// };
-//
-// const removeFromStorage = (key) => {
-//   sessionStorage.removeItem(key);
-//   localStorage.removeItem(key);
-// };
-//
-// export { checkWhichStorage, getFromStorage, saveToStorage, removeFromStorage };
-
-// const checkWhichStorage = (key) => {
-//   if (localStorage.getItem(key)) {
-//     return localStorage;
-//   } else {
-//     return sessionStorage;
-//   }
-// };
-
-const USER_DATA_KEY = "userData";
-const LOGIN_SESSION_KEY = "loginSession";
+﻿const REMEMBER_ME_KEY = "remember";
+const LAST_MODIFIED_KEY = "latestMod";
+const LAST_SESSION_KEY = "latestSes";
 
 const getFromStorage = (key) => {
   if (typeof window === "undefined" || !window.localStorage) return null;
@@ -52,18 +8,15 @@ const getFromStorage = (key) => {
   const item = localStorage.getItem(key);
 
   try {
-    if (typeof item == "string") return JSON.parse(item);
-    if (typeof item == "object") return item;
+    return item ? JSON.parse(item) : null;
   } catch (err) {
-    removeFromStorage(key);
+    console.error(`Error parsing ${key} from storage:`, err.message);
+    return null;
   }
-
-  return null;
 };
 
-const saveToStorage = (key, value, stringify = true) => {
-  const item = stringify ? JSON.stringify(value) : value;
-
+const saveToStorage = (key, value) => {
+  const item = JSON.stringify(value);
   localStorage.setItem(key, item);
 };
 
@@ -71,4 +24,41 @@ const removeFromStorage = (key) => {
   localStorage.removeItem(key);
 };
 
-export { getFromStorage, saveToStorage, removeFromStorage };
+const getRememberMe = () => {
+  const rememberMe = getFromStorage(REMEMBER_ME_KEY);
+  return rememberMe ? JSON.parse(rememberMe) : null;
+};
+
+const getLatestSession = () => {
+  const latestSession = getFromStorage(LAST_SESSION_KEY);
+  return latestSession ? new Date(latestSession) : null;
+};
+
+const getLatestModified = () => {
+  const latestModified = getFromStorage(LAST_MODIFIED_KEY);
+  return latestModified ? new Date(latestModified) : null;
+};
+
+const updateRememberMe = (rememberMe = false) => {
+  saveToStorage(REMEMBER_ME_KEY, rememberMe);
+};
+
+const updateLastSession = () => {
+  saveToStorage(LAST_SESSION_KEY, new Date().getTime());
+};
+
+const updateLastModified = () => {
+  saveToStorage(LAST_MODIFIED_KEY, new Date().getTime());
+};
+
+export {
+  getFromStorage,
+  saveToStorage,
+  removeFromStorage,
+  getRememberMe,
+  getLatestSession,
+  getLatestModified,
+  updateRememberMe,
+  updateLastSession,
+  updateLastModified,
+};

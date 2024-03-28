@@ -5,10 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import PopOffChip from "@/components/PopOffChip";
 import PopOffInput from "@/components/PopOffInput";
 import { categories } from "@/data/CustomisationData";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 import { uploadAvatar } from "@/utility/dbUtils";
 
-const OnboardingTwo = ({ session }) => {
+const OnboardingTwo = ({ session, data, setData }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [otherCategoryValue, setOtherCategoryValue] = useState("");
 
@@ -19,6 +18,7 @@ const OnboardingTwo = ({ session }) => {
   const handleSelectCategory = (category) => {
     const activeCategories = selectedCategories;
     const thisCategory = categories[category].name;
+    const progressData = data;
 
     if (activeCategories.includes(thisCategory)) {
       activeCategories.splice(activeCategories.indexOf(thisCategory), 1);
@@ -34,37 +34,34 @@ const OnboardingTwo = ({ session }) => {
       thisOtherCategory = otherCategoryValue;
     }
 
-    const userData = getFromStorage("userData");
-    userData.categories = [...activeCategories];
-    userData.otherCategory = thisOtherCategory;
+    progressData.categories = activeCategories;
+    progressData.otherCategory = thisOtherCategory;
 
-    saveToStorage("userData", userData);
+    setOtherCategoryValue(progressData.otherCategory);
+    setSelectedCategories([...progressData.categories]);
 
-    setSelectedCategories([...activeCategories]);
-    setOtherCategoryValue(thisOtherCategory);
+    setData(progressData);
   };
 
   useEffect(() => {
-    const storedUserData = getFromStorage("userData");
+    setSelectedCategories(data.categories || []);
 
-    setSelectedCategories(storedUserData.categories || []);
-
-    if (!storedUserData.categories.includes("Other..")) {
+    if (data.categories.includes("Other..")) {
+      setOtherCategoryValue(data.otherCategory);
+    } else {
       setOtherCategoryValue("");
     }
   }, []);
 
   return (
     <section
-      className={`p-6 flex flex-col items-center gap-6 bg-white rounded-none sm:rounded-3xl w-full`}
+      className={`px-3 sm:px-6 py-6 bg-white rounded-none sm:rounded-3xl w-full`}
     >
-      <div className={`flex flex-col items-center justify-start gap-2`}>
+      <div className={`mb-4 grid grid-cols-1 place-items-center gap-2 w-full`}>
         <h4 className={`text-sm font-bold`}>Your Avatar:</h4>
         <img
           src={
-            chosenImage ||
-            getFromStorage("userData").avatar_url ||
-            "/images/avatar-placeholder.jpg"
+            chosenImage || data.avatar_url || "/images/avatar-placeholder.jpg"
           }
           alt={"Avatar Image"}
           className={`w-20 h-20 border border-primary-dark/20 rounded-full object-cover shadow-xl shadow-primary-dark/10 overflow-hidden transition-all duration-300`}
@@ -92,14 +89,14 @@ const OnboardingTwo = ({ session }) => {
               setChosenImage(reader.result);
             };
 
-            const userData = getFromStorage("userData");
-
             await uploadAvatar(session.user.id, file)
               .then((data) => {
-                userData.avatar_url =
+                const progressData = data;
+
+                progressData.avatar_url =
                   process.env.NEXT_PUBLIC_SUPABASE_AVATARS_LINK + data.path;
 
-                saveToStorage("userData", userData);
+                setData(progressData);
               })
               .catch((e) => {
                 console.log(e);
@@ -110,7 +107,7 @@ const OnboardingTwo = ({ session }) => {
         />
       </div>
 
-      <article className="mx-auto flex flex-col items-center gap-3 w-full">
+      <article className="mx-auto w-full max-w-lg">
         <h4 className="mt-2 text-base font-bold text-center md:text-left">
           Which category best suits your PopOff?
         </h4>
@@ -135,14 +132,14 @@ const OnboardingTwo = ({ session }) => {
                 label="Other Category*"
                 value={otherCategoryValue}
                 onChange={(event) => {
-                  setOtherCategoryValue(
-                    event.target.value.replace(/[^a-zA-Z]/g, "")
-                  );
+                  const newValue = event.target.value.replace(/[^a-zA-Z]/g, "");
 
-                  const userData = getFromStorage("userData");
-                  userData.otherCategory = event.target.value;
+                  setOtherCategoryValue(newValue);
 
-                  saveToStorage("userData", userData);
+                  const progressData = data;
+                  progressData.otherCategory = newValue;
+
+                  setData(progressData);
                 }}
               />
             </div>

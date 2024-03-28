@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import styled from "@emotion/styled";
@@ -8,6 +8,10 @@ import styled from "@emotion/styled";
 import MPOLetterMark from "@/components/MPOLetterMark";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import AuthPassword from "@/components/AuthPassword";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { MdDangerous, MdOutlineLock } from "react-icons/md";
+import { processLogOut } from "@/utility/userUtils";
+import { useRouter } from "next/navigation";
 
 const FormField = styled.fieldset`
   display: flex;
@@ -16,7 +20,7 @@ const FormField = styled.fieldset`
 `;
 
 const FormInput = styled.input`
-  padding: 0.5rem;
+  padding: 0.5rem 2.75rem 0.5rem 1.75rem;
   border-radius: 0.375rem;
 
   outline: none;
@@ -25,15 +29,32 @@ const FormInput = styled.input`
 `;
 
 const ResetPasswordForm = () => {
+  const router = useRouter();
+  const supabase = createClientComponentClient();
+
+  //  States
   const [formData, setFormData] = useState({
     password: "",
     password_confirmation: "",
   });
+  const [showError, setShowError] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [readyToSignUp, setReadyToSignUp] = useState(false);
+  const [isLongEnough, setIsLongEnough] = useState(false);
+  const [hasCases, setHasCases] = useState(false);
+  const [hasNumbers, setHasNumbers] = useState(false);
+
+  useEffect(() => {
+    // check password, username and email validity
+    if (isLongEnough && hasCases && hasNumbers) {
+      setReadyToSignUp(true);
+    } else {
+      setReadyToSignUp(false);
+    }
+  }, [formData]);
 
   return (
-    <div
-      className={`p-5 sm:p-8 w-full xs:max-w-sm bg-white rounded-none xs:rounded-2xl shadow-xl shadow-primary-dark/5`}
-    >
+    <>
       <article
         className={`pb-4 flex flex-col items-center w-full border-b-[1.25px] border-secondary-dark/20`}
       >
@@ -51,17 +72,38 @@ const ResetPasswordForm = () => {
         </p>
       </article>
 
-      <article action="" className={`mt-6 flex flex-col gap-4 w-full`}>
+      <article className={`mt-6 flex flex-col gap-4 w-full`}>
         <AuthPassword
           label={`Password`}
           name={`password`}
           value={formData.password}
-          onChange={(event) =>
+          onChange={(event) => {
+            setShowError(false);
+            setReadyToSignUp(false);
+
+            const newValue = event.target.value;
+
             setFormData({
               ...formData,
-              password: event.target.value,
-            })
-          }
+              password: newValue,
+            });
+
+            const hasUppercase = /[A-Z]/.test(newValue);
+            const hasLowercase = /[a-z]/.test(newValue);
+            const hasNumber = /\d/.test(newValue);
+
+            if (newValue.length > 7) {
+              setIsLongEnough(true);
+            } else setIsLongEnough(false);
+
+            if (hasUppercase && hasLowercase) {
+              setHasCases(true);
+            } else setHasCases(false);
+
+            if (hasNumber) {
+              setHasNumbers(true);
+            } else setHasNumbers(false);
+          }}
         />
 
         <FormField className={`w-full`}>
@@ -71,33 +113,71 @@ const ResetPasswordForm = () => {
           >
             Confirm New Password
           </label>
-          <FormInput
-            id={`password_confirmation`}
-            name={`password_confirmation`}
-            type="password_confirmation"
-            value={formData.password_confirmation}
-            onChange={(event) =>
-              setFormData({
-                ...formData,
-                password_confirmation: event.target.value,
-              })
-            }
-            className={`border-[1px] focus:shadow-xl shadow-primary-dark/30 border-black/15 hover:border-action focus:border-action`}
-          />
+          <section className={`relative w-full`}>
+            <FormInput
+              id={`password_confirmation`}
+              name={`password_confirmation`}
+              type={showConfirmPassword ? "text" : "password"}
+              value={formData.password_confirmation}
+              onChange={(event) => {
+                setShowError(false);
+
+                setFormData({
+                  ...formData,
+                  password_confirmation: event.target.value,
+                });
+              }}
+              className={`w-full border-[1px] focus:shadow-xl shadow-primary-dark/30 border-black/15 hover:border-action focus:border-action`}
+            />
+            <MdOutlineLock
+              className={`absolute top-1/2 left-2 -translate-y-1/2 ${
+                formData.password_confirmation.length > 0
+                  ? "text-primary-dark dark:text-primary-light"
+                  : "text-primary-dark/50 dark:text-primary-light/50 group-hover:text-primary-dark group-hover:dark:text-primary-light"
+              } transition-all duration-300`}
+            />
+            <div
+              className={`cursor-pointer absolute top-1/2 -translate-y-1/2 right-4`}
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? (
+                <FaEyeSlash size={20} />
+              ) : (
+                <FaEye size={20} />
+              )}
+            </div>
+          </section>
         </FormField>
+
+        {showError && (
+          <div
+            className={`mb-2 p-1.5 flex items-center gap-2 w-full bg-danger/20 text-danger`}
+          >
+            <MdDangerous size={17} />
+            <p className={`text-xs`}>Oops. Passwords don't match.</p>
+          </div>
+        )}
 
         <button
           className={`cursor-pointer disabled:cursor-auto p-3 bg-action hover:bg-action/80 disabled:bg-gray-400 rounded-md focus:shadow-xl shadow-primary-dark/30 outline-none text-xs font-bold uppercase text-white disabled:text-white/70 transition-all duration-300`}
+          disabled={!readyToSignUp}
           onClick={async () => {
             if (formData.password !== formData.password_confirmation) {
-              console.log("Password does not match");
+              setShowError(true);
+            } else {
+              const { data, error } = await supabase.auth
+                .updateUser({ password: formData.password })
+                .then(() => {
+                  processLogOut().then();
+                  router.push("/auth/login");
+                });
             }
           }}
         >
           Update Password
         </button>
       </article>
-    </div>
+    </>
   );
 };
 

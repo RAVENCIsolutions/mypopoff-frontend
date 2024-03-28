@@ -32,7 +32,6 @@ export default async function MeLayout({ children }) {
 
         <NavBar session={session} />
         <div
-          // flex-grow pt-2 sm:pb-6 flex flex-row justify-start sm:justify-between sm:items-stretch overflow-hidden
           className={`flex-grow pt-2 sm:pb-6 flex flex-col sm:flex-row sm:max-h-full sm:overflow-hidden`}
         >
           <section className={`py-2 px-5 md:pr-8 w-full sm:w-auto`}>
@@ -50,11 +49,7 @@ export default async function MeLayout({ children }) {
         >
           <LogOffButton />
           <article className="">
-            <DarkModeToggle
-              size={"s"}
-              textInLight="#f7f5f3"
-              textInDark="#f7f5f3"
-            />
+            <DarkModeToggle size={"s"} keepLight={true} />
           </article>
         </section>
       </Providers>

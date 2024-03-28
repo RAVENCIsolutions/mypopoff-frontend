@@ -5,7 +5,6 @@ import MPOLetterMark from "@/components/MPOLetterMark";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CircularProgress, Stack } from "@mui/material";
 
 import { supabase } from "@/config/Supbase";
 import { createUser, usernameExists } from "@/utility/dbUtils";
@@ -19,6 +18,7 @@ import { defaultUser } from "@/data/defaultUser";
 import { ageBrackets, genders } from "@/data/PersonalData";
 
 import country from "country-list-js";
+import { CircularProgress, Stack } from "@mui/material";
 
 const SignUpForm = () => {
   // States
@@ -95,12 +95,9 @@ const SignUpForm = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_HOME_ROUTE}/auth/callback`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_HOME_ROUTE}onboarding`,
         },
       });
-
-      if (error) {
-      }
 
       if (data) {
         const newUser = {

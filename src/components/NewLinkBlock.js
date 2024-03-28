@@ -5,10 +5,9 @@ import { useState } from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import { BsCardHeading, BsLink45Deg } from "react-icons/bs";
 
-import { ensureHttp, generateId } from "@/utility/generalUtils";
-import userStore from "@/stores/UserStore";
 import { updateUser } from "@/utility/dbUtils";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+import { ensureHttp, generateId } from "@/utility/generalUtils";
+import { updateLastModified } from "@/utility/localStorageUtils";
 
 const NewLinkBlock = ({ session, userLinks = [], setUserLinks }) => {
   const [processing, setProcessing] = useState(false);
@@ -83,28 +82,15 @@ const NewLinkBlock = ({ session, userLinks = [], setUserLinks }) => {
       },
     ];
 
-    const saveData = {
-      ...getFromStorage("userData"),
-      links: newLinksArray,
-    };
-
-    await updateUser(session.user.id, saveData)
+    await updateUser(session.user.id, { links: newLinksArray })
       .then(() => {
-        saveToStorage("userData", {
-          ...getFromStorage("userData"),
-          ...saveData,
-        });
-
-        const loginSession = getFromStorage("loginSession");
-        loginSession.lastModified = new Date().getTime();
-
-        saveToStorage("loginSession", loginSession);
-
+        updateLastModified();
         setUserLinks(newLinksArray);
         setProcessing(false);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((err) => {
+        console.error(`Error adding link: ${err.message}`);
+        setProcessing(false);
       });
 
     setNewLink("");

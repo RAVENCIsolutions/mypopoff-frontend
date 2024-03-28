@@ -1,13 +1,25 @@
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+
 import LayoutComponentWrapper from "@/components/LayoutComponentWrapper";
-import UpdateStorage from "@/components/UpdateStorage";
+import { verifyUserData } from "@/utility/generalUtils";
+import { defaultUser } from "@/data/defaultUser";
+
+export const fetchCache = "force-no-store";
 
 export default async function Dashboard() {
   const supabase = await createServerComponentClient({ cookies });
   const {
     data: { session },
   } = await supabase.auth.getSession();
+
+  const { data: user, error } = await supabase
+    .from("users")
+    .select("")
+    .eq("uid", session.user.id)
+    .single();
+
+  const verifiedData = user ? verifyUserData(user, true) : defaultUser;
 
   return (
     <section className="w-full sm:rounded-lg">
@@ -17,7 +29,7 @@ export default async function Dashboard() {
             Dashboard
           </h2>
           <article className={`h-full overflow-y-auto`}>
-            <LayoutComponentWrapper session={session} />
+            <LayoutComponentWrapper session={session} data={verifiedData} />
           </article>
         </section>
       </div>

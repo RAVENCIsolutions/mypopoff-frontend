@@ -1,6 +1,7 @@
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 import userStore from "@/stores/UserStore";
 import { defaultUser } from "@/data/defaultUser";
+import { LayoutsLookup } from "@/data/LayoutsLookup";
 
 const verifyUserData = (data, fix = true) => {
   if (typeof data !== "object" || data === null) return false;
@@ -24,12 +25,46 @@ const verifyUserData = (data, fix = true) => {
     { key: "extras", type: "object" },
   ];
 
+  const extrasCheck = [
+    { key: "name", type: "string" },
+    { key: "age", type: "string" },
+    { key: "gender", type: "string" },
+    { key: "country", type: "string" },
+    { key: "city", type: "string" },
+    { key: "phone", type: "string" },
+  ];
+
+  // Validate Main Properties
   for (const check of checks) {
     const value = data[check.key];
 
     if (!value || typeof value !== check.type) {
       if (fix) {
         data[check.key] = defaultUser[check.key];
+      } else {
+        return false;
+      }
+    }
+  }
+
+  // Validate Palette
+  Object.keys(defaultUser.palette).forEach((key) => {
+    if (!data.palette[key] || typeof data.palette[key] !== "string") {
+      if (fix) {
+        data.palette[key] = defaultUser.palette[key];
+      } else {
+        return false;
+      }
+    }
+  });
+
+  // Validate Extras
+  for (const check of extrasCheck) {
+    const value = data.extras[check.key];
+
+    if (!value || typeof value !== check.type) {
+      if (fix) {
+        data.extras[check.key] = "";
       } else {
         return false;
       }
@@ -152,7 +187,7 @@ const generateRandomString = (numberOfChars) => {
 };
 
 const ensureHttp = (url) => {
-  return url.startsWith("http") ? url : `http://${url}`;
+  return url.startsWith("http") ? url : `https://${url}`;
 };
 
 export {

@@ -13,29 +13,42 @@ export async function middleware(request) {
   } = await supabase.auth.getSession();
 
   if (session) {
-    try {
-      if (request.url.includes("/auth"))
-        return NextResponse.redirect(new URL("/me/dashboard", request.url));
+    const { data: user, error } = await supabase
+      .from("users")
+      .select()
+      .eq("uid", session.user.id);
 
-      // Check if onboarding is complete
-      const { data, error } = await supabase
-        .from(process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE)
-        .select("onboarding_complete")
-        .eq("uid", session.user.id)
-        .single();
+    if (user) {
+      try {
+        const nonPrivate = [
+          "/auth/login",
+          "/auth/register",
+          "/auth/forgot-password",
+        ];
 
-      if (request.url.includes("/me")) {
-        if (!data.onboarding_complete)
-          return NextResponse.redirect(new URL("/onboarding", request.url));
-      }
-
-      if (request.url.includes("/onboarding")) {
-        if (data.onboarding_complete) {
+        if (nonPrivate.some((value) => request.url.includes(value)))
           return NextResponse.redirect(new URL("/me/dashboard", request.url));
+
+        // Check if onboarding is complete
+        const { data, error } = await supabase
+          .from(process.env.NEXT_PUBLIC_SUPABASE_USERS_TABLE)
+          .select("onboarding_complete")
+          .eq("uid", session.user.id)
+          .single();
+
+        if (request.url.includes("/me")) {
+          if (!data.onboarding_complete)
+            return NextResponse.redirect(new URL("/onboarding", request.url));
         }
+
+        if (request.url.includes("/onboarding")) {
+          if (data.onboarding_complete) {
+            return NextResponse.redirect(new URL("/me/dashboard", request.url));
+          }
+        }
+      } catch (e) {
+        const { error } = await supabase.auth.signOut();
       }
-    } catch (e) {
-      const { error } = await supabase.auth.signOut();
     }
   } else {
     if (request.url.includes("/me") || request.url.includes("/onboarding")) {

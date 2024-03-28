@@ -3,27 +3,14 @@
 import { BsArrowDownSquare, BsArrowUpSquare } from "react-icons/bs";
 
 import LinkBlock from "@/components/LinkBlock";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 import { updateUser } from "@/utility/dbUtils";
+import { updateLastModified } from "@/utility/localStorageUtils";
 
 const LinksList = ({ session, userLinks = [], setUserLinks }) => {
   const updateList = async (newList) => {
-    const saveData = {
-      ...getFromStorage("userData"),
-      links: newList,
-    };
-
-    await updateUser(session.user.id, saveData)
+    await updateUser(session.user.id, { links: newList })
       .then(() => {
-        saveToStorage("userData", {
-          ...getFromStorage("userData"),
-          ...saveData,
-        });
-
-        const loginSession = getFromStorage("loginSession");
-        loginSession.lastModified = new Date().getTime();
-
-        saveToStorage("loginSession", loginSession);
+        updateLastModified();
       })
       .catch((e) => {
         console.log(e);
@@ -33,28 +20,15 @@ const LinksList = ({ session, userLinks = [], setUserLinks }) => {
   };
 
   const saveNewList = async (newOrder) => {
-    const saveData = {
-      ...getFromStorage("userData"),
-      links: newOrder,
-    };
-
-    await updateUser(session.user.id, saveData)
+    await updateUser(session.user.id, { links: newOrder })
       .then(() => {
-        saveToStorage("userData", {
-          ...getFromStorage("userData"),
-          ...saveData,
-        });
-
-        const loginSession = getFromStorage("loginSession");
-        loginSession.lastModified = new Date().getTime();
-
-        saveToStorage("loginSession", loginSession);
-
-        setUserLinks(newOrder);
+        updateLastModified();
       })
       .catch((e) => {
         console.log(e);
       });
+
+    setUserLinks(newOrder);
   };
 
   // Function to reorder list

@@ -5,27 +5,34 @@ import { useEffect, useRef, useState } from "react";
 
 import OnboardingOne from "./OnboardingOne";
 import OnboardingTwo from "./OnboardingTwo";
-import OnboardingThree from "@/onboardingComponents/OnboardingThree";
-import OnBoardingFour from "@/onboardingComponents/OnboardingFour";
-import OnboardingFive from "@/onboardingComponents/OnboardingFive";
+import OnboardingThree from "./OnboardingThree";
+import OnBoardingFour from "./OnboardingFour";
+import OnboardingFive from "./OnboardingFive";
+import OnboardingSteps from "./OnboardingSteps";
 
-import SkipButton from "@/onboardingComponents/SkipButton";
-import NextButton from "@/onboardingComponents/NextButton";
-import PrevButton from "@/onboardingComponents/PrevButton";
+import SkipButton from "./SkipButton";
+import NextButton from "./NextButton";
+import PrevButton from "./PrevButton";
 
-import OnboardingSteps from "@/onboardingComponents/OnboardingSteps";
-import CompleteButton from "@/onboardingComponents/CompleteButton";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 import { updateUser } from "@/utility/dbUtils";
+import { updateLastModified } from "@/utility/localStorageUtils";
 
-const OnBoardingMain = ({ session }) => {
+import CompleteButton from "./CompleteButton";
+
+import { FaTimesCircle } from "react-icons/fa";
+
+const OnBoardingMain = ({ session, data }) => {
+  // States
   const [activeIndex, setActiveIndex] = useState(0);
   const [saving, setSaving] = useState(false);
+  const [verified, setVerified] = useState(false);
 
+  // Variables
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const pageContainer = useRef(null);
+
+  const [userData, setUserData] = useState(data);
 
   const onBoardingPages = [
     {
@@ -38,19 +45,37 @@ const OnBoardingMain = ({ session }) => {
       id: "page-two",
       index: `02`,
       title: `Info`,
-      component: <OnboardingTwo session={session} />,
+      component: (
+        <OnboardingTwo
+          session={session}
+          data={userData}
+          setData={setUserData}
+        />
+      ),
     },
     {
       id: "page-three",
       index: `03`,
       title: `Styling`,
-      component: <OnboardingThree session={session} />,
+      component: (
+        <OnboardingThree
+          session={session}
+          data={userData}
+          setData={setUserData}
+        />
+      ),
     },
     {
       id: "page-four",
       index: `04`,
       title: `Colours`,
-      component: <OnBoardingFour session={session} />,
+      component: (
+        <OnBoardingFour
+          session={session}
+          data={userData}
+          setData={setUserData}
+        />
+      ),
     },
     {
       id: "page-five",
@@ -61,30 +86,19 @@ const OnBoardingMain = ({ session }) => {
   ];
 
   const endOnboarding = async () => {
-    const getUser = getFromStorage("userData");
-    const saveData = {
-      ...getUser,
-      onboarding_complete: true,
-    };
+    const saveData = userData;
+    saveData.onboarding_complete = true;
 
-    await updateUser(session.user.id, saveData)
+    updateUser(session.user.id, saveData)
       .then(() => {
-        saveToStorage("userData", {
-          ...getFromStorage("userData"),
-          ...saveData,
-        });
-
-        const loginSession = getFromStorage("loginSession");
-        loginSession.lastModified = new Date().getTime();
-
-        saveToStorage("loginSession", loginSession);
+        updateLastModified();
 
         setTimeout(() => {
           setSaving(false);
         }, 500);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((err) => {
+        console.error(`Couldn't update user:`, err.message);
       });
 
     router.push("/me/dashboard");
@@ -108,26 +122,16 @@ const OnBoardingMain = ({ session }) => {
   const nextPage = async () => {
     setSaving(true);
 
-    const saveData = getFromStorage("userData");
-
-    await updateUser(session.user.id, saveData)
+    await updateUser(session.user.id, userData)
       .then(() => {
-        saveToStorage("userData", {
-          ...getFromStorage("userData"),
-          ...saveData,
-        });
-
-        const loginSession = getFromStorage("loginSession");
-        loginSession.lastModified = new Date().getTime();
-
-        saveToStorage("loginSession", loginSession);
+        updateLastModified();
 
         setTimeout(() => {
           setSaving(false);
         }, 500);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((err) => {
+        console.error(`Couldn't update user:`, err.message);
       });
 
     pageContainer.current.style.left = "-200px";
@@ -147,6 +151,7 @@ const OnBoardingMain = ({ session }) => {
   useEffect(() => {
     if (searchParams.get("verification") === "success") {
       // Verification successful
+      setVerified(true);
     }
   }, [router]);
 
@@ -156,7 +161,23 @@ const OnBoardingMain = ({ session }) => {
   }, []);
 
   return (
-    <div className={`mx-auto mt-6 flex flex-col items-center w-full max-w-2xl`}>
+    <div className={`mx-auto mt-6 grid grid-cols-1 w-full max-w-2xl`}>
+      {verified && (
+        <div
+          className={`py-3 px-5 fixed top-0 w-full grid place-items-center bg-primary-dark dark:bg-primary-light text-primary-light dark:text-primary-dark font-bold italic z-50`}
+        >
+          Nice! Your email address has been verified! ✅
+          <div
+            className={`absolute top-1/2 -translate-y-1/2 right-2`}
+            onClick={() => setVerified(false)}
+          >
+            <FaTimesCircle
+              className={`cursor-pointer text-primary-light dark:text-primary-dark opacity-50 hover:opacity-100 transition-all duration-300`}
+            />
+          </div>
+        </div>
+      )}
+
       <OnboardingSteps pages={onBoardingPages} active={activeIndex} />
 
       <section

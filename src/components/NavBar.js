@@ -16,6 +16,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { removeFromStorage } from "@/utility/localStorageUtils";
 import { ImCog } from "react-icons/im";
 import { useRouter } from "next/navigation";
+import { processLogOut } from "@/utility/userUtils";
 
 const accountLinks = [
   {
@@ -48,7 +49,7 @@ const NavBar = ({ session }) => {
   }, [menuOpen]);
 
   return (
-    <nav className="relative my-4 md:my-auto md:mt-7 md:mb-4 mx-auto px-5 flex items-center justify-between w-full z-50">
+    <nav className="relative my-4 md:my-auto md:mt-7 md:mb-4 mx-auto px-5 flex items-center justify-between w-full z-20">
       {menuOpen && (
         <div
           className="block xs:hidden absolute -top-10 left-0 w-screen h-screen bg-primary-light/50 dark:bg-primary-dark/50 z-20"
@@ -125,10 +126,7 @@ const NavBar = ({ session }) => {
                     <p
                       className={`cursor-pointer flex items-center gap-3 text-base`}
                       onClick={async () => {
-                        const supabase = createClientComponentClient();
-                        await supabase.auth.signOut();
-                        removeFromStorage("userData");
-                        removeFromStorage("lastFetch");
+                        await processLogOut();
                         router.refresh();
                       }}
                     >

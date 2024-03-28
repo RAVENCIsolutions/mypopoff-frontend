@@ -3,6 +3,7 @@
 import styled from "@emotion/styled";
 import { MdOutlineLock } from "react-icons/md";
 import { useEffect, useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const FormField = styled.fieldset`
   display: flex;
@@ -11,7 +12,7 @@ const FormField = styled.fieldset`
 `;
 
 const FormInput = styled.input`
-  padding: 0.5rem 0.5rem 0.5rem 1.75rem;
+  padding: 0.5rem 2.75rem 0.5rem 1.75rem;
   border-radius: 0.375rem;
 
   outline: none;
@@ -27,6 +28,7 @@ const AuthPassword = ({
   error = {},
 }) => {
   const [isFocused, setIsFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [isLongEnough, setIsLongEnough] = useState(false);
   const [hasCases, setHasCases] = useState(false);
@@ -45,7 +47,7 @@ const AuthPassword = ({
         <FormInput
           id={name}
           name={name}
-          type="password"
+          type={showPassword ? "text" : "password"}
           value={value}
           onChange={(event) => {
             onChange(event);
@@ -103,6 +105,12 @@ const AuthPassword = ({
               : "text-primary-dark/50 dark:text-primary-light/50 group-hover:text-primary-dark group-hover:dark:text-primary-light"
           } transition-all duration-300`}
         />
+        <div
+          className={`cursor-pointer absolute top-1/2 -translate-y-1/2 right-4`}
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+        </div>
       </section>
       <section className={`my-1 flex gap-1`}>
         {[1, 2, 3, 4].map((level) => (

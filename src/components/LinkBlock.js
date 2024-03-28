@@ -2,12 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { ensureHttp } from "@/utility/generalUtils";
+
 import { FaCheck, FaPencilAlt, FaTimes, FaTrashAlt } from "react-icons/fa";
 import { BsCardHeading, BsLink45Deg } from "react-icons/bs";
-
 import Switch from "@mui/material/Switch";
-
-import { ensureHttp } from "@/utility/generalUtils";
 
 const LinkBlock = ({
   id,

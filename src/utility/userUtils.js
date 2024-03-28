@@ -1,25 +1,30 @@
-﻿import { removeFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+﻿import {
+  removeFromStorage,
+  updateLastModified,
+  updateLastSession,
+  updateRememberMe,
+} from "@/utility/localStorageUtils";
+
 import { supabase } from "@/config/Supbase";
 
-const USER_DATA_KEY = "userData";
-const LOGIN_SESSION_KEY = "loginSession";
+const REMEMBER_ME_KEY = "remember";
+const LAST_MODIFIED_KEY = "latestMod";
+const LAST_SESSION_KEY = "latestSes";
 
 const processLogOut = async () => {
-  removeFromStorage(USER_DATA_KEY);
-  removeFromStorage(LOGIN_SESSION_KEY);
+  removeFromStorage(REMEMBER_ME_KEY);
+  removeFromStorage(LAST_SESSION_KEY);
+  removeFromStorage(LAST_MODIFIED_KEY);
+
   await supabase.auth.signOut();
 };
 
-const processLogin = (data, rememberMe) => {
-  const now = new Date().getTime();
-
-  saveToStorage(USER_DATA_KEY, data);
-  saveToStorage(LOGIN_SESSION_KEY, {
-    rememberMe,
-    lastLogin: now,
-    lastModified: now,
-    lastFetch: now,
-  });
+const processLogin = (rememberMe) => {
+  updateLastSession();
+  updateLastModified();
+  updateRememberMe(rememberMe);
 };
+
+const verifyUserData = () => {};
 
 export { processLogOut, processLogin };

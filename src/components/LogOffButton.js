@@ -4,6 +4,7 @@ import { CgLogOff } from "react-icons/cg";
 import { useRouter } from "next/navigation";
 import { removeFromStorage } from "@/utility/localStorageUtils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { processLogOut } from "@/utility/userUtils";
 
 const LogOffButton = () => {
   const router = useRouter();
@@ -12,10 +13,7 @@ const LogOffButton = () => {
     <article
       className="cursor-pointer"
       onClick={async () => {
-        const supabase = createClientComponentClient();
-        await supabase.auth.signOut();
-        removeFromStorage("userData");
-        removeFromStorage("lastFetch");
+        await processLogOut();
         router.refresh();
       }}
     >

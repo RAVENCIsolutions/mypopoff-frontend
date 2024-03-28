@@ -5,27 +5,22 @@ import { useEffect, useState } from "react";
 import { LinearProgress, Stack } from "@mui/material";
 
 import { generateId } from "@/utility/generalUtils";
-import { processLogOut } from "@/utility/userUtils";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 
 import LinksList from "@/components/LinksList";
 import NewLinkBlock from "@/components/NewLinkBlock";
 
-const LinksPageBlock = ({ session }) => {
+const LinksPageBlock = ({ session, data }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [userLinks, setUserLinks] = useState([]);
 
   useEffect(() => {
     if (session) {
-      const storedUserData = getFromStorage("userData");
-      const storedLoginSession = getFromStorage("loginSession");
-
       let tempLinks = [];
 
-      if (!storedUserData) {
+      if (!data) {
         console.log("No user data found");
       } else {
-        tempLinks = getFromStorage("userData").links;
+        tempLinks = data.links;
 
         tempLinks.map((link) => {
           if (!link.id) {
@@ -40,8 +35,6 @@ const LinksPageBlock = ({ session }) => {
           if (!link.public) link.public = true;
         });
 
-        saveToStorage("userData", { ...storedUserData, links: tempLinks });
-
         setUserLinks(tempLinks);
         setIsLoaded(true);
       }
@@ -49,34 +42,34 @@ const LinksPageBlock = ({ session }) => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row w-full h-full text-primary-dark dark:text-primary-light">
-      <section className="px-3 py-5 sm:p-6 w-full min-h-full sm:overflow-y-auto">
-        <h2 className="pb-2 lg:pb-4 mb-4 text-xl w-full border-b-2 border-secondary-dark/20">
-          My Links
-        </h2>
-
-        {!isLoaded ? (
-          <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
-            <LinearProgress color="inherit" />
-          </Stack>
-        ) : (
-          <section className="flex flex-col gap-4">
-            <NewLinkBlock
-              session={session}
-              userLinks={userLinks}
-              setUserLinks={setUserLinks}
-            />
-
-            <h3 className="mt-2 text-lg w-full">Existing Links</h3>
-
-            <LinksList
-              session={session}
-              userLinks={userLinks}
-              setUserLinks={setUserLinks}
-            />
-          </section>
-        )}
+    <div className="flex flex-col w-full max-h-full text-primary-dark dark:text-primary-light">
+      <section
+        className={`px-2 xs:px-3 py-5 sm:p-6 flex justify-between items-center w-full border-b-2 border-secondary-dark/20`}
+      >
+        <h1 className="text-xl font-bold">My Links</h1>
       </section>
+
+      {!isLoaded ? (
+        <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
+          <LinearProgress color="inherit" />
+        </Stack>
+      ) : (
+        <section className="p-3 sm:p-6 pb-6 sm:pb-10 w-full h-full bg-dashboard-secondary-light/50 dark:bg-dashboard-secondary-dark overflow-y-auto">
+          <NewLinkBlock
+            session={session}
+            userLinks={userLinks}
+            setUserLinks={setUserLinks}
+          />
+
+          <h3 className="mt-2 text-lg w-full">Existing Links</h3>
+
+          <LinksList
+            session={session}
+            userLinks={userLinks}
+            setUserLinks={setUserLinks}
+          />
+        </section>
+      )}
     </div>
   );
 };

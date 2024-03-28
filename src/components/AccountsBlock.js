@@ -9,14 +9,19 @@ import { FaCheck } from "react-icons/fa";
 
 import { processLogOut } from "@/utility/userUtils";
 import { updateUser, usernameExists } from "@/utility/dbUtils";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+import {
+  getLatestModified,
+  getLatestSession,
+  getRememberMe,
+  updateLastModified,
+} from "@/utility/localStorageUtils";
 
 import PopOffChip from "@/components/PopOffChip";
 import PopOffInput from "@/components/PopOffInput";
 import PopOffTextArea from "@/components/PopOffTextArea";
 import { categories } from "@/data/CustomisationData";
 
-const AccountsBlock = ({ session }) => {
+const AccountsBlock = ({ session, data }) => {
   const [readyToSave, setReadyToSave] = useState(false);
   const [saving, setSaving] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -54,35 +59,38 @@ const AccountsBlock = ({ session }) => {
 
   useEffect(() => {
     if (session) {
-      const storedUserData = getFromStorage("userData");
-      const storedLoginSession = getFromStorage("loginSession");
+      const remember = getRememberMe();
+      const latestSession = getLatestSession();
+      const lastModified = getLatestModified();
 
-      if (!storedLoginSession) processLogOut().then();
+      if (!latestSession) processLogOut().then();
 
-      if (storedLoginSession) {
-        const timeSinceLastModified =
-          new Date().getTime() - storedLoginSession.lastModified;
+      if (latestSession) {
+        const timeSinceLastModified = new Date().getTime() - lastModified;
         const timeSinceLastModifiedInHours =
           timeSinceLastModified / (1000 * 60 * 60);
 
-        if (!storedLoginSession.rememberMe) {
+        if (!remember) {
           if (timeSinceLastModifiedInHours > 0.5) processLogOut().then();
         }
       }
 
-      if (!storedUserData) {
+      if (!data) {
         console.log("No user data found");
       } else {
-        setUsername(storedUserData.username);
-        setBio(storedUserData.bio);
-        setSelectedCategories(storedUserData.categories || []);
-        setTags(storedUserData.tags || []);
+        setUsername(data.username);
+        setBio(data.bio);
+        setTags(data.tags || []);
+        setSelectedCategories(data.categories || []);
 
-        if (!storedUserData.categories.includes("Other.."))
+        if (data.categories.includes("Other..")) {
+          setOtherCategoryValue(data.otherCategory);
+        } else {
           setOtherCategoryValue("");
+        }
 
         const threshold = Object.keys(progressColours).findLast(
-          (key) => storedUserData.bio.length >= key
+          (key) => data.bio.length >= key
         );
 
         setBioProgressColour(progressColours[threshold] || "#5FD378");
@@ -116,7 +124,6 @@ const AccountsBlock = ({ session }) => {
   const completeSave = async () => {
     if (readyToSave) {
       const saveData = {
-        ...getFromStorage("userData"),
         username: username,
         bio: bio,
         categories: selectedCategories,
@@ -126,15 +133,7 @@ const AccountsBlock = ({ session }) => {
 
       await updateUser(session.user.id, saveData)
         .then(() => {
-          saveToStorage("userData", {
-            ...getFromStorage("userData"),
-            ...saveData,
-          });
-
-          const loginSession = getFromStorage("loginSession");
-          loginSession.lastModified = new Date().getTime();
-
-          saveToStorage("loginSession", loginSession);
+          updateLastModified();
 
           setTimeout(() => {
             setSaving(false);
@@ -147,7 +146,7 @@ const AccountsBlock = ({ session }) => {
   };
 
   const verifyUsername = async () => {
-    if (username === getFromStorage("userData").username) {
+    if (username === data.username) {
       setUsernameError({
         status: 0,
         message: "",
@@ -238,7 +237,7 @@ const AccountsBlock = ({ session }) => {
             }`}
             onClick={async () => {
               if (usernameError.status === 1) {
-                setUsername(getFromStorage("userData").username);
+                setUsername(data.username);
               }
 
               setUsernameError({

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 
 import Providers from "@/providers/Providers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { FaTimes, FaTimesCircle } from "react-icons/fa";
 
 const RootLayout = async ({ children }) => {
   return (

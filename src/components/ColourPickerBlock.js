@@ -12,15 +12,12 @@ import {
   removeLeadingHash,
 } from "@/utility/colourUtils";
 
-import userStore from "@/stores/UserStore";
-import onBoardingStore from "@/stores/OnboardingStore";
-
 import { FaSlackHash } from "react-icons/fa";
 
-const ColourPickerBlock = ({ customisation, onChange }) => {
+const ColourPickerBlock = ({ initialColour, onChange }) => {
   const [showPicker, setShowPicker] = useState(false);
-  const [pickerColour, setPickerColour] = useState(customisation[0]);
-  const [inputColour, setInputColour] = useState(customisation[0]);
+  const [pickerColour, setPickerColour] = useState(initialColour);
+  const [inputColour, setInputColour] = useState(initialColour);
 
   const [inputTimeout, setInputTimeout] = useState(null);
   const [checkingInput, setCheckingInput] = useState(false);
@@ -39,8 +36,8 @@ const ColourPickerBlock = ({ customisation, onChange }) => {
 
         onChange(newHex);
       } else {
-        setInputColour(customisation[0]);
-        setPickerColour(customisation[0]);
+        setInputColour(initialColour);
+        setPickerColour(initialColour);
       }
 
       setCheckingInput(false);

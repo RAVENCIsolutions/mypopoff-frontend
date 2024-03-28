@@ -3,8 +3,16 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
-import { getFromStorage } from "@/utility/localStorageUtils";
+import {
+  getLatestModified,
+  getLatestSession,
+  getRememberMe,
+  updateLastModified,
+  updateLastSession,
+  updateRememberMe,
+} from "@/utility/localStorageUtils";
 import { processLogOut } from "@/utility/userUtils";
+
 import { defaultUser } from "@/data/defaultUser";
 
 const Layout01 = dynamic(() => import("@/templates/layout-01"));
@@ -31,42 +39,34 @@ const layoutComponents = {
   "layout-10": Layout10,
 };
 
-const LayoutComponentWrapper = ({ session = null }) => {
-  const [userData, setUserData] = useState(defaultUser);
+const LayoutComponentWrapper = ({ session = null, data = defaultUser }) => {
+  const [userData, setUserData] = useState(data);
 
   useEffect(() => {
-    const storedUserData = getFromStorage("userData");
-    const storedLoginSession = getFromStorage("loginSession");
+    const remember = getRememberMe();
+    const lastModified = getLatestModified();
+    const latestSession = getLatestSession();
 
     if (session) {
-      if (storedLoginSession) {
-        const timeSinceLastModified =
-          new Date().getTime() - storedLoginSession.lastModified;
+      if (latestSession) {
+        const timeSinceLastModified = new Date().getTime() - lastModified;
         const timeSinceLastModifiedInHours =
           timeSinceLastModified / (1000 * 60 * 60);
 
-        if (!storedLoginSession.rememberMe) {
+        if (!remember) {
           if (timeSinceLastModifiedInHours > 0.5) processLogOut().then();
         }
-      }
-
-      if (!storedUserData) {
-        console.log("No user data found");
-        setUserData(defaultUser);
       } else {
-        setUserData(storedUserData);
+        updateLastSession();
+        updateLastModified();
+        updateRememberMe(false);
       }
     }
   }, []);
 
   const LayoutComponent = layoutComponents[userData.page_layout || "layout-01"];
 
-  return (
-    <LayoutComponent
-      userData={getFromStorage("userData") || userData}
-      previewWindow={true}
-    />
-  );
+  return <LayoutComponent userData={userData} previewWindow={true} />;
 };
 
 export default LayoutComponentWrapper;

@@ -7,31 +7,26 @@ import { ButtonsLookup } from "@/data/ButtonsLookup";
 
 import { uploadImage } from "@/utility/dbUtils";
 import ColourPickerBlock from "@/components/ColourPickerBlock";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 
-const OnBoardingFour = ({ session }) => {
+const OnBoardingFour = ({ session, data, setData }) => {
   const [selectedLayout, setSelectedLayout] = useState(0);
   const [selectedButton, setSelectedButton] = useState(0);
+
+  console.log(data.palette.buttonMain);
 
   const [chosenImage, setChosenImage] = useState(null);
 
   const fileRef = useRef(null);
 
   useEffect(() => {
-    const storedUserData = getFromStorage("userData");
-
     const selectedLayoutIndex = Math.max(
       0,
-      LayoutsLookup.findIndex(
-        (layout) => layout.id === storedUserData.page_layout
-      )
+      LayoutsLookup.findIndex((layout) => layout.id === data.page_layout)
     );
 
     const selectedButtonIndex = Math.max(
       0,
-      ButtonsLookup.findIndex(
-        (button) => button.id === storedUserData.button_style
-      )
+      ButtonsLookup.findIndex((button) => button.id === data.button_style)
     );
 
     setSelectedLayout(selectedLayoutIndex);
@@ -43,11 +38,7 @@ const OnBoardingFour = ({ session }) => {
       <div className={`flex flex-col items-center justify-start gap-2`}>
         <h4 className={`text-sm font-bold`}>Pick an image for your layout:</h4>
         <img
-          src={
-            chosenImage ||
-            getFromStorage("userData").images ||
-            "/images/avatar-placeholder.jpg"
-          }
+          src={chosenImage || data.images || "/images/avatar-placeholder.jpg"}
           alt={"Landing Page Image"}
           className={`w-20 h-20 border border-primary-dark/20 rounded-full object-cover shadow-xl shadow-primary-dark/10 overflow-hidden transition-all duration-300`}
           onClick={() => fileRef.current.click()}
@@ -74,14 +65,14 @@ const OnBoardingFour = ({ session }) => {
               setChosenImage(reader.result);
             };
 
-            const userData = getFromStorage("userData");
-
             await uploadImage(session.user.id, file)
               .then((data) => {
-                userData.images =
+                const progressData = data;
+
+                progressData.images =
                   process.env.NEXT_PUBLIC_SUPABASE_IMAGES_LINK + data.path;
 
-                saveToStorage("userData", userData);
+                setData(progressData);
               })
               .catch((e) => {
                 console.log(e);
@@ -105,21 +96,12 @@ const OnBoardingFour = ({ session }) => {
                     {LayoutsLookup[selectedLayout].colours[customisation][1]}:
                   </h4>
                   <ColourPickerBlock
-                    customisation={
-                      LayoutsLookup[selectedLayout].colours[customisation]
-                    }
+                    initialColour={data.palette[customisation]}
                     onChange={(newColour) => {
-                      const userData = getFromStorage("userData");
+                      const progressData = data;
+                      progressData.palette[customisation] = newColour;
 
-                      const newPalette = {
-                        ...userData.palette,
-                        [customisation]: newColour,
-                      };
-
-                      saveToStorage("userData", {
-                        ...userData,
-                        palette: newPalette,
-                      });
+                      setData(progressData);
                     }}
                   />
                 </>
@@ -141,21 +123,12 @@ const OnBoardingFour = ({ session }) => {
             </h4>
 
             <ColourPickerBlock
-              customisation={
-                ButtonsLookup[selectedLayout].colours[customisation]
-              }
+              initialColour={data.palette[customisation]}
               onChange={(newColour) => {
-                const userData = getFromStorage("userData");
+                const progressData = data;
+                progressData.palette[customisation] = newColour;
 
-                const newPalette = {
-                  ...userData.palette,
-                  [customisation]: newColour,
-                };
-
-                saveToStorage("userData", {
-                  ...userData,
-                  palette: newPalette,
-                });
+                setData(progressData);
               }}
             />
           </div>

@@ -6,12 +6,7 @@ import { useEffect, useState } from "react";
 import Switch from "@mui/material/Switch";
 import { FiMoon, FiSun } from "react-icons/fi";
 
-const DarkModeToggle = ({
-  size = "l",
-  className = "",
-  textInLight = "#202224",
-  textInDark = "#f7f5f3",
-}) => {
+const DarkModeToggle = ({ size = "l", className = "", keepLight = false }) => {
   const [checked, setChecked] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -49,7 +44,11 @@ const DarkModeToggle = ({
       <FiMoon
         size={sizing[size].iconSize}
         onClick={toggleTheme}
-        className={`text-primary-dark dark:text-primary-light`}
+        className={`${
+          keepLight
+            ? "text-primary-light"
+            : "text-primary-dark dark:text-primary-light"
+        }`}
       />
       <Switch
         sx={{
@@ -73,7 +72,11 @@ const DarkModeToggle = ({
       <FiSun
         size={sizing[size].iconSize}
         onClick={toggleTheme}
-        className={`text-primary-dark dark:text-primary-light`}
+        className={`${
+          keepLight
+            ? "text-primary-light"
+            : "text-primary-dark dark:text-primary-light"
+        }`}
       />
     </article>
   );

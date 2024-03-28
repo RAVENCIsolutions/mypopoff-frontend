@@ -8,14 +8,19 @@ import { defaultUser } from "@/data/defaultUser";
 import { LayoutsLookup } from "@/data/LayoutsLookup";
 import { ButtonsLookup } from "@/data/ButtonsLookup";
 
-import { verifyData } from "@/utility/dataUtils";
 import { processLogOut } from "@/utility/userUtils";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
+
+import {
+  getLatestModified,
+  getLatestSession,
+  getRememberMe,
+  updateLastModified,
+} from "@/utility/localStorageUtils";
 import { updateUser, uploadImage } from "@/utility/dbUtils";
 
 import ColourPickerBlock from "@/components/ColourPickerBlock";
 
-const ComponentsBlock = ({ session }) => {
+const ComponentsBlock = ({ session, data }) => {
   const [saving, setSaving] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -30,7 +35,6 @@ const ComponentsBlock = ({ session }) => {
 
   const completeSave = async () => {
     const saveData = {
-      ...getFromStorage("userData"),
       page_layout: LayoutsLookup[selectedLayout].id,
       button_style: ButtonsLookup[selectedButton].id,
     };
@@ -66,15 +70,7 @@ const ComponentsBlock = ({ session }) => {
 
     await updateUser(session.user.id, saveData)
       .then(() => {
-        saveToStorage("userData", {
-          ...getFromStorage("userData"),
-          ...saveData,
-        });
-
-        const loginSession = getFromStorage("loginSession");
-        loginSession.lastModified = new Date().getTime();
-
-        saveToStorage("loginSession", loginSession);
+        updateLastModified();
 
         setTimeout(() => {
           setSaving(false);
@@ -85,55 +81,38 @@ const ComponentsBlock = ({ session }) => {
       });
   };
 
-  const tryFetch = async () => {
-    const { data, error } = await supabase
-      .from("users")
-      .select()
-      .eq("uid", session.user.id)
-      .single();
-
-    if (error) return false;
-
-    setUserData(data);
-    return true;
-  };
-
   useEffect(() => {
     if (session) {
-      const storedUserData = getFromStorage("userData");
-      const storedLoginSession = getFromStorage("loginSession");
+      const remember = getRememberMe();
+      const latestSession = getLatestSession();
+      const lastModified = getLatestModified();
 
-      if (!storedLoginSession) processLogOut().then();
+      if (!latestSession) processLogOut().then();
 
-      if (storedLoginSession) {
-        const timeSinceLastModified =
-          new Date().getTime() - storedLoginSession.lastModified;
+      if (latestSession) {
+        const timeSinceLastModified = new Date().getTime() - lastModified;
         const timeSinceLastModifiedInHours =
           timeSinceLastModified / (1000 * 60 * 60);
 
-        if (!storedLoginSession.rememberMe) {
+        if (!remember) {
           if (timeSinceLastModifiedInHours > 0.5) processLogOut().then();
         }
       }
 
-      if (!storedUserData) {
+      if (!data) {
         console.log("No user data found");
         processLogOut().then();
       } else {
-        setChosenImage(verifyData("images", storedUserData.images));
+        setChosenImage(data.images);
 
         const selectedLayoutIndex = Math.max(
           0,
-          LayoutsLookup.findIndex(
-            (layout) => layout.id === getFromStorage("userData").page_layout
-          )
+          LayoutsLookup.findIndex((layout) => layout.id === data.page_layout)
         );
 
         const selectedButtonIndex = Math.max(
           0,
-          ButtonsLookup.findIndex(
-            (button) => button.id === getFromStorage("userData").button_style
-          )
+          ButtonsLookup.findIndex((button) => button.id === data.button_style)
         );
 
         setSelectedLayout(selectedLayoutIndex);
@@ -147,7 +126,7 @@ const ComponentsBlock = ({ session }) => {
             const customisation =
               LayoutsLookup[selectedLayoutIndex].colours[colour];
 
-            const thisColour = getFromStorage("userData").palette[colour];
+            const thisColour = data.palette[colour];
 
             if (!thisColour || thisColour === "") {
               customisation[0] = defaultUser.palette[colour];
@@ -164,7 +143,7 @@ const ComponentsBlock = ({ session }) => {
             const customisation =
               ButtonsLookup[selectedButtonIndex].colours[colour];
 
-            const thisColour = getFromStorage("userData").palette[colour];
+            const thisColour = data.palette[colour];
 
             if (!thisColour || thisColour === "") {
               customisation[0] = defaultUser.palette[colour];
@@ -190,6 +169,7 @@ const ComponentsBlock = ({ session }) => {
         className={`px-2 xs:px-3 py-5 sm:p-6 flex justify-between items-center w-full border-b-2 border-secondary-dark/20`}
       >
         <h1 className="text-xl font-bold">Customise</h1>
+
         {saving ? (
           <Stack sx={{ color: "grey.500" }} spacing={2}>
             <CircularProgress color="inherit" size={15} />
@@ -215,7 +195,7 @@ const ComponentsBlock = ({ session }) => {
           <LinearProgress color="inherit" />
         </Stack>
       ) : (
-        <section className="p-3 sm:p-6 pb-6 sm:pb-10 w-full h-full bg-dashboard-secondary-light dark:bg-dashboard-secondary-dark overflow-y-auto">
+        <section className="p-3 sm:p-6 pb-6 sm:pb-10 w-full h-full bg-dashboard-secondary-light/50 dark:bg-dashboard-secondary-dark overflow-y-auto">
           <h2 className={`text-lg`}>Choose a layout:</h2>
           <article
             className={`mt-2 mb-10 px-2 pt-6 pb-8 xs:px-4 grid grid-cols-2 2xs:grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4 bg-primary-light/80 dark:bg-dashboard-secondary-light/20 rounded-lg xs:rounded-xl shadow-md shadow-dashboard-primary-dark/10`}
@@ -306,9 +286,9 @@ const ComponentsBlock = ({ session }) => {
             <div className={`flex flex-col justify-start gap-2`}>
               <h4 className={`text-sm font-bold`}>Landing Page Image:</h4>
               <div className={`flex items-center gap-2`}>
-                {(chosenImage || getFromStorage("userData").images) && (
+                {(chosenImage || data.images) && (
                   <img
-                    src={chosenImage || getFromStorage("userData").images}
+                    src={chosenImage || data.images}
                     alt={"Landing Page Image"}
                     className={`w-8 h-8 border-2 border-dashboard-primary-dark rounded-lg object-cover overflow-hidden transition-all duration-300`}
                   />
@@ -360,9 +340,7 @@ const ComponentsBlock = ({ session }) => {
                           :
                         </h4>
                         <ColourPickerBlock
-                          customisation={
-                            LayoutsLookup[selectedLayout].colours[customisation]
-                          }
+                          initialColour={data.palette[customisation]}
                           onChange={(newColour) => {
                             const newCustomisation = {
                               ...layoutCustomisations,
@@ -397,9 +375,7 @@ const ComponentsBlock = ({ session }) => {
                   </h4>
 
                   <ColourPickerBlock
-                    customisation={
-                      ButtonsLookup[selectedButton].colours[customisation]
-                    }
+                    initialColour={data.palette[customisation]}
                     onChange={(newColour) => {
                       const newCustomisation = {
                         ...buttonCustomisations,

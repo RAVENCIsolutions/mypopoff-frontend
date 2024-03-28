@@ -6,12 +6,17 @@ import { CircularProgress, LinearProgress, Stack, Switch } from "@mui/material";
 
 import AuthText from "@/components/AuthText";
 
+import {
+  getLatestModified,
+  getLatestSession,
+  getRememberMe,
+  updateLastModified,
+} from "@/utility/localStorageUtils";
 import { verifyData } from "@/utility/dataUtils";
 import { processLogOut } from "@/utility/userUtils";
 import { updateUser, uploadAvatar } from "@/utility/dbUtils";
-import { getFromStorage, saveToStorage } from "@/utility/localStorageUtils";
 
-const SettingsBlock = ({ session }) => {
+const SettingsBlock = ({ session, data }) => {
   const [readyToSave, setReadyToSave] = useState(false);
   const [saving, setSaving] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -31,34 +36,33 @@ const SettingsBlock = ({ session }) => {
 
   useEffect(() => {
     if (session) {
-      const storedUserData = getFromStorage("userData");
-      const storedLoginSession = getFromStorage("loginSession");
+      const remember = getRememberMe();
+      const latestSession = getLatestSession();
+      const lastModified = getLatestModified();
 
-      if (!storedLoginSession || !storedLoginSession.lastModified)
-        processLogOut().then();
+      if (!latestSession) processLogOut().then();
 
-      if (storedLoginSession) {
-        const timeSinceLastModified =
-          new Date().getTime() - storedLoginSession.lastModified;
+      if (latestSession) {
+        const timeSinceLastModified = new Date().getTime() - lastModified;
         const timeSinceLastModifiedInHours =
           timeSinceLastModified / (1000 * 60 * 60);
 
-        if (!storedLoginSession.rememberMe) {
+        if (!remember) {
           if (timeSinceLastModifiedInHours > 0.5) processLogOut().then();
         }
       }
 
-      if (!storedUserData) {
+      if (!data) {
         console.log("No user data found");
       } else {
-        setMakePublic(verifyData("public", storedUserData.public));
-        setChosenImage(verifyData("avatar_url", storedUserData.avatar_url));
+        setMakePublic(verifyData("public", data.public));
+        setChosenImage(verifyData("avatar_url", data.avatar_url));
         setFormData({
-          name: storedUserData.extras.name,
-          gender: storedUserData.extras.gender,
-          country: storedUserData.extras.country,
-          city: storedUserData.extras.city,
-          phone: storedUserData.extras.phone,
+          name: data.extras.name,
+          gender: data.extras.gender,
+          country: data.extras.country,
+          city: data.extras.city,
+          phone: data.extras.phone,
         });
 
         setIsLoaded(true);
@@ -84,7 +88,6 @@ const SettingsBlock = ({ session }) => {
   const completeSave = async () => {
     if (readyToSave) {
       const saveData = {
-        ...getFromStorage("userData"),
         extras: {
           name: formData.name,
           gender: formData.gender,
@@ -110,15 +113,7 @@ const SettingsBlock = ({ session }) => {
 
       await updateUser(session.user.id, saveData)
         .then(() => {
-          saveToStorage("userData", {
-            ...getFromStorage("userData"),
-            ...saveData,
-          });
-
-          const loginSession = getFromStorage("loginSession");
-          loginSession.lastModified = new Date().getTime();
-
-          saveToStorage("loginSession", loginSession);
+          updateLastModified();
 
           setTimeout(() => {
             setSaving(false);
@@ -199,9 +194,9 @@ const SettingsBlock = ({ session }) => {
           >
             <h4 className={`text-base font-bold uppercase`}>Avatar</h4>
             <div className={`mt-2 mb-5 flex flex-col gap-4`}>
-              {(chosenImage || getFromStorage("userData").avatar_url) && (
+              {(chosenImage || data.avatar_url) && (
                 <img
-                  src={chosenImage || getFromStorage("userData").avatar_url}
+                  src={chosenImage || data.avatar_url}
                   alt={"Avatar"}
                   className={`w-20 h-20 rounded-full object-cover shadow-xl shadow-dashboard-primary-dark/20 overflow-hidden transition-all duration-300`}
                 />
